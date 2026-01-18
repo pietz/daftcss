@@ -21,7 +21,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: var(--pico-modal-overlay-background-color);
+  background-color: var(--modal-overlay);
   backdrop-filter: blur(4px);
 }
 

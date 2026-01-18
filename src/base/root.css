@@ -142,111 +142,18 @@
   /* Focus ring */
   --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
 
-  /* Modal overlay */
+  /* Component-specific */
+  --disabled-opacity: 0.5;
   --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
-
-  /* ===== TIER 3: PICO COMPATIBILITY ALIASES ===== */
-
-  --pico-font-family: var(--font-sans);
-  --pico-font-size: var(--text-base);
-  --pico-line-height: var(--leading-normal);
-  --pico-font-weight: var(--font-normal);
-
-  --pico-background-color: var(--background);
-  --pico-color: var(--foreground);
-
-  --pico-primary: var(--primary);
-  --pico-primary-background: var(--primary);
-  --pico-primary-hover: color-mix(in oklch, var(--primary) 80%, white);
-  --pico-primary-hover-background: color-mix(in oklch, var(--primary) 90%, transparent);
-  --pico-primary-focus: color-mix(in oklch, var(--primary) 50%, transparent);
-  --pico-primary-inverse: var(--primary-foreground);
-
-  --pico-secondary: var(--muted-foreground);
-  --pico-secondary-background: var(--secondary);
-  --pico-secondary-hover: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
-  --pico-secondary-hover-background: color-mix(in oklch, var(--secondary) 80%, transparent);
-  --pico-secondary-focus: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
-  --pico-secondary-inverse: var(--secondary-foreground);
-
-  --pico-contrast: var(--foreground);
-  --pico-contrast-background: var(--foreground);
-  --pico-contrast-hover: color-mix(in oklch, var(--foreground) 80%, transparent);
-  --pico-contrast-hover-background: color-mix(in oklch, var(--foreground) 90%, transparent);
-  --pico-contrast-focus: color-mix(in oklch, var(--foreground) 50%, transparent);
-  --pico-contrast-inverse: var(--background);
-
-  --pico-muted-color: var(--muted-foreground);
-  --pico-muted-border-color: var(--border);
-
-  --pico-card-background-color: var(--card);
-  --pico-card-border-color: var(--border);
-  --pico-card-sectioning-background-color: var(--muted);
-
-  --pico-form-element-background-color: var(--background);
-  --pico-form-element-border-color: var(--input);
-  --pico-form-element-focus-color: var(--ring);
-  --pico-form-element-active-border-color: var(--ring);
-  --pico-form-element-disabled-opacity: 0.5;
-
-  --pico-form-element-valid-border-color: var(--success);
-  --pico-form-element-invalid-border-color: var(--destructive);
-
-  --pico-spacing: var(--spacing);
-  --pico-block-spacing-vertical: var(--block-spacing-vertical);
-  --pico-block-spacing-horizontal: var(--block-spacing-horizontal);
-  --pico-typography-spacing-vertical: var(--typography-spacing-vertical);
-
-  --pico-border-radius: var(--radius-md);
-  --pico-border-width: var(--border-width);
-  --pico-outline-width: var(--outline-width);
-
-  --pico-transition: var(--transition-base) var(--ease-default);
-
-  --pico-box-shadow: var(--shadow-sm);
-
-  --pico-grid-column-gap: var(--spacing);
-  --pico-grid-row-gap: var(--spacing);
-
-  --pico-form-element-spacing-vertical: var(--spacing-2);
-  --pico-form-element-spacing-horizontal: var(--spacing-3);
-
-  --pico-nav-element-spacing-vertical: var(--spacing-4);
-  --pico-nav-element-spacing-horizontal: var(--spacing-2);
-  --pico-nav-link-spacing-vertical: var(--spacing-2);
-  --pico-nav-link-spacing-horizontal: var(--spacing-2);
-  --pico-nav-breadcrumb-divider: "›";
-
-  --pico-tooltip-background-color: var(--foreground);
-  --pico-tooltip-color: var(--background);
-
-  --pico-dropdown-background-color: var(--popover);
-  --pico-dropdown-border-color: var(--border);
-  --pico-dropdown-hover-background-color: var(--accent);
-
-  --pico-progress-background-color: var(--muted);
-  --pico-progress-color: var(--primary);
-
-  --pico-switch-background-color: var(--muted-foreground);
-  --pico-switch-checked-background-color: var(--primary);
-  --pico-switch-color: var(--background);
-
-  --pico-range-thumb-color: var(--muted-foreground);
-  --pico-range-thumb-active-color: var(--primary);
-
-  --pico-accordion-border-color: var(--border);
-  --pico-accordion-active-summary-color: var(--primary);
-
-  --pico-modal-overlay-background-color: var(--modal-overlay);
+  --breadcrumb-divider: "›";
 }
 
-/* ===== DARK MODE OVERRIDES ===== */
-/* For explicit dark theme selection */
+/* ===== THEME SELECTION ===== */
+/* Page-level theme override via data-theme attribute */
 [data-theme="dark"] {
   color-scheme: dark;
 }
 
-/* For explicit light theme selection */
 [data-theme="light"] {
   color-scheme: light;
 }

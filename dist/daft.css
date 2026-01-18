@@ -170,76 +170,9 @@
     --border-width: 1px;
     --outline-width: 2px;
     --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    --disabled-opacity: .5;
     --modal-overlay: var(--lightningcss-light, #00000080) var(--lightningcss-dark, #000000b3);
-    --pico-font-family: var(--font-sans);
-    --pico-font-size: var(--text-base);
-    --pico-line-height: var(--leading-normal);
-    --pico-font-weight: var(--font-normal);
-    --pico-background-color: var(--background);
-    --pico-color: var(--foreground);
-    --pico-primary: var(--primary);
-    --pico-primary-background: var(--primary);
-    --pico-primary-hover: color-mix(in oklch, var(--primary) 80%, white);
-    --pico-primary-hover-background: color-mix(in oklch, var(--primary) 90%, transparent);
-    --pico-primary-focus: color-mix(in oklch, var(--primary) 50%, transparent);
-    --pico-primary-inverse: var(--primary-foreground);
-    --pico-secondary: var(--muted-foreground);
-    --pico-secondary-background: var(--secondary);
-    --pico-secondary-hover: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
-    --pico-secondary-hover-background: color-mix(in oklch, var(--secondary) 80%, transparent);
-    --pico-secondary-focus: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
-    --pico-secondary-inverse: var(--secondary-foreground);
-    --pico-contrast: var(--foreground);
-    --pico-contrast-background: var(--foreground);
-    --pico-contrast-hover: color-mix(in oklch, var(--foreground) 80%, transparent);
-    --pico-contrast-hover-background: color-mix(in oklch, var(--foreground) 90%, transparent);
-    --pico-contrast-focus: color-mix(in oklch, var(--foreground) 50%, transparent);
-    --pico-contrast-inverse: var(--background);
-    --pico-muted-color: var(--muted-foreground);
-    --pico-muted-border-color: var(--border);
-    --pico-card-background-color: var(--card);
-    --pico-card-border-color: var(--border);
-    --pico-card-sectioning-background-color: var(--muted);
-    --pico-form-element-background-color: var(--background);
-    --pico-form-element-border-color: var(--input);
-    --pico-form-element-focus-color: var(--ring);
-    --pico-form-element-active-border-color: var(--ring);
-    --pico-form-element-disabled-opacity: .5;
-    --pico-form-element-valid-border-color: var(--success);
-    --pico-form-element-invalid-border-color: var(--destructive);
-    --pico-spacing: var(--spacing);
-    --pico-block-spacing-vertical: var(--block-spacing-vertical);
-    --pico-block-spacing-horizontal: var(--block-spacing-horizontal);
-    --pico-typography-spacing-vertical: var(--typography-spacing-vertical);
-    --pico-border-radius: var(--radius-md);
-    --pico-border-width: var(--border-width);
-    --pico-outline-width: var(--outline-width);
-    --pico-transition: var(--transition-base) var(--ease-default);
-    --pico-box-shadow: var(--shadow-sm);
-    --pico-grid-column-gap: var(--spacing);
-    --pico-grid-row-gap: var(--spacing);
-    --pico-form-element-spacing-vertical: var(--spacing-2);
-    --pico-form-element-spacing-horizontal: var(--spacing-3);
-    --pico-nav-element-spacing-vertical: var(--spacing-4);
-    --pico-nav-element-spacing-horizontal: var(--spacing-2);
-    --pico-nav-link-spacing-vertical: var(--spacing-2);
-    --pico-nav-link-spacing-horizontal: var(--spacing-2);
-    --pico-nav-breadcrumb-divider: "›";
-    --pico-tooltip-background-color: var(--foreground);
-    --pico-tooltip-color: var(--background);
-    --pico-dropdown-background-color: var(--popover);
-    --pico-dropdown-border-color: var(--border);
-    --pico-dropdown-hover-background-color: var(--accent);
-    --pico-progress-background-color: var(--muted);
-    --pico-progress-color: var(--primary);
-    --pico-switch-background-color: var(--muted-foreground);
-    --pico-switch-checked-background-color: var(--primary);
-    --pico-switch-color: var(--background);
-    --pico-range-thumb-color: var(--muted-foreground);
-    --pico-range-thumb-active-color: var(--primary);
-    --pico-accordion-border-color: var(--border);
-    --pico-accordion-active-summary-color: var(--primary);
-    --pico-modal-overlay-background-color: var(--modal-overlay);
+    --breadcrumb-divider: "›";
   }
 
   @media (prefers-color-scheme: dark) {
@@ -957,7 +890,7 @@
 
   :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]), textarea, select):disabled {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
     background-color: var(--muted);
   }
 
@@ -1117,7 +1050,7 @@
   }
 
   fieldset:disabled {
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
   }
 
   fieldset:disabled * {
@@ -1181,7 +1114,7 @@
 
   input[type="checkbox"]:disabled, input[type="radio"]:disabled {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
   }
 
   :is(label:has( > input[type="checkbox"]), label:has( > input[type="radio"])) {
@@ -1200,12 +1133,12 @@
 
   label:has( > input:disabled) {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
   }
 
   label[aria-disabled="true"] {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
   }
 
   input[type="checkbox"][role="switch"] {
@@ -1327,7 +1260,7 @@
 
   input[type="range"]:disabled {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
   }
 
   input[type="range"]:disabled::-webkit-slider-thumb {
@@ -1477,7 +1410,7 @@
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]):disabled, :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"])[aria-disabled="true"] {
     pointer-events: none;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
 
@@ -2064,7 +1997,7 @@
   }
 
   dialog::backdrop {
-    background-color: var(--pico-modal-overlay-background-color);
+    background-color: var(--modal-overlay);
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
   }
@@ -2297,7 +2230,7 @@
   }
 
   nav[aria-label="breadcrumb"] > ul > li:not(:last-child):after {
-    content: var(--pico-nav-breadcrumb-divider);
+    content: var(--breadcrumb-divider);
     padding: 0 var(--spacing-2);
     color: var(--muted-foreground);
   }
@@ -2318,10 +2251,6 @@
   nav[aria-label="breadcrumb"] > ul > li:last-child {
     color: var(--foreground);
     font-weight: var(--font-medium);
-  }
-
-  nav[aria-label="breadcrumb"][style*="--pico-nav-breadcrumb-divider"] > ul > li:not(:last-child):after {
-    content: var(--pico-nav-breadcrumb-divider);
   }
 
   @media (max-width: 767px) {
@@ -2550,8 +2479,8 @@
     font-size: var(--text-xs);
     font-weight: var(--font-medium);
     line-height: var(--leading-tight);
-    color: var(--pico-tooltip-color);
-    background-color: var(--pico-tooltip-background-color);
+    color: var(--background);
+    background-color: var(--foreground);
     border-radius: var(--radius-sm);
     white-space: nowrap;
     pointer-events: none;
@@ -2581,7 +2510,7 @@
   }
 
   [data-tooltip]:not([data-placement]):after, [data-tooltip][data-placement="top"]:after {
-    border-top-color: var(--pico-tooltip-background-color);
+    border-top-color: var(--foreground);
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -2595,7 +2524,7 @@
   }
 
   [data-tooltip][data-placement="bottom"]:after {
-    border-bottom-color: var(--pico-tooltip-background-color);
+    border-bottom-color: var(--foreground);
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -2609,7 +2538,7 @@
   }
 
   [data-tooltip][data-placement="left"]:after {
-    border-left-color: var(--pico-tooltip-background-color);
+    border-left-color: var(--foreground);
     top: 50%;
     right: 100%;
     transform: translateY(-50%);
@@ -2623,7 +2552,7 @@
   }
 
   [data-tooltip][data-placement="right"]:after {
-    border-right-color: var(--pico-tooltip-background-color);
+    border-right-color: var(--foreground);
     top: 50%;
     left: 100%;
     transform: translateY(-50%);

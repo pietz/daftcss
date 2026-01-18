@@ -110,7 +110,7 @@ nav[aria-label="breadcrumb"] > ul > li {
 }
 
 nav[aria-label="breadcrumb"] > ul > li:not(:last-child)::after {
-  content: var(--pico-nav-breadcrumb-divider);
+  content: var(--breadcrumb-divider);
   padding: 0 var(--spacing-2);
   color: var(--muted-foreground);
 }
@@ -131,11 +131,6 @@ nav[aria-label="breadcrumb"] a {
 nav[aria-label="breadcrumb"] > ul > li:last-child {
   color: var(--foreground);
   font-weight: var(--font-medium);
-}
-
-/* Custom breadcrumb divider via inline style */
-nav[aria-label="breadcrumb"][style*="--pico-nav-breadcrumb-divider"] > ul > li:not(:last-child)::after {
-  content: var(--pico-nav-breadcrumb-divider);
 }
 
 /* Mobile-friendly nav (stacks on small screens) */

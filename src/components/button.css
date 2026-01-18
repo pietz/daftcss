@@ -53,7 +53,7 @@ button,
   &:disabled,
   &[aria-disabled="true"] {
     pointer-events: none;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
 

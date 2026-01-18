@@ -91,7 +91,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 /* Disabled state */
 input[type="range"]:disabled {
   cursor: not-allowed;
-  opacity: var(--pico-form-element-disabled-opacity);
+  opacity: var(--disabled-opacity);
 }
 
 input[type="range"]:disabled::-webkit-slider-thumb {

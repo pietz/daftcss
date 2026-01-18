@@ -36,7 +36,7 @@ select {
 
   &:disabled {
     cursor: not-allowed;
-    opacity: var(--pico-form-element-disabled-opacity);
+    opacity: var(--disabled-opacity);
     background-color: var(--muted);
   }
 
@@ -237,7 +237,7 @@ legend {
 
 /* Disabled fieldset */
 fieldset:disabled {
-  opacity: var(--pico-form-element-disabled-opacity);
+  opacity: var(--disabled-opacity);
 }
 
 fieldset:disabled * {
