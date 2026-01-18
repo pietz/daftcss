@@ -83,6 +83,9 @@
 
 @layer base {
   :root {
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
+    color-scheme: light dark;
     --spacing-1: .25rem;
     --spacing-2: .5rem;
     --spacing-3: .75rem;
@@ -117,10 +120,10 @@
     --font-semibold: 600;
     --font-bold: 700;
     --font-extrabold: 800;
-    --shadow-xs: 0 1px 2px 0 #0000000d;
-    --shadow-sm: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
-    --shadow-md: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
-    --shadow-lg: 0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;
+    --shadow-xs: 0 1px 2px 0 var(--lightningcss-light, #0000000d) var(--lightningcss-dark, #0000004d);
+    --shadow-sm: 0 1px 3px 0 var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 1px 2px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
+    --shadow-md: 0 4px 6px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 2px 4px -2px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
+    --shadow-lg: 0 10px 15px -3px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 4px 6px -4px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
     --shadow-xl: 0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;
     --transition-fast: .1s;
     --transition-base: .15s;
@@ -131,29 +134,29 @@
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
     --breakpoint-2xl: 1536px;
-    --background: #fff;
-    --foreground: #0a0a0a;
-    --card: #fff;
-    --card-foreground: #0a0a0a;
-    --popover: #fff;
-    --popover-foreground: #0a0a0a;
-    --primary: #171717;
-    --primary-foreground: #fafafa;
-    --secondary: #f5f5f5;
-    --secondary-foreground: #171717;
-    --muted: #f5f5f5;
-    --muted-foreground: #737373;
-    --accent: #f5f5f5;
-    --accent-foreground: #171717;
-    --destructive: #e40014;
+    --background: var(--lightningcss-light, #fff) var(--lightningcss-dark, #0a0a0a);
+    --foreground: var(--lightningcss-light, #0a0a0a) var(--lightningcss-dark, #fafafa);
+    --card: var(--lightningcss-light, #fff) var(--lightningcss-dark, #171717);
+    --card-foreground: var(--lightningcss-light, #0a0a0a) var(--lightningcss-dark, #fafafa);
+    --popover: var(--lightningcss-light, #fff) var(--lightningcss-dark, #171717);
+    --popover-foreground: var(--lightningcss-light, #0a0a0a) var(--lightningcss-dark, #fafafa);
+    --primary: var(--lightningcss-light, #171717) var(--lightningcss-dark, #e5e5e5);
+    --primary-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #171717);
+    --secondary: var(--lightningcss-light, #f5f5f5) var(--lightningcss-dark, #262626);
+    --secondary-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #fafafa);
+    --muted: var(--lightningcss-light, #f5f5f5) var(--lightningcss-dark, #262626);
+    --muted-foreground: var(--lightningcss-light, #737373) var(--lightningcss-dark, #a1a1a1);
+    --accent: var(--lightningcss-light, #f5f5f5) var(--lightningcss-dark, #262626);
+    --accent-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #fafafa);
+    --destructive: var(--lightningcss-light, #e40014) var(--lightningcss-dark, #ff6568);
     --destructive-foreground: #fafafa;
-    --success: #009c24;
-    --success-foreground: #fafafa;
-    --warning: #dba400;
-    --warning-foreground: #171717;
-    --border: #e5e5e5;
-    --input: #e5e5e5;
-    --ring: #a1a1a1;
+    --success: var(--lightningcss-light, #009c24) var(--lightningcss-dark, #11ad32);
+    --success-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #0a0a0a);
+    --warning: var(--lightningcss-light, #dba400) var(--lightningcss-dark, #eab532);
+    --warning-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #0a0a0a);
+    --border: var(--lightningcss-light, #e5e5e5) var(--lightningcss-dark, #2e2e2e);
+    --input: var(--lightningcss-light, #e5e5e5) var(--lightningcss-dark, #2e2e2e);
+    --ring: var(--lightningcss-light, #a1a1a1) var(--lightningcss-dark, #737373);
     --spacing: var(--spacing-4);
     --block-spacing-vertical: var(--spacing-4);
     --block-spacing-horizontal: var(--spacing-4);
@@ -166,6 +169,7 @@
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     --border-width: 1px;
     --outline-width: 2px;
+    --modal-overlay: var(--lightningcss-light, #00000080) var(--lightningcss-dark, #000000b3);
     --pico-font-family: var(--font-sans);
     --pico-font-size: var(--text-base);
     --pico-line-height: var(--leading-normal);
@@ -234,35 +238,42 @@
     --pico-range-thumb-active-color: var(--primary);
     --pico-accordion-border-color: var(--border);
     --pico-accordion-active-summary-color: var(--primary);
-    --pico-modal-overlay-background-color: #00000080;
+    --pico-modal-overlay-background-color: var(--modal-overlay);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --lightningcss-light: ;
+      --lightningcss-dark: initial;
+    }
   }
 
   @supports (color: lab(0% 0 0)) {
     :root {
-      --background: lab(100% 0 0);
-      --foreground: lab(2.75381% 0 0);
-      --card: lab(100% 0 0);
-      --card-foreground: lab(2.75381% 0 0);
-      --popover: lab(100% 0 0);
-      --popover-foreground: lab(2.75381% 0 0);
-      --primary: lab(7.78201% -.0000149012 0);
-      --primary-foreground: lab(98.26% 0 0);
-      --secondary: lab(96.52% -.0000298023 .0000119209);
-      --secondary-foreground: lab(7.78201% -.0000149012 0);
-      --muted: lab(96.52% -.0000298023 .0000119209);
-      --muted-foreground: lab(48.496% 0 0);
-      --accent: lab(96.52% -.0000298023 .0000119209);
-      --accent-foreground: lab(7.78201% -.0000149012 0);
-      --destructive: lab(48.4493% 77.4328 61.5452);
+      --background: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --foreground: var(--lightningcss-light, lab(2.75381% 0 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --card: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
+      --card-foreground: var(--lightningcss-light, lab(2.75381% 0 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --popover: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
+      --popover-foreground: var(--lightningcss-light, lab(2.75381% 0 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --primary: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(90.952% 0 -.0000119209));
+      --primary-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
+      --secondary: var(--lightningcss-light, lab(96.52% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(15.204% 0 -.00000596046));
+      --secondary-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --muted: var(--lightningcss-light, lab(96.52% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(15.204% 0 -.00000596046));
+      --muted-foreground: var(--lightningcss-light, lab(48.496% 0 0)) var(--lightningcss-dark, lab(66.128% -.0000298023 .0000119209));
+      --accent: var(--lightningcss-light, lab(96.52% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(15.204% 0 -.00000596046));
+      --accent-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --destructive: var(--lightningcss-light, lab(48.4493% 77.4328 61.5452)) var(--lightningcss-dark, lab(63.7053% 60.745 31.3109));
       --destructive-foreground: lab(98.26% 0 0);
-      --success: lab(55.921% -56.4854 50.0925);
-      --success-foreground: lab(98.26% 0 0);
-      --warning: lab(71.1048% 15.6634 102.058);
-      --warning-foreground: lab(7.78201% -.0000149012 0);
-      --border: lab(90.952% 0 -.0000119209);
-      --input: lab(90.952% 0 -.0000119209);
-      --ring: lab(66.128% -.0000298023 .0000119209);
-      --pico-modal-overlay-background-color: lab(0% 0 0 / .5);
+      --success: var(--lightningcss-light, lab(55.921% -56.4854 50.0925)) var(--lightningcss-dark, lab(61.7444% -56.3779 49.029));
+      --success-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --warning: var(--lightningcss-light, lab(71.1048% 15.6634 102.058)) var(--lightningcss-dark, lab(76.994% 11.2878 68.9054));
+      --warning-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --border: var(--lightningcss-light, lab(90.952% 0 -.0000119209)) var(--lightningcss-dark, lab(18.8% 0 0));
+      --input: var(--lightningcss-light, lab(90.952% 0 -.0000119209)) var(--lightningcss-dark, lab(18.8% 0 0));
+      --ring: var(--lightningcss-light, lab(66.128% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(48.496% 0 0));
+      --modal-overlay: var(--lightningcss-light, lab(0% 0 0 / .5)) var(--lightningcss-dark, lab(0% 0 0 / .7));
     }
   }
 
@@ -270,191 +281,12 @@
     --lightningcss-light: ;
     --lightningcss-dark: initial;
     color-scheme: dark;
-    --background: #0a0a0a;
-    --foreground: #fafafa;
-    --card: #171717;
-    --card-foreground: #fafafa;
-    --popover: #171717;
-    --popover-foreground: #fafafa;
-    --primary: #e5e5e5;
-    --primary-foreground: #171717;
-    --secondary: #262626;
-    --secondary-foreground: #fafafa;
-    --muted: #262626;
-    --muted-foreground: #a1a1a1;
-    --accent: #262626;
-    --accent-foreground: #fafafa;
-    --destructive: #ff6568;
-    --destructive-foreground: #fafafa;
-    --success: #11ad32;
-    --success-foreground: #0a0a0a;
-    --warning: #eab532;
-    --warning-foreground: #0a0a0a;
-    --border: #2e2e2e;
-    --input: #2e2e2e;
-    --ring: #737373;
-    --shadow-xs: 0 1px 2px 0 #0000004d;
-    --shadow-sm: 0 1px 3px 0 #0006, 0 1px 2px -1px #0006;
-    --shadow-md: 0 4px 6px -1px #0006, 0 2px 4px -2px #0006;
-    --shadow-lg: 0 10px 15px -3px #0006, 0 4px 6px -4px #0006;
-    --pico-modal-overlay-background-color: #000000b3;
   }
 
-  @supports (color: lab(0% 0 0)) {
-    [data-theme="dark"] {
-      --background: lab(2.75381% 0 0);
-      --foreground: lab(98.26% 0 0);
-      --card: lab(7.78201% -.0000149012 0);
-      --card-foreground: lab(98.26% 0 0);
-      --popover: lab(7.78201% -.0000149012 0);
-      --popover-foreground: lab(98.26% 0 0);
-      --primary: lab(90.952% 0 -.0000119209);
-      --primary-foreground: lab(7.78201% -.0000149012 0);
-      --secondary: lab(15.204% 0 -.00000596046);
-      --secondary-foreground: lab(98.26% 0 0);
-      --muted: lab(15.204% 0 -.00000596046);
-      --muted-foreground: lab(66.128% -.0000298023 .0000119209);
-      --accent: lab(15.204% 0 -.00000596046);
-      --accent-foreground: lab(98.26% 0 0);
-      --destructive: lab(63.7053% 60.745 31.3109);
-      --destructive-foreground: lab(98.26% 0 0);
-      --success: lab(61.7444% -56.3779 49.029);
-      --success-foreground: lab(2.75381% 0 0);
-      --warning: lab(76.994% 11.2878 68.9054);
-      --warning-foreground: lab(2.75381% 0 0);
-      --border: lab(18.8% 0 0);
-      --input: lab(18.8% 0 0);
-      --ring: lab(48.496% 0 0);
-      --pico-modal-overlay-background-color: lab(0% 0 0 / .7);
-    }
-  }
-
-  :root:not([data-theme="light"]):has(meta[name="color-scheme"][content*="dark"]) {
-    --lightningcss-light: ;
-    --lightningcss-dark: initial;
-    color-scheme: dark;
-    --background: #0a0a0a;
-    --foreground: #fafafa;
-    --card: #171717;
-    --card-foreground: #fafafa;
-    --popover: #171717;
-    --popover-foreground: #fafafa;
-    --primary: #e5e5e5;
-    --primary-foreground: #171717;
-    --secondary: #262626;
-    --secondary-foreground: #fafafa;
-    --muted: #262626;
-    --muted-foreground: #a1a1a1;
-    --accent: #262626;
-    --accent-foreground: #fafafa;
-    --destructive: #ff6568;
-    --destructive-foreground: #fafafa;
-    --success: #11ad32;
-    --success-foreground: #0a0a0a;
-    --warning: #eab532;
-    --warning-foreground: #0a0a0a;
-    --border: #2e2e2e;
-    --input: #2e2e2e;
-    --ring: #737373;
-    --shadow-xs: 0 1px 2px 0 #0000004d;
-    --shadow-sm: 0 1px 3px 0 #0006, 0 1px 2px -1px #0006;
-    --shadow-md: 0 4px 6px -1px #0006, 0 2px 4px -2px #0006;
-    --shadow-lg: 0 10px 15px -3px #0006, 0 4px 6px -4px #0006;
-    --pico-modal-overlay-background-color: #000000b3;
-  }
-
-  @supports (color: lab(0% 0 0)) {
-    :root:not([data-theme="light"]):has(meta[name="color-scheme"][content*="dark"]) {
-      --background: lab(2.75381% 0 0);
-      --foreground: lab(98.26% 0 0);
-      --card: lab(7.78201% -.0000149012 0);
-      --card-foreground: lab(98.26% 0 0);
-      --popover: lab(7.78201% -.0000149012 0);
-      --popover-foreground: lab(98.26% 0 0);
-      --primary: lab(90.952% 0 -.0000119209);
-      --primary-foreground: lab(7.78201% -.0000149012 0);
-      --secondary: lab(15.204% 0 -.00000596046);
-      --secondary-foreground: lab(98.26% 0 0);
-      --muted: lab(15.204% 0 -.00000596046);
-      --muted-foreground: lab(66.128% -.0000298023 .0000119209);
-      --accent: lab(15.204% 0 -.00000596046);
-      --accent-foreground: lab(98.26% 0 0);
-      --destructive: lab(63.7053% 60.745 31.3109);
-      --destructive-foreground: lab(98.26% 0 0);
-      --success: lab(61.7444% -56.3779 49.029);
-      --success-foreground: lab(2.75381% 0 0);
-      --warning: lab(76.994% 11.2878 68.9054);
-      --warning-foreground: lab(2.75381% 0 0);
-      --border: lab(18.8% 0 0);
-      --input: lab(18.8% 0 0);
-      --ring: lab(48.496% 0 0);
-      --pico-modal-overlay-background-color: lab(0% 0 0 / .7);
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --lightningcss-light: ;
-      --lightningcss-dark: initial;
-      color-scheme: dark;
-      --background: #0a0a0a;
-      --foreground: #fafafa;
-      --card: #171717;
-      --card-foreground: #fafafa;
-      --popover: #171717;
-      --popover-foreground: #fafafa;
-      --primary: #e5e5e5;
-      --primary-foreground: #171717;
-      --secondary: #262626;
-      --secondary-foreground: #fafafa;
-      --muted: #262626;
-      --muted-foreground: #a1a1a1;
-      --accent: #262626;
-      --accent-foreground: #fafafa;
-      --destructive: #ff6568;
-      --destructive-foreground: #fafafa;
-      --success: #11ad32;
-      --success-foreground: #0a0a0a;
-      --warning: #eab532;
-      --warning-foreground: #0a0a0a;
-      --border: #2e2e2e;
-      --input: #2e2e2e;
-      --ring: #737373;
-      --shadow-xs: 0 1px 2px 0 #0000004d;
-      --shadow-sm: 0 1px 3px 0 #0006, 0 1px 2px -1px #0006;
-      --shadow-md: 0 4px 6px -1px #0006, 0 2px 4px -2px #0006;
-      --shadow-lg: 0 10px 15px -3px #0006, 0 4px 6px -4px #0006;
-      --pico-modal-overlay-background-color: #000000b3;
-    }
-
-    @supports (color: lab(0% 0 0)) {
-      :root:not([data-theme="light"]) {
-        --background: lab(2.75381% 0 0);
-        --foreground: lab(98.26% 0 0);
-        --card: lab(7.78201% -.0000149012 0);
-        --card-foreground: lab(98.26% 0 0);
-        --popover: lab(7.78201% -.0000149012 0);
-        --popover-foreground: lab(98.26% 0 0);
-        --primary: lab(90.952% 0 -.0000119209);
-        --primary-foreground: lab(7.78201% -.0000149012 0);
-        --secondary: lab(15.204% 0 -.00000596046);
-        --secondary-foreground: lab(98.26% 0 0);
-        --muted: lab(15.204% 0 -.00000596046);
-        --muted-foreground: lab(66.128% -.0000298023 .0000119209);
-        --accent: lab(15.204% 0 -.00000596046);
-        --accent-foreground: lab(98.26% 0 0);
-        --destructive: lab(63.7053% 60.745 31.3109);
-        --destructive-foreground: lab(98.26% 0 0);
-        --success: lab(61.7444% -56.3779 49.029);
-        --success-foreground: lab(2.75381% 0 0);
-        --warning: lab(76.994% 11.2878 68.9054);
-        --warning-foreground: lab(2.75381% 0 0);
-        --border: lab(18.8% 0 0);
-        --input: lab(18.8% 0 0);
-        --ring: lab(48.496% 0 0);
-        --pico-modal-overlay-background-color: lab(0% 0 0 / .7);
-      }
-    }
+  [data-theme="light"] {
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
+    color-scheme: light;
   }
 
   html {
