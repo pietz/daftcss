@@ -19,8 +19,8 @@ select {
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
   border-radius: var(--radius-md);
-  transition: border-color var(--transition-base) var(--ease-default),
-              box-shadow var(--transition-base) var(--ease-default);
+  transition: border-color var(--transition-default),
+              box-shadow var(--transition-default);
   appearance: none;
 
   &::placeholder {
@@ -83,7 +83,7 @@ input[type="file"] {
   border: var(--border-width) dashed var(--input);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: border-color var(--transition-base) var(--ease-default);
+  transition: border-color var(--transition-default);
 
   &::file-selector-button {
     padding: var(--spacing-1) var(--spacing-3);
@@ -94,7 +94,7 @@ input[type="file"] {
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
   }
 
   &:hover::file-selector-button {
@@ -154,7 +154,7 @@ input[type="week"] {
   &::-webkit-calendar-picker-indicator {
     cursor: pointer;
     opacity: 0.6;
-    transition: opacity var(--transition-base) var(--ease-default);
+    transition: opacity var(--transition-default);
   }
 
   &::-webkit-calendar-picker-indicator:hover {

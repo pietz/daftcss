@@ -270,7 +270,7 @@ a.contrast:hover {
 /* ===== TRANSITION UTILITIES ===== */
 
 .transition {
-  transition: all var(--transition-base) var(--ease-default);
+  transition: all var(--transition-default);
 }
 
 .transition-none {

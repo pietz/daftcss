@@ -25,7 +25,7 @@ th {
 /* Table body */
 tbody tr {
   border-bottom: var(--border-width) solid var(--border);
-  transition: background-color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default);
 }
 
 tbody tr:last-child {

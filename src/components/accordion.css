@@ -21,7 +21,7 @@ summary {
   cursor: pointer;
   user-select: none;
   list-style: none;
-  transition: color var(--transition-base) var(--ease-default);
+  transition: color var(--transition-default);
 
   &::-webkit-details-marker {
     display: none;
@@ -39,7 +39,7 @@ summary {
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
-    transition: transform var(--transition-base) var(--ease-default);
+    transition: transform var(--transition-default);
   }
 
   &:hover {
@@ -85,7 +85,7 @@ summary[role="button"] {
   background-color: var(--primary);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-xs);
-  transition: background-color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default);
 
   &:hover {
     background-color: color-mix(in oklch, var(--primary) 90%, transparent);

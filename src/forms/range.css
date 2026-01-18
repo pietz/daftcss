@@ -17,7 +17,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   height: 0.5rem;
   background-color: var(--muted);
   border-radius: var(--radius-full);
-  transition: background-color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default);
 }
 
 input[type="range"]::-moz-range-track {
@@ -25,7 +25,7 @@ input[type="range"]::-moz-range-track {
   height: 0.5rem;
   background-color: var(--muted);
   border-radius: var(--radius-full);
-  transition: background-color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default);
 }
 
 /* Thumb */
@@ -38,8 +38,8 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: var(--radius-full);
   cursor: pointer;
   appearance: none;
-  transition: background-color var(--transition-base) var(--ease-default),
-              transform var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default),
+              transform var(--transition-default);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -49,8 +49,8 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: background-color var(--transition-base) var(--ease-default),
-              transform var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default),
+              transform var(--transition-default);
 }
 
 /* Hover state */

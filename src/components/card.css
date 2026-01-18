@@ -85,7 +85,7 @@ a:has(> article) {
   text-decoration: none;
   color: inherit;
   border-radius: var(--radius-xl);
-  transition: box-shadow var(--transition-base) var(--ease-default);
+  transition: box-shadow var(--transition-default);
 
   &:hover > article {
     border-color: color-mix(in oklch, var(--border) 80%, var(--foreground));

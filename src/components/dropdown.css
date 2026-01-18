@@ -24,8 +24,8 @@ details.dropdown > summary {
   border: var(--border-width) solid var(--input);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: border-color var(--transition-base) var(--ease-default),
-              background-color var(--transition-base) var(--ease-default);
+  transition: border-color var(--transition-default),
+              background-color var(--transition-default);
 
   &::after {
     content: "";
@@ -36,7 +36,7 @@ details.dropdown > summary {
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
-    transition: transform var(--transition-base) var(--ease-default);
+    transition: transform var(--transition-default);
   }
 
   &:hover {
@@ -67,7 +67,7 @@ details.dropdown > ul {
   box-shadow: var(--shadow-md);
   opacity: 0;
   transform: translateY(-0.5rem);
-  animation: dropdown-in var(--transition-base) var(--ease-default) forwards;
+  animation: dropdown-in var(--transition-default) forwards;
 }
 
 @keyframes dropdown-in {
@@ -92,7 +92,7 @@ details.dropdown > ul > li > label {
   text-decoration: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default);
 
   &:hover {
     background-color: var(--accent);

@@ -36,8 +36,8 @@ nav a {
   color: var(--muted-foreground);
   text-decoration: none;
   border-radius: var(--radius-md);
-  transition: color var(--transition-base) var(--ease-default),
-              background-color var(--transition-base) var(--ease-default);
+  transition: color var(--transition-default),
+              background-color var(--transition-default);
 
   &:hover {
     color: var(--foreground);

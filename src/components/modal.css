@@ -89,8 +89,8 @@ dialog > article > header > button[rel="prev"] {
   border-radius: var(--radius-sm);
   box-shadow: none;
   cursor: pointer;
-  transition: background-color var(--transition-base) var(--ease-default),
-              color var(--transition-base) var(--ease-default);
+  transition: background-color var(--transition-default),
+              color var(--transition-default);
 
   &:hover {
     background-color: var(--muted);
@@ -146,11 +146,11 @@ html.modal-is-opening dialog > article {
 
 /* Closing animation class */
 html.modal-is-closing dialog::backdrop {
-  animation: backdrop-out var(--transition-base) var(--ease-default) forwards;
+  animation: backdrop-out var(--transition-default) forwards;
 }
 
 html.modal-is-closing dialog > article {
-  animation: modal-out var(--transition-base) var(--ease-default) forwards;
+  animation: modal-out var(--transition-default) forwards;
 }
 
 @keyframes backdrop-out {
