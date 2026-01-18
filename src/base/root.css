@@ -80,27 +80,27 @@
 
   /* Card surfaces */
   --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
-  --card-foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+  --card-foreground: var(--foreground);
 
   /* Popover surfaces */
-  --popover: light-dark(oklch(1 0 0), oklch(0.205 0 0));
-  --popover-foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
 
   /* Primary action color */
   --primary: light-dark(oklch(0.205 0 0), oklch(0.922 0 0));
   --primary-foreground: light-dark(oklch(0.985 0 0), oklch(0.205 0 0));
 
-  /* Secondary elements */
-  --secondary: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
-  --secondary-foreground: light-dark(oklch(0.205 0 0), oklch(0.985 0 0));
-
   /* Muted text and backgrounds */
   --muted: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
   --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
 
-  /* Accent/hover states */
-  --accent: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
-  --accent-foreground: light-dark(oklch(0.205 0 0), oklch(0.985 0 0));
+  /* Secondary elements (same as muted) */
+  --secondary: var(--muted);
+  --secondary-foreground: light-dark(oklch(0.205 0 0), oklch(0.985 0 0));
+
+  /* Accent/hover states (same as muted) */
+  --accent: var(--muted);
+  --accent-foreground: var(--secondary-foreground);
 
   /* Destructive/error states */
   --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
@@ -116,7 +116,7 @@
 
   /* Structural colors */
   --border: light-dark(oklch(0.922 0 0), oklch(0.3 0 0));
-  --input: light-dark(oklch(0.922 0 0), oklch(0.3 0 0));
+  --input: var(--border);
   --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 
   /* Semantic spacing */
