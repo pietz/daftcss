@@ -1,0 +1,249 @@
+/**
+ * Typography styles
+ * Headings, paragraphs, and inline text elements
+ */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
+  margin-bottom: var(--typography-spacing-vertical);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-none);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+h5 {
+  font-size: var(--text-lg);
+}
+
+h6 {
+  font-size: var(--text-base);
+}
+
+/* Heading groups */
+hgroup {
+  margin-bottom: var(--typography-spacing-vertical);
+
+  & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
+    margin-bottom: var(--spacing-2);
+  }
+
+  & > p {
+    color: var(--muted-foreground);
+    margin-bottom: 0;
+  }
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: var(--typography-spacing-vertical);
+  line-height: var(--leading-relaxed);
+}
+
+/* Remove margin from last child */
+p:last-child,
+h1:last-child,
+h2:last-child,
+h3:last-child,
+h4:last-child,
+h5:last-child,
+h6:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline elements */
+strong, b {
+  font-weight: var(--font-semibold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--transition-base) var(--ease-default);
+
+  &:hover {
+    color: color-mix(in oklch, var(--primary) 80%, var(--foreground));
+  }
+
+  &:focus-visible {
+    outline: var(--outline-width) solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Semantic text elements */
+mark {
+  background-color: color-mix(in oklch, var(--warning) 40%, transparent);
+  color: var(--foreground);
+  padding: 0.125em 0.25em;
+  border-radius: var(--radius-sm);
+}
+
+del {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+ins {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--success);
+}
+
+u {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+cite {
+  font-style: italic;
+}
+
+dfn {
+  font-style: italic;
+  font-weight: var(--font-medium);
+}
+
+sub, sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  height: var(--border-width);
+  background-color: var(--border);
+  margin: var(--spacing-6) 0;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 4px solid var(--border);
+  padding-left: var(--spacing-4);
+  margin: var(--spacing-4) 0;
+  font-style: italic;
+  color: var(--muted-foreground);
+
+  & > p {
+    margin-bottom: var(--spacing-2);
+  }
+
+  & > footer {
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+    font-style: normal;
+
+    &::before {
+      content: "— ";
+    }
+  }
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: var(--typography-spacing-vertical);
+  padding-left: var(--spacing-6);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li {
+  margin-bottom: var(--spacing-1);
+  line-height: var(--leading-relaxed);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists */
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: var(--spacing-1);
+  margin-bottom: 0;
+}
+
+/* Definition lists */
+dl {
+  margin-bottom: var(--typography-spacing-vertical);
+}
+
+dt {
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--spacing-1);
+}
+
+dd {
+  margin-left: var(--spacing-4);
+  margin-bottom: var(--spacing-3);
+  color: var(--muted-foreground);
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+/* Address */
+address {
+  font-style: normal;
+  margin-bottom: var(--typography-spacing-vertical);
+}
+
+/* Time */
+time {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,113 @@
+/**
+ * Group styles
+ * Button groups and form input groups using role="group"
+ */
+
+[role="group"] {
+  display: inline-flex;
+  border-radius: var(--radius-md);
+}
+
+[role="group"] > * {
+  flex: 1 1 auto;
+}
+
+/* Remove inner border radius */
+[role="group"] > *:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+[role="group"] > *:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+[role="group"] > *:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Button groups - merge borders */
+[role="group"] > button:not(:first-child),
+[role="group"] > [type="submit"]:not(:first-child),
+[role="group"] > [type="button"]:not(:first-child),
+[role="group"] > [role="button"]:not(:first-child) {
+  margin-left: calc(var(--border-width) * -1);
+}
+
+/* Active button in group */
+[role="group"] > button[aria-current="true"],
+[role="group"] > [role="button"][aria-current="true"] {
+  z-index: 1;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+/* Input groups */
+[role="group"] > input,
+[role="group"] > select {
+  flex: 1 1 auto;
+}
+
+[role="group"] > input:not(:first-child),
+[role="group"] > select:not(:first-child) {
+  margin-left: calc(var(--border-width) * -1);
+}
+
+/* Focus state raises element */
+[role="group"] > *:focus-visible {
+  z-index: 2;
+}
+
+/* Fieldset as group */
+fieldset[role="group"] {
+  padding: 0;
+  border: none;
+}
+
+/* Search form group */
+[role="search"] {
+  display: flex;
+}
+
+[role="search"] > input[type="search"] {
+  flex: 1 1 auto;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+[role="search"] > [type="submit"],
+[role="search"] > button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: calc(var(--border-width) * -1);
+}
+
+/* Full width group */
+[role="group"].full-width {
+  display: flex;
+  width: 100%;
+}
+
+/* Vertical group */
+[role="group"].vertical {
+  flex-direction: column;
+}
+
+[role="group"].vertical > *:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+[role="group"].vertical > *:first-child:not(:last-child) {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+[role="group"].vertical > *:last-child:not(:first-child) {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+[role="group"].vertical > *:not(:first-child) {
+  margin-left: 0;
+  margin-top: calc(var(--border-width) * -1);
+}

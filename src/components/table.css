@@ -1,0 +1,109 @@
+/**
+ * Table styles
+ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--typography-spacing-vertical);
+  font-size: var(--text-sm);
+}
+
+/* Table headers */
+thead {
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+th {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-weight: var(--font-medium);
+  text-align: left;
+  color: var(--muted-foreground);
+  background-color: transparent;
+}
+
+/* Table body */
+tbody tr {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: background-color var(--transition-base) var(--ease-default);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: color-mix(in oklch, var(--muted) 50%, transparent);
+}
+
+td {
+  padding: var(--spacing-3) var(--spacing-4);
+  vertical-align: middle;
+}
+
+/* Table footer */
+tfoot {
+  border-top: var(--border-width) solid var(--border);
+}
+
+tfoot td,
+tfoot th {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-weight: var(--font-medium);
+  color: var(--muted-foreground);
+}
+
+/* Striped table */
+table.striped tbody tr:nth-child(odd) {
+  background-color: color-mix(in oklch, var(--muted) 30%, transparent);
+}
+
+table.striped tbody tr:nth-child(odd):hover {
+  background-color: color-mix(in oklch, var(--muted) 60%, transparent);
+}
+
+/* Caption */
+caption {
+  padding: var(--spacing-3) 0;
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+  text-align: left;
+  caption-side: bottom;
+}
+
+/* Table inside figure (allows overflow) */
+figure > table {
+  margin-bottom: 0;
+}
+
+/* Responsive table wrapper */
+.overflow-auto > table,
+figure > table {
+  margin-bottom: 0;
+}
+
+/* Sortable column indicator (optional) */
+th[aria-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+th[aria-sort]::after {
+  content: "";
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: var(--spacing-1);
+  vertical-align: middle;
+  opacity: 0.5;
+}
+
+th[aria-sort="ascending"]::after {
+  content: "↑";
+  opacity: 1;
+}
+
+th[aria-sort="descending"]::after {
+  content: "↓";
+  opacity: 1;
+}

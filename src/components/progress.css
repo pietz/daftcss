@@ -1,0 +1,104 @@
+/**
+ * Progress bar styles
+ */
+
+progress {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  overflow: hidden;
+  background-color: var(--muted);
+  border: none;
+  border-radius: var(--radius-full);
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--muted);
+  border-radius: var(--radius-full);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow) var(--ease-default);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+/* Indeterminate progress */
+progress:not([value]) {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--primary) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: progress-indeterminate 1.5s linear infinite;
+}
+
+progress:not([value])::-webkit-progress-bar {
+  background: transparent;
+}
+
+progress:not([value])::-moz-progress-bar {
+  background: transparent;
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Label with progress */
+label:has(> progress) {
+  display: block;
+
+  & > progress {
+    margin-top: var(--spacing-2);
+  }
+}
+
+/* Progress variants */
+progress.secondary::-webkit-progress-value {
+  background-color: var(--muted-foreground);
+}
+
+progress.secondary::-moz-progress-bar {
+  background-color: var(--muted-foreground);
+}
+
+progress.success::-webkit-progress-value {
+  background-color: var(--success);
+}
+
+progress.success::-moz-progress-bar {
+  background-color: var(--success);
+}
+
+progress.warning::-webkit-progress-value {
+  background-color: var(--warning);
+}
+
+progress.warning::-moz-progress-bar {
+  background-color: var(--warning);
+}
+
+progress.destructive::-webkit-progress-value {
+  background-color: var(--destructive);
+}
+
+progress.destructive::-moz-progress-bar {
+  background-color: var(--destructive);
+}

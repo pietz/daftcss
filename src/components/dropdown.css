@@ -1,0 +1,142 @@
+/**
+ * Dropdown styles
+ * Uses <details class="dropdown"> with <summary> and <ul>
+ */
+
+details.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+details.dropdown > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  height: var(--input-height);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+  background-color: var(--background);
+  border: var(--border-width) solid var(--input);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-base) var(--ease-default),
+              background-color var(--transition-base) var(--ease-default);
+
+  &::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: transform var(--transition-base) var(--ease-default);
+  }
+
+  &:hover {
+    border-color: var(--ring);
+  }
+}
+
+details.dropdown[open] > summary {
+  border-color: var(--ring);
+
+  &::after {
+    transform: rotate(180deg);
+  }
+}
+
+/* Dropdown menu */
+details.dropdown > ul {
+  position: absolute;
+  z-index: 50;
+  min-width: 10rem;
+  margin: 0;
+  margin-top: var(--spacing-1);
+  padding: var(--spacing-1);
+  list-style: none;
+  background-color: var(--popover);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  animation: dropdown-in var(--transition-base) var(--ease-default) forwards;
+}
+
+@keyframes dropdown-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+details.dropdown > ul > li {
+  margin: 0;
+}
+
+details.dropdown > ul > li > a,
+details.dropdown > ul > li > label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--text-sm);
+  color: var(--popover-foreground);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-base) var(--ease-default);
+
+  &:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+/* Right-aligned dropdown (RTL trick) */
+details.dropdown > ul[dir="rtl"] {
+  right: 0;
+  text-align: left;
+  direction: ltr;
+}
+
+/* Button-styled dropdown */
+details.dropdown > summary[role="button"] {
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-xs);
+
+  &::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--primary) 90%, transparent);
+    border-color: color-mix(in oklch, var(--primary) 90%, transparent);
+  }
+}
+
+details.dropdown[open] > summary[role="button"] {
+  border-color: var(--primary);
+}
+
+/* Dropdown with checkboxes/radios */
+details.dropdown > ul label:has(input[type="checkbox"]),
+details.dropdown > ul label:has(input[type="radio"]) {
+  margin-bottom: 0;
+}
+
+/* Dark mode chevron */
+[data-theme="dark"] details.dropdown > summary::after,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) details.dropdown > summary::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+}

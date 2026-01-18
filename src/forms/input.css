@@ -1,0 +1,245 @@
+/**
+ * Input styles
+ * Text inputs, textarea, select, and file inputs
+ */
+
+/* Base input styles */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]),
+textarea,
+select {
+  display: block;
+  width: 100%;
+  height: var(--input-height);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: var(--foreground);
+  background-color: var(--background);
+  border: var(--border-width) solid var(--input);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base) var(--ease-default),
+              box-shadow var(--transition-base) var(--ease-default);
+  appearance: none;
+
+  &::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--pico-form-element-disabled-opacity);
+    background-color: var(--muted);
+  }
+
+  &:read-only {
+    background-color: var(--muted);
+  }
+}
+
+/* Textarea specific */
+textarea {
+  height: auto;
+  min-height: calc(var(--input-height) * 2);
+  padding: var(--spacing-3);
+  resize: vertical;
+}
+
+/* Select specific */
+select {
+  padding-right: var(--spacing-8);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-3) center;
+  background-size: 1rem;
+
+  &:focus-visible {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  &[multiple] {
+    height: auto;
+    padding-right: var(--spacing-3);
+    background-image: none;
+  }
+}
+
+/* Dark mode select arrow */
+[data-theme="dark"] select,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+
+    &:focus-visible {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    }
+  }
+}
+
+/* File input */
+input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+  background-color: transparent;
+  border: var(--border-width) dashed var(--input);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-base) var(--ease-default);
+
+  &::file-selector-button {
+    padding: var(--spacing-1) var(--spacing-3);
+    margin-right: var(--spacing-3);
+    font-weight: var(--font-medium);
+    color: var(--foreground);
+    background-color: var(--muted);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-base) var(--ease-default);
+  }
+
+  &:hover::file-selector-button {
+    background-color: color-mix(in oklch, var(--muted) 80%, var(--foreground));
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--ring);
+    border-style: solid;
+  }
+}
+
+/* Color input */
+input[type="color"] {
+  width: var(--input-height);
+  height: var(--input-height);
+  padding: var(--spacing-1);
+  border: var(--border-width) solid var(--input);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--radius-sm);
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Search input - rounded */
+input[type="search"] {
+  border-radius: var(--radius-full);
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+
+  /* Remove default clear button */
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Date/time inputs */
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="time"],
+input[type="week"] {
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity var(--transition-base) var(--ease-default);
+  }
+
+  &::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: var(--spacing-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+}
+
+/* Label wrapping input */
+label:has(> input),
+label:has(> select),
+label:has(> textarea) {
+  display: block;
+
+  & > input,
+  & > select,
+  & > textarea {
+    margin-top: var(--spacing-2);
+  }
+}
+
+/* Helper text */
+small {
+  display: block;
+  margin-top: var(--spacing-1);
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+
+/* Form layout */
+form {
+  & > label,
+  & > fieldset,
+  & > div,
+  & > p {
+    margin-bottom: var(--spacing-4);
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Fieldset */
+fieldset {
+  margin-bottom: var(--spacing-4);
+}
+
+fieldset:last-child {
+  margin-bottom: 0;
+}
+
+legend {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--foreground);
+  margin-bottom: var(--spacing-3);
+}
+
+/* Disabled fieldset */
+fieldset:disabled {
+  opacity: var(--pico-form-element-disabled-opacity);
+}
+
+fieldset:disabled * {
+  cursor: not-allowed;
+}

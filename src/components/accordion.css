@@ -1,0 +1,148 @@
+/**
+ * Accordion styles
+ * Uses semantic <details> and <summary> elements
+ */
+
+details {
+  margin-bottom: var(--spacing-2);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+details:last-child {
+  margin-bottom: 0;
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) 0;
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: color var(--transition-base) var(--ease-default);
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Chevron icon */
+  &::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    margin-left: var(--spacing-2);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: transform var(--transition-base) var(--ease-default);
+  }
+
+  &:hover {
+    color: var(--primary);
+  }
+
+  &:focus-visible {
+    outline: var(--outline-width) solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Dark mode chevron */
+[data-theme="dark"] summary::after,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) summary::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+/* Open state */
+details[open] > summary {
+  color: var(--primary);
+
+  &::after {
+    transform: rotate(180deg);
+  }
+}
+
+/* Accordion content */
+details > *:not(summary) {
+  padding-bottom: var(--spacing-3);
+}
+
+details > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Button-styled summary */
+summary[role="button"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  height: var(--button-height);
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  transition: background-color var(--transition-base) var(--ease-default);
+
+  &::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--primary) 90%, transparent);
+    color: var(--primary-foreground);
+  }
+}
+
+/* Button variants */
+summary[role="button"].secondary {
+  color: var(--secondary-foreground);
+  background-color: var(--secondary);
+
+  &::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
+  }
+}
+
+summary[role="button"].outline {
+  color: var(--foreground);
+  background-color: var(--background);
+  border: var(--border-width) solid var(--input);
+
+  &::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    background-color: var(--accent);
+  }
+}
+
+summary[role="button"].contrast {
+  color: var(--background);
+  background-color: var(--foreground);
+
+  &::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+/* Button accordion wrapper */
+details:has(> summary[role="button"]) {
+  border-bottom: none;
+  margin-bottom: var(--spacing-4);
+}

@@ -1,0 +1,77 @@
+/**
+ * Landmark styles
+ * Semantic HTML structure elements: header, main, footer, section, aside, article
+ */
+
+/* Main content area */
+main {
+  display: block;
+  min-height: 1px;
+}
+
+/* Header landmark */
+body > header,
+main > header,
+.container > header {
+  padding-top: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+}
+
+/* Footer landmark */
+body > footer,
+main > footer,
+.container > footer {
+  padding-top: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+}
+
+/* Section with spacing */
+section {
+  margin-bottom: var(--spacing-8);
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
+/* Aside (sidebar) */
+aside {
+  padding: var(--spacing-4);
+}
+
+/* Inside a grid or flex container, aside shouldn't have padding by default */
+.grid > aside,
+[style*="display: flex"] > aside,
+[style*="display:flex"] > aside {
+  padding: 0;
+}
+
+/* Nested sections have less spacing */
+section section {
+  margin-bottom: var(--spacing-4);
+}
+
+/* Article gets card-like styling when used as a direct child */
+body > article,
+main > article,
+section > article,
+.container > article {
+  margin-bottom: var(--spacing-4);
+}
+
+/* Responsive landmark padding */
+@media (min-width: 768px) {
+  body > header,
+  main > header,
+  .container > header,
+  body > footer,
+  main > footer,
+  .container > footer {
+    padding-top: var(--spacing-6);
+    padding-bottom: var(--spacing-6);
+  }
+
+  section {
+    margin-bottom: var(--spacing-12);
+  }
+}

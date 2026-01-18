@@ -1,0 +1,167 @@
+/**
+ * Modal/Dialog styles
+ * Uses native <dialog> element with <article> for content
+ */
+
+dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  padding: var(--spacing-4);
+  background-color: transparent;
+  border: none;
+  overflow: auto;
+}
+
+dialog::backdrop {
+  background-color: var(--pico-modal-overlay-background-color);
+  backdrop-filter: blur(4px);
+}
+
+dialog:not([open]) {
+  display: none;
+}
+
+/* Modal content (article inside dialog) */
+dialog > article {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  max-height: calc(100vh - var(--spacing-8));
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  background-color: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  animation: modal-in var(--transition-slow) var(--ease-default);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Modal header */
+dialog > article > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4) var(--spacing-6);
+  border-bottom: var(--border-width) solid var(--border);
+  margin-bottom: 0;
+}
+
+dialog > article > header > p {
+  margin: 0;
+}
+
+dialog > article > header > strong,
+dialog > article > header > p > strong {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+}
+
+/* Close button in header */
+dialog > article > header > button[aria-label="Close"],
+dialog > article > header > button[rel="prev"] {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin-left: auto;
+  color: var(--muted-foreground);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  cursor: pointer;
+  transition: background-color var(--transition-base) var(--ease-default),
+              color var(--transition-base) var(--ease-default);
+
+  &:hover {
+    background-color: var(--muted);
+    color: var(--foreground);
+  }
+
+  &::before {
+    content: "✕";
+    font-size: var(--text-base);
+  }
+}
+
+/* Modal body */
+dialog > article > p,
+dialog > article > div {
+  padding: 0 var(--spacing-6);
+}
+
+dialog > article > p:first-of-type {
+  padding-top: var(--spacing-4);
+}
+
+dialog > article > p:last-of-type {
+  padding-bottom: var(--spacing-4);
+}
+
+/* Modal footer */
+dialog > article > footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-6);
+  border-top: var(--border-width) solid var(--border);
+  margin-top: 0;
+}
+
+/* Utility classes for HTML element (modal state) */
+html.modal-is-open {
+  overflow: hidden;
+  pointer-events: none;
+  touch-action: none;
+}
+
+html.modal-is-open dialog {
+  pointer-events: auto;
+}
+
+/* Opening animation class */
+html.modal-is-opening dialog > article {
+  animation: modal-in var(--transition-slow) var(--ease-default);
+}
+
+/* Closing animation class */
+html.modal-is-closing dialog::backdrop {
+  animation: backdrop-out var(--transition-base) var(--ease-default) forwards;
+}
+
+html.modal-is-closing dialog > article {
+  animation: modal-out var(--transition-base) var(--ease-default) forwards;
+}
+
+@keyframes backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-out {
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-1rem);
+  }
+}

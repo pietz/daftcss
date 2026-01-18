@@ -1,0 +1,48 @@
+/**
+ * Grid layout
+ * Auto-layout columns that collapse on small screens
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+/* Auto-layout columns on larger screens */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+
+  /* Explicit column counts when children are present */
+  .grid:has(> :nth-child(2):last-child) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid:has(> :nth-child(4):last-child) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grid:has(> :nth-child(5):last-child) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .grid:has(> :nth-child(6):last-child) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Grid items */
+.grid > * {
+  min-width: 0; /* Prevent overflow */
+}
+
+/* Full-width grid items */
+.grid > [data-span="full"] {
+  grid-column: 1 / -1;
+}

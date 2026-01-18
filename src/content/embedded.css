@@ -1,0 +1,85 @@
+/**
+ * Embedded content styles
+ * Images, figures, video, audio, and iframe
+ */
+
+/* Images */
+img {
+  height: auto;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* Figures */
+figure {
+  margin: var(--spacing-4) 0;
+
+  & > img,
+  & > picture > img,
+  & > video,
+  & > iframe {
+    border-radius: var(--radius-lg);
+  }
+
+  & > figcaption {
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+    margin-top: var(--spacing-2);
+    text-align: center;
+  }
+}
+
+/* Allow figure to wrap tables with overflow */
+figure:has(> table) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  & > table {
+    margin: 0;
+  }
+}
+
+/* Picture element */
+picture {
+  display: block;
+}
+
+/* Video */
+video {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+/* Audio */
+audio {
+  width: 100%;
+}
+
+/* Iframe */
+iframe {
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 100%;
+}
+
+/* SVG */
+svg {
+  fill: currentColor;
+}
+
+svg:not([width]) {
+  width: 1em;
+  height: 1em;
+}
+
+/* Object and embed */
+object,
+embed {
+  max-width: 100%;
+}
+
+/* Canvas */
+canvas {
+  display: block;
+}

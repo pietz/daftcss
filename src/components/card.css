@@ -1,0 +1,103 @@
+/**
+ * Card styles
+ * Uses semantic <article> element
+ */
+
+article {
+  padding: var(--spacing-6);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-4);
+}
+
+article:last-child {
+  margin-bottom: 0;
+}
+
+/* Card header */
+article > header {
+  padding: 0;
+  padding-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  border-bottom: var(--border-width) solid var(--border);
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+/* Card header with title styling */
+article > header > strong,
+article > header > h1,
+article > header > h2,
+article > header > h3,
+article > header > h4,
+article > header > h5,
+article > header > h6 {
+  margin-bottom: var(--spacing-1);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+article > header > small,
+article > header > p {
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  margin-bottom: 0;
+}
+
+/* Card footer */
+article > footer {
+  padding: 0;
+  padding-top: var(--spacing-4);
+  margin-top: var(--spacing-4);
+  border-top: var(--border-width) solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+
+  &:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+/* Nested articles have different styling */
+article article {
+  background-color: var(--muted);
+  border: none;
+}
+
+/* Card inside grid */
+.grid > article {
+  margin-bottom: 0;
+}
+
+/* Clickable card (when wrapped in anchor) */
+a:has(> article) {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-xl);
+  transition: box-shadow var(--transition-base) var(--ease-default);
+
+  &:hover > article {
+    border-color: color-mix(in oklch, var(--border) 80%, var(--foreground));
+  }
+
+  &:focus-visible {
+    outline: var(--outline-width) solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Card with loading state */
+article[aria-busy="true"] {
+  min-height: 8rem;
+}

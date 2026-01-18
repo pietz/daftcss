@@ -1,0 +1,96 @@
+/**
+ * Code and preformatted text styles
+ * Code, pre, kbd, samp, var
+ */
+
+/* Inline code */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: var(--font-medium);
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+/* Code inside links */
+a > code {
+  color: inherit;
+}
+
+/* Code blocks */
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: var(--typography-spacing-vertical);
+  tab-size: 2;
+
+  /* Reset inline code styles when inside pre */
+  & > code {
+    font-size: inherit;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    white-space: pre;
+  }
+}
+
+/* Dark mode code blocks get slightly different background */
+[data-theme="dark"] pre,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) pre {
+    background-color: oklch(0.18 0 0);
+  }
+}
+
+/* Keyboard input */
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: var(--font-medium);
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--border);
+  box-shadow: 0 2px 0 var(--border);
+}
+
+/* Nested kbd (for key combinations) */
+kbd > kbd {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: none;
+}
+
+/* Sample output */
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+/* Variable */
+var {
+  font-family: var(--font-mono);
+  font-style: italic;
+  color: var(--primary);
+}
+
+/* Data element */
+data {
+  font-variant-numeric: tabular-nums;
+}

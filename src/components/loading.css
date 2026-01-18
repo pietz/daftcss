@@ -1,0 +1,113 @@
+/**
+ * Loading/busy state styles
+ * Uses aria-busy attribute for semantic loading states
+ */
+
+/* Loading spinner keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Base busy state - shows spinner */
+[aria-busy="true"] {
+  position: relative;
+  pointer-events: none;
+}
+
+/* Spinner for empty elements (article, button without text, etc.) */
+[aria-busy="true"]:empty::before,
+button[aria-busy="true"]:not(:has(*))::before {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: var(--spacing-4) auto;
+  border: 2px solid var(--muted);
+  border-top-color: var(--primary);
+  border-radius: var(--radius-full);
+  animation: spin 0.75s linear infinite;
+}
+
+/* Inline spinner (before text) */
+[aria-busy="true"]:not(:empty)::before {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--spacing-2);
+  vertical-align: middle;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.75s linear infinite;
+  opacity: 0.7;
+}
+
+/* Button loading state */
+button[aria-busy="true"] {
+  cursor: wait;
+  opacity: 0.8;
+}
+
+button[aria-busy="true"]::before {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
+  margin-right: var(--spacing-2);
+}
+
+/* Icon-only button loading */
+button[aria-busy="true"][aria-label]::before {
+  margin-right: 0;
+}
+
+/* Article loading state (skeleton) */
+article[aria-busy="true"] {
+  min-height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+article[aria-busy="true"]::before {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border-width: 3px;
+}
+
+/* Span/text loading state */
+span[aria-busy="true"]::before,
+p[aria-busy="true"]::before {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Table row loading */
+tr[aria-busy="true"] {
+  opacity: 0.5;
+}
+
+/* Form loading state */
+form[aria-busy="true"] {
+  opacity: 0.7;
+}
+
+form[aria-busy="true"]::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+/* Dark mode spinner adjustment */
+[data-theme="dark"] [aria-busy="true"]:empty::before,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [aria-busy="true"]:empty::before {
+    border-color: var(--muted);
+    border-top-color: var(--primary);
+  }
+}

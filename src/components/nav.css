@@ -1,0 +1,161 @@
+/**
+ * Navigation styles
+ * Horizontal nav bars, vertical nav, and breadcrumbs
+ */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+nav > ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav > ul > li {
+  margin: 0;
+  line-height: var(--leading-normal);
+}
+
+/* Nav links */
+nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--muted-foreground);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: color var(--transition-base) var(--ease-default),
+              background-color var(--transition-base) var(--ease-default);
+
+  &:hover {
+    color: var(--foreground);
+    background-color: var(--accent);
+  }
+}
+
+/* Active page indicator */
+nav a[aria-current="page"],
+nav a[aria-current="true"] {
+  color: var(--foreground);
+  background-color: var(--accent);
+}
+
+/* Nav with strong (brand) */
+nav strong {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--foreground);
+}
+
+/* Nav buttons */
+nav button {
+  height: var(--button-height-sm);
+  font-size: var(--text-sm);
+}
+
+/* Dropdown in nav */
+nav details.dropdown > summary {
+  height: auto;
+  padding: var(--spacing-2) var(--spacing-3);
+  color: var(--muted-foreground);
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: var(--foreground);
+    background-color: var(--accent);
+  }
+}
+
+nav details.dropdown > ul {
+  right: 0;
+}
+
+/* Vertical navigation (inside aside) */
+aside nav {
+  display: block;
+}
+
+aside nav > ul {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-1);
+}
+
+aside nav a {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Breadcrumb navigation */
+nav[aria-label="breadcrumb"] > ul {
+  gap: 0;
+}
+
+nav[aria-label="breadcrumb"] > ul > li {
+  display: flex;
+  align-items: center;
+}
+
+nav[aria-label="breadcrumb"] > ul > li:not(:last-child)::after {
+  content: var(--pico-nav-breadcrumb-divider);
+  padding: 0 var(--spacing-2);
+  color: var(--muted-foreground);
+}
+
+nav[aria-label="breadcrumb"] a {
+  padding: var(--spacing-1) 0;
+  color: var(--muted-foreground);
+  background-color: transparent;
+  border-radius: 0;
+
+  &:hover {
+    color: var(--foreground);
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}
+
+nav[aria-label="breadcrumb"] > ul > li:last-child {
+  color: var(--foreground);
+  font-weight: var(--font-medium);
+}
+
+/* Custom breadcrumb divider via inline style */
+nav[aria-label="breadcrumb"][style*="--pico-nav-breadcrumb-divider"] > ul > li:not(:last-child)::after {
+  content: var(--pico-nav-breadcrumb-divider);
+}
+
+/* Mobile-friendly nav (stacks on small screens) */
+@media (max-width: 767px) {
+  nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  nav > ul {
+    justify-content: center;
+  }
+}
+
+/* Sticky nav helper */
+header:has(> nav) {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: color-mix(in oklch, var(--background) 90%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: var(--border-width) solid var(--border);
+}

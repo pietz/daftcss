@@ -1,0 +1,91 @@
+/**
+ * Form validation styles
+ * Uses aria-invalid for semantic validation states
+ */
+
+/* Invalid state */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--destructive);
+
+  &:focus-visible {
+    border-color: var(--destructive);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
+  }
+}
+
+/* Valid state */
+input[aria-invalid="false"],
+textarea[aria-invalid="false"],
+select[aria-invalid="false"] {
+  border-color: var(--success);
+
+  &:focus-visible {
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--success) 20%, transparent);
+  }
+}
+
+/* Helper text colors for validation */
+input[aria-invalid="true"] + small,
+textarea[aria-invalid="true"] + small,
+select[aria-invalid="true"] + small,
+input[aria-invalid="true"] ~ small,
+textarea[aria-invalid="true"] ~ small,
+select[aria-invalid="true"] ~ small {
+  color: var(--destructive);
+}
+
+input[aria-invalid="false"] + small,
+textarea[aria-invalid="false"] + small,
+select[aria-invalid="false"] + small,
+input[aria-invalid="false"] ~ small,
+textarea[aria-invalid="false"] ~ small,
+select[aria-invalid="false"] ~ small {
+  color: var(--success);
+}
+
+/* Checkbox/radio validation */
+input[type="checkbox"][aria-invalid="true"],
+input[type="radio"][aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+
+input[type="checkbox"][aria-invalid="false"],
+input[type="radio"][aria-invalid="false"] {
+  border-color: var(--success);
+}
+
+/* Native browser validation (optional enhancement) */
+input:user-invalid,
+textarea:user-invalid,
+select:user-invalid {
+  border-color: var(--destructive);
+}
+
+input:user-valid:not(:placeholder-shown),
+textarea:user-valid:not(:placeholder-shown),
+select:user-valid {
+  border-color: var(--success);
+}
+
+/* Required field indicator */
+label:has(+ input:required)::after,
+label:has(+ textarea:required)::after,
+label:has(+ select:required)::after,
+label:has(> input:required)::after,
+label:has(> textarea:required)::after,
+label:has(> select:required)::after {
+  content: " *";
+  color: var(--destructive);
+}
+
+/* Dropdown validation */
+details.dropdown[aria-invalid="true"] > summary {
+  border-color: var(--destructive);
+}
+
+details.dropdown[aria-invalid="false"] > summary {
+  border-color: var(--success);
+}
