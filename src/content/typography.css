@@ -7,7 +7,7 @@
 h1, h2, h3, h4, h5, h6 {
   color: var(--foreground);
   font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
+  line-height: var(--line-height-sm);
   letter-spacing: -0.025em;
   margin-bottom: var(--typography-spacing-vertical);
 }
@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: var(--text-4xl);
   font-weight: var(--font-extrabold);
-  line-height: var(--leading-none);
+  line-height: 1;
 }
 
 h2 {
@@ -43,7 +43,7 @@ hgroup {
   margin-bottom: var(--typography-spacing-vertical);
 
   & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
-    margin-bottom: var(--spacing-2);
+    margin-bottom: var(--spacing-sm);
   }
 
   & > p {
@@ -55,7 +55,7 @@ hgroup {
 /* Paragraphs */
 p {
   margin-bottom: var(--typography-spacing-vertical);
-  line-height: var(--leading-relaxed);
+  line-height: var(--line-height-lg);
 }
 
 /* Remove margin from last child */
@@ -162,19 +162,19 @@ hr {
   border: none;
   height: var(--border-width);
   background-color: var(--border);
-  margin: var(--spacing-6) 0;
+  margin: var(--spacing-lg) 0;
 }
 
 /* Blockquote */
 blockquote {
   border-left: 4px solid var(--border);
-  padding-left: var(--spacing-4);
-  margin: var(--spacing-4) 0;
+  padding-left: var(--spacing);
+  margin: var(--spacing) 0;
   font-style: italic;
   color: var(--muted-foreground);
 
   & > p {
-    margin-bottom: var(--spacing-2);
+    margin-bottom: var(--spacing-sm);
   }
 
   & > footer {
@@ -191,7 +191,7 @@ blockquote {
 /* Lists */
 ul, ol {
   margin-bottom: var(--typography-spacing-vertical);
-  padding-left: var(--spacing-6);
+  padding-left: var(--spacing-lg);
 }
 
 ul {
@@ -203,8 +203,8 @@ ol {
 }
 
 li {
-  margin-bottom: var(--spacing-1);
-  line-height: var(--leading-relaxed);
+  margin-bottom: var(--spacing-xs);
+  line-height: var(--line-height-lg);
 }
 
 li:last-child {
@@ -213,7 +213,7 @@ li:last-child {
 
 /* Nested lists */
 ul ul, ol ol, ul ol, ol ul {
-  margin-top: var(--spacing-1);
+  margin-top: var(--spacing-xs);
   margin-bottom: 0;
 }
 
@@ -224,12 +224,12 @@ dl {
 
 dt {
   font-weight: var(--font-semibold);
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--spacing-xs);
 }
 
 dd {
-  margin-left: var(--spacing-4);
-  margin-bottom: var(--spacing-3);
+  margin-left: var(--spacing);
+  margin-bottom: calc(var(--spacing) * 0.75);
   color: var(--muted-foreground);
 }
 

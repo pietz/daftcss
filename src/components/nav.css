@@ -8,14 +8,14 @@ nav {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-4);
+  gap: var(--spacing);
 }
 
 nav > ul {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -23,14 +23,14 @@ nav > ul {
 
 nav > ul > li {
   margin: 0;
-  line-height: var(--leading-normal);
+  line-height: var(--line-height);
 }
 
 /* Nav links */
 nav a {
   display: inline-flex;
   align-items: center;
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-sm) calc(var(--spacing) * 0.75);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--muted-foreground);
@@ -68,7 +68,7 @@ nav button {
 /* Dropdown in nav */
 nav details.dropdown > summary {
   height: auto;
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-sm) calc(var(--spacing) * 0.75);
   color: var(--muted-foreground);
   background-color: transparent;
   border: none;
@@ -91,7 +91,7 @@ aside nav {
 aside nav > ul {
   flex-direction: column;
   align-items: stretch;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
 }
 
 aside nav a {
@@ -111,12 +111,12 @@ nav[aria-label="breadcrumb"] > ul > li {
 
 nav[aria-label="breadcrumb"] > ul > li:not(:last-child)::after {
   content: var(--breadcrumb-divider);
-  padding: 0 var(--spacing-2);
+  padding: 0 var(--spacing-sm);
   color: var(--muted-foreground);
 }
 
 nav[aria-label="breadcrumb"] a {
-  padding: var(--spacing-1) 0;
+  padding: var(--spacing-xs) 0;
   color: var(--muted-foreground);
   background-color: transparent;
   border-radius: 0;

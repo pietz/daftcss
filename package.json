@@ -2,15 +2,14 @@
   "name": "daft-css",
   "version": "1.0.0",
   "description": "A semantic-first, utility-second CSS framework with shadcn/ui aesthetics",
-  "type": "module",
   "main": "dist/daft.css",
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "node build.js",
-    "watch": "node build.js --watch",
+    "build": "lightningcss --bundle src/daft.css -o dist/daft.css && lightningcss --bundle --minify src/daft.css -o dist/daft.min.css",
+    "watch": "lightningcss --bundle src/daft.css -o dist/daft.css --watch",
     "dev": "npx serve demo"
   },
   "keywords": [
@@ -22,6 +21,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "lightningcss": "^1.28.0"
+    "lightningcss-cli": "^1.28.0"
   }
 }

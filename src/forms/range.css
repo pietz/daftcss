@@ -107,6 +107,6 @@ label:has(> input[type="range"]) {
   display: block;
 
   & > input[type="range"] {
-    margin-top: var(--spacing-2);
+    margin-top: var(--spacing-sm);
   }
 }

@@ -4,12 +4,12 @@
  */
 
 article {
-  padding: var(--spacing-6);
+  padding: var(--spacing-lg);
   background-color: var(--card);
   color: var(--card-foreground);
   border: var(--border-width) solid var(--border);
   border-radius: var(--radius-xl);
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing);
 }
 
 article:last-child {
@@ -19,8 +19,8 @@ article:last-child {
 /* Card header */
 article > header {
   padding: 0;
-  padding-bottom: var(--spacing-4);
-  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing);
+  margin-bottom: var(--spacing);
   border-bottom: var(--border-width) solid var(--border);
 
   &:last-child {
@@ -38,10 +38,10 @@ article > header > h3,
 article > header > h4,
 article > header > h5,
 article > header > h6 {
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--spacing-xs);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
+  line-height: var(--line-height-sm);
 }
 
 article > header > small,
@@ -54,12 +54,12 @@ article > header > p {
 /* Card footer */
 article > footer {
   padding: 0;
-  padding-top: var(--spacing-4);
-  margin-top: var(--spacing-4);
+  padding-top: var(--spacing);
+  margin-top: var(--spacing);
   border-top: var(--border-width) solid var(--border);
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
 
   &:first-child {
     margin-top: 0;

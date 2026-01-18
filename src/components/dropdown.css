@@ -14,9 +14,9 @@ details.dropdown > summary {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
   height: var(--input-height);
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-sm) calc(var(--spacing) * 0.75);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--foreground);
@@ -58,8 +58,8 @@ details.dropdown > ul {
   z-index: 50;
   min-width: 10rem;
   margin: 0;
-  margin-top: var(--spacing-1);
-  padding: var(--spacing-1);
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs);
   list-style: none;
   background-color: var(--popover);
   border: var(--border-width) solid var(--border);
@@ -85,8 +85,8 @@ details.dropdown > ul > li > a,
 details.dropdown > ul > li > label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-3);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) calc(var(--spacing) * 0.75);
   font-size: var(--text-sm);
   color: var(--popover-foreground);
   text-decoration: none;

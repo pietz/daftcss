@@ -14,10 +14,10 @@
   content: attr(data-tooltip);
   position: absolute;
   z-index: 50;
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-xs);
   font-weight: var(--font-medium);
-  line-height: var(--leading-tight);
+  line-height: var(--line-height-sm);
   color: var(--background);
   background-color: var(--foreground);
   border-radius: var(--radius-sm);

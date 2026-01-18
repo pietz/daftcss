@@ -23,7 +23,7 @@ button[aria-busy="true"]:not(:has(*))::before {
   display: block;
   width: 1.5rem;
   height: 1.5rem;
-  margin: var(--spacing-4) auto;
+  margin: var(--spacing) auto;
   border: 2px solid var(--muted);
   border-top-color: var(--primary);
   border-radius: var(--radius-full);
@@ -36,7 +36,7 @@ button[aria-busy="true"]:not(:has(*))::before {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin-right: var(--spacing-2);
+  margin-right: var(--spacing-sm);
   vertical-align: middle;
   border: 2px solid currentColor;
   border-top-color: transparent;
@@ -55,7 +55,7 @@ button[aria-busy="true"]::before {
   width: 1rem;
   height: 1rem;
   border-width: 2px;
-  margin-right: var(--spacing-2);
+  margin-right: var(--spacing-sm);
 }
 
 /* Icon-only button loading */
@@ -104,7 +104,11 @@ form[aria-busy="true"]::before {
 }
 
 /* Dark mode spinner adjustment */
-[data-theme="dark"] [aria-busy="true"]:empty::before,
+[data-theme="dark"] [aria-busy="true"]:empty::before {
+  border-color: var(--muted);
+  border-top-color: var(--primary);
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) [aria-busy="true"]:empty::before {
     border-color: var(--muted);

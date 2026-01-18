@@ -24,10 +24,10 @@ a > code {
 pre {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
+  line-height: var(--line-height-lg);
   background-color: var(--muted);
   color: var(--foreground);
-  padding: var(--spacing-4);
+  padding: var(--spacing);
   border-radius: var(--radius-lg);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -45,7 +45,10 @@ pre {
 }
 
 /* Dark mode code blocks get slightly different background */
-[data-theme="dark"] pre,
+[data-theme="dark"] pre {
+  background-color: oklch(0.18 0 0);
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) pre {
     background-color: oklch(0.18 0 0);

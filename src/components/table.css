@@ -15,7 +15,7 @@ thead {
 }
 
 th {
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: calc(var(--spacing) * 0.75) var(--spacing);
   font-weight: var(--font-medium);
   text-align: left;
   color: var(--muted-foreground);
@@ -37,7 +37,7 @@ tbody tr:hover {
 }
 
 td {
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: calc(var(--spacing) * 0.75) var(--spacing);
   vertical-align: middle;
 }
 
@@ -48,7 +48,7 @@ tfoot {
 
 tfoot td,
 tfoot th {
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: calc(var(--spacing) * 0.75) var(--spacing);
   font-weight: var(--font-medium);
   color: var(--muted-foreground);
 }
@@ -64,7 +64,7 @@ table.striped tbody tr:nth-child(odd):hover {
 
 /* Caption */
 caption {
-  padding: var(--spacing-3) 0;
+  padding: calc(var(--spacing) * 0.75) 0;
   font-size: var(--text-sm);
   color: var(--muted-foreground);
   text-align: left;
@@ -93,7 +93,7 @@ th[aria-sort]::after {
   display: inline-block;
   width: 0.75em;
   height: 0.75em;
-  margin-left: var(--spacing-1);
+  margin-left: var(--spacing-xs);
   vertical-align: middle;
   opacity: 0.5;
 }

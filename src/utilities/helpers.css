@@ -148,11 +148,11 @@ a.contrast:hover {
 }
 
 .gap-2 {
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
 }
 
 .gap-4 {
-  gap: var(--spacing-4);
+  gap: var(--spacing);
 }
 
 /* Full width */
@@ -166,16 +166,16 @@ a.contrast:hover {
 }
 
 .mt-4 {
-  margin-top: var(--spacing-4);
+  margin-top: var(--spacing);
 }
 
 .mb-4 {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing);
 }
 
 .my-4 {
-  margin-top: var(--spacing-4);
-  margin-bottom: var(--spacing-4);
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
 }
 
 /* Padding utilities */
@@ -184,11 +184,11 @@ a.contrast:hover {
 }
 
 .p-4 {
-  padding: var(--spacing-4);
+  padding: var(--spacing);
 }
 
 .p-6 {
-  padding: var(--spacing-6);
+  padding: var(--spacing-lg);
 }
 
 /* ===== BORDER UTILITIES ===== */

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Daft CSS is a semantic-first CSS framework that combines Pico CSS compatibility with shadcn/ui aesthetics. It targets modern browsers only (Chrome/Firefox/Edge 100+, Safari 15+) and uses modern CSS features like OKLCH colors, CSS nesting, `light-dark()`, and `color-mix()`.
+Daft CSS is a semantic-first CSS framework that combines Pico CSS compatibility with shadcn/ui aesthetics. Requires modern browsers (Chrome 123+, Firefox 120+, Safari 18+) for native support of `light-dark()`, OKLCH colors, CSS nesting, and `color-mix()`.
 
 ## Commands
 
@@ -18,7 +18,14 @@ npm run dev      # Serve demo folder locally
 
 ### Build System
 
-`build.js` uses LightningCSS to bundle and minify. It processes `src/daft.css` which imports all partials using CSS `@import` with `@layer` for specificity management.
+Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/daft.css` which imports all partials using CSS `@import` with `@layer` for specificity management.
+
+**Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
+- Bundles and minifies only (no transforms)
+- Preserves modern CSS like `light-dark()` as-is
+- Keeps output small (~49KB vs ~55KB with polyfills)
+
+If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 
 ### CSS Layer Order
 
@@ -38,10 +45,20 @@ tokens → reset → base → layout → content → forms → components → ut
 
 ### Design Token System
 
-Three-tier system in `src/base/variables.css`:
-1. **Primitives** - Raw values: `--spacing-4`, `--radius-md`, `--text-base`
-2. **Semantic tokens** - Contextual: `--background`, `--foreground`, `--primary`, `--muted`, `--border`
-3. **Pico aliases** - Compatibility layer (when needed)
+Hierarchical system in `src/base/variables.css`:
+
+1. **Core variables** - Control the entire design system:
+   - `--spacing`, `--radius`, `--font-size-base`, `--font-scale`
+   - `--line-height`, `--transition`, `--component-height`
+
+2. **Derived variables** - Calculated from core:
+   - `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--spacing-xl`
+   - `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`
+   - `--text-xs` through `--text-4xl` (scale-based)
+   - `--line-height-sm`, `--line-height-lg`
+
+3. **Semantic tokens** - Colors and contextual values:
+   - `--background`, `--foreground`, `--primary`, `--muted`, `--border`
 
 Theme switching uses `light-dark()` function with `color-scheme` property. Override via `data-theme="light|dark"` attribute.
 

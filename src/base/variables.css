@@ -1,49 +1,67 @@
 /**
  * CSS Custom Properties (Design Tokens)
- * Three-tier system: primitives → semantic → Pico aliases
+ * Hierarchical system: root variables → derived variables → semantic tokens
  */
 
 :root {
   color-scheme: light dark;
 
-  /* ===== TIER 1: PRIMITIVES ===== */
+  /* ===== TIER 0: ROOT VARIABLES ===== */
+  /* These control the entire design system */
 
-  /* Spacing scale (4px base) */
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
+  --spacing: 1rem;
+  --radius: 0.5rem;
+  --font-size-base: 1rem;
+  --font-scale: 1.125;
+  --line-height: 1.5;
+  --transition: 150ms;
+  --component-height: 2.5rem;
 
-  /* Border radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 0.875rem;
+  /* ===== TIER 1: DERIVED VARIABLES ===== */
+
+  /* Spacing scale (derived from --spacing) */
+  --spacing-xs: calc(var(--spacing) * 0.25);
+  --spacing-sm: calc(var(--spacing) * 0.5);
+  /* --spacing is the base (1rem) */
+  --spacing-lg: calc(var(--spacing) * 1.5);
+  --spacing-xl: calc(var(--spacing) * 2);
+
+  /* Border radius (derived from --radius) */
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.25);
+  --radius-xl: calc(var(--radius) * 1.75);
   --radius-full: 9999px;
 
-  /* Font sizes */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
+  /* Typography scale (derived from --font-size-base and --font-scale) */
+  --text-xs: calc(var(--font-size-base) / var(--font-scale) / var(--font-scale));
+  --text-sm: calc(var(--font-size-base) / var(--font-scale));
+  --text: var(--font-size-base);
+  --text-base: var(--font-size-base);
+  --text-lg: calc(var(--font-size-base) * var(--font-scale));
+  --text-xl: calc(var(--text-lg) * var(--font-scale));
+  --text-2xl: calc(var(--text-xl) * var(--font-scale));
+  --text-3xl: calc(var(--text-2xl) * var(--font-scale));
+  --text-4xl: calc(var(--text-3xl) * var(--font-scale));
 
-  /* Line heights */
-  --leading-none: 1;
-  --leading-tight: 1.25;
-  --leading-snug: 1.375;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
-  --leading-loose: 1.75;
+  /* Line heights (derived from --line-height) */
+  --line-height-sm: calc(var(--line-height) - 0.25);
+  --line-height-lg: calc(var(--line-height) + 0.25);
+
+  /* Transitions (derived from --transition) */
+  --transition-fast: calc(var(--transition) * 0.67);
+  --transition-base: var(--transition);
+  --transition-slow: calc(var(--transition) * 2);
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-default: var(--transition) var(--ease-default);
+
+  /* Component heights (derived from --component-height) */
+  --component-height-sm: calc(var(--component-height) - 0.25rem);
+  --component-height-lg: calc(var(--component-height) + 0.25rem);
+  --input-height: var(--component-height);
+  --button-height: var(--component-height);
+  --button-height-sm: var(--component-height-sm);
+  --button-height-lg: var(--component-height-lg);
 
   /* Font weights */
   --font-normal: 400;
@@ -57,27 +75,10 @@
   --shadow-sm: 0 1px 3px 0 light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 1px 2px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
   --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
   --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-
-  /* Transitions */
-  --transition-fast: 100ms;
-  --transition-base: 150ms;
-  --transition-slow: 300ms;
-  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-default: var(--transition-base) var(--ease-default);
 
   /* Icons (used as masks, color applied via background-color) */
   --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-  --icon-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
-  --icon-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E");
-
-  /* Breakpoints (for reference, used in media queries) */
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
 
   /* ===== TIER 2: SEMANTIC TOKENS (shadcn naming) ===== */
 
@@ -126,17 +127,10 @@
   --input: var(--border);
   --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 
-  /* Semantic spacing */
-  --spacing: var(--spacing-4);
-  --block-spacing-vertical: var(--spacing-4);
-  --block-spacing-horizontal: var(--spacing-4);
-  --typography-spacing-vertical: var(--spacing-4);
-
-  /* Component dimensions */
-  --input-height: 2.5rem;
-  --button-height: 2.5rem;
-  --button-height-sm: 2.25rem;
-  --button-height-lg: 2.75rem;
+  /* Semantic spacing aliases */
+  --block-spacing-vertical: var(--spacing);
+  --block-spacing-horizontal: var(--spacing);
+  --typography-spacing-vertical: var(--spacing);
 
   /* Font family */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

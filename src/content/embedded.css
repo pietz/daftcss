@@ -12,7 +12,7 @@ img {
 
 /* Figures */
 figure {
-  margin: var(--spacing-4) 0;
+  margin: var(--spacing) 0;
 
   & > img,
   & > picture > img,
@@ -24,7 +24,7 @@ figure {
   & > figcaption {
     font-size: var(--text-sm);
     color: var(--muted-foreground);
-    margin-top: var(--spacing-2);
+    margin-top: var(--spacing-sm);
     text-align: center;
   }
 }
