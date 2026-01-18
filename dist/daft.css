@@ -169,6 +169,7 @@
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     --border-width: 1px;
     --outline-width: 2px;
+    --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
     --modal-overlay: var(--lightningcss-light, #00000080) var(--lightningcss-dark, #000000b3);
     --pico-font-family: var(--font-sans);
     --pico-font-size: var(--text-base);
@@ -957,7 +958,7 @@
 
   :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]), textarea, select):focus-visible {
     border-color: var(--ring);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--focus-ring);
     outline: none;
   }
 
@@ -1181,7 +1182,7 @@
 
   :is(input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible) {
     border-color: var(--ring);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--focus-ring);
     outline: none;
   }
 
@@ -1247,7 +1248,7 @@
   }
 
   input[type="checkbox"][role="switch"]:focus-visible {
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--focus-ring);
   }
 
   input[type="range"] {
@@ -1324,11 +1325,11 @@
   }
 
   input[type="range"]:focus-visible::-webkit-slider-thumb {
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--focus-ring);
   }
 
   input[type="range"]:focus-visible::-moz-range-thumb {
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--focus-ring);
   }
 
   input[type="range"]:disabled {
@@ -1477,7 +1478,7 @@
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]):focus-visible {
-    box-shadow: var(--shadow-xs), 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    box-shadow: var(--shadow-xs), var(--focus-ring);
     outline: none;
   }
 

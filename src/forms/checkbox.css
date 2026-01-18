@@ -64,7 +64,7 @@ input[type="checkbox"]:focus-visible,
 input[type="radio"]:focus-visible {
   outline: none;
   border-color: var(--ring);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+  box-shadow: var(--focus-ring);
 }
 
 /* Disabled state */
@@ -135,5 +135,5 @@ input[type="checkbox"][role="switch"]:checked::before {
 }
 
 input[type="checkbox"][role="switch"]:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+  box-shadow: var(--focus-ring);
 }
