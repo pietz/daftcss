@@ -4,11 +4,7 @@
  */
 
 /* Base button styles */
-button,
-[type="submit"],
-[type="reset"],
-[type="button"],
-[role="button"] {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -82,10 +78,7 @@ a[role="button"] {
 }
 
 /* Secondary variant */
-button.secondary,
-[type="submit"].secondary,
-[type="button"].secondary,
-[role="button"].secondary {
+:is(button, [type="submit"], [type="button"], [role="button"]).secondary {
   color: var(--secondary-foreground);
   background-color: var(--secondary);
 
@@ -95,10 +88,7 @@ button.secondary,
 }
 
 /* Contrast variant */
-button.contrast,
-[type="submit"].contrast,
-[type="button"].contrast,
-[role="button"].contrast {
+:is(button, [type="submit"], [type="button"], [role="button"]).contrast {
   color: var(--background);
   background-color: var(--foreground);
 
@@ -108,10 +98,7 @@ button.contrast,
 }
 
 /* Outline variant */
-button.outline,
-[type="submit"].outline,
-[type="button"].outline,
-[role="button"].outline {
+:is(button, [type="submit"], [type="button"], [role="button"]).outline {
   color: var(--foreground);
   background-color: var(--background);
   border-color: var(--input);
@@ -123,8 +110,7 @@ button.outline,
 }
 
 /* Outline secondary */
-button.outline.secondary,
-[role="button"].outline.secondary {
+:is(button, [role="button"]).outline.secondary {
   color: var(--muted-foreground);
   border-color: var(--muted-foreground);
 
@@ -135,8 +121,7 @@ button.outline.secondary,
 }
 
 /* Outline contrast */
-button.outline.contrast,
-[role="button"].outline.contrast {
+:is(button, [role="button"]).outline.contrast {
   color: var(--foreground);
   border-color: var(--foreground);
 
@@ -147,8 +132,7 @@ button.outline.contrast,
 }
 
 /* Ghost variant (no background) */
-button.ghost,
-[role="button"].ghost {
+:is(button, [role="button"]).ghost {
   color: var(--foreground);
   background-color: transparent;
   box-shadow: none;
@@ -160,8 +144,7 @@ button.ghost,
 }
 
 /* Link variant (looks like a link) */
-button.link,
-[role="button"].link {
+:is(button, [role="button"]).link {
   color: var(--primary);
   background-color: transparent;
   box-shadow: none;
@@ -173,8 +156,7 @@ button.link,
 }
 
 /* Destructive variant */
-button.destructive,
-[role="button"].destructive {
+:is(button, [role="button"]).destructive {
   color: var(--destructive-foreground);
   background-color: var(--destructive);
 
@@ -188,40 +170,34 @@ button.destructive,
 }
 
 /* Small button */
-button.small,
-[role="button"].small {
+:is(button, [role="button"]).small {
   height: var(--button-height-sm);
   padding: var(--spacing-1) var(--spacing-3);
   font-size: var(--text-xs);
 }
 
 /* Large button */
-button.large,
-[role="button"].large {
+:is(button, [role="button"]).large {
   height: var(--button-height-lg);
   padding: var(--spacing-2) var(--spacing-8);
   font-size: var(--text-base);
 }
 
 /* Icon-only button */
-button.icon,
-[role="button"].icon {
+:is(button, [role="button"]).icon {
   width: var(--button-height);
   padding: 0;
 }
 
-button.icon.small,
-[role="button"].icon.small {
+:is(button, [role="button"]).icon.small {
   width: var(--button-height-sm);
 }
 
-button.icon.large,
-[role="button"].icon.large {
+:is(button, [role="button"]).icon.large {
   width: var(--button-height-lg);
 }
 
 /* Full width button */
-button.full-width,
-[role="button"].full-width {
+:is(button, [role="button"]).full-width {
   width: 100%;
 }

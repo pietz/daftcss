@@ -129,6 +129,10 @@
     --transition-base: .15s;
     --transition-slow: .3s;
     --ease-default: cubic-bezier(.4, 0, .2, 1);
+    --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    --icon-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+    --icon-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E");
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
@@ -907,14 +911,10 @@
 
   select {
     padding-right: var(--spacing-8);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: var(--lightningcss-light, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")) var(--lightningcss-dark, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"));
     background-repeat: no-repeat;
     background-position: right var(--spacing-3) center;
     background-size: 1rem;
-  }
-
-  select:focus-visible {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 
   select[multiple] {
@@ -1369,7 +1369,7 @@
 }
 
 @layer components {
-  button, [type="submit"], [type="reset"], [type="button"], [role="button"] {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]) {
     justify-content: center;
     align-items: center;
     gap: var(--spacing-2);
@@ -1434,116 +1434,116 @@
     text-decoration: none;
   }
 
-  button.secondary, [type="submit"].secondary, [type="button"].secondary, [role="button"].secondary {
+  :is(button, [type="submit"], [type="button"], [role="button"]).secondary {
     color: var(--secondary-foreground);
     background-color: var(--secondary);
   }
 
-  :is(button.secondary, [type="submit"].secondary, [type="button"].secondary, [role="button"].secondary):hover {
+  :is(button, [type="submit"], [type="button"], [role="button"]).secondary:hover {
     background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
   }
 
-  button.contrast, [type="submit"].contrast, [type="button"].contrast, [role="button"].contrast {
+  :is(button, [type="submit"], [type="button"], [role="button"]).contrast {
     color: var(--background);
     background-color: var(--foreground);
   }
 
-  :is(button.contrast, [type="submit"].contrast, [type="button"].contrast, [role="button"].contrast):hover {
+  :is(button, [type="submit"], [type="button"], [role="button"]).contrast:hover {
     background-color: color-mix(in oklch, var(--foreground) 85%, transparent);
   }
 
-  button.outline, [type="submit"].outline, [type="button"].outline, [role="button"].outline {
+  :is(button, [type="submit"], [type="button"], [role="button"]).outline {
     color: var(--foreground);
     background-color: var(--background);
     border-color: var(--input);
   }
 
-  :is(button.outline, [type="submit"].outline, [type="button"].outline, [role="button"].outline):hover {
+  :is(button, [type="submit"], [type="button"], [role="button"]).outline:hover {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
 
-  button.outline.secondary, [role="button"].outline.secondary {
+  :is(button, [role="button"]).outline.secondary {
     color: var(--muted-foreground);
     border-color: var(--muted-foreground);
   }
 
-  :is(button.outline.secondary, [role="button"].outline.secondary):hover {
+  :is(button, [role="button"]).outline.secondary:hover {
     background-color: var(--secondary);
     color: var(--secondary-foreground);
   }
 
-  button.outline.contrast, [role="button"].outline.contrast {
+  :is(button, [role="button"]).outline.contrast {
     color: var(--foreground);
     border-color: var(--foreground);
   }
 
-  :is(button.outline.contrast, [role="button"].outline.contrast):hover {
+  :is(button, [role="button"]).outline.contrast:hover {
     background-color: var(--foreground);
     color: var(--background);
   }
 
-  button.ghost, [role="button"].ghost {
+  :is(button, [role="button"]).ghost {
     color: var(--foreground);
     box-shadow: none;
     background-color: #0000;
   }
 
-  :is(button.ghost, [role="button"].ghost):hover {
+  :is(button, [role="button"]).ghost:hover {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
 
-  button.link, [role="button"].link {
+  :is(button, [role="button"]).link {
     color: var(--primary);
     box-shadow: none;
     text-underline-offset: 4px;
     background-color: #0000;
   }
 
-  :is(button.link, [role="button"].link):hover {
+  :is(button, [role="button"]).link:hover {
     text-decoration: underline;
   }
 
-  button.destructive, [role="button"].destructive {
+  :is(button, [role="button"]).destructive {
     color: var(--destructive-foreground);
     background-color: var(--destructive);
   }
 
-  :is(button.destructive, [role="button"].destructive):hover {
+  :is(button, [role="button"]).destructive:hover {
     background-color: color-mix(in oklch, var(--destructive) 90%, transparent);
   }
 
-  :is(button.destructive, [role="button"].destructive):focus-visible {
+  :is(button, [role="button"]).destructive:focus-visible {
     box-shadow: var(--shadow-xs), 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
   }
 
-  button.small, [role="button"].small {
+  :is(button, [role="button"]).small {
     height: var(--button-height-sm);
     padding: var(--spacing-1) var(--spacing-3);
     font-size: var(--text-xs);
   }
 
-  button.large, [role="button"].large {
+  :is(button, [role="button"]).large {
     height: var(--button-height-lg);
     padding: var(--spacing-2) var(--spacing-8);
     font-size: var(--text-base);
   }
 
-  button.icon, [role="button"].icon {
+  :is(button, [role="button"]).icon {
     width: var(--button-height);
     padding: 0;
   }
 
-  button.icon.small, [role="button"].icon.small {
+  :is(button, [role="button"]).icon.small {
     width: var(--button-height-sm);
   }
 
-  button.icon.large, [role="button"].icon.large {
+  :is(button, [role="button"]).icon.large {
     width: var(--button-height-lg);
   }
 
-  button.full-width, [role="button"].full-width {
+  :is(button, [role="button"]).full-width {
     width: 100%;
   }
 
@@ -1756,12 +1756,17 @@
     width: 1rem;
     height: 1rem;
     margin-left: var(--spacing-2);
+    -webkit-mask-image: var(--icon-chevron);
+    mask-image: var(--icon-chevron);
     transition: transform var(--transition-base) var(--ease-default);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-color: currentColor;
     flex-shrink: 0;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
   }
 
   summary:hover {
@@ -1806,10 +1811,6 @@
     display: inline-flex;
   }
 
-  summary[role="button"]:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  }
-
   summary[role="button"]:hover {
     background-color: color-mix(in oklch, var(--primary) 90%, transparent);
     color: var(--primary-foreground);
@@ -1818,10 +1819,6 @@
   summary[role="button"].secondary {
     color: var(--secondary-foreground);
     background-color: var(--secondary);
-  }
-
-  summary[role="button"].secondary:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 
   summary[role="button"].secondary:hover {
@@ -1834,10 +1831,6 @@
     border: var(--border-width) solid var(--input);
   }
 
-  summary[role="button"].outline:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  }
-
   summary[role="button"].outline:hover {
     background-color: var(--accent);
   }
@@ -1845,10 +1838,6 @@
   summary[role="button"].contrast {
     color: var(--background);
     background-color: var(--foreground);
-  }
-
-  summary[role="button"].contrast:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 
   details:has( > summary[role="button"]) {
@@ -1884,11 +1873,16 @@
     content: "";
     width: 1rem;
     height: 1rem;
+    -webkit-mask-image: var(--icon-chevron);
+    mask-image: var(--icon-chevron);
     transition: transform var(--transition-base) var(--ease-default);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
   }
 
   details.dropdown > summary:hover {
@@ -1960,10 +1954,6 @@
     background-color: var(--primary);
     border-color: var(--primary);
     box-shadow: var(--shadow-xs);
-  }
-
-  details.dropdown > summary[role="button"]:after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 
   details.dropdown > summary[role="button"]:hover {
