@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Daft CSS - Demo</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body>
+  <header class="container">
+    <nav>
+      <ul>
+        <li><strong>Daft CSS</strong></li>
+      </ul>
+      <ul>
+        <li><a href="components.html">Components</a></li>
+        <li><a href="demo.html" aria-current="page">Demo</a></li>
+        <li>
+          <button id="theme-toggle" class="outline small">Toggle Theme</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <hgroup>
+      <h1>Demo</h1>
+      <p>Practical UI examples built with semantic HTML and zero custom CSS.</p>
+    </hgroup>
+
+    <div class="grid">
+      <!-- Column 1 -->
+      <div>
+        <!-- Minimal text card - no header/footer -->
+        <article>
+          A beautifully simple card with just text content. No header, no footer, no frills. Sometimes less is more.
+        </article>
+
+        <!-- Task list with checkboxes and progress -->
+        <article>
+          <label><input type="checkbox" checked> Design review meeting</label>
+          <label><input type="checkbox" checked> Update component library</label>
+          <label><input type="checkbox"> Write documentation</label>
+          <label><input type="checkbox"> Deploy to staging</label>
+          <progress value="50" max="100"></progress>
+        </article>
+
+        <!-- Table-focused card -->
+        <article>
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Basic</td>
+                <td>$9/mo</td>
+              </tr>
+              <tr>
+                <td>Pro</td>
+                <td>$29/mo</td>
+              </tr>
+              <tr>
+                <td>Enterprise</td>
+                <td>Custom</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <!-- Newsletter with inline form -->
+        <article>
+          <p>Get weekly updates delivered to your inbox.</p>
+          <form role="search">
+            <input type="email" placeholder="Enter your email" aria-label="Email">
+            <button type="submit">Subscribe</button>
+          </form>
+        </article>
+      </div>
+
+      <!-- Column 2 -->
+      <div>
+        <!-- Stats dashboard with nested grid -->
+        <article>
+          <div class="grid">
+            <div>
+              <small>Visitors</small>
+              <p><strong>12,847</strong></p>
+            </div>
+            <div>
+              <small>Revenue</small>
+              <p><strong>$48.2k</strong></p>
+            </div>
+          </div>
+          <div class="grid">
+            <div>
+              <small>Orders</small>
+              <p><strong>384</strong></p>
+            </div>
+            <div>
+              <small>Conversion</small>
+              <p><strong>3.2%</strong></p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Settings with switches only -->
+        <article>
+          <label><input type="checkbox" role="switch" checked> Email notifications</label>
+          <label><input type="checkbox" role="switch"> Marketing emails</label>
+          <label><input type="checkbox" role="switch" checked> Dark mode</label>
+          <label><input type="checkbox" role="switch"> Two-factor auth</label>
+        </article>
+
+        <!-- FAQ accordion -->
+        <article>
+          <details open>
+            <summary>How do I get started?</summary>
+            <p>Include the CSS file and write semantic HTML.</p>
+          </details>
+          <details>
+            <summary>Is it compatible with React?</summary>
+            <p>Yes, it works with any framework.</p>
+          </details>
+          <details>
+            <summary>What about browser support?</summary>
+            <p>Modern browsers from 2022 onwards.</p>
+          </details>
+        </article>
+
+        <!-- File upload focused -->
+        <article>
+          <input type="file" multiple>
+          <small>Supports PDF, DOC, and images up to 10MB</small>
+        </article>
+      </div>
+
+      <!-- Column 3 -->
+      <div>
+        <!-- Blockquote testimonial - no header -->
+        <article>
+          <blockquote>
+            "This framework has completely transformed how we build interfaces. The semantic approach makes our code so much cleaner."
+            <footer><cite>— Jamie Wilson, Lead Developer</cite></footer>
+          </blockquote>
+        </article>
+
+        <!-- Login form - form focused -->
+        <article>
+          <form>
+            <input type="email" placeholder="Email" aria-label="Email">
+            <input type="password" placeholder="Password" aria-label="Password">
+            <label><input type="checkbox"> Remember me</label>
+            <button type="submit">Sign In</button>
+          </form>
+          <small>Don't have an account? <a href="#">Sign up</a></small>
+        </article>
+
+        <!-- Button showcase -->
+        <article>
+          <div role="group">
+            <button class="outline">Day</button>
+            <button class="outline" aria-current="true">Week</button>
+            <button class="outline">Month</button>
+          </div>
+          <p>
+            <button class="small">Primary</button>
+            <button class="small secondary">Secondary</button>
+            <button class="small outline">Outline</button>
+          </p>
+          <p>
+            <button class="small ghost">Ghost</button>
+            <button class="small destructive">Delete</button>
+          </p>
+        </article>
+
+        <!-- Loading state -->
+        <article aria-busy="true">
+          Loading content...
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>Built with Daft CSS. No custom styles on this page.</small>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    });
+  </script>
+</body>
+</html>

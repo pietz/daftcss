@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>Daft CSS - Kitchen Sink Demo</title>
+  <title>Daft CSS - Components</title>
   <link rel="stylesheet" href="../dist/daft.css">
   <style>
     /* Demo-specific styles */
@@ -38,6 +38,7 @@
         <li><a href="#buttons">Buttons</a></li>
         <li><a href="#forms">Forms</a></li>
         <li><a href="#components">Components</a></li>
+        <li><a href="demo.html">Demo</a></li>
         <li>
           <button id="theme-toggle" class="outline small">Toggle Theme</button>
         </li>
@@ -55,29 +56,46 @@
     <section id="typography" class="demo-section">
       <h2>Typography</h2>
 
-      <h3>Headings</h3>
-      <h1>Heading 1</h1>
-      <h2>Heading 2</h2>
-      <h3>Heading 3</h3>
-      <h4>Heading 4</h4>
-      <h5>Heading 5</h5>
-      <h6>Heading 6</h6>
+      <div class="grid">
+        <div>
+          <h3>Headings</h3>
+          <h1>Heading 1</h1>
+          <h2>Heading 2</h2>
+          <h3>Heading 3</h3>
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+        </div>
+        <div>
+          <h3>Heading Group</h3>
+          <hgroup>
+            <h2>Main Title</h2>
+            <p>Subtitle with muted text styling</p>
+          </hgroup>
 
-      <h3>Heading Group</h3>
-      <hgroup>
-        <h2>Main Title</h2>
-        <p>Subtitle with muted text styling</p>
-      </hgroup>
+          <h3>Blockquote</h3>
+          <blockquote>
+            "Design is not just what it looks like and feels like. Design is how it works."
+            <footer><cite>— Steve Jobs</cite></footer>
+          </blockquote>
+        </div>
+      </div>
 
-      <h3>Paragraph & Inline Elements</h3>
-      <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, <u>underlined text</u>, <mark>highlighted text</mark>, and <a href="#">a link</a>.</p>
-      <p>You can also use <code>inline code</code>, <kbd>Ctrl</kbd> + <kbd>C</kbd> for keyboard shortcuts, and <abbr title="Abbreviation">abbr</abbr> for abbreviations.</p>
+      <div class="grid">
+        <div>
+          <h3>Paragraph & Inline Elements</h3>
+          <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, <u>underlined text</u>, <mark>highlighted text</mark>, and <a href="#">a link</a>.</p>
+          <p>You can also use <code>inline code</code>, <kbd>Ctrl</kbd> + <kbd>C</kbd> for keyboard shortcuts, and <abbr title="Abbreviation">abbr</abbr> for abbreviations.</p>
+        </div>
+        <div>
+          <h3>Code Block</h3>
+          <pre><code>function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
 
-      <h3>Blockquote</h3>
-      <blockquote>
-        "Design is not just what it looks like and feels like. Design is how it works."
-        <footer><cite>— Steve Jobs</cite></footer>
-      </blockquote>
+greet("World");</code></pre>
+        </div>
+      </div>
 
       <h3>Lists</h3>
       <div class="grid">
@@ -112,61 +130,65 @@
           </dl>
         </div>
       </div>
-
-      <h3>Code Block</h3>
-      <pre><code>function greet(name) {
-  console.log(`Hello, ${name}!`);
-}
-
-greet("World");</code></pre>
     </section>
 
     <!-- Buttons -->
     <section id="buttons" class="demo-section">
       <h2>Buttons</h2>
 
-      <h3>Button Variants</h3>
-      <p>
-        <button>Primary</button>
-        <button class="secondary">Secondary</button>
-        <button class="contrast">Contrast</button>
-        <button class="outline">Outline</button>
-        <button class="ghost">Ghost</button>
-        <button class="link">Link</button>
-        <button class="destructive">Destructive</button>
-      </p>
+      <div class="grid">
+        <div>
+          <h3>Button Variants</h3>
+          <p>
+            <button>Primary</button>
+            <button class="secondary">Secondary</button>
+            <button class="contrast">Contrast</button>
+            <button class="outline">Outline</button>
+            <button class="ghost">Ghost</button>
+            <button class="link">Link</button>
+            <button class="destructive">Destructive</button>
+          </p>
+        </div>
+        <div>
+          <h3>Button Sizes</h3>
+          <p>
+            <button class="small">Small</button>
+            <button>Default</button>
+            <button class="large">Large</button>
+          </p>
 
-      <h3>Button Sizes</h3>
-      <p>
-        <button class="small">Small</button>
-        <button>Default</button>
-        <button class="large">Large</button>
-      </p>
+          <h3>Outline Variants</h3>
+          <p>
+            <button class="outline">Outline</button>
+            <button class="outline secondary">Outline Secondary</button>
+            <button class="outline contrast">Outline Contrast</button>
+          </p>
+        </div>
+      </div>
 
-      <h3>Outline Variants</h3>
-      <p>
-        <button class="outline">Outline</button>
-        <button class="outline secondary">Outline Secondary</button>
-        <button class="outline contrast">Outline Contrast</button>
-      </p>
-
-      <h3>States</h3>
-      <p>
-        <button disabled>Disabled</button>
-        <button aria-busy="true">Loading</button>
-      </p>
-
-      <h3>Role Button</h3>
-      <p>
-        <a href="#" role="button">Link as Button</a>
-        <div role="button" tabindex="0">Div as Button</div>
-      </p>
-
-      <h3>Button Groups</h3>
-      <div role="group">
-        <button class="outline">Left</button>
-        <button class="outline" aria-current="true">Center</button>
-        <button class="outline">Right</button>
+      <div class="grid">
+        <div>
+          <h3>States</h3>
+          <p>
+            <button disabled>Disabled</button>
+            <button aria-busy="true">Loading</button>
+          </p>
+        </div>
+        <div>
+          <h3>Role Button</h3>
+          <p>
+            <a href="#" role="button">Link as Button</a>
+            <div role="button" tabindex="0">Div as Button</div>
+          </p>
+        </div>
+        <div>
+          <h3>Button Groups</h3>
+          <div role="group">
+            <button class="outline">Left</button>
+            <button class="outline" aria-current="true">Center</button>
+            <button class="outline">Right</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -214,8 +236,19 @@ greet("World");</code></pre>
         </div>
       </div>
 
-      <h3>File Input</h3>
-      <input type="file">
+      <div class="grid">
+        <div>
+          <h3>File Input</h3>
+          <input type="file">
+        </div>
+        <div>
+          <h3>Range Slider</h3>
+          <label>
+            Volume
+            <input type="range" min="0" max="100" value="50">
+          </label>
+        </div>
+      </div>
 
       <h3>Validation States</h3>
       <div class="grid">
@@ -231,30 +264,27 @@ greet("World");</code></pre>
         </div>
       </div>
 
-      <h3>Checkboxes & Radios</h3>
-      <fieldset>
-        <legend>Preferences</legend>
-        <label><input type="checkbox" checked> Receive newsletter</label>
-        <label><input type="checkbox"> Accept terms</label>
-        <label aria-disabled="true"><input type="checkbox" disabled> Disabled option</label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Plan</legend>
-        <label><input type="radio" name="plan" checked> Basic</label>
-        <label><input type="radio" name="plan"> Pro</label>
-        <label><input type="radio" name="plan"> Enterprise</label>
-      </fieldset>
-
-      <h3>Switch</h3>
-      <label><input type="checkbox" role="switch"> Enable notifications</label>
-      <label><input type="checkbox" role="switch" checked> Dark mode</label>
-
-      <h3>Range Slider</h3>
-      <label>
-        Volume
-        <input type="range" min="0" max="100" value="50">
-      </label>
+      <h3>Checkboxes, Radios & Switches</h3>
+      <div class="grid">
+        <fieldset>
+          <legend>Checkboxes</legend>
+          <label><input type="checkbox" checked> Receive newsletter</label>
+          <label><input type="checkbox"> Accept terms</label>
+          <label aria-disabled="true"><input type="checkbox" disabled> Disabled option</label>
+        </fieldset>
+        <fieldset>
+          <legend>Radios</legend>
+          <label><input type="radio" name="plan" checked> Basic</label>
+          <label><input type="radio" name="plan"> Pro</label>
+          <label><input type="radio" name="plan"> Enterprise</label>
+        </fieldset>
+        <fieldset>
+          <legend>Switches</legend>
+          <label><input type="checkbox" role="switch"> Notifications</label>
+          <label><input type="checkbox" role="switch" checked> Dark mode</label>
+          <label aria-disabled="true"><input type="checkbox" role="switch" disabled> Disabled</label>
+        </fieldset>
+      </div>
 
       <h3>Form with Grid</h3>
       <form>
@@ -298,55 +328,74 @@ greet("World");</code></pre>
         <article aria-busy="true"></article>
       </div>
 
-      <h3>Accordion</h3>
-      <details open>
-        <summary>What is Daft CSS?</summary>
-        <p>Daft CSS is a semantic-first, utility-second CSS framework inspired by Pico CSS with shadcn/ui aesthetics.</p>
-      </details>
-      <details>
-        <summary>Is it compatible with Pico CSS?</summary>
-        <p>Yes! Daft CSS uses the same HTML patterns and class names as Pico CSS, making migration easy.</p>
-      </details>
-      <details>
-        <summary>What browsers are supported?</summary>
-        <p>Daft CSS targets modern browsers only (Chrome 100+, Firefox 100+, Safari 15+, Edge 100+).</p>
-      </details>
+      <div class="grid">
+        <div>
+          <h3>Accordion</h3>
+          <details open>
+            <summary>What is Daft CSS?</summary>
+            <p>Daft CSS is a semantic-first, utility-second CSS framework inspired by Pico CSS with shadcn/ui aesthetics.</p>
+          </details>
+          <details>
+            <summary>Is it compatible with Pico CSS?</summary>
+            <p>Yes! Daft CSS uses the same HTML patterns and class names as Pico CSS, making migration easy.</p>
+          </details>
+          <details>
+            <summary>What browsers are supported?</summary>
+            <p>Daft CSS targets modern browsers only (Chrome 100+, Firefox 100+, Safari 15+, Edge 100+).</p>
+          </details>
+        </div>
+        <div>
+          <h3>Button Accordions</h3>
+          <details>
+            <summary role="button">Primary Accordion</summary>
+            <p>Content inside a button-styled accordion.</p>
+          </details>
+          <details>
+            <summary role="button" class="secondary">Secondary Accordion</summary>
+            <p>Content inside a secondary button-styled accordion.</p>
+          </details>
+          <details>
+            <summary role="button" class="outline">Outline Accordion</summary>
+            <p>Content inside an outline button-styled accordion.</p>
+          </details>
+        </div>
+      </div>
 
-      <h3>Button Accordions</h3>
-      <p>
-        <details>
-          <summary role="button">Primary Accordion</summary>
-          <p>Content inside a button-styled accordion.</p>
-        </details>
-        <details>
-          <summary role="button" class="secondary">Secondary Accordion</summary>
-          <p>Content inside a secondary button-styled accordion.</p>
-        </details>
-        <details>
-          <summary role="button" class="outline">Outline Accordion</summary>
-          <p>Content inside an outline button-styled accordion.</p>
-        </details>
-      </p>
-
-      <h3>Dropdown</h3>
-      <p>
-        <details class="dropdown">
-          <summary>Dropdown</summary>
-          <ul>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Logout</a></li>
-          </ul>
-        </details>
-        <details class="dropdown">
-          <summary role="button">Button Dropdown</summary>
-          <ul>
-            <li><a href="#">Action 1</a></li>
-            <li><a href="#">Action 2</a></li>
-            <li><a href="#">Action 3</a></li>
-          </ul>
-        </details>
-      </p>
+      <div class="grid">
+        <div>
+          <h3>Dropdown</h3>
+          <p>
+            <details class="dropdown">
+              <summary>Dropdown</summary>
+              <ul>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+              </ul>
+            </details>
+            <details class="dropdown">
+              <summary role="button">Button Dropdown</summary>
+              <ul>
+                <li><a href="#">Action 1</a></li>
+                <li><a href="#">Action 2</a></li>
+                <li><a href="#">Action 3</a></li>
+              </ul>
+            </details>
+          </p>
+        </div>
+        <div>
+          <h3>Tooltips</h3>
+          <p>
+            <span data-tooltip="This is a tooltip">Hover for tooltip</span> |
+            <span data-tooltip="Top tooltip" data-placement="top">Top</span> |
+            <span data-tooltip="Bottom tooltip" data-placement="bottom">Bottom</span>
+          </p>
+          <p>
+            <button data-tooltip="Button tooltip">Tooltip Button</button>
+            <a href="#" data-tooltip="Link tooltip">Tooltip Link</a>
+          </p>
+        </div>
+      </div>
 
       <h3>Tables</h3>
       <figure>
@@ -411,56 +460,53 @@ greet("World");</code></pre>
         </tbody>
       </table>
 
-      <h3>Progress</h3>
-      <progress value="65" max="100"></progress>
-      <progress></progress>
+      <div class="grid">
+        <div>
+          <h3>Progress</h3>
+          <progress value="65" max="100"></progress>
+          <progress></progress>
+        </div>
+        <div>
+          <h3>Loading States</h3>
+          <p>
+            <button aria-busy="true">Loading...</button>
+            <button aria-busy="true" aria-label="Loading"></button>
+          </p>
+          <span aria-busy="true">Generating your link...</span>
+        </div>
+      </div>
 
-      <h3>Loading States</h3>
-      <p>
-        <button aria-busy="true">Loading...</button>
-        <button aria-busy="true" aria-label="Loading"></button>
-        <span aria-busy="true">Generating your link...</span>
-      </p>
-
-      <h3>Tooltips</h3>
-      <p>
-        <span data-tooltip="This is a tooltip">Hover for tooltip</span> |
-        <span data-tooltip="Top tooltip" data-placement="top">Top</span> |
-        <span data-tooltip="Bottom tooltip" data-placement="bottom">Bottom</span> |
-        <span data-tooltip="Left tooltip" data-placement="left">Left</span> |
-        <span data-tooltip="Right tooltip" data-placement="right">Right</span>
-      </p>
-      <p>
-        <button data-tooltip="Button tooltip">Tooltip Button</button>
-        <a href="#" data-tooltip="Link tooltip">Tooltip Link</a>
-      </p>
-
-      <h3>Modal</h3>
-      <button id="open-modal">Open Modal</button>
-      <dialog id="demo-modal">
-        <article>
-          <header>
-            <button aria-label="Close" rel="prev" id="close-modal"></button>
-            <p><strong>Modal Title</strong></p>
-          </header>
-          <p>This is the modal content. Modals use the native <code>&lt;dialog&gt;</code> element.</p>
-          <p>Press Escape or click outside to close.</p>
-          <footer>
-            <button class="secondary" id="cancel-modal">Cancel</button>
-            <button>Confirm</button>
-          </footer>
-        </article>
-      </dialog>
-
-      <h3>Breadcrumb</h3>
-      <nav aria-label="breadcrumb">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Products</a></li>
-          <li><a href="#">Category</a></li>
-          <li>Current Page</li>
-        </ul>
-      </nav>
+      <div class="grid">
+        <div>
+          <h3>Modal</h3>
+          <button id="open-modal">Open Modal</button>
+          <dialog id="demo-modal">
+            <article>
+              <header>
+                <button aria-label="Close" rel="prev" id="close-modal"></button>
+                <p><strong>Modal Title</strong></p>
+              </header>
+              <p>This is the modal content. Modals use the native <code>&lt;dialog&gt;</code> element.</p>
+              <p>Press Escape or click outside to close.</p>
+              <footer>
+                <button class="secondary" id="cancel-modal">Cancel</button>
+                <button>Confirm</button>
+              </footer>
+            </article>
+          </dialog>
+        </div>
+        <div>
+          <h3>Breadcrumb</h3>
+          <nav aria-label="breadcrumb">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Products</a></li>
+              <li><a href="#">Category</a></li>
+              <li>Current Page</li>
+            </ul>
+          </nav>
+        </div>
+      </div>
 
     </section>
 

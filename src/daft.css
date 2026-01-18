@@ -5,7 +5,10 @@
  */
 
 /* Define layer order for specificity management */
-@layer reset, base, layout, content, forms, components, utilities;
+@layer tokens, reset, base, layout, content, forms, components, utilities;
+
+/* Design tokens (first in output) */
+@import "base/variables.css" layer(tokens);
 
 /* Base */
 @import "base/reset.css" layer(reset);

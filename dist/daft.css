@@ -1,3 +1,132 @@
+@layer tokens {
+  :root {
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
+    color-scheme: light dark;
+    --spacing-1: .25rem;
+    --spacing-2: .5rem;
+    --spacing-3: .75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --radius-sm: .375rem;
+    --radius-md: .5rem;
+    --radius-lg: .625rem;
+    --radius-xl: .875rem;
+    --radius-full: 9999px;
+    --text-xs: .75rem;
+    --text-sm: .875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 1.75;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    --shadow-xs: 0 1px 2px 0 var(--lightningcss-light, #0000000d) var(--lightningcss-dark, #0000004d);
+    --shadow-sm: 0 1px 3px 0 var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 1px 2px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
+    --shadow-md: 0 4px 6px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 2px 4px -2px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
+    --shadow-lg: 0 10px 15px -3px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 4px 6px -4px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
+    --shadow-xl: 0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;
+    --transition-fast: .1s;
+    --transition-base: .15s;
+    --transition-slow: .3s;
+    --ease-default: cubic-bezier(.4, 0, .2, 1);
+    --transition-default: var(--transition-base) var(--ease-default);
+    --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    --icon-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+    --icon-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E");
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    --background: var(--lightningcss-light, #fff) var(--lightningcss-dark, #0a0a0a);
+    --foreground: var(--lightningcss-light, #0a0a0a) var(--lightningcss-dark, #fafafa);
+    --card: var(--lightningcss-light, #fff) var(--lightningcss-dark, #171717);
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+    --primary: var(--lightningcss-light, #171717) var(--lightningcss-dark, #e5e5e5);
+    --primary-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #171717);
+    --muted: var(--lightningcss-light, #f5f5f5) var(--lightningcss-dark, #262626);
+    --muted-foreground: var(--lightningcss-light, #737373) var(--lightningcss-dark, #a1a1a1);
+    --secondary: var(--muted);
+    --secondary-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #fafafa);
+    --accent: var(--muted);
+    --accent-foreground: var(--secondary-foreground);
+    --destructive: var(--lightningcss-light, #e40014) var(--lightningcss-dark, #ff6568);
+    --destructive-foreground: #fafafa;
+    --success: var(--lightningcss-light, #009c24) var(--lightningcss-dark, #11ad32);
+    --success-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #0a0a0a);
+    --warning: var(--lightningcss-light, #dba400) var(--lightningcss-dark, #eab532);
+    --warning-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #0a0a0a);
+    --border: var(--lightningcss-light, #e5e5e5) var(--lightningcss-dark, #2e2e2e);
+    --input: var(--border);
+    --ring: var(--lightningcss-light, #a1a1a1) var(--lightningcss-dark, #737373);
+    --spacing: var(--spacing-4);
+    --block-spacing-vertical: var(--spacing-4);
+    --block-spacing-horizontal: var(--spacing-4);
+    --typography-spacing-vertical: var(--spacing-4);
+    --input-height: 2.5rem;
+    --button-height: 2.5rem;
+    --button-height-sm: 2.25rem;
+    --button-height-lg: 2.75rem;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --border-width: 1px;
+    --outline-width: 2px;
+    --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+    --disabled-opacity: .5;
+    --modal-overlay: var(--lightningcss-light, #00000080) var(--lightningcss-dark, #000000b3);
+    --breadcrumb-divider: "›";
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --lightningcss-light: ;
+      --lightningcss-dark: initial;
+    }
+  }
+
+  @supports (color: lab(0% 0 0)) {
+    :root {
+      --background: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --foreground: var(--lightningcss-light, lab(2.75381% 0 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --card: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
+      --primary: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(90.952% 0 -.0000119209));
+      --primary-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
+      --muted: var(--lightningcss-light, lab(96.52% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(15.204% 0 -.00000596046));
+      --muted-foreground: var(--lightningcss-light, lab(48.496% 0 0)) var(--lightningcss-dark, lab(66.128% -.0000298023 .0000119209));
+      --secondary-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(98.26% 0 0));
+      --destructive: var(--lightningcss-light, lab(48.4493% 77.4328 61.5452)) var(--lightningcss-dark, lab(63.7053% 60.745 31.3109));
+      --destructive-foreground: lab(98.26% 0 0);
+      --success: var(--lightningcss-light, lab(55.921% -56.4854 50.0925)) var(--lightningcss-dark, lab(61.7444% -56.3779 49.029));
+      --success-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --warning: var(--lightningcss-light, lab(71.1048% 15.6634 102.058)) var(--lightningcss-dark, lab(76.994% 11.2878 68.9054));
+      --warning-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
+      --border: var(--lightningcss-light, lab(90.952% 0 -.0000119209)) var(--lightningcss-dark, lab(18.8% 0 0));
+      --ring: var(--lightningcss-light, lab(66.128% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(48.496% 0 0));
+      --modal-overlay: var(--lightningcss-light, lab(0% 0 0 / .5)) var(--lightningcss-dark, lab(0% 0 0 / .7));
+    }
+  }
+}
+
 @layer reset {
   *, :before, :after {
     box-sizing: border-box;
@@ -82,132 +211,6 @@
 }
 
 @layer base {
-  :root {
-    --lightningcss-light: initial;
-    --lightningcss-dark: ;
-    color-scheme: light dark;
-    --spacing-1: .25rem;
-    --spacing-2: .5rem;
-    --spacing-3: .75rem;
-    --spacing-4: 1rem;
-    --spacing-5: 1.25rem;
-    --spacing-6: 1.5rem;
-    --spacing-8: 2rem;
-    --spacing-10: 2.5rem;
-    --spacing-12: 3rem;
-    --spacing-16: 4rem;
-    --radius-sm: .375rem;
-    --radius-md: .5rem;
-    --radius-lg: .625rem;
-    --radius-xl: .875rem;
-    --radius-full: 9999px;
-    --text-xs: .75rem;
-    --text-sm: .875rem;
-    --text-base: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.25rem;
-    --text-2xl: 1.5rem;
-    --text-3xl: 1.875rem;
-    --text-4xl: 2.25rem;
-    --leading-none: 1;
-    --leading-tight: 1.25;
-    --leading-snug: 1.375;
-    --leading-normal: 1.5;
-    --leading-relaxed: 1.625;
-    --leading-loose: 1.75;
-    --font-normal: 400;
-    --font-medium: 500;
-    --font-semibold: 600;
-    --font-bold: 700;
-    --font-extrabold: 800;
-    --shadow-xs: 0 1px 2px 0 var(--lightningcss-light, #0000000d) var(--lightningcss-dark, #0000004d);
-    --shadow-sm: 0 1px 3px 0 var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 1px 2px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
-    --shadow-md: 0 4px 6px -1px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 2px 4px -2px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
-    --shadow-lg: 0 10px 15px -3px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006), 0 4px 6px -4px var(--lightningcss-light, #0000001a) var(--lightningcss-dark, #0006);
-    --shadow-xl: 0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;
-    --transition-fast: .1s;
-    --transition-base: .15s;
-    --transition-slow: .3s;
-    --ease-default: cubic-bezier(.4, 0, .2, 1);
-    --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-    --icon-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
-    --icon-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E");
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 1024px;
-    --breakpoint-xl: 1280px;
-    --breakpoint-2xl: 1536px;
-    --background: var(--lightningcss-light, #fff) var(--lightningcss-dark, #0a0a0a);
-    --foreground: var(--lightningcss-light, #0a0a0a) var(--lightningcss-dark, #fafafa);
-    --card: var(--lightningcss-light, #fff) var(--lightningcss-dark, #171717);
-    --card-foreground: var(--foreground);
-    --popover: var(--card);
-    --popover-foreground: var(--foreground);
-    --primary: var(--lightningcss-light, #171717) var(--lightningcss-dark, #e5e5e5);
-    --primary-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #171717);
-    --muted: var(--lightningcss-light, #f5f5f5) var(--lightningcss-dark, #262626);
-    --muted-foreground: var(--lightningcss-light, #737373) var(--lightningcss-dark, #a1a1a1);
-    --secondary: var(--muted);
-    --secondary-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #fafafa);
-    --accent: var(--muted);
-    --accent-foreground: var(--secondary-foreground);
-    --destructive: var(--lightningcss-light, #e40014) var(--lightningcss-dark, #ff6568);
-    --destructive-foreground: #fafafa;
-    --success: var(--lightningcss-light, #009c24) var(--lightningcss-dark, #11ad32);
-    --success-foreground: var(--lightningcss-light, #fafafa) var(--lightningcss-dark, #0a0a0a);
-    --warning: var(--lightningcss-light, #dba400) var(--lightningcss-dark, #eab532);
-    --warning-foreground: var(--lightningcss-light, #171717) var(--lightningcss-dark, #0a0a0a);
-    --border: var(--lightningcss-light, #e5e5e5) var(--lightningcss-dark, #2e2e2e);
-    --input: var(--border);
-    --ring: var(--lightningcss-light, #a1a1a1) var(--lightningcss-dark, #737373);
-    --spacing: var(--spacing-4);
-    --block-spacing-vertical: var(--spacing-4);
-    --block-spacing-horizontal: var(--spacing-4);
-    --typography-spacing-vertical: var(--spacing-4);
-    --input-height: 2.5rem;
-    --button-height: 2.5rem;
-    --button-height-sm: 2.25rem;
-    --button-height-lg: 2.75rem;
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    --border-width: 1px;
-    --outline-width: 2px;
-    --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
-    --disabled-opacity: .5;
-    --modal-overlay: var(--lightningcss-light, #00000080) var(--lightningcss-dark, #000000b3);
-    --breadcrumb-divider: "›";
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --lightningcss-light: ;
-      --lightningcss-dark: initial;
-    }
-  }
-
-  @supports (color: lab(0% 0 0)) {
-    :root {
-      --background: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
-      --foreground: var(--lightningcss-light, lab(2.75381% 0 0)) var(--lightningcss-dark, lab(98.26% 0 0));
-      --card: var(--lightningcss-light, lab(100% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
-      --primary: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(90.952% 0 -.0000119209));
-      --primary-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(7.78201% -.0000149012 0));
-      --muted: var(--lightningcss-light, lab(96.52% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(15.204% 0 -.00000596046));
-      --muted-foreground: var(--lightningcss-light, lab(48.496% 0 0)) var(--lightningcss-dark, lab(66.128% -.0000298023 .0000119209));
-      --secondary-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(98.26% 0 0));
-      --destructive: var(--lightningcss-light, lab(48.4493% 77.4328 61.5452)) var(--lightningcss-dark, lab(63.7053% 60.745 31.3109));
-      --destructive-foreground: lab(98.26% 0 0);
-      --success: var(--lightningcss-light, lab(55.921% -56.4854 50.0925)) var(--lightningcss-dark, lab(61.7444% -56.3779 49.029));
-      --success-foreground: var(--lightningcss-light, lab(98.26% 0 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
-      --warning: var(--lightningcss-light, lab(71.1048% 15.6634 102.058)) var(--lightningcss-dark, lab(76.994% 11.2878 68.9054));
-      --warning-foreground: var(--lightningcss-light, lab(7.78201% -.0000149012 0)) var(--lightningcss-dark, lab(2.75381% 0 0));
-      --border: var(--lightningcss-light, lab(90.952% 0 -.0000119209)) var(--lightningcss-dark, lab(18.8% 0 0));
-      --ring: var(--lightningcss-light, lab(66.128% -.0000298023 .0000119209)) var(--lightningcss-dark, lab(48.496% 0 0));
-      --modal-overlay: var(--lightningcss-light, lab(0% 0 0 / .5)) var(--lightningcss-dark, lab(0% 0 0 / .7));
-    }
-  }
-
   [data-theme="dark"] {
     --lightningcss-light: ;
     --lightningcss-dark: initial;
@@ -563,7 +566,7 @@
   a {
     color: var(--primary);
     text-underline-offset: .2em;
-    transition: color var(--transition-base) var(--ease-default);
+    transition: color var(--transition-default);
     text-decoration: underline;
   }
 
@@ -875,7 +878,7 @@
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
     border-radius: var(--radius-md);
-    transition: border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
+    transition: border-color var(--transition-default), box-shadow var(--transition-default);
     -webkit-appearance: none;
     appearance: none;
     display: block;
@@ -932,7 +935,7 @@
     border: var(--border-width) dashed var(--input);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: border-color var(--transition-base) var(--ease-default);
+    transition: border-color var(--transition-default);
     background-color: #0000;
     display: block;
   }
@@ -945,7 +948,7 @@
     background-color: var(--muted);
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
     border: none;
   }
 
@@ -996,7 +999,7 @@
   :is(input[type="date"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"])::-webkit-calendar-picker-indicator {
     cursor: pointer;
     opacity: .6;
-    transition: opacity var(--transition-base) var(--ease-default);
+    transition: opacity var(--transition-default);
   }
 
   :is(input[type="date"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"])::-webkit-calendar-picker-indicator:hover {
@@ -1066,7 +1069,7 @@
     border: var(--border-width) solid var(--input);
     width: 1.125rem;
     height: 1.125rem;
-    transition: background-color var(--transition-base) var(--ease-default), border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default), border-color var(--transition-default), box-shadow var(--transition-default);
     margin: 0;
   }
 
@@ -1147,7 +1150,7 @@
     border-color: var(--muted-foreground);
     width: 2.5rem;
     height: 1.375rem;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
     position: relative;
   }
 
@@ -1157,7 +1160,7 @@
     border-radius: var(--radius-full);
     width: calc(1.375rem - 6px);
     height: calc(1.375rem - 6px);
-    transition: transform var(--transition-base) var(--ease-default);
+    transition: transform var(--transition-default);
     position: absolute;
     top: 2px;
     left: 2px;
@@ -1192,7 +1195,7 @@
     border-radius: var(--radius-full);
     width: 100%;
     height: .5rem;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
   }
 
   input[type="range"]::-moz-range-track {
@@ -1200,7 +1203,7 @@
     border-radius: var(--radius-full);
     width: 100%;
     height: .5rem;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
   }
 
   input[type="range"]::-webkit-slider-thumb {
@@ -1211,7 +1214,7 @@
     appearance: none;
     width: 1.25rem;
     height: 1.25rem;
-    transition: background-color var(--transition-base) var(--ease-default), transform var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
     margin-top: -.375rem;
   }
@@ -1222,7 +1225,7 @@
     cursor: pointer;
     width: 1.25rem;
     height: 1.25rem;
-    transition: background-color var(--transition-base) var(--ease-default), transform var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
   }
 
@@ -1387,7 +1390,7 @@
     user-select: none;
     border: var(--border-width) solid transparent;
     border-radius: var(--radius-md);
-    transition: color var(--transition-base) var(--ease-default), background-color var(--transition-base) var(--ease-default), border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
+    transition: color var(--transition-default), background-color var(--transition-default), border-color var(--transition-default), box-shadow var(--transition-default);
     color: var(--primary-foreground);
     background-color: var(--primary);
     box-shadow: var(--shadow-xs);
@@ -1568,7 +1571,7 @@
 
   tbody tr {
     border-bottom: var(--border-width) solid var(--border);
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
   }
 
   tbody tr:last-child {
@@ -1707,7 +1710,7 @@
   a:has( > article) {
     color: inherit;
     border-radius: var(--radius-xl);
-    transition: box-shadow var(--transition-base) var(--ease-default);
+    transition: box-shadow var(--transition-default);
     text-decoration: none;
     display: block;
   }
@@ -1740,7 +1743,7 @@
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
-    transition: color var(--transition-base) var(--ease-default);
+    transition: color var(--transition-default);
     justify-content: space-between;
     align-items: center;
     list-style: none;
@@ -1758,7 +1761,7 @@
     margin-left: var(--spacing-2);
     -webkit-mask-image: var(--icon-chevron);
     mask-image: var(--icon-chevron);
-    transition: transform var(--transition-base) var(--ease-default);
+    transition: transform var(--transition-default);
     background-color: currentColor;
     flex-shrink: 0;
     -webkit-mask-position: center;
@@ -1807,7 +1810,7 @@
     background-color: var(--primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-xs);
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
     display: inline-flex;
   }
 
@@ -1865,7 +1868,7 @@
     border: var(--border-width) solid var(--input);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: border-color var(--transition-base) var(--ease-default), background-color var(--transition-base) var(--ease-default);
+    transition: border-color var(--transition-default), background-color var(--transition-default);
     display: inline-flex;
   }
 
@@ -1875,7 +1878,7 @@
     height: 1rem;
     -webkit-mask-image: var(--icon-chevron);
     mask-image: var(--icon-chevron);
-    transition: transform var(--transition-base) var(--ease-default);
+    transition: transform var(--transition-default);
     background-color: currentColor;
     -webkit-mask-position: center;
     mask-position: center;
@@ -1908,7 +1911,7 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     opacity: 0;
-    animation: dropdown-in var(--transition-base) var(--ease-default) forwards;
+    animation: dropdown-in var(--transition-default) forwards;
     list-style: none;
     position: absolute;
     transform: translateY(-.5rem);
@@ -1933,7 +1936,7 @@
     color: var(--popover-foreground);
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default);
     text-decoration: none;
     display: flex;
   }
@@ -2048,7 +2051,7 @@
     border-radius: var(--radius-sm);
     box-shadow: none;
     cursor: pointer;
-    transition: background-color var(--transition-base) var(--ease-default), color var(--transition-base) var(--ease-default);
+    transition: background-color var(--transition-default), color var(--transition-default);
     background-color: #0000;
     border: none;
     margin-left: auto;
@@ -2102,11 +2105,11 @@
   }
 
   html.modal-is-closing dialog::backdrop {
-    animation: backdrop-out var(--transition-base) var(--ease-default) forwards;
+    animation: backdrop-out var(--transition-default) forwards;
   }
 
   html.modal-is-closing dialog > article {
-    animation: modal-out var(--transition-base) var(--ease-default) forwards;
+    animation: modal-out var(--transition-default) forwards;
   }
 
   @keyframes backdrop-out {
@@ -2151,7 +2154,7 @@
     font-weight: var(--font-medium);
     color: var(--muted-foreground);
     border-radius: var(--radius-md);
-    transition: color var(--transition-base) var(--ease-default), background-color var(--transition-base) var(--ease-default);
+    transition: color var(--transition-default), background-color var(--transition-default);
     align-items: center;
     text-decoration: none;
     display: inline-flex;
@@ -2890,7 +2893,7 @@
   }
 
   .transition {
-    transition: all var(--transition-base) var(--ease-default);
+    transition: all var(--transition-default);
   }
 
   .transition-none {

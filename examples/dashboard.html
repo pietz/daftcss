@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Dashboard - Admin Example</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body>
+  <header class="container-fluid">
+    <nav>
+      <ul>
+        <li><strong>Admin Dashboard</strong></li>
+      </ul>
+      <ul>
+        <li>
+          <form role="search">
+            <input type="search" placeholder="Search..." aria-label="Search">
+          </form>
+        </li>
+        <li>
+          <details class="dropdown">
+            <summary>John Doe</summary>
+            <ul>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Logout</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <button id="theme-toggle" class="outline small">Toggle Theme</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container-fluid" style="display: flex; gap: 2rem;">
+    <!-- Sidebar -->
+    <aside style="min-width: 200px;">
+      <nav>
+        <ul>
+          <li><strong>Overview</strong></li>
+          <li><a href="#" aria-current="page">Dashboard</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+        <ul>
+          <li><strong>Analytics</strong></li>
+          <li><a href="#">Traffic</a></li>
+          <li><a href="#">Conversions</a></li>
+          <li><a href="#">Revenue</a></li>
+        </ul>
+        <ul>
+          <li><strong>Management</strong></li>
+          <li><a href="#">Users</a></li>
+          <li><a href="#">Products</a></li>
+          <li><a href="#">Orders</a></li>
+        </ul>
+        <ul>
+          <li><strong>Settings</strong></li>
+          <li><a href="#">General</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Billing</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main style="flex: 1;">
+      <hgroup>
+        <h1>Dashboard</h1>
+        <p>Welcome back, John. Here's what's happening today.</p>
+      </hgroup>
+
+      <!-- Stats Row -->
+      <div class="grid">
+        <article>
+          <small>Total Users</small>
+          <p><strong style="font-size: 1.75rem;">12,847</strong></p>
+          <small style="color: var(--success);">+12.5% from last month</small>
+        </article>
+        <article>
+          <small>Revenue</small>
+          <p><strong style="font-size: 1.75rem;">$48,294</strong></p>
+          <small style="color: var(--success);">+8.2% from last month</small>
+        </article>
+        <article>
+          <small>Orders</small>
+          <p><strong style="font-size: 1.75rem;">384</strong></p>
+          <small style="color: var(--destructive);">-3.1% from last month</small>
+        </article>
+        <article>
+          <small>Conversion Rate</small>
+          <p><strong style="font-size: 1.75rem;">3.24%</strong></p>
+          <small style="color: var(--success);">+0.4% from last month</small>
+        </article>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid">
+        <article>
+          <header>
+            <strong>Revenue Overview</strong>
+            <p>Monthly revenue for the current year</p>
+          </header>
+          <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Chart placeholder</small>
+          </div>
+        </article>
+        <article>
+          <header>
+            <strong>Traffic Sources</strong>
+            <p>Where your visitors come from</p>
+          </header>
+          <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Chart placeholder</small>
+          </div>
+        </article>
+      </div>
+
+      <!-- Recent Activity Table -->
+      <article>
+        <header>
+          <strong>Recent Orders</strong>
+          <p>Latest transactions from your store</p>
+        </header>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>#ORD-7892</code></td>
+              <td>Sarah Wilson</td>
+              <td>Premium Plan</td>
+              <td>$299.00</td>
+              <td><mark>Completed</mark></td>
+              <td>Jan 18, 2025</td>
+            </tr>
+            <tr>
+              <td><code>#ORD-7891</code></td>
+              <td>Mike Chen</td>
+              <td>Pro Plan</td>
+              <td>$99.00</td>
+              <td><mark>Completed</mark></td>
+              <td>Jan 18, 2025</td>
+            </tr>
+            <tr>
+              <td><code>#ORD-7890</code></td>
+              <td>Emma Davis</td>
+              <td>Enterprise Plan</td>
+              <td>$599.00</td>
+              <td><mark>Pending</mark></td>
+              <td>Jan 17, 2025</td>
+            </tr>
+            <tr>
+              <td><code>#ORD-7889</code></td>
+              <td>James Brown</td>
+              <td>Pro Plan</td>
+              <td>$99.00</td>
+              <td><mark>Completed</mark></td>
+              <td>Jan 17, 2025</td>
+            </tr>
+            <tr>
+              <td><code>#ORD-7888</code></td>
+              <td>Lisa Johnson</td>
+              <td>Premium Plan</td>
+              <td>$299.00</td>
+              <td><mark>Refunded</mark></td>
+              <td>Jan 16, 2025</td>
+            </tr>
+          </tbody>
+        </table>
+        <footer>
+          <a href="#">View all orders &rarr;</a>
+        </footer>
+      </article>
+
+      <!-- Quick Actions -->
+      <article>
+        <header>
+          <strong>Quick Actions</strong>
+        </header>
+        <div role="group">
+          <button>Add User</button>
+          <button class="secondary">Create Report</button>
+          <button class="outline">Export Data</button>
+          <button class="outline">View Logs</button>
+        </div>
+      </article>
+
+      <!-- Recent Activity Feed -->
+      <div class="grid">
+        <article>
+          <header>
+            <strong>Recent Activity</strong>
+          </header>
+          <ul>
+            <li><small>2 min ago</small> — New user <strong>alex@email.com</strong> signed up</li>
+            <li><small>15 min ago</small> — Order <code>#ORD-7892</code> was completed</li>
+            <li><small>1 hour ago</small> — Payment of <strong>$299.00</strong> received</li>
+            <li><small>2 hours ago</small> — New support ticket opened by Mike Chen</li>
+            <li><small>3 hours ago</small> — Product "Pro Plan" was updated</li>
+          </ul>
+        </article>
+        <article>
+          <header>
+            <strong>System Status</strong>
+          </header>
+          <label>
+            API Server
+            <progress value="99" max="100"></progress>
+          </label>
+          <label>
+            Database
+            <progress value="87" max="100"></progress>
+          </label>
+          <label>
+            CDN
+            <progress value="100" max="100"></progress>
+          </label>
+          <label>
+            Storage
+            <progress value="64" max="100"></progress>
+          </label>
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <footer class="container-fluid">
+    <small>&copy; 2025 Admin Dashboard. All rights reserved.</small>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    });
+  </script>
+</body>
+</html>

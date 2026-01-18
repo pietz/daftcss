@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Product Page - E-commerce Example</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body>
+  <header class="container">
+    <nav>
+      <ul>
+        <li><strong>TechStore</strong></li>
+      </ul>
+      <ul>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">Deals</a></li>
+        <li>
+          <form role="search">
+            <input type="search" placeholder="Search products..." aria-label="Search">
+          </form>
+        </li>
+        <li>
+          <button id="theme-toggle" class="outline small">Toggle Theme</button>
+        </li>
+        <li><a href="#" role="button" class="outline">Cart (3)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Electronics</a></li>
+        <li><a href="#">Headphones</a></li>
+        <li>SoundMax Pro</li>
+      </ul>
+    </nav>
+
+    <!-- Product Section -->
+    <section class="grid">
+      <!-- Product Image -->
+      <div>
+        <article>
+          <div style="height: 400px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <strong>Product Image</strong>
+          </div>
+        </article>
+        <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
+          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
+            <small>1</small>
+          </div>
+          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
+            <small>2</small>
+          </div>
+          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
+            <small>3</small>
+          </div>
+          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
+            <small>4</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div>
+        <hgroup>
+          <h1>SoundMax Pro Wireless Headphones</h1>
+          <p>Premium noise-canceling headphones with 40-hour battery life</p>
+        </hgroup>
+
+        <p>
+          <strong style="font-size: 2rem;">$299.99</strong>
+          <small><s>$349.99</s></small>
+          <mark>Save 14%</mark>
+        </p>
+
+        <p>In Stock — Ships within 24 hours</p>
+
+        <form>
+          <fieldset>
+            <legend>Color</legend>
+            <label><input type="radio" name="color" checked> Midnight Black</label>
+            <label><input type="radio" name="color"> Arctic White</label>
+            <label><input type="radio" name="color"> Navy Blue</label>
+          </fieldset>
+
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" value="1" min="1" max="10" style="max-width: 100px;">
+
+          <p>
+            <button type="submit" class="large">Add to Cart</button>
+            <button type="button" class="large outline">Add to Wishlist</button>
+          </p>
+        </form>
+
+        <details open>
+          <summary>Free Shipping</summary>
+          <p>Free standard shipping on orders over $50. Express shipping available at checkout.</p>
+        </details>
+        <details>
+          <summary>30-Day Returns</summary>
+          <p>Not satisfied? Return within 30 days for a full refund. No questions asked.</p>
+        </details>
+        <details>
+          <summary>2-Year Warranty</summary>
+          <p>All products include a 2-year manufacturer warranty covering defects.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Product Details Tabs -->
+    <section>
+      <h2>Product Details</h2>
+      <details open>
+        <summary role="button" class="secondary">Description</summary>
+        <p>Experience audio like never before with the SoundMax Pro Wireless Headphones. Featuring advanced Active Noise Cancellation technology, these premium headphones block out the world so you can focus on what matters most — your music, podcasts, and calls.</p>
+        <p>The custom-designed 40mm drivers deliver rich, detailed sound across the entire frequency spectrum. Whether you're listening to classical music or heavy bass tracks, every note comes through crystal clear.</p>
+        <p>With an incredible 40-hour battery life, you can go days without charging. And when you do need to charge, the quick-charge feature gives you 5 hours of playback from just 10 minutes of charging.</p>
+      </details>
+      <details>
+        <summary role="button" class="outline">Specifications</summary>
+        <table class="striped">
+          <tbody>
+            <tr>
+              <th>Driver Size</th>
+              <td>40mm custom dynamic drivers</td>
+            </tr>
+            <tr>
+              <th>Frequency Response</th>
+              <td>20Hz - 20kHz</td>
+            </tr>
+            <tr>
+              <th>Battery Life</th>
+              <td>40 hours (ANC on), 60 hours (ANC off)</td>
+            </tr>
+            <tr>
+              <th>Charging Time</th>
+              <td>2 hours (full charge)</td>
+            </tr>
+            <tr>
+              <th>Connectivity</th>
+              <td>Bluetooth 5.2, 3.5mm audio jack</td>
+            </tr>
+            <tr>
+              <th>Weight</th>
+              <td>250g</td>
+            </tr>
+            <tr>
+              <th>Noise Cancellation</th>
+              <td>Hybrid Active Noise Cancellation</td>
+            </tr>
+            <tr>
+              <th>Microphones</th>
+              <td>4 mics for ANC, 2 mics for calls</td>
+            </tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary role="button" class="outline">Reviews (127)</summary>
+        <div class="grid">
+          <article>
+            <p><strong>Best headphones I've owned</strong></p>
+            <p>The noise cancellation is incredible. I use these daily for work and commuting. Battery life is exactly as advertised.</p>
+            <footer>
+              <small><strong>Michael R.</strong> — Verified Purchase — Jan 15, 2025</small>
+            </footer>
+          </article>
+          <article>
+            <p><strong>Great sound, comfortable fit</strong></p>
+            <p>Very happy with my purchase. Sound quality is excellent and they're comfortable enough for all-day wear. Only minor complaint is the case is a bit bulky.</p>
+            <footer>
+              <small><strong>Jennifer L.</strong> — Verified Purchase — Jan 12, 2025</small>
+            </footer>
+          </article>
+        </div>
+        <div class="grid">
+          <article>
+            <p><strong>Premium quality</strong></p>
+            <p>You can tell these are built to last. The materials feel premium and the sound is crisp and detailed. Worth every penny.</p>
+            <footer>
+              <small><strong>David K.</strong> — Verified Purchase — Jan 8, 2025</small>
+            </footer>
+          </article>
+          <article>
+            <p><strong>Excellent for working from home</strong></p>
+            <p>The mic quality is great for video calls and the ANC helps me focus. My colleagues say I sound clear even in noisy environments.</p>
+            <footer>
+              <small><strong>Amanda S.</strong> — Verified Purchase — Jan 5, 2025</small>
+            </footer>
+          </article>
+        </div>
+        <p><a href="#">Read all 127 reviews &rarr;</a></p>
+      </details>
+    </section>
+
+    <!-- Related Products -->
+    <section>
+      <h2>You might also like</h2>
+      <div class="grid">
+        <article>
+          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Image</small>
+          </div>
+          <header>
+            <strong>SoundMax Earbuds</strong>
+            <p>True wireless earbuds</p>
+          </header>
+          <p><strong>$149.99</strong></p>
+          <footer>
+            <button class="small outline">Add to Cart</button>
+          </footer>
+        </article>
+        <article>
+          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Image</small>
+          </div>
+          <header>
+            <strong>Premium Headphone Stand</strong>
+            <p>Aluminum construction</p>
+          </header>
+          <p><strong>$49.99</strong></p>
+          <footer>
+            <button class="small outline">Add to Cart</button>
+          </footer>
+        </article>
+        <article>
+          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Image</small>
+          </div>
+          <header>
+            <strong>Replacement Ear Cushions</strong>
+            <p>Memory foam, pack of 2</p>
+          </header>
+          <p><strong>$29.99</strong></p>
+          <footer>
+            <button class="small outline">Add to Cart</button>
+          </footer>
+        </article>
+        <article>
+          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
+            <small>Image</small>
+          </div>
+          <header>
+            <strong>Audio Cable 3.5mm</strong>
+            <p>1.5m braided cable</p>
+          </header>
+          <p><strong>$19.99</strong></p>
+          <footer>
+            <button class="small outline">Add to Cart</button>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div class="grid">
+      <div>
+        <strong>TechStore</strong>
+        <p><small>Your destination for premium tech products.</small></p>
+      </div>
+      <div>
+        <strong>Shop</strong>
+        <nav>
+          <ul>
+            <li><a href="#">All Products</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <strong>Support</strong>
+        <nav>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <strong>Account</strong>
+        <nav>
+          <ul>
+            <li><a href="#">Sign In</a></li>
+            <li><a href="#">Register</a></li>
+            <li><a href="#">Order History</a></li>
+            <li><a href="#">Wishlist</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <hr>
+    <small>&copy; 2025 TechStore. All rights reserved.</small>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    });
+  </script>
+</body>
+</html>
