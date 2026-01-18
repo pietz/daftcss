@@ -17,7 +17,7 @@ a.secondary:hover {
 
 /* Contrast color - for links and text */
 a.contrast,
-.contrast {
+.contrast:not(button, [type="button"], [type="submit"], [role="button"]) {
   color: var(--foreground);
 }
 
@@ -36,7 +36,7 @@ a.contrast:hover {
 }
 
 /* Destructive colored text */
-.destructive {
+.destructive:not(button, [type="button"], [type="submit"], [role="button"]) {
   color: var(--destructive);
 }
 

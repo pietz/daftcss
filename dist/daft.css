@@ -2545,7 +2545,7 @@
     color: var(--muted-foreground);
   }
 
-  a.secondary:hover, a.contrast, .contrast {
+  a.secondary:hover, a.contrast, .contrast:not(button, [type="button"], [type="submit"], [role="button"]) {
     color: var(--foreground);
   }
 
@@ -2557,7 +2557,7 @@
     color: var(--primary);
   }
 
-  .destructive {
+  .destructive:not(button, [type="button"], [type="submit"], [role="button"]) {
     color: var(--destructive);
   }
 
