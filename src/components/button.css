@@ -165,7 +165,7 @@ a[role="button"] {
   }
 
   &:focus-visible {
-    box-shadow: var(--shadow-xs), 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
+    box-shadow: var(--shadow-xs), var(--focus-ring-destructive);
   }
 }
 
@@ -184,7 +184,7 @@ a[role="button"] {
 /* Small button */
 :is(button, [role="button"]).small {
   height: var(--button-height-sm);
-  padding: var(--spacing-xs) calc(var(--spacing) * 0.75);
+  padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--text-xs);
 }
 

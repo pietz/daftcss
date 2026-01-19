@@ -9,6 +9,7 @@
     --component-height: 2.25rem;
     --spacing-xs: calc(var(--spacing) * .25);
     --spacing-sm: calc(var(--spacing) * .5);
+    --spacing-md: calc(var(--spacing) * .75);
     --spacing-lg: calc(var(--spacing) * 1.5);
     --spacing-xl: calc(var(--spacing) * 2);
     --radius-sm: calc(var(--radius) * .75);
@@ -80,7 +81,9 @@
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     --border-width: 1px;
     --outline-width: 2px;
+    --outline-offset: 2px;
     --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+    --focus-ring-destructive: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
     --disabled-opacity: .5;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
@@ -197,7 +200,7 @@
 
   :focus-visible {
     outline: var(--outline-width) solid var(--ring);
-    outline-offset: 2px;
+    outline-offset: var(--outline-offset);
   }
 
   ::selection {
@@ -507,7 +510,7 @@
 
     &:focus-visible {
       outline: var(--outline-width) solid var(--ring);
-      outline-offset: 2px;
+      outline-offset: var(--outline-offset);
       border-radius: var(--radius-sm);
     }
   }
@@ -629,7 +632,7 @@
 
   dd {
     margin-left: var(--spacing);
-    margin-bottom: calc(var(--spacing) * .75);
+    margin-bottom: var(--spacing-md);
     color: var(--muted-foreground);
   }
 
@@ -803,7 +806,7 @@
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]), textarea, select {
     width: 100%;
     height: var(--input-height);
-    padding: var(--spacing-sm) calc(var(--spacing) * .75);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-family: inherit;
     font-size: var(--text-base);
     font-weight: var(--font-normal);
@@ -841,7 +844,7 @@
   textarea {
     height: auto;
     min-height: calc(var(--input-height) * 2);
-    padding: calc(var(--spacing) * .75);
+    padding: var(--spacing-md);
     resize: vertical;
   }
 
@@ -849,12 +852,12 @@
     padding-right: var(--spacing-xl);
     background-image: var(--icon-select-chevron);
     background-repeat: no-repeat;
-    background-position: right calc(var(--spacing) * .75) center;
+    background-position: right var(--spacing-md) center;
     background-size: 1rem;
 
     &[multiple] {
       height: auto;
-      padding-right: calc(var(--spacing) * .75);
+      padding-right: var(--spacing-md);
       background-image: none;
     }
   }
@@ -873,8 +876,8 @@
     display: block;
 
     &::file-selector-button {
-      padding: var(--spacing-xs) calc(var(--spacing) * .75);
-      margin-right: calc(var(--spacing) * .75);
+      padding: var(--spacing-xs) var(--spacing-md);
+      margin-right: var(--spacing-md);
       font-weight: var(--font-medium);
       color: var(--foreground);
       background-color: var(--muted);
@@ -987,7 +990,7 @@
     font-size: var(--text-sm);
     font-weight: var(--font-semibold);
     color: var(--foreground);
-    margin-bottom: calc(var(--spacing) * .75);
+    margin-bottom: var(--spacing-md);
   }
 
   fieldset:disabled {
@@ -1434,7 +1437,7 @@
     }
 
     &:focus-visible {
-      box-shadow: var(--shadow-xs), 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
+      box-shadow: var(--shadow-xs), var(--focus-ring-destructive);
     }
   }
 
@@ -1451,7 +1454,7 @@
 
   :is(button, [role="button"]).small {
     height: var(--button-height-sm);
-    padding: var(--spacing-xs) calc(var(--spacing) * .75);
+    padding: var(--spacing-xs) var(--spacing-md);
     font-size: var(--text-xs);
   }
 
@@ -1490,7 +1493,7 @@
   }
 
   th {
-    padding: calc(var(--spacing) * .75) var(--spacing);
+    padding: var(--spacing-md) var(--spacing);
     font-weight: var(--font-medium);
     text-align: left;
     color: var(--muted-foreground);
@@ -1511,7 +1514,7 @@
   }
 
   td {
-    padding: calc(var(--spacing) * .75) var(--spacing);
+    padding: var(--spacing-md) var(--spacing);
     vertical-align: middle;
   }
 
@@ -1520,7 +1523,7 @@
   }
 
   tfoot td, tfoot th {
-    padding: calc(var(--spacing) * .75) var(--spacing);
+    padding: var(--spacing-md) var(--spacing);
     font-weight: var(--font-medium);
     color: var(--muted-foreground);
   }
@@ -1534,7 +1537,7 @@
   }
 
   caption {
-    padding: calc(var(--spacing) * .75) 0;
+    padding: var(--spacing-md) 0;
     font-size: var(--text-sm);
     color: var(--muted-foreground);
     text-align: left;
@@ -1639,7 +1642,7 @@
 
     &:focus-visible {
       outline: var(--outline-width) solid var(--ring);
-      outline-offset: 2px;
+      outline-offset: var(--outline-offset);
     }
   }
 
@@ -1657,7 +1660,7 @@
   }
 
   summary {
-    padding: calc(var(--spacing) * .75) 0;
+    padding: var(--spacing-md) 0;
     font-weight: var(--font-medium);
     cursor: pointer;
     user-select: none;
@@ -1691,7 +1694,7 @@
 
     &:focus-visible {
       outline: var(--outline-width) solid var(--ring);
-      outline-offset: 2px;
+      outline-offset: var(--outline-offset);
       border-radius: var(--radius-sm);
     }
   }
@@ -1705,7 +1708,7 @@
   }
 
   details > :not(summary) {
-    padding-bottom: calc(var(--spacing) * .75);
+    padding-bottom: var(--spacing-md);
   }
 
   details > p:last-child {
@@ -1774,7 +1777,7 @@
     align-items: center;
     gap: var(--spacing-sm);
     height: var(--input-height);
-    padding: var(--spacing-sm) calc(var(--spacing) * .75);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--foreground);
@@ -1841,7 +1844,7 @@
   details.dropdown > ul > li > a, details.dropdown > ul > li > label {
     align-items: center;
     gap: var(--spacing-sm);
-    padding: var(--spacing-sm) calc(var(--spacing) * .75);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--text-sm);
     color: var(--popover-foreground);
     border-radius: var(--radius-sm);
@@ -2054,7 +2057,7 @@
   }
 
   nav a {
-    padding: var(--spacing-sm) calc(var(--spacing) * .75);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--muted-foreground);
@@ -2088,7 +2091,7 @@
 
   nav details.dropdown > summary {
     height: auto;
-    padding: var(--spacing-sm) calc(var(--spacing) * .75);
+    padding: var(--spacing-sm) var(--spacing-md);
     color: var(--muted-foreground);
     background-color: #0000;
     border: none;
@@ -2394,28 +2397,28 @@
   }
 
   [data-tooltip]:not([data-placement]):before, [data-tooltip][data-placement="top"]:before {
-    margin-bottom: .5rem;
+    margin-bottom: var(--spacing-sm);
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   [data-tooltip][data-placement="bottom"]:before {
-    margin-top: .5rem;
+    margin-top: var(--spacing-sm);
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   [data-tooltip][data-placement="left"]:before {
-    margin-right: .5rem;
+    margin-right: var(--spacing-sm);
     top: 50%;
     right: 100%;
     transform: translateY(-50%);
   }
 
   [data-tooltip][data-placement="right"]:before {
-    margin-left: .5rem;
+    margin-left: var(--spacing-sm);
     top: 50%;
     left: 100%;
     transform: translateY(-50%);

@@ -33,7 +33,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
 }
 
 /* Position: bottom */
@@ -41,7 +41,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-sm);
 }
 
 /* Position: left */
@@ -49,7 +49,7 @@
   right: 100%;
   top: 50%;
   transform: translateY(-50%);
-  margin-right: 0.5rem;
+  margin-right: var(--spacing-sm);
 }
 
 /* Position: right */
@@ -57,7 +57,7 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: 0.5rem;
+  margin-left: var(--spacing-sm);
 }
 
 /* Show tooltip on hover/focus */

@@ -97,7 +97,7 @@ a {
 
   &:focus-visible {
     outline: var(--outline-width) solid var(--ring);
-    outline-offset: 2px;
+    outline-offset: var(--outline-offset);
     border-radius: var(--radius-sm);
   }
 }
@@ -226,7 +226,7 @@ dt {
 
 dd {
   margin-left: var(--spacing);
-  margin-bottom: calc(var(--spacing) * 0.75);
+  margin-bottom: var(--spacing-md);
   color: var(--muted-foreground);
 }
 

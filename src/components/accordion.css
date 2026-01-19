@@ -16,7 +16,7 @@ summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(var(--spacing) * 0.75) 0;
+  padding: var(--spacing-md) 0;
   font-weight: var(--font-medium);
   cursor: pointer;
   user-select: none;
@@ -48,7 +48,7 @@ summary {
 
   &:focus-visible {
     outline: var(--outline-width) solid var(--ring);
-    outline-offset: 2px;
+    outline-offset: var(--outline-offset);
     border-radius: var(--radius-sm);
   }
 }
@@ -64,7 +64,7 @@ details[open] > summary {
 
 /* Accordion content */
 details > *:not(summary) {
-  padding-bottom: calc(var(--spacing) * 0.75);
+  padding-bottom: var(--spacing-md);
 }
 
 details > p:last-child {

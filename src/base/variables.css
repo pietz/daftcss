@@ -21,6 +21,7 @@
   /* Spacing scale (derived from --spacing) */
   --spacing-xs: calc(var(--spacing) * 0.25);
   --spacing-sm: calc(var(--spacing) * 0.5);
+  --spacing-md: calc(var(--spacing) * 0.75);
   /* --spacing is the base (1rem) */
   --spacing-lg: calc(var(--spacing) * 1.5);
   --spacing-xl: calc(var(--spacing) * 2);
@@ -144,9 +145,11 @@
   /* Border */
   --border-width: 1px;
   --outline-width: 2px;
+  --outline-offset: 2px;
 
   /* Focus ring */
   --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  --focus-ring-destructive: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
 
   /* Component-specific */
   --disabled-opacity: 0.5;

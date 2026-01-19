@@ -15,7 +15,7 @@ thead {
 }
 
 th {
-  padding: calc(var(--spacing) * 0.75) var(--spacing);
+  padding: var(--spacing-md) var(--spacing);
   font-weight: var(--font-medium);
   text-align: left;
   color: var(--muted-foreground);
@@ -37,7 +37,7 @@ tbody tr:hover {
 }
 
 td {
-  padding: calc(var(--spacing) * 0.75) var(--spacing);
+  padding: var(--spacing-md) var(--spacing);
   vertical-align: middle;
 }
 
@@ -48,7 +48,7 @@ tfoot {
 
 tfoot td,
 tfoot th {
-  padding: calc(var(--spacing) * 0.75) var(--spacing);
+  padding: var(--spacing-md) var(--spacing);
   font-weight: var(--font-medium);
   color: var(--muted-foreground);
 }
@@ -64,7 +64,7 @@ table.striped tbody tr:nth-child(odd):hover {
 
 /* Caption */
 caption {
-  padding: calc(var(--spacing) * 0.75) 0;
+  padding: var(--spacing-md) 0;
   font-size: var(--text-sm);
   color: var(--muted-foreground);
   text-align: left;
