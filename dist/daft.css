@@ -426,6 +426,44 @@
     grid-column: 1 / -1;
   }
 
+  .grid > .span-2 {
+    grid-column: span 2;
+  }
+
+  .grid > .span-3 {
+    grid-column: span 3;
+  }
+
+  .grid > .span-4 {
+    grid-column: span 4;
+  }
+
+  @media (width >= 768px) {
+    .grid:has( > .span-2):has( > :nth-child(2):last-child) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid:has( > .span-3):has( > :nth-child(2):last-child) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grid:has( > .span-4):has( > :nth-child(2):last-child) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .grid:has( > .span-2):has( > :nth-child(3):last-child) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grid:has( > .span-3):has( > :nth-child(3):last-child) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .grid:has( > .span-4):has( > :nth-child(3):last-child) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
   .overflow-auto {
     -webkit-overflow-scrolling: touch;
     overflow-x: auto;

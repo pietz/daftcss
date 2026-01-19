@@ -138,6 +138,19 @@ Auto-layout grid that adapts to child count:
 
 The grid automatically creates 1-6 equal columns based on the number of children. On mobile, columns stack vertically.
 
+**Column Spanning:**
+
+Use `.span-2`, `.span-3`, or `.span-4` to make items span multiple columns:
+
+```html
+<div class="grid">
+  <div class="span-3">Takes 3/4 width</div>
+  <div>Takes 1/4 width</div>
+</div>
+```
+
+The grid automatically adjusts its column count when spans are present. For example, 2 children with one having `.span-3` creates a 4-column grid.
+
 **Full-width Item:**
 
 ```html
