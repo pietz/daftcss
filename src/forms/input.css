@@ -109,9 +109,10 @@ input[type="file"] {
 
 /* Color input */
 input[type="color"] {
-  width: var(--input-height);
+  width: 100%;
   height: var(--input-height);
-  padding: var(--spacing-xs);
+  padding: 6px;
+  background-color: var(--background);
   border: var(--border-width) solid var(--input);
   border-radius: var(--radius-md);
   cursor: pointer;

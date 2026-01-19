@@ -146,7 +146,7 @@
   --outline-width: 2px;
 
   /* Focus ring */
-  --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+  --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
 
   /* Component-specific */
   --disabled-opacity: 0.5;

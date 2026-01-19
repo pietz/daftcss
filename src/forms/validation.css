@@ -8,11 +8,6 @@ input[aria-invalid="true"],
 textarea[aria-invalid="true"],
 select[aria-invalid="true"] {
   border-color: var(--destructive);
-
-  &:focus-visible {
-    border-color: var(--destructive);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
-  }
 }
 
 /* Valid state */
@@ -20,11 +15,6 @@ input[aria-invalid="false"],
 textarea[aria-invalid="false"],
 select[aria-invalid="false"] {
   border-color: var(--success);
-
-  &:focus-visible {
-    border-color: var(--success);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--success) 20%, transparent);
-  }
 }
 
 /* Helper text colors for validation */
