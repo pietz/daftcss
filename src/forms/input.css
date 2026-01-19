@@ -31,7 +31,7 @@ select {
   &:focus-visible {
     outline: none;
     border-color: var(--ring);
-    box-shadow: var(--focus-ring);
+    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
   }
 
   &:disabled {
@@ -81,13 +81,13 @@ select {
 
 /* File input */
 input[type="file"] {
-  display: flex;
-  align-items: center;
   width: 100%;
   height: var(--input-height);
   padding: 0 var(--spacing-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
+  /* Line-height for vertical centering (flex doesn't work on file inputs) */
+  line-height: calc(var(--input-height) - 2 * var(--border-width));
   color: var(--foreground);
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
@@ -114,7 +114,7 @@ input[type="file"] {
   &:focus-visible {
     outline: none;
     border-color: var(--ring);
-    box-shadow: var(--focus-ring);
+    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
   }
 }
 

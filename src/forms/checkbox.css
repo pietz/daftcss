@@ -92,7 +92,7 @@ input[type="checkbox"]:focus-visible,
 input[type="radio"]:focus-visible {
   outline: none;
   border-color: var(--ring);
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
 }
 
 /* Disabled state */
@@ -167,5 +167,5 @@ input[type="checkbox"][role="switch"]:checked::before {
 }
 
 input[type="checkbox"][role="switch"]:focus-visible {
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
 }

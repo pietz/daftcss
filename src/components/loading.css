@@ -103,15 +103,3 @@ form[aria-busy="true"]::before {
   margin: 0;
 }
 
-/* Dark mode spinner adjustment */
-[data-theme="dark"] [aria-busy="true"]:empty::before {
-  border-color: var(--muted);
-  border-top-color: var(--primary);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) [aria-busy="true"]:empty::before {
-    border-color: var(--muted);
-    border-top-color: var(--primary);
-  }
-}

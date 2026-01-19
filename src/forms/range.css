@@ -81,11 +81,11 @@ input[type="range"]:focus-visible {
 }
 
 input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
 }
 
 input[type="range"]:focus-visible::-moz-range-thumb {
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
 }
 
 /* Disabled state */

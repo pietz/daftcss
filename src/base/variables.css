@@ -147,10 +147,13 @@
   --outline-width: 2px;
   --outline-offset: 2px;
 
+  /* Interactive state opacities */
+  --hover-opacity: 90%;
+  --active-opacity: 85%;
+
   /* Focus ring */
-  --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
-  --focus-ring-primary: 0 0 0 3px color-mix(in oklch, var(--primary) 30%, transparent);
-  --focus-ring-destructive: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
+  --focus-ring-width: 3px;
+  --focus-ring-opacity: 30%;
 
   /* Component-specific */
   --disabled-opacity: 0.5;
