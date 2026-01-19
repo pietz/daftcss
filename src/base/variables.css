@@ -160,3 +160,19 @@
   --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
   --breadcrumb-divider: "›";
 }
+
+/* Auto-contrast foreground colors (Firefox 128+, Chrome 119+, Safari 18+) */
+@supports (color: oklch(from red l c h)) {
+  :root {
+    --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+    --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+  }
+}
+
+/* Future: native contrast-color() when available */
+@supports (color: contrast-color(red)) {
+  :root {
+    --primary-foreground: contrast-color(var(--primary));
+    --destructive-foreground: contrast-color(var(--destructive));
+  }
+}
