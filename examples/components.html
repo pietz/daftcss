@@ -260,7 +260,42 @@ greet("World");</code></pre>
       </article>
     </div>
 
-    <!-- Row 7: Cards -->
+    <!-- Row 7: Grid Span -->
+    <div class="grid">
+      <article>
+        <header>
+          <strong>Grid Span</strong>
+          <p>Column spanning utilities</p>
+        </header>
+        <p>Use <code>.span-2</code>, <code>.span-3</code>, <code>.span-4</code> classes or <code>data-span="full"</code> attribute.</p>
+      </article>
+      <article>
+        <strong>Default</strong>
+        <p>Single column</p>
+      </article>
+      <article>
+        <strong>Default</strong>
+        <p>Single column</p>
+      </article>
+    </div>
+    <div class="grid">
+      <article class="span-2">
+        <strong>span-2</strong>
+        <p>This card spans 2 columns</p>
+      </article>
+      <article>
+        <strong>Default</strong>
+        <p>Single column</p>
+      </article>
+    </div>
+    <div class="grid">
+      <article data-span="full">
+        <strong>data-span="full"</strong>
+        <p>This card spans the full width of the grid regardless of column count</p>
+      </article>
+    </div>
+
+    <!-- Row 8: Cards -->
     <div class="grid">
       <article>
         <header>
@@ -286,16 +321,28 @@ greet("World");</code></pre>
         </div>
       </article>
 
-      <article class="contrast">
+      <article>
         <header>
-          <strong>Premium Headphones</strong>
-          <p>Wireless noise-canceling</p>
+          <strong>Badges</strong>
+          <p>Color variants and sizes</p>
         </header>
-        <p>Experience crystal-clear audio with 40-hour battery life and adaptive sound control.</p>
-        <footer>
-          <strong>$299</strong>
-          <button class="small">Add to Cart</button>
-        </footer>
+        <p>
+          <span class="badge">Primary</span>
+          <span class="badge secondary">Secondary</span>
+          <span class="badge destructive">Destructive</span>
+          <span class="badge contrast">Contrast</span>
+        </p>
+        <p>
+          <span class="badge outline">Outline</span>
+          <span class="badge outline secondary">Secondary</span>
+          <span class="badge outline destructive">Destructive</span>
+          <span class="badge outline contrast">Contrast</span>
+        </p>
+        <p>
+          <span class="badge small">Small</span>
+          <span class="badge">Default</span>
+          <span class="badge large">Large</span>
+        </p>
       </article>
     </div>
 
@@ -511,8 +558,7 @@ greet("World");</code></pre>
         </nav>
         <p>
           <a href="#">Default link</a> |
-          <a href="#" class="secondary">Secondary</a> |
-          <a href="#" class="contrast">Contrast</a>
+          <a href="#" class="secondary">Secondary</a>
         </p>
       </article>
     </div>
