@@ -5,8 +5,8 @@
 /* Base checkbox and radio */
 input[type="checkbox"],
 input[type="radio"] {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: var(--control-size);
+  height: var(--control-size);
   margin: 0;
   vertical-align: middle;
   cursor: pointer;

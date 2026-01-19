@@ -73,9 +73,10 @@ details > p:last-child {
 
 /* Button-styled summary */
 summary[role="button"] {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: var(--spacing-sm);
   height: var(--button-height);
   padding: var(--spacing-sm) var(--spacing);
@@ -95,27 +96,34 @@ summary[role="button"] {
 
 /* Button variants */
 summary[role="button"].secondary {
-  color: var(--secondary-foreground);
+  color: var(--foreground);
   background-color: var(--secondary);
 
   &:hover {
     background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
+    color: var(--foreground);
   }
 }
 
 summary[role="button"].outline {
-  color: var(--foreground);
+  color: var(--primary);
   background-color: var(--background);
-  border: var(--border-width) solid var(--input);
+  border: var(--border-width) solid var(--primary);
 
   &:hover {
-    background-color: var(--accent);
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 }
 
 summary[role="button"].contrast {
   color: var(--background);
   background-color: var(--foreground);
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--foreground) 85%, transparent);
+    color: var(--background);
+  }
 }
 
 /* Button accordion wrapper */

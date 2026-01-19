@@ -479,18 +479,18 @@ greet("World");</code></pre>
       <div class="grid">
         <div>
           <h3>Modal</h3>
-          <button id="open-modal">Open Modal</button>
-          <dialog id="demo-modal">
+          <button popovertarget="demo-modal">Open Modal</button>
+          <dialog id="demo-modal" popover>
             <article>
               <header>
-                <button aria-label="Close" rel="prev" id="close-modal"></button>
+                <button aria-label="Close" popovertarget="demo-modal" popovertargetaction="hide"></button>
                 <p><strong>Modal Title</strong></p>
               </header>
-              <p>This is the modal content. Modals use the native <code>&lt;dialog&gt;</code> element.</p>
-              <p>Press Escape or click outside to close.</p>
+              <p>This is the modal content. Modals use the native <code>&lt;dialog&gt;</code> element with the Popover API.</p>
+              <p>Press Escape or click outside to close. No JavaScript required!</p>
               <footer>
-                <button class="secondary" id="cancel-modal">Cancel</button>
-                <button>Confirm</button>
+                <button class="secondary" popovertarget="demo-modal" popovertargetaction="hide">Cancel</button>
+                <button popovertarget="demo-modal" popovertargetaction="hide">Confirm</button>
               </footer>
             </article>
           </dialog>
@@ -537,30 +537,6 @@ greet("World");</code></pre>
       document.documentElement.setAttribute('data-theme', next);
     });
 
-    // Modal
-    const modal = document.getElementById('demo-modal');
-    const openBtn = document.getElementById('open-modal');
-    const closeBtn = document.getElementById('close-modal');
-    const cancelBtn = document.getElementById('cancel-modal');
-
-    openBtn.addEventListener('click', () => {
-      modal.showModal();
-      document.documentElement.classList.add('modal-is-open');
-    });
-
-    const closeModal = () => {
-      document.documentElement.classList.add('modal-is-closing');
-      setTimeout(() => {
-        modal.close();
-        document.documentElement.classList.remove('modal-is-open', 'modal-is-closing');
-      }, 150);
-    };
-
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
   </script>
 </body>
 </html>

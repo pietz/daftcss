@@ -63,6 +63,9 @@
   --button-height-sm: var(--component-height-sm);
   --button-height-lg: var(--component-height-lg);
 
+  /* Control size (checkbox, radio, range thumb) */
+  --control-size: 1.125rem;
+
   /* Font weights */
   --font-normal: 400;
   --font-medium: 500;
@@ -98,11 +101,11 @@
   --popover-foreground: var(--foreground);
 
   /* Primary action color */
-  --primary: light-dark(oklch(0.205 0 0), oklch(0.922 0 0));
-  --primary-foreground: light-dark(oklch(0.985 0 0), oklch(0.205 0 0));
+  --primary: light-dark(oklch(0.2 0.27 260), oklch(0.35 0.22 260));
+  --primary-foreground: oklch(0.985 0 0);
 
   /* Muted text and backgrounds */
-  --muted: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
+  --muted: light-dark(oklch(0.95 0 0), oklch(0.27 0 0));
   --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
 
   /* Secondary elements (same as muted) */
@@ -146,6 +149,7 @@
 
   /* Focus ring */
   --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  --focus-ring-primary: 0 0 0 3px color-mix(in oklch, var(--primary) 30%, transparent);
   --focus-ring-destructive: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
 
   /* Component-specific */

@@ -64,7 +64,7 @@
 
 /* Reset button - secondary by default (Pico behavior) */
 [type="reset"] {
-  color: var(--secondary-foreground);
+  color: var(--foreground);
   background-color: var(--secondary);
   box-shadow: var(--shadow-xs);
 
@@ -80,7 +80,7 @@ a[role="button"] {
 
 /* Secondary variant */
 :is(button, [type="submit"], [type="button"], [role="button"]).secondary {
-  color: var(--secondary-foreground);
+  color: var(--foreground);
   background-color: var(--secondary);
 
   &:hover {
@@ -98,26 +98,29 @@ a[role="button"] {
   }
 }
 
-/* Outline variant */
+/* Outline variant (primary) */
 :is(button, [type="submit"], [type="button"], [role="button"]).outline {
-  color: var(--foreground);
+  color: var(--primary);
   background-color: var(--background);
-  border-color: var(--input);
+  border-color: var(--primary);
 
   &:hover {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-xs), var(--focus-ring-primary);
   }
 }
 
 /* Outline secondary */
 :is(button, [role="button"]).outline.secondary {
-  color: var(--muted-foreground);
-  border-color: var(--muted-foreground);
+  color: var(--foreground);
+  border-color: var(--secondary);
 
   &:hover {
     background-color: var(--secondary);
-    color: var(--secondary-foreground);
   }
 }
 

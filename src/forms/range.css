@@ -30,8 +30,8 @@ input[type="range"]::-moz-range-track {
 
 /* Thumb */
 input[type="range"]::-webkit-slider-thumb {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: var(--control-size);
+  height: var(--control-size);
   margin-top: -0.3125rem;
   background-color: var(--foreground);
   border: none;
@@ -43,8 +43,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: var(--control-size);
+  height: var(--control-size);
   background-color: var(--foreground);
   border: none;
   border-radius: var(--radius-md);

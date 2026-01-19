@@ -1,8 +1,15 @@
 /**
  * Modal/Dialog styles
- * Uses native <dialog> element with <article> for content
+ * Supports both native <dialog> and Popover API for no-JS modals
+ *
+ * Popover usage (no JavaScript needed):
+ * <button popovertarget="my-modal">Open</button>
+ * <dialog id="my-modal" popover>
+ *   <article>Content</article>
+ * </dialog>
  */
 
+/* Base dialog styles (shared by both approaches) */
 dialog {
   position: fixed;
   inset: 0;
@@ -25,8 +32,17 @@ dialog::backdrop {
   backdrop-filter: blur(4px);
 }
 
-dialog:not([open]) {
+dialog:not([open]):not(:popover-open) {
   display: none;
+}
+
+/* Popover-based modal (no JS required) */
+dialog[popover] {
+  margin: auto;
+}
+
+dialog[popover]:popover-open {
+  display: flex;
 }
 
 /* Modal content (article inside dialog) */

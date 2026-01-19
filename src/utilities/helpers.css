@@ -7,7 +7,7 @@
 
 /* Secondary color - for links and text */
 a.secondary,
-.secondary {
+.secondary:not(button, [type="button"], [type="submit"], [type="reset"], [role="button"]) {
   color: var(--muted-foreground);
 }
 

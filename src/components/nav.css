@@ -137,7 +137,7 @@ nav[aria-label="breadcrumb"] > ul > li:last-child {
 }
 
 /* Mobile-friendly nav (stacks on small screens) */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   nav {
     flex-direction: column;
     align-items: stretch;

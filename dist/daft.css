@@ -39,6 +39,7 @@
     --button-height: var(--component-height);
     --button-height-sm: var(--component-height-sm);
     --button-height-lg: var(--component-height-lg);
+    --control-size: 1.125rem;
     --font-normal: 400;
     --font-medium: 500;
     --font-semibold: 600;
@@ -57,9 +58,9 @@
     --card-foreground: var(--foreground);
     --popover: var(--card);
     --popover-foreground: var(--foreground);
-    --primary: light-dark(oklch(20.5% 0 0), oklch(92.2% 0 0));
-    --primary-foreground: light-dark(oklch(98.5% 0 0), oklch(20.5% 0 0));
-    --muted: light-dark(oklch(97% 0 0), oklch(26.9% 0 0));
+    --primary: light-dark(oklch(20% .27 260), oklch(35% .22 260));
+    --primary-foreground: oklch(98.5% 0 0);
+    --muted: light-dark(oklch(95% 0 0), oklch(27% 0 0));
     --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
     --secondary: var(--muted);
     --secondary-foreground: light-dark(oklch(20.5% 0 0), oklch(98.5% 0 0));
@@ -83,6 +84,7 @@
     --outline-width: 2px;
     --outline-offset: 2px;
     --focus-ring: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+    --focus-ring-primary: 0 0 0 3px color-mix(in oklch, var(--primary) 30%, transparent);
     --focus-ring-destructive: 0 0 0 3px color-mix(in oklch, var(--destructive) 20%, transparent);
     --disabled-opacity: .5;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
@@ -834,7 +836,7 @@
     }
   }
 
-  form :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+  form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
     width: 100%;
   }
 
@@ -866,23 +868,25 @@
 
   input[type="file"] {
     width: 100%;
-    padding: var(--spacing-sm);
+    height: var(--input-height);
+    padding: 0 var(--spacing-sm);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--foreground);
-    border: var(--border-width) dashed var(--input);
+    background-color: var(--background);
+    border: var(--border-width) solid var(--input);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: border-color var(--transition-default);
-    background-color: #0000;
-    display: block;
+    align-items: center;
+    display: flex;
 
     &::file-selector-button {
       padding: var(--spacing-xs) var(--spacing-md);
       margin-right: var(--spacing-md);
       font-weight: var(--font-medium);
       color: var(--foreground);
-      background-color: var(--muted);
+      background-color: var(--secondary);
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: background-color var(--transition-default);
@@ -890,12 +894,12 @@
     }
 
     &:hover::file-selector-button {
-      background-color: color-mix(in oklch, var(--muted) 80%, var(--foreground));
+      background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
     }
 
     &:focus-visible {
       border-color: var(--ring);
-      border-style: solid;
+      box-shadow: var(--focus-ring);
       outline: none;
     }
   }
@@ -1004,13 +1008,13 @@
   }
 
   input[type="checkbox"], input[type="radio"] {
+    width: var(--control-size);
+    height: var(--control-size);
     vertical-align: middle;
     cursor: pointer;
     appearance: none;
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
-    width: 1.125rem;
-    height: 1.125rem;
     transition: background-color var(--transition-default), border-color var(--transition-default), box-shadow var(--transition-default);
     margin: 0;
     position: relative;
@@ -1174,23 +1178,23 @@
   }
 
   input[type="range"]::-webkit-slider-thumb {
+    width: var(--control-size);
+    height: var(--control-size);
     background-color: var(--foreground);
     border-radius: var(--radius-md);
     cursor: pointer;
     appearance: none;
-    width: 1.125rem;
-    height: 1.125rem;
     transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
     margin-top: -.3125rem;
   }
 
   input[type="range"]::-moz-range-thumb {
+    width: var(--control-size);
+    height: var(--control-size);
     background-color: var(--foreground);
     border-radius: var(--radius-md);
     cursor: pointer;
-    width: 1.125rem;
-    height: 1.125rem;
     transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
   }
@@ -1346,7 +1350,7 @@
   }
 
   [type="reset"] {
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     background-color: var(--secondary);
     box-shadow: var(--shadow-xs);
 
@@ -1360,7 +1364,7 @@
   }
 
   :is(button, [type="submit"], [type="button"], [role="button"]).secondary {
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     background-color: var(--secondary);
 
     &:hover {
@@ -1378,23 +1382,26 @@
   }
 
   :is(button, [type="submit"], [type="button"], [role="button"]).outline {
-    color: var(--foreground);
+    color: var(--primary);
     background-color: var(--background);
-    border-color: var(--input);
+    border-color: var(--primary);
 
     &:hover {
-      background-color: var(--accent);
-      color: var(--accent-foreground);
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-xs), var(--focus-ring-primary);
     }
   }
 
   :is(button, [role="button"]).outline.secondary {
-    color: var(--muted-foreground);
-    border-color: var(--muted-foreground);
+    color: var(--foreground);
+    border-color: var(--secondary);
 
     &:hover {
       background-color: var(--secondary);
-      color: var(--secondary-foreground);
     }
   }
 
@@ -1718,9 +1725,10 @@
   }
 
   summary[role="button"] {
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: var(--spacing-sm);
+    width: 100%;
     height: var(--button-height);
     padding: var(--spacing-sm) var(--spacing);
     font-size: var(--text-sm);
@@ -1730,7 +1738,7 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-xs);
     transition: background-color var(--transition-default);
-    display: inline-flex;
+    display: flex;
 
     &:hover {
       background-color: color-mix(in oklch, var(--primary) 90%, transparent);
@@ -1739,27 +1747,34 @@
   }
 
   summary[role="button"].secondary {
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     background-color: var(--secondary);
 
     &:hover {
       background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
+      color: var(--foreground);
     }
   }
 
   summary[role="button"].outline {
-    color: var(--foreground);
+    color: var(--primary);
     background-color: var(--background);
-    border: var(--border-width) solid var(--input);
+    border: var(--border-width) solid var(--primary);
 
     &:hover {
-      background-color: var(--accent);
+      background-color: var(--primary);
+      color: var(--primary-foreground);
     }
   }
 
   summary[role="button"].contrast {
     color: var(--background);
     background-color: var(--foreground);
+
+    &:hover {
+      background-color: color-mix(in oklch, var(--foreground) 85%, transparent);
+      color: var(--background);
+    }
   }
 
   details:has( > summary[role="button"]) {
@@ -1897,8 +1912,16 @@
     backdrop-filter: blur(4px);
   }
 
-  dialog:not([open]) {
+  dialog:not([open]):not(:popover-open) {
     display: none;
+  }
+
+  dialog[popover] {
+    margin: auto;
+  }
+
+  dialog[popover]:popover-open {
+    display: flex;
   }
 
   dialog > article {
@@ -2147,7 +2170,7 @@
     font-weight: var(--font-medium);
   }
 
-  @media (width <= 767px) {
+  @media (width <= 768px) {
     nav {
       flex-direction: column;
       align-items: stretch;
@@ -2473,15 +2496,13 @@
   }
 
   [role="search"] > input[type="search"] {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: var(--radius-full) 0 0 var(--radius-full);
     flex: auto;
   }
 
   [role="search"] > [type="submit"], [role="search"] > button {
+    border-radius: 0 var(--radius-full) var(--radius-full) 0;
     margin-left: calc(var(--border-width) * -1);
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
   }
 
   [role="group"].full-width {
@@ -2512,7 +2533,7 @@
 }
 
 @layer utilities {
-  a.secondary, .secondary {
+  a.secondary, .secondary:not(button, [type="button"], [type="submit"], [type="reset"], [role="button"]) {
     color: var(--muted-foreground);
   }
 

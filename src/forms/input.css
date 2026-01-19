@@ -43,7 +43,8 @@ select {
 }
 
 /* Form buttons - full width by default (Pico CSS compatibility) */
-form :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+/* Search forms excluded - they use inline layout per Pico docs */
+form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
   width: 100%;
 }
 
@@ -80,14 +81,16 @@ select {
 
 /* File input */
 input[type="file"] {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  padding: var(--spacing-sm);
+  height: var(--input-height);
+  padding: 0 var(--spacing-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--foreground);
-  background-color: transparent;
-  border: var(--border-width) dashed var(--input);
+  background-color: var(--background);
+  border: var(--border-width) solid var(--input);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: border-color var(--transition-default);
@@ -97,7 +100,7 @@ input[type="file"] {
     margin-right: var(--spacing-md);
     font-weight: var(--font-medium);
     color: var(--foreground);
-    background-color: var(--muted);
+    background-color: var(--secondary);
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -105,13 +108,13 @@ input[type="file"] {
   }
 
   &:hover::file-selector-button {
-    background-color: color-mix(in oklch, var(--muted) 80%, var(--foreground));
+    background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
   }
 
   &:focus-visible {
     outline: none;
     border-color: var(--ring);
-    border-style: solid;
+    box-shadow: var(--focus-ring);
   }
 }
 
