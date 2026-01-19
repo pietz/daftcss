@@ -65,30 +65,3 @@
   grid-column: span 4;
 }
 
-/* Adjust grid columns when spans are present (2 children) */
-@media (min-width: 768px) {
-  .grid:has(> .span-2):has(> :nth-child(2):last-child) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .grid:has(> .span-3):has(> :nth-child(2):last-child) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .grid:has(> .span-4):has(> :nth-child(2):last-child) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  /* Adjust grid columns when spans are present (3 children) */
-  .grid:has(> .span-2):has(> :nth-child(3):last-child) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .grid:has(> .span-3):has(> :nth-child(3):last-child) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .grid:has(> .span-4):has(> :nth-child(3):last-child) {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
