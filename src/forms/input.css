@@ -38,7 +38,13 @@ select {
     cursor: not-allowed;
     opacity: var(--disabled-opacity);
     background-color: var(--muted);
+    border-color: var(--muted-foreground);
   }
+}
+
+/* Form buttons - full width by default (Pico CSS compatibility) */
+form :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+  width: 100%;
 }
 
 /* Read-only state - only for text inputs and textarea, not select */
@@ -57,6 +63,8 @@ textarea {
 
 /* Select specific */
 select {
+  /* Line-height calculated to fill available space: height - borders - padding */
+  line-height: calc(var(--input-height) - 2 * var(--border-width) - 2 * var(--spacing-sm));
   padding-right: var(--spacing-xl);
   background-image: var(--icon-select-chevron);
   background-repeat: no-repeat;

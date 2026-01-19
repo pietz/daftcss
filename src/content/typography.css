@@ -183,10 +183,6 @@ blockquote {
     font-size: var(--text-sm);
     color: var(--muted-foreground);
     font-style: normal;
-
-    &::before {
-      content: "— ";
-    }
   }
 }
 

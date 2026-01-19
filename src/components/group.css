@@ -59,8 +59,16 @@
 
 /* Fieldset as group */
 fieldset[role="group"] {
+  display: flex;
+  width: 100%;
   padding: 0;
   border: none;
+}
+
+/* Buttons in groups don't flex-grow */
+[role="group"] > :is(button, [type="submit"], [type="reset"], [type="button"]) {
+  flex: 0 0 auto;
+  width: auto;
 }
 
 /* Search form group */

@@ -50,7 +50,7 @@
     --shadow-lg: 0 10px 15px -3px light-dark(#0000001a, #0006), 0 4px 6px -4px light-dark(#0000001a, #0006);
     --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-    --icon-select-chevron: light-dark(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"));
+    --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     --background: light-dark(oklch(100% 0 0), oklch(14.5% 0 0));
     --foreground: light-dark(oklch(14.5% 0 0), oklch(98.5% 0 0));
     --card: light-dark(oklch(100% 0 0), oklch(20.5% 0 0));
@@ -592,10 +592,6 @@
       font-size: var(--text-sm);
       color: var(--muted-foreground);
       font-style: normal;
-
-      &:before {
-        content: "— ";
-      }
     }
   }
 
@@ -834,7 +830,12 @@
       cursor: not-allowed;
       opacity: var(--disabled-opacity);
       background-color: var(--muted);
+      border-color: var(--muted-foreground);
     }
+  }
+
+  form :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+    width: 100%;
   }
 
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):read-only, textarea:read-only {
@@ -849,6 +850,7 @@
   }
 
   select {
+    line-height: calc(var(--input-height)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
     padding-right: var(--spacing-xl);
     background-image: var(--icon-select-chevron);
     background-repeat: no-repeat;
@@ -1302,7 +1304,7 @@
     font-family: inherit;
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
-    line-height: var(--line-height);
+    line-height: calc(var(--button-height)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -1455,11 +1457,13 @@
   :is(button, [role="button"]).small {
     height: var(--button-height-sm);
     padding: var(--spacing-xs) var(--spacing-md);
+    line-height: calc(var(--button-height-sm)  - 2 * var(--border-width)  - 2 * var(--spacing-xs));
   }
 
   :is(button, [role="button"]).large {
     height: var(--button-height-lg);
     padding: var(--spacing-sm) var(--spacing-xl);
+    line-height: calc(var(--button-height-lg)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
   }
 
   :is(button, [role="button"]).icon {
@@ -1864,19 +1868,7 @@
   }
 
   details.dropdown > summary[role="button"] {
-    color: var(--primary-foreground);
-    background-color: var(--primary);
-    border-color: var(--primary);
-    box-shadow: var(--shadow-xs);
-
-    &:hover {
-      background-color: color-mix(in oklch, var(--primary) 90%, transparent);
-      border-color: color-mix(in oklch, var(--primary) 90%, transparent);
-    }
-  }
-
-  details.dropdown[open] > summary[role="button"] {
-    border-color: var(--primary);
+    border-color: #0000;
   }
 
   details.dropdown > ul label:has(input[type="checkbox"]), details.dropdown > ul label:has(input[type="radio"]) {
@@ -2466,7 +2458,14 @@
 
   fieldset[role="group"] {
     border: none;
+    width: 100%;
     padding: 0;
+    display: flex;
+  }
+
+  [role="group"] > :is(button, [type="submit"], [type="reset"], [type="button"]) {
+    flex: none;
+    width: auto;
   }
 
   [role="search"] {
