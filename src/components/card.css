@@ -19,14 +19,10 @@ article:last-child {
 /* Card header */
 article > header {
   padding: 0;
-  padding-bottom: var(--spacing);
   margin-bottom: var(--spacing);
-  border-bottom: var(--border-width) solid var(--border);
 
   &:last-child {
     margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
   }
 }
 
@@ -54,17 +50,13 @@ article > header > p {
 /* Card footer */
 article > footer {
   padding: 0;
-  padding-top: var(--spacing);
   margin-top: var(--spacing);
-  border-top: var(--border-width) solid var(--border);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 
   &:first-child {
     margin-top: 0;
-    padding-top: 0;
-    border-top: none;
   }
 }
 

@@ -430,8 +430,8 @@
     font-weight: var(--font-semibold);
     line-height: var(--line-height-sm);
     letter-spacing: -.025em;
-    margin-top: var(--typography-spacing-vertical);
-    margin-bottom: var(--typography-spacing-vertical);
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   h1 {
@@ -442,6 +442,7 @@
 
   h2 {
     font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
   }
 
   h3 {
@@ -1597,15 +1598,11 @@
   }
 
   article > header {
-    padding: 0;
-    padding-bottom: var(--spacing);
     margin-bottom: var(--spacing);
-    border-bottom: var(--border-width) solid var(--border);
+    padding: 0;
 
     &:last-child {
-      border-bottom: none;
       margin-bottom: 0;
-      padding-bottom: 0;
     }
   }
 
@@ -1623,18 +1620,14 @@
   }
 
   article > footer {
-    padding: 0;
-    padding-top: var(--spacing);
     margin-top: var(--spacing);
-    border-top: var(--border-width) solid var(--border);
     align-items: center;
     gap: var(--spacing-sm);
+    padding: 0;
     display: flex;
 
     &:first-child {
-      border-top: none;
       margin-top: 0;
-      padding-top: 0;
     }
   }
 
