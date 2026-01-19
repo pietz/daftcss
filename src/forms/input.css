@@ -195,9 +195,13 @@ small {
 /* Form layout */
 form {
   & > label,
+  & > input,
+  & > textarea,
+  & > select,
   & > fieldset,
   & > div,
-  & > p {
+  & > p,
+  & > small {
     margin-bottom: var(--spacing);
   }
 

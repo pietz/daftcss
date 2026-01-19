@@ -85,7 +85,10 @@ nav details.dropdown > ul {
 
 /* Vertical navigation (inside aside) */
 aside nav {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing);
 }
 
 aside nav > ul {

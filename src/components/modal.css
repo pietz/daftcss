@@ -79,10 +79,10 @@ dialog > article > header > p > strong {
 /* Close button in header */
 dialog > article > header > button[aria-label="Close"],
 dialog > article > header > button[rel="prev"] {
+  order: 1;
   width: 2rem;
   height: 2rem;
   padding: 0;
-  margin-left: auto;
   color: var(--muted-foreground);
   background-color: transparent;
   border: none;

@@ -342,7 +342,8 @@
   }
 
   .grid > aside, [style*="display: flex"] > aside, [style*="display:flex"] > aside {
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   section section, body > article, main > article, section > article, .container > article {
@@ -362,8 +363,13 @@
 
   .grid {
     gap: var(--spacing);
+    margin-bottom: var(--spacing);
     grid-template-columns: 1fr;
     display: grid;
+  }
+
+  .grid:last-child {
+    margin-bottom: 0;
   }
 
   @media (width >= 768px) {
@@ -424,6 +430,7 @@
     font-weight: var(--font-semibold);
     line-height: var(--line-height-sm);
     letter-spacing: -.025em;
+    margin-top: var(--typography-spacing-vertical);
     margin-bottom: var(--typography-spacing-vertical);
   }
 
@@ -962,7 +969,7 @@
   }
 
   form {
-    & > label, & > fieldset, & > div, & > p {
+    & > label, & > input, & > textarea, & > select, & > fieldset, & > div, & > p, & > small {
       margin-bottom: var(--spacing);
     }
 
@@ -1242,11 +1249,11 @@
     border-color: var(--success);
   }
 
-  input:user-invalid, textarea:user-invalid, select:user-invalid {
+  input:user-invalid:not([type="checkbox"]):not([type="radio"]), textarea:user-invalid, select:user-invalid {
     border-color: var(--destructive);
   }
 
-  input:user-valid:not(:placeholder-shown), textarea:user-valid:not(:placeholder-shown), select:user-valid {
+  input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]), textarea:user-valid:not(:placeholder-shown), select:user-valid {
     border-color: var(--success);
   }
 
@@ -1935,7 +1942,7 @@
     transition: background-color var(--transition-default), color var(--transition-default);
     background-color: #0000;
     border: none;
-    margin-left: auto;
+    order: 1;
     padding: 0;
 
     &:hover {
@@ -2080,7 +2087,10 @@
   }
 
   aside nav {
-    display: block;
+    align-items: stretch;
+    gap: var(--spacing);
+    flex-direction: column;
+    display: flex;
   }
 
   aside nav > ul {
@@ -2478,6 +2488,11 @@
     background-color: var(--primary);
     color: var(--primary-foreground);
     border-color: var(--primary);
+
+    &:hover {
+      background-color: color-mix(in oklch, var(--primary) 90%, transparent);
+      color: var(--primary-foreground);
+    }
   }
 
   [role="group"] > input, [role="group"] > select {

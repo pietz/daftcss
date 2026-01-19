@@ -7,6 +7,11 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+
+.grid:last-child {
+  margin-bottom: 0;
 }
 
 /* Auto-layout columns on larger screens */
