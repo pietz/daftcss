@@ -59,14 +59,12 @@ input[type="radio"][aria-invalid="false"] {
 
 /* Native browser validation (optional enhancement) */
 input:user-invalid:not([type="checkbox"]):not([type="radio"]),
-textarea:user-invalid,
-select:user-invalid {
+textarea:user-invalid {
   border-color: var(--destructive);
 }
 
 input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]),
-textarea:user-valid:not(:placeholder-shown),
-select:user-valid {
+textarea:user-valid:not(:placeholder-shown) {
   border-color: var(--success);
 }
 

@@ -35,18 +35,10 @@
   margin-left: calc(var(--border-width) * -1);
 }
 
-/* Active button in group */
+/* Active button in group - raise above siblings for border visibility */
 [role="group"] > button[aria-current="true"],
 [role="group"] > [role="button"][aria-current="true"] {
   z-index: 1;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border-color: var(--primary);
-
-  &:hover {
-    background-color: color-mix(in oklch, var(--primary) 90%, transparent);
-    color: var(--primary-foreground);
-  }
 }
 
 /* Input groups */
