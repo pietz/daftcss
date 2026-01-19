@@ -3,41 +3,57 @@
  * Color modifiers, visibility, and other helpers
  */
 
-/* ===== COLOR MODIFIERS ===== */
+/* ===== INVERTED THEME SCOPE ===== */
+/* .contrast creates a local inverted theme by re-scoping semantic tokens */
 
-/* Secondary color - for links and text */
-a.secondary,
-.secondary:not(button, [type="button"], [type="submit"], [type="reset"], [role="button"]) {
-  color: var(--muted-foreground);
+.contrast {
+  /* Swap light/dark values for inverted appearance */
+  --background: light-dark(oklch(0.145 0 0), oklch(1 0 0));
+  --foreground: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
+  --card: light-dark(oklch(0.205 0 0), oklch(1 0 0));
+  --card-foreground: var(--foreground);
+  --muted: light-dark(oklch(0.27 0 0), oklch(0.95 0 0));
+  --muted-foreground: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --accent: var(--muted);
+  --accent-foreground: var(--foreground);
+  --border: light-dark(oklch(1 0 0 / 15%), oklch(0.922 0 0));
+  --input: var(--border);
+  --ring: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
+  --shadow-xs: light-dark(0 1px 2px 0 rgb(0 0 0 / 0.3), 0 1px 2px 0 rgb(0 0 0 / 0.05));
+  --shadow-sm: light-dark(
+    0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4),
+    0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
+  );
+
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
-a.secondary:hover {
-  color: var(--foreground);
+/* ===== COLOR MODIFIERS (text colors) ===== */
+
+/* Secondary color - for links and text */
+a.secondary {
+  color: var(--muted-foreground);
+
+  &:hover {
+    color: var(--foreground);
+  }
 }
 
 /* Contrast color - for links and text */
-a.contrast,
-.contrast:not(button, [type="button"], [type="submit"], [role="button"]) {
+a.contrast {
   color: var(--foreground);
-}
 
-a.contrast:hover {
-  color: var(--muted-foreground);
+  &:hover {
+    color: var(--muted-foreground);
+  }
 }
 
 /* Muted text */
 .muted {
   color: var(--muted-foreground);
-}
-
-/* Primary colored text */
-.primary {
-  color: var(--primary);
-}
-
-/* Destructive colored text */
-.destructive:not(button, [type="button"], [type="submit"], [role="button"]) {
-  color: var(--destructive);
 }
 
 /* Success colored text */

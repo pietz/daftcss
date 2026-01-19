@@ -1366,7 +1366,6 @@
   [type="reset"] {
     color: var(--foreground);
     background-color: var(--secondary);
-    box-shadow: var(--shadow-xs);
 
     &:hover {
       background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
@@ -1384,6 +1383,10 @@
     &:hover {
       background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
     }
+
+    &:active {
+      background-color: color-mix(in oklch, var(--secondary) 70%, var(--foreground) 10%);
+    }
   }
 
   :is(button, [type="submit"], [type="button"], [role="button"]).contrast {
@@ -1392,6 +1395,31 @@
 
     &:hover {
       background-color: color-mix(in oklch, var(--foreground) var(--active-opacity), transparent);
+    }
+
+    &:active {
+      background-color: color-mix(in oklch, var(--foreground) var(--hover-opacity), transparent);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--foreground) var(--focus-ring-opacity), transparent);
+    }
+  }
+
+  :is(button, [role="button"]).destructive {
+    color: var(--destructive-foreground);
+    background-color: var(--destructive);
+
+    &:hover {
+      background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
+    }
+
+    &:active {
+      background-color: color-mix(in oklch, var(--destructive) var(--active-opacity), transparent);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
     }
   }
 
@@ -1412,7 +1440,7 @@
 
   :is(button, [role="button"]).outline.secondary {
     color: var(--foreground);
-    border-color: var(--secondary);
+    border-color: var(--border);
 
     &:hover {
       background-color: var(--secondary);
@@ -1426,6 +1454,10 @@
     &:hover {
       background-color: var(--foreground);
       color: var(--background);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--foreground) var(--focus-ring-opacity), transparent);
     }
   }
 
@@ -1451,19 +1483,6 @@
     }
   }
 
-  :is(button, [role="button"]).destructive {
-    color: var(--destructive-foreground);
-    background-color: var(--destructive);
-
-    &:hover {
-      background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
-    }
-
-    &:focus-visible {
-      box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
-    }
-  }
-
   :is(button, [role="button"])[aria-current="true"] {
     background-color: var(--primary);
     color: var(--primary-foreground);
@@ -1471,7 +1490,6 @@
 
     &:hover {
       background-color: color-mix(in oklch, var(--primary) var(--hover-opacity), transparent);
-      color: var(--primary-foreground);
     }
   }
 
@@ -1673,6 +1691,14 @@
     min-height: 8rem;
   }
 
+  article.contrast {
+    border-color: #0000;
+  }
+
+  article.contrast article {
+    background-color: var(--muted);
+  }
+
   details {
     margin-bottom: var(--spacing-sm);
     border-bottom: var(--border-width) solid var(--border);
@@ -1756,7 +1782,6 @@
 
     &:hover {
       background-color: color-mix(in oklch, var(--primary) var(--hover-opacity), transparent);
-      color: var(--primary-foreground);
     }
   }
 
@@ -1766,7 +1791,6 @@
 
     &:hover {
       background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
-      color: var(--foreground);
     }
   }
 
@@ -1787,7 +1811,15 @@
 
     &:hover {
       background-color: color-mix(in oklch, var(--foreground) var(--active-opacity), transparent);
-      color: var(--background);
+    }
+  }
+
+  summary[role="button"].destructive {
+    color: var(--destructive-foreground);
+    background-color: var(--destructive);
+
+    &:hover {
+      background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
     }
   }
 
@@ -2260,38 +2292,6 @@
     }
   }
 
-  progress.secondary::-webkit-progress-value {
-    background-color: var(--muted-foreground);
-  }
-
-  progress.secondary::-moz-progress-bar {
-    background-color: var(--muted-foreground);
-  }
-
-  progress.success::-webkit-progress-value {
-    background-color: var(--success);
-  }
-
-  progress.success::-moz-progress-bar {
-    background-color: var(--success);
-  }
-
-  progress.warning::-webkit-progress-value {
-    background-color: var(--warning);
-  }
-
-  progress.warning::-moz-progress-bar {
-    background-color: var(--warning);
-  }
-
-  progress.destructive::-webkit-progress-value {
-    background-color: var(--destructive);
-  }
-
-  progress.destructive::-moz-progress-bar {
-    background-color: var(--destructive);
-  }
-
   @keyframes spin {
     to {
       transform: rotate(360deg);
@@ -2535,24 +2535,44 @@
 }
 
 @layer utilities {
-  a.secondary, .secondary:not(button, [type="button"], [type="submit"], [type="reset"], [role="button"]) {
-    color: var(--muted-foreground);
-  }
-
-  a.secondary:hover, a.contrast, .contrast:not(button, [type="button"], [type="submit"], [role="button"]) {
+  .contrast {
+    --background: light-dark(oklch(14.5% 0 0), oklch(100% 0 0));
+    --foreground: light-dark(oklch(98.5% 0 0), oklch(14.5% 0 0));
+    --card: light-dark(oklch(20.5% 0 0), oklch(100% 0 0));
+    --card-foreground: var(--foreground);
+    --muted: light-dark(oklch(27% 0 0), oklch(95% 0 0));
+    --muted-foreground: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
+    --secondary: var(--muted);
+    --secondary-foreground: var(--foreground);
+    --accent: var(--muted);
+    --accent-foreground: var(--foreground);
+    --border: light-dark(oklch(100% 0 0 / .15), oklch(92.2% 0 0));
+    --input: var(--border);
+    --ring: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
+    --shadow-xs: light-dark(0 1px 2px 0 #0000004d, 0 1px 2px 0 #0000000d);
+    --shadow-sm: light-dark(0 1px 3px 0 #0006, 0 1px 2px -1px #0006, 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a);
+    background-color: var(--background);
     color: var(--foreground);
   }
 
-  a.contrast:hover, .muted {
+  a.secondary {
     color: var(--muted-foreground);
+
+    &:hover {
+      color: var(--foreground);
+    }
   }
 
-  .primary {
-    color: var(--primary);
+  a.contrast {
+    color: var(--foreground);
+
+    &:hover {
+      color: var(--muted-foreground);
+    }
   }
 
-  .destructive:not(button, [type="button"], [type="submit"], [role="button"]) {
-    color: var(--destructive);
+  .muted {
+    color: var(--muted-foreground);
   }
 
   .success {

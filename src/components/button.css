@@ -14,7 +14,6 @@
   font-family: inherit;
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  /* Line-height calculated to fill available space: height - borders - padding */
   line-height: calc(var(--button-height) - 2 * var(--border-width) - 2 * var(--spacing-sm));
   text-align: center;
   text-decoration: none;
@@ -66,7 +65,6 @@
 [type="reset"] {
   color: var(--foreground);
   background-color: var(--secondary);
-  box-shadow: var(--shadow-xs);
 
   &:hover {
     background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
@@ -86,6 +84,10 @@ a[role="button"] {
   &:hover {
     background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
   }
+
+  &:active {
+    background-color: color-mix(in oklch, var(--secondary) 70%, var(--foreground) 10%);
+  }
 }
 
 /* Contrast variant */
@@ -96,9 +98,35 @@ a[role="button"] {
   &:hover {
     background-color: color-mix(in oklch, var(--foreground) var(--active-opacity), transparent);
   }
+
+  &:active {
+    background-color: color-mix(in oklch, var(--foreground) var(--hover-opacity), transparent);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--foreground) var(--focus-ring-opacity), transparent);
+  }
 }
 
-/* Outline variant (primary) */
+/* Destructive variant */
+:is(button, [role="button"]).destructive {
+  color: var(--destructive-foreground);
+  background-color: var(--destructive);
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
+  }
+
+  &:active {
+    background-color: color-mix(in oklch, var(--destructive) var(--active-opacity), transparent);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+  }
+}
+
+/* Outline variant */
 :is(button, [type="submit"], [type="button"], [role="button"]).outline {
   color: var(--primary);
   background-color: var(--background);
@@ -117,7 +145,7 @@ a[role="button"] {
 /* Outline secondary */
 :is(button, [role="button"]).outline.secondary {
   color: var(--foreground);
-  border-color: var(--secondary);
+  border-color: var(--border);
 
   &:hover {
     background-color: var(--secondary);
@@ -132,6 +160,10 @@ a[role="button"] {
   &:hover {
     background-color: var(--foreground);
     color: var(--background);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--foreground) var(--focus-ring-opacity), transparent);
   }
 }
 
@@ -159,20 +191,6 @@ a[role="button"] {
   }
 }
 
-/* Destructive variant */
-:is(button, [role="button"]).destructive {
-  color: var(--destructive-foreground);
-  background-color: var(--destructive);
-
-  &:hover {
-    background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
-  }
-
-  &:focus-visible {
-    box-shadow: var(--shadow-xs), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
-  }
-}
-
 /* Active/current variant (e.g., selected item in a group) */
 :is(button, [role="button"])[aria-current="true"] {
   background-color: var(--primary);
@@ -181,18 +199,17 @@ a[role="button"] {
 
   &:hover {
     background-color: color-mix(in oklch, var(--primary) var(--hover-opacity), transparent);
-    color: var(--primary-foreground);
   }
 }
 
-/* Small button - same font size, less padding */
+/* Small button */
 :is(button, [role="button"]).small {
   height: var(--button-height-sm);
   padding: var(--spacing-xs) var(--spacing-md);
   line-height: calc(var(--button-height-sm) - 2 * var(--border-width) - 2 * var(--spacing-xs));
 }
 
-/* Large button - same font size, more padding */
+/* Large button */
 :is(button, [role="button"]).large {
   height: var(--button-height-lg);
   padding: var(--spacing-sm) var(--spacing-xl);

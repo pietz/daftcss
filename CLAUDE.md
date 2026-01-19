@@ -68,3 +68,37 @@ Theme switching uses `light-dark()` function with `color-scheme` property. Overr
 - Optional classes for variants: `.secondary`, `.outline`, `.ghost`, `.destructive`
 - Role-based switches: `<input type="checkbox" role="switch">`
 - Data attributes for features: `data-tooltip`, `data-placement`, `data-theme`
+
+## Visual Testing with Agent Browser
+
+Use the `agent-browser` skill to visually verify CSS changes. This is especially useful for checking color variants, theme switching, and responsive layouts.
+
+### Basic Workflow
+
+```bash
+# Open an HTML file directly (no server needed)
+agent-browser open "file:///Users/pietz/Private/daft-v3/examples/components.html"
+
+# Take screenshots to verify visual output
+agent-browser screenshot --full /tmp/screenshot.png
+
+# Get interactive elements for interaction
+agent-browser snapshot -i
+
+# Interact with elements (use refs from snapshot)
+agent-browser click @e1          # Click element
+agent-browser fill @e2 "text"    # Fill input
+
+# Check computed styles
+agent-browser eval "getComputedStyle(document.querySelector('.my-class')).backgroundColor"
+
+# Close when done
+agent-browser close
+```
+
+### Tips
+
+- Use `file://` URLs to test HTML files without a server
+- Take `--full` screenshots for full page captures
+- Use `eval` to check computed CSS values for debugging
+- Create temporary test HTML files in `examples/` for specific features, then delete them after verification

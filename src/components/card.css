@@ -93,3 +93,13 @@ a:has(> article) {
 article[aria-busy="true"] {
   min-height: 8rem;
 }
+
+/* Contrast card - uses inverted theme from .contrast utility */
+article.contrast {
+  border-color: transparent;
+}
+
+/* Nested articles in contrast cards */
+article.contrast article {
+  background-color: var(--muted);
+}

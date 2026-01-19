@@ -74,36 +74,3 @@ label:has(> progress) {
     margin-top: var(--spacing-sm);
   }
 }
-
-/* Progress variants */
-progress.secondary::-webkit-progress-value {
-  background-color: var(--muted-foreground);
-}
-
-progress.secondary::-moz-progress-bar {
-  background-color: var(--muted-foreground);
-}
-
-progress.success::-webkit-progress-value {
-  background-color: var(--success);
-}
-
-progress.success::-moz-progress-bar {
-  background-color: var(--success);
-}
-
-progress.warning::-webkit-progress-value {
-  background-color: var(--warning);
-}
-
-progress.warning::-moz-progress-bar {
-  background-color: var(--warning);
-}
-
-progress.destructive::-webkit-progress-value {
-  background-color: var(--destructive);
-}
-
-progress.destructive::-moz-progress-bar {
-  background-color: var(--destructive);
-}

@@ -90,7 +90,6 @@ summary[role="button"] {
 
   &:hover {
     background-color: color-mix(in oklch, var(--primary) var(--hover-opacity), transparent);
-    color: var(--primary-foreground);
   }
 }
 
@@ -101,7 +100,6 @@ summary[role="button"].secondary {
 
   &:hover {
     background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
-    color: var(--foreground);
   }
 }
 
@@ -122,7 +120,15 @@ summary[role="button"].contrast {
 
   &:hover {
     background-color: color-mix(in oklch, var(--foreground) var(--active-opacity), transparent);
-    color: var(--background);
+  }
+}
+
+summary[role="button"].destructive {
+  color: var(--destructive-foreground);
+  background-color: var(--destructive);
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
   }
 }
 

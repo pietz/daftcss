@@ -1,42 +1,86 @@
 # Daft CSS
 
-A semantic-first, utility-second CSS framework. Inspired by and backwards compatible with [Pico CSS](https://picocss.com), with visual aesthetics based on [shadcn/ui](https://ui.shadcn.com). Built for modern browsers only.
+A semantic-first CSS framework that combines the developer experience of [Pico CSS](https://picocss.com) with the modern aesthetics of [shadcn/ui](https://ui.shadcn.com).
 
-## Features
+## Who is this for?
 
-- **Semantic HTML** - Style elements directly without classes
-- **Pico CSS Compatible** - Same HTML patterns and class names
-- **shadcn/ui Aesthetics** - Modern, clean design with neutral colors
-- **CSS Variables** - Hierarchical system for easy theming
-- **Dark Mode** - Automatic via `prefers-color-scheme` or manual via `data-theme`
-- **Modern CSS** - OKLCH colors, CSS nesting, `focus-visible`, `color-mix()`
-- **Lightweight** - ~63KB minified, no JavaScript required
+DAFT CSS is for developers who want:
+
+- **Beautiful defaults** without writing CSS or utility classes
+- **Semantic HTML** that just works (`<button>` looks good, no classes needed)
+- **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
+- **A tiny footprint** — just one 51 KB file - 40% smaller than Pico CSS
+
+The idea is to have a tiny dependency that makes your app look great without writing any CSS, while providing a flexible variable system to customize to your needs.
+
+## How is it different?
+
+### vs Pico CSS
+
+Daft CSS is a **drop-in replacement** for Pico CSS with the same semantic HTML approach. The differences:
+
+|  | Daft CSS | Pico CSS |
+|--|----------|----------|
+| Size (minified) | **51 KB** | 83 KB |
+| Aesthetics | shadcn/ui | Pico |
+| Focus | App UIs | landing pages |
+| Source | CSS | SCSS |
+| Dark mode | Native `light-dark()` | separate mode |
+| Color system | OKLCH | HSL |
+| More components | Tooltips, dropdowns, button groups | — |
+
+Same HTML, better looks, smaller file, more features.
+
+### vs Franken UI / Franken Style
+
+[Franken UI](https://franken-ui.dev) ports shadcn/ui to vanilla HTML — great idea, similar goal. Here's how we differ:
+
+|  | Daft CSS | Franken Style |
+|--|----------|---------------|
+| Total size | **50 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| JavaScript | None | Required |
+| Approach | Semantic HTML | Utility classes (Tailwind) |
+| HTML footprint | Small, native | Large, verbose |
+
+**Code comparison — a simple card:**
+
+```html
+<!-- Daft CSS -->
+<article>
+  <header>Card Title</header>
+  <p>Card content goes here.</p>
+  <footer>
+    <button>Action</button>
+  </footer>
+</article>
+```
+
+```html
+<!-- Franken UI -->
+<div class="uk-card uk-card-default">
+  <div class="uk-card-header">
+    <h3 class="uk-card-title">Card Title</h3>
+  </div>
+  <div class="uk-card-body">
+    <p>Card content goes here.</p>
+  </div>
+  <div class="uk-card-footer">
+    <button class="uk-button uk-button-primary">Action</button>
+  </div>
+</div>
+```
+
+50% smaller HTML footprint, no JavaScript, and just 1/16th the total dependency size.
 
 ## Quick Start
 
+Add one line to your HTML:
+
 ```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="daft.min.css">
-    <title>My App</title>
-  </head>
-  <body>
-    <main class="container">
-      <h1>Hello Daft CSS!</h1>
-      <p>Start building with semantic HTML.</p>
-      <button>Get Started</button>
-    </main>
-  </body>
-</html>
+<link rel="stylesheet" href="https://unpkg.com/daft-css/dist/daft.min.css">
 ```
 
-## Installation
-
-### NPM
+Or install via npm:
 
 ```bash
 npm install daft-css
@@ -46,41 +90,38 @@ npm install daft-css
 import 'daft-css/dist/daft.min.css';
 ```
 
-### CDN
+Then write semantic HTML:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/daft-css/dist/daft.min.css">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://unpkg.com/daft-css/dist/daft.min.css">
+    <title>My App</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Hello DAFT CSS</h1>
+      <p>Start building with semantic HTML.</p>
+      <button>Get Started</button>
+    </main>
+  </body>
+</html>
 ```
 
 ## Components
-
-### Layout
-
-```html
-<!-- Centered container -->
-<main class="container">...</main>
-
-<!-- Full-width container -->
-<main class="container-fluid">...</main>
-
-<!-- Auto-layout grid -->
-<div class="grid">
-  <div>Column 1</div>
-  <div>Column 2</div>
-  <div>Column 3</div>
-</div>
-```
 
 ### Buttons
 
 ```html
 <button>Primary</button>
 <button class="secondary">Secondary</button>
-<button class="contrast">Contrast</button>
 <button class="outline">Outline</button>
 <button class="ghost">Ghost</button>
 <button class="destructive">Destructive</button>
-<button disabled>Disabled</button>
 <button aria-busy="true">Loading</button>
 ```
 
@@ -88,16 +129,10 @@ import 'daft-css/dist/daft.min.css';
 
 ```html
 <form>
-  <label for="email">Email</label>
-  <input type="email" id="email" placeholder="Enter email">
-  <small>We'll never share your email.</small>
-
-  <label>
-    <input type="checkbox" role="switch">
-    Accept terms
-  </label>
-
-  <button type="submit">Submit</button>
+  <label>Email <input type="email"></label>
+  <label>Password <input type="password"></label>
+  <label><input type="checkbox" role="switch"> Remember me</label>
+  <button type="submit">Sign In</button>
 </form>
 ```
 
@@ -105,10 +140,7 @@ import 'daft-css/dist/daft.min.css';
 
 ```html
 <article>
-  <header>
-    <strong>Card Title</strong>
-    <p>Subtitle</p>
-  </header>
+  <header>Card Title</header>
   <p>Card content...</p>
   <footer>
     <button>Action</button>
@@ -121,7 +153,7 @@ import 'daft-css/dist/daft.min.css';
 ```html
 <details>
   <summary>Click to expand</summary>
-  <p>Hidden content here.</p>
+  <p>Hidden content revealed.</p>
 </details>
 ```
 
@@ -140,15 +172,16 @@ import 'daft-css/dist/daft.min.css';
 ### Modal
 
 ```html
-<dialog id="modal">
+<button popovertarget="my-modal">Open Modal</button>
+<dialog id="my-modal" popover>
   <article>
     <header>
-      <button aria-label="Close" rel="prev"></button>
-      <p><strong>Modal Title</strong></p>
+      <button aria-label="Close" popovertarget="my-modal"></button>
+      <strong>Modal Title</strong>
     </header>
-    <p>Modal content...</p>
+    <p>Modal content here.</p>
     <footer>
-      <button class="secondary">Cancel</button>
+      <button class="secondary" popovertarget="my-modal">Cancel</button>
       <button>Confirm</button>
     </footer>
   </article>
@@ -177,75 +210,70 @@ import 'daft-css/dist/daft.min.css';
 <button data-tooltip="Help" data-placement="right">?</button>
 ```
 
+### Tables
+
+```html
+<table>
+  <thead>
+    <tr><th>Name</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Alice</td><td>Active</td></tr>
+    <tr><td>Bob</td><td>Pending</td></tr>
+  </tbody>
+</table>
+```
+
+### Grid
+
+```html
+<div class="grid">
+  <div>Column 1</div>
+  <div>Column 2</div>
+  <div>Column 3</div>
+</div>
+```
+
 ## Theming
 
 ### Dark Mode
 
-Daft CSS automatically follows system preference. Override with:
+Follows system preference automatically. Override with `data-theme`:
 
 ```html
-<!-- Force light -->
-<html data-theme="light">
-
-<!-- Force dark -->
 <html data-theme="dark">
 
-<!-- Theme islands -->
+<!-- Or theme islands -->
 <article data-theme="dark">Always dark</article>
 ```
 
 ### CSS Variables
 
-Customize the design by overriding CSS variables:
+Rapidly customize the design by overriding core variables:
 
 ```css
 :root {
-  /* Colors */
-  --primary: oklch(0.5 0.2 260);
-  --radius-md: 0.75rem;
-  --spacing: 1.5rem;
-
-  /* Pico compatibility */
-  --pico-primary: var(--primary);
+  --primary: oklch(55% 0.25 265);  /* Different primary color */
+  --radius: 1rem;                  /* Make corners rounder */
+  --spacing: 0.75rem;              /* Condense spacing */
 }
-```
-
-### Key Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `--background` | Page background | `oklch(1 0 0)` |
-| `--foreground` | Text color | `oklch(0.145 0 0)` |
-| `--primary` | Primary action color | `oklch(0.205 0 0)` |
-| `--muted` | Muted backgrounds | `oklch(0.97 0 0)` |
-| `--border` | Border color | `oklch(0.922 0 0)` |
-| `--radius-md` | Default border radius | `0.5rem` |
-| `--spacing` | Base spacing unit | `1rem` |
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build CSS
-npm run build
-
-# Watch for changes
-npm run watch
-
-# Serve demo
-npm run dev
 ```
 
 ## Browser Support
 
-Daft CSS targets modern browsers only:
+Requires modern browsers for native support of `light-dark()`, OKLCH colors, CSS nesting, and Popover API:
 
-- Chrome 100+
-- Firefox 100+
-- Safari 15+
-- Edge 100+
+- Chrome 123+
+- Firefox 120+
+- Safari 18+
+
+## Development
+
+```bash
+npm run build    # Build daft.css and daft.min.css
+npm run watch    # Watch and rebuild on changes
+npm run dev      # Serve demo locally
+```
 
 ## License
 
