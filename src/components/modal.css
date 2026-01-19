@@ -36,7 +36,7 @@ dialog > article {
   max-width: 32rem;
   max-height: calc(100vh - var(--spacing-xl));
   margin: 0;
-  padding: 0;
+  padding: var(--spacing-lg);
   overflow: auto;
   background-color: var(--card);
   border: var(--border-width) solid var(--border);
@@ -58,12 +58,9 @@ dialog > article {
 
 /* Modal header */
 dialog > article > header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing) var(--spacing-lg);
-  border-bottom: var(--border-width) solid var(--border);
-  margin-bottom: 0;
+  display: block;
+  padding: 0;
+  margin-bottom: var(--spacing-sm);
 }
 
 dialog > article > header > p {
@@ -74,12 +71,17 @@ dialog > article > header > strong,
 dialog > article > header > p > strong {
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
+  color: var(--foreground);
 }
 
-/* Close button in header */
+/* Close button - positioned at corner intersection */
+dialog > article > button[aria-label="Close"],
 dialog > article > header > button[aria-label="Close"],
+dialog > article > button[rel="prev"],
 dialog > article > header > button[rel="prev"] {
-  order: 1;
+  position: absolute;
+  top: calc(var(--spacing-lg) - 1rem);
+  right: calc(var(--spacing-lg) - 1rem);
   width: 2rem;
   height: 2rem;
   padding: 0;
@@ -106,15 +108,13 @@ dialog > article > header > button[rel="prev"] {
 /* Modal body */
 dialog > article > p,
 dialog > article > div {
-  padding: 0 var(--spacing-lg);
+  padding: 0;
+  margin-bottom: var(--spacing-sm);
 }
 
-dialog > article > p:first-of-type {
-  padding-top: var(--spacing);
-}
-
-dialog > article > p:last-of-type {
-  padding-bottom: var(--spacing);
+dialog > article > p:last-child,
+dialog > article > div:last-child {
+  margin-bottom: 0;
 }
 
 /* Modal footer */
@@ -123,9 +123,8 @@ dialog > article > footer {
   align-items: center;
   justify-content: flex-end;
   gap: var(--spacing-sm);
-  padding: var(--spacing) var(--spacing-lg);
-  border-top: var(--border-width) solid var(--border);
-  margin-top: 0;
+  padding: 0;
+  margin-top: var(--spacing-sm);
 }
 
 /* Utility classes for HTML element (modal state) */

@@ -6,7 +6,7 @@
     --font-size-base: 1rem;
     --line-height: 1.5;
     --transition: .15s;
-    --component-height: 2.5rem;
+    --component-height: 2.25rem;
     --spacing-xs: calc(var(--spacing) * .25);
     --spacing-sm: calc(var(--spacing) * .5);
     --spacing-lg: calc(var(--spacing) * 1.5);
@@ -33,7 +33,7 @@
     --ease-default: cubic-bezier(.4, 0, .2, 1);
     --transition-default: var(--transition) var(--ease-default);
     --component-height-sm: calc(var(--component-height)  - .25rem);
-    --component-height-lg: calc(var(--component-height)  + .25rem);
+    --component-height-lg: calc(var(--component-height)  + .5rem);
     --input-height: var(--component-height);
     --button-height: var(--component-height);
     --button-height-sm: var(--component-height-sm);
@@ -70,7 +70,7 @@
     --success-foreground: light-dark(oklch(98.5% 0 0), oklch(14.5% 0 0));
     --warning: light-dark(oklch(75% .18 85), oklch(80% .15 85));
     --warning-foreground: light-dark(oklch(20.5% 0 0), oklch(14.5% 0 0));
-    --border: light-dark(oklch(92.2% 0 0), oklch(30% 0 0));
+    --border: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --input: var(--border);
     --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
     --block-spacing-vertical: var(--spacing);
@@ -598,7 +598,7 @@
 
   ul, ol {
     margin-bottom: var(--typography-spacing-vertical);
-    padding-left: var(--spacing-lg);
+    padding-left: calc(var(--spacing) * 1.25);
   }
 
   ul {
@@ -610,12 +610,7 @@
   }
 
   li {
-    margin-bottom: var(--spacing-xs);
     line-height: var(--line-height-lg);
-  }
-
-  li:last-child {
-    margin-bottom: 0;
   }
 
   ul ul, ol ol, ul ol, ol ul {
@@ -1122,12 +1117,12 @@
     content: "";
     background-color: var(--background);
     border-radius: var(--radius-full);
-    width: calc(1.375rem - 6px);
-    height: calc(1.375rem - 6px);
+    width: calc(1.375rem - 4px);
+    height: calc(1.375rem - 4px);
     transition: transform var(--transition-default);
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 1px;
+    left: 1px;
   }
 
   input[type="checkbox"][role="switch"]:checked:after {
@@ -1174,22 +1169,22 @@
 
   input[type="range"]::-webkit-slider-thumb {
     background-color: var(--foreground);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-md);
     cursor: pointer;
     appearance: none;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.125rem;
+    height: 1.125rem;
     transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
-    margin-top: -.375rem;
+    margin-top: -.3125rem;
   }
 
   input[type="range"]::-moz-range-thumb {
     background-color: var(--foreground);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.125rem;
+    height: 1.125rem;
     transition: background-color var(--transition-default), transform var(--transition-default);
     border: none;
   }
@@ -1926,13 +1921,13 @@
     width: 100%;
     max-width: 32rem;
     max-height: calc(100vh - var(--spacing-xl));
+    padding: var(--spacing-lg);
     background-color: var(--card);
     border: var(--border-width) solid var(--border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     animation: modal-in var(--transition-slow) var(--ease-default);
     margin: 0;
-    padding: 0;
     position: relative;
     overflow: auto;
   }
@@ -1950,12 +1945,9 @@
   }
 
   dialog > article > header {
-    padding: var(--spacing) var(--spacing-lg);
-    border-bottom: var(--border-width) solid var(--border);
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0;
-    display: flex;
+    margin-bottom: var(--spacing-sm);
+    padding: 0;
+    display: block;
   }
 
   dialog > article > header > p {
@@ -1965,9 +1957,12 @@
   dialog > article > header > strong, dialog > article > header > p > strong {
     font-size: var(--text-lg);
     font-weight: var(--font-semibold);
+    color: var(--foreground);
   }
 
-  dialog > article > header > button[aria-label="Close"], dialog > article > header > button[rel="prev"] {
+  dialog > article > button[aria-label="Close"], dialog > article > header > button[aria-label="Close"], dialog > article > button[rel="prev"], dialog > article > header > button[rel="prev"] {
+    top: calc(var(--spacing-lg)  - 1rem);
+    right: calc(var(--spacing-lg)  - 1rem);
     width: 2rem;
     height: 2rem;
     color: var(--muted-foreground);
@@ -1977,8 +1972,8 @@
     transition: background-color var(--transition-default), color var(--transition-default);
     background-color: #0000;
     border: none;
-    order: 1;
     padding: 0;
+    position: absolute;
 
     &:hover {
       background-color: var(--muted);
@@ -1992,24 +1987,20 @@
   }
 
   dialog > article > p, dialog > article > div {
-    padding: 0 var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    padding: 0;
   }
 
-  dialog > article > p:first-of-type {
-    padding-top: var(--spacing);
-  }
-
-  dialog > article > p:last-of-type {
-    padding-bottom: var(--spacing);
+  dialog > article > p:last-child, dialog > article > div:last-child {
+    margin-bottom: 0;
   }
 
   dialog > article > footer {
     justify-content: flex-end;
     align-items: center;
     gap: var(--spacing-sm);
-    padding: var(--spacing) var(--spacing-lg);
-    border-top: var(--border-width) solid var(--border);
-    margin-top: 0;
+    margin-top: var(--spacing-sm);
+    padding: 0;
     display: flex;
   }
 

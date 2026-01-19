@@ -14,7 +14,7 @@
   --font-size-base: 1rem;
   --line-height: 1.5;
   --transition: 150ms;
-  --component-height: 2.5rem;
+  --component-height: 2.25rem;
 
   /* ===== TIER 1: DERIVED VARIABLES ===== */
 
@@ -56,7 +56,7 @@
 
   /* Component heights (derived from --component-height) */
   --component-height-sm: calc(var(--component-height) - 0.25rem);
-  --component-height-lg: calc(var(--component-height) + 0.25rem);
+  --component-height-lg: calc(var(--component-height) + 0.5rem);
   --input-height: var(--component-height);
   --button-height: var(--component-height);
   --button-height-sm: var(--component-height-sm);
@@ -128,7 +128,7 @@
   --warning-foreground: light-dark(oklch(0.205 0 0), oklch(0.145 0 0));
 
   /* Structural colors */
-  --border: light-dark(oklch(0.922 0 0), oklch(0.3 0 0));
+  --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
   --input: var(--border);
   --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 
