@@ -21,6 +21,7 @@ h1 {
 
 h2 {
   font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
 }
 
 h3 {

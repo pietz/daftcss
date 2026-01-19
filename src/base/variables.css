@@ -12,7 +12,6 @@
   --spacing: 1rem;
   --radius: 0.5rem;
   --font-size-base: 1rem;
-  --font-scale: 1.125;
   --line-height: 1.5;
   --transition: 150ms;
   --component-height: 2.5rem;
@@ -33,16 +32,16 @@
   --radius-xl: calc(var(--radius) * 1.75);
   --radius-full: 9999px;
 
-  /* Typography scale (derived from --font-size-base and --font-scale) */
-  --text-xs: calc(var(--font-size-base) / var(--font-scale) / var(--font-scale));
-  --text-sm: calc(var(--font-size-base) / var(--font-scale));
+  /* Typography scale (fixed Tailwind ratios × dynamic base) */
+  --text-xs: calc(var(--font-size-base) * 0.75);     /* 12px at 1rem base */
+  --text-sm: calc(var(--font-size-base) * 0.875);    /* 14px at 1rem base */
   --text: var(--font-size-base);
-  --text-base: var(--font-size-base);
-  --text-lg: calc(var(--font-size-base) * var(--font-scale));
-  --text-xl: calc(var(--text-lg) * var(--font-scale));
-  --text-2xl: calc(var(--text-xl) * var(--font-scale));
-  --text-3xl: calc(var(--text-2xl) * var(--font-scale));
-  --text-4xl: calc(var(--text-3xl) * var(--font-scale));
+  --text-base: var(--font-size-base);                /* 16px at 1rem base */
+  --text-lg: calc(var(--font-size-base) * 1.125);    /* 18px at 1rem base */
+  --text-xl: calc(var(--font-size-base) * 1.25);     /* 20px at 1rem base */
+  --text-2xl: calc(var(--font-size-base) * 1.5);     /* 24px at 1rem base */
+  --text-3xl: calc(var(--font-size-base) * 1.875);   /* 30px at 1rem base */
+  --text-4xl: calc(var(--font-size-base) * 2.25);    /* 36px at 1rem base */
 
   /* Line heights (derived from --line-height) */
   --line-height-sm: calc(var(--line-height) - 0.25);
