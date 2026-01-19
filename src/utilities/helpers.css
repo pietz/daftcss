@@ -126,6 +126,15 @@ a.contrast:hover {
 
 /* ===== LAYOUT UTILITIES ===== */
 
+/* Sticky positioning - useful for headers/navs */
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--background);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
 /* Flexbox */
 .flex {
   display: flex;

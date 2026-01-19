@@ -54,7 +54,7 @@ nav a[aria-current="true"] {
 
 /* Nav with strong (brand) */
 nav strong {
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   color: var(--foreground);
 }
@@ -148,12 +148,3 @@ nav[aria-label="breadcrumb"] > ul > li:last-child {
   }
 }
 
-/* Sticky nav helper */
-header:has(> nav) {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background-color: color-mix(in oklch, var(--background) 90%, transparent);
-  backdrop-filter: blur(8px);
-  border-bottom: var(--border-width) solid var(--border);
-}

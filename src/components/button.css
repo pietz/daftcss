@@ -181,18 +181,16 @@ a[role="button"] {
   }
 }
 
-/* Small button */
+/* Small button - same font size, less padding */
 :is(button, [role="button"]).small {
   height: var(--button-height-sm);
   padding: var(--spacing-xs) var(--spacing-md);
-  font-size: var(--text-xs);
 }
 
-/* Large button */
+/* Large button - same font size, more padding */
 :is(button, [role="button"]).large {
   height: var(--button-height-lg);
   padding: var(--spacing-sm) var(--spacing-xl);
-  font-size: var(--text-base);
 }
 
 /* Icon-only button */

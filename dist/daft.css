@@ -1455,13 +1455,11 @@
   :is(button, [role="button"]).small {
     height: var(--button-height-sm);
     padding: var(--spacing-xs) var(--spacing-md);
-    font-size: var(--text-xs);
   }
 
   :is(button, [role="button"]).large {
     height: var(--button-height-lg);
     padding: var(--spacing-sm) var(--spacing-xl);
-    font-size: var(--text-base);
   }
 
   :is(button, [role="button"]).icon {
@@ -2079,7 +2077,7 @@
   }
 
   nav strong {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     color: var(--foreground);
   }
@@ -2166,15 +2164,6 @@
     nav > ul {
       justify-content: center;
     }
-  }
-
-  header:has( > nav) {
-    z-index: 40;
-    background-color: color-mix(in oklch, var(--background) 90%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: var(--border-width) solid var(--border);
-    position: sticky;
-    top: 0;
   }
 
   progress {
@@ -2614,6 +2603,14 @@
 
   .text-xl {
     font-size: var(--text-xl);
+  }
+
+  .sticky {
+    z-index: 40;
+    background-color: var(--background);
+    border-bottom: var(--border-width) solid var(--border);
+    position: sticky;
+    top: 0;
   }
 
   .flex {
