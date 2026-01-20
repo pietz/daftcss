@@ -66,6 +66,69 @@ progress:not([value])::-moz-progress-bar {
   }
 }
 
+/* Secondary variant */
+progress.secondary::-webkit-progress-value {
+  background-color: var(--muted-foreground);
+}
+
+progress.secondary::-moz-progress-bar {
+  background-color: var(--muted-foreground);
+}
+
+progress.secondary:not([value]) {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--muted-foreground) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Contrast variant */
+progress.contrast::-webkit-progress-value {
+  background-color: var(--foreground);
+}
+
+progress.contrast::-moz-progress-bar {
+  background-color: var(--foreground);
+}
+
+progress.contrast:not([value]) {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--foreground) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Destructive variant */
+progress.destructive::-webkit-progress-value {
+  background-color: var(--destructive);
+}
+
+progress.destructive::-moz-progress-bar {
+  background-color: var(--destructive);
+}
+
+progress.destructive:not([value]) {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--destructive) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+}
+
 /* Label with progress */
 label:has(> progress) {
   display: block;
