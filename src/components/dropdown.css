@@ -29,8 +29,8 @@ details.dropdown > summary {
 
   &::after {
     content: "";
-    width: 1rem;
-    height: 1rem;
+    width: var(--icon-size);
+    height: var(--icon-size);
     background-color: currentColor;
     mask-image: var(--icon-chevron);
     mask-repeat: no-repeat;
@@ -95,8 +95,8 @@ details.dropdown > ul > li > label {
   transition: background-color var(--transition-default);
 
   &:hover {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: var(--muted);
+    color: var(--secondary-foreground);
   }
 }
 

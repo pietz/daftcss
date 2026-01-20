@@ -104,7 +104,7 @@ a {
 
 /* Semantic text elements */
 mark {
-  background-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  background-color: color-mix(in oklch, var(--muted) 40%, transparent);
   color: var(--foreground);
   padding: 0.125em 0.25em;
   border-radius: var(--radius-sm);

@@ -3,10 +3,19 @@
     color-scheme: light dark;
     --spacing: 1rem;
     --radius: .5rem;
+    --component-height: 2.25rem;
     --font-size-base: 1rem;
     --line-height: 1.5;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     --transition: .15s;
-    --component-height: 2.25rem;
+    --ease-default: cubic-bezier(.4, 0, .2, 1);
+    --background: light-dark(oklch(100% 0 0), oklch(14.5% 0 0));
+    --foreground: light-dark(oklch(14.5% 0 0), oklch(98.5% 0 0));
+    --primary: light-dark(oklch(20% .27 260), oklch(35% .22 260));
+    --muted: light-dark(oklch(95% 0 0), oklch(27% 0 0));
+    --destructive: light-dark(oklch(57.7% .245 27.325), oklch(70.4% .191 22.216));
+    --border: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --spacing-xs: calc(var(--spacing) * .25);
     --spacing-sm: calc(var(--spacing) * .5);
     --spacing-md: calc(var(--spacing) * .75);
@@ -17,14 +26,6 @@
     --radius-lg: calc(var(--radius)  + .125rem);
     --radius-xl: calc(var(--radius)  + .375rem);
     --radius-full: 9999px;
-    --button-radius: var(--radius-md);
-    --input-radius: var(--radius-md);
-    --card-radius: var(--radius-xl);
-    --modal-radius: var(--radius-xl);
-    --dropdown-radius: var(--radius-md);
-    --tooltip-radius: var(--radius-sm);
-    --badge-radius: var(--radius-full);
-    --progress-radius: var(--radius-full);
     --text-xs: calc(var(--font-size-base) * .75);
     --text-sm: calc(var(--font-size-base) * .875);
     --text: var(--font-size-base);
@@ -36,70 +37,72 @@
     --text-4xl: calc(var(--font-size-base) * 2.25);
     --line-height-sm: calc(var(--line-height)  - .25);
     --line-height-lg: calc(var(--line-height)  + .25);
-    --transition-fast: calc(var(--transition) * .67);
-    --transition-base: var(--transition);
-    --transition-slow: calc(var(--transition) * 2);
-    --ease-default: cubic-bezier(.4, 0, .2, 1);
-    --transition-default: var(--transition) var(--ease-default);
-    --component-height-sm: calc(var(--component-height)  - .25rem);
-    --component-height-lg: calc(var(--component-height)  + .5rem);
-    --input-height: var(--component-height);
-    --button-height: var(--component-height);
-    --button-height-sm: var(--component-height-sm);
-    --button-height-lg: var(--component-height-lg);
-    --control-size: 1.125rem;
     --font-normal: 400;
     --font-medium: 500;
     --font-semibold: 600;
     --font-bold: 700;
     --font-extrabold: 800;
+    --transition-fast: calc(var(--transition) * .67);
+    --transition-base: var(--transition);
+    --transition-slow: calc(var(--transition) * 2);
+    --transition-default: var(--transition) var(--ease-default);
+    --component-height-sm: calc(var(--component-height)  - .25rem);
+    --component-height-lg: calc(var(--component-height)  + .5rem);
+    --control-size: calc(var(--component-height) * .5);
+    --icon-size: 1rem;
+    --switch-height: calc(var(--control-size)  + var(--spacing-xs));
+    --switch-width: calc(var(--control-size)  + var(--switch-height));
+    --switch-thumb: calc(var(--switch-height)  - 4px);
     --shadow-xs: 0 1px 2px 0 light-dark(#0000000d, #0000004d);
     --shadow-sm: 0 1px 3px 0 light-dark(#0000001a, #0006), 0 1px 2px -1px light-dark(#0000001a, #0006);
     --shadow-md: 0 4px 6px -1px light-dark(#0000001a, #0006), 0 2px 4px -2px light-dark(#0000001a, #0006);
     --shadow-lg: 0 10px 15px -3px light-dark(#0000001a, #0006), 0 4px 6px -4px light-dark(#0000001a, #0006);
-    --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-    --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    --background: light-dark(oklch(100% 0 0), oklch(14.5% 0 0));
-    --foreground: light-dark(oklch(14.5% 0 0), oklch(98.5% 0 0));
     --card: light-dark(oklch(100% 0 0), oklch(20.5% 0 0));
     --card-foreground: var(--foreground);
     --popover: var(--card);
-    --popover-foreground: var(--foreground);
-    --primary: light-dark(oklch(20% .27 260), oklch(35% .22 260));
-    --primary-foreground: oklch(98.5% 0 0);
-    --muted: light-dark(oklch(95% 0 0), oklch(27% 0 0));
-    --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
+    --popover-foreground: var(--card-foreground);
     --secondary: var(--muted);
-    --secondary-foreground: light-dark(oklch(20.5% 0 0), oklch(98.5% 0 0));
-    --accent: var(--muted);
-    --accent-foreground: var(--secondary-foreground);
-    --destructive: light-dark(oklch(57.7% .245 27.325), oklch(70.4% .191 22.216));
+    --secondary-foreground: var(--foreground);
+    --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
+    --primary-foreground: oklch(98.5% 0 0);
     --destructive-foreground: oklch(98.5% 0 0);
-    --border: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --input: var(--border);
     --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
-    --block-spacing-vertical: var(--spacing);
-    --block-spacing-horizontal: var(--spacing);
-    --typography-spacing-vertical: var(--spacing);
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --button-radius: var(--radius-md);
+    --input-radius: var(--radius-md);
+    --card-radius: var(--radius-xl);
+    --modal-radius: var(--radius-xl);
+    --dropdown-radius: var(--radius-md);
+    --tooltip-radius: var(--radius-sm);
+    --badge-radius: var(--radius-full);
+    --progress-radius: var(--radius-full);
+    --input-height: var(--component-height);
+    --button-height: var(--component-height);
+    --button-height-sm: var(--component-height-sm);
+    --button-height-lg: var(--component-height-lg);
+    --hover-opacity: 90%;
+    --active-opacity: 85%;
+    --disabled-opacity: .5;
+    --focus-ring-width: 3px;
+    --focus-ring-opacity: 30%;
     --border-width: 1px;
     --outline-width: 2px;
     --outline-offset: 2px;
-    --hover-opacity: 90%;
-    --active-opacity: 85%;
-    --focus-ring-width: 3px;
-    --focus-ring-opacity: 30%;
-    --disabled-opacity: .5;
+    --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
     --aside-width: fit-content(20rem);
+    --block-spacing-vertical: var(--spacing);
+    --block-spacing-horizontal: var(--spacing);
+    --typography-spacing-vertical: var(--spacing);
   }
 
   @supports (color: oklch(from red l c h)) {
     :root {
       --primary-foreground: oklch(from var(--primary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+      --secondary-foreground: oklch(from var(--secondary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
       --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     }
   }
@@ -265,11 +268,8 @@
     --primary: oklch(20.5% 0 0);
     --primary-foreground: oklch(98.5% 0 0);
     --secondary: oklch(97% 0 0);
-    --secondary-foreground: oklch(20.5% 0 0);
     --muted: oklch(97% 0 0);
     --muted-foreground: oklch(55.6% 0 0);
-    --accent: oklch(97% 0 0);
-    --accent-foreground: oklch(20.5% 0 0);
     --border: oklch(92.2% 0 0);
     --input: oklch(92.2% 0 0);
     --ring: oklch(70.8% 0 0);
@@ -549,7 +549,7 @@
   }
 
   mark {
-    background-color: color-mix(in oklch, var(--accent) 40%, transparent);
+    background-color: color-mix(in oklch, var(--muted) 40%, transparent);
     color: var(--foreground);
     border-radius: var(--radius-sm);
     padding: .125em .25em;
@@ -888,7 +888,7 @@
     background-image: var(--icon-select-chevron);
     background-repeat: no-repeat;
     background-position: right var(--spacing-md) center;
-    background-size: 1rem;
+    background-size: var(--icon-size);
 
     &[multiple] {
       height: auto;
@@ -1144,21 +1144,21 @@
   }
 
   input[type="checkbox"][role="switch"] {
+    width: var(--switch-width);
+    height: var(--switch-height);
     border-radius: var(--radius-full);
     background-color: var(--muted-foreground);
     border-color: var(--muted-foreground);
-    width: 2.5rem;
-    height: 1.375rem;
     transition: background-color var(--transition-default);
     position: relative;
   }
 
   input[type="checkbox"][role="switch"]:before {
     content: "";
+    width: var(--switch-thumb);
+    height: var(--switch-thumb);
     background-color: var(--background);
     border-radius: var(--radius-full);
-    width: calc(1.375rem - 4px);
-    height: calc(1.375rem - 4px);
     transition: transform var(--transition-default);
     position: absolute;
     top: 1px;
@@ -1175,7 +1175,7 @@
   }
 
   input[type="checkbox"][role="switch"]:checked:before {
-    transform: translateX(1.125rem);
+    transform: translateX(var(--control-size));
   }
 
   input[type="checkbox"][role="switch"]:focus-visible {
@@ -1373,9 +1373,9 @@
     }
 
     & > svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
       flex-shrink: 0;
-      width: 1rem;
-      height: 1rem;
     }
   }
 
@@ -1483,8 +1483,8 @@
     background-color: #0000;
 
     &:hover {
-      background-color: var(--accent);
-      color: var(--accent-foreground);
+      background-color: var(--muted);
+      color: var(--secondary-foreground);
     }
   }
 
@@ -1741,8 +1741,8 @@
 
     &:after {
       content: "";
-      width: 1rem;
-      height: 1rem;
+      width: var(--icon-size);
+      height: var(--icon-size);
       margin-left: var(--spacing-sm);
       mask-image: var(--icon-chevron);
       transition: transform var(--transition-default);
@@ -1869,8 +1869,8 @@
 
     &:after {
       content: "";
-      width: 1rem;
-      height: 1rem;
+      width: var(--icon-size);
+      height: var(--icon-size);
       mask-image: var(--icon-chevron);
       transition: transform var(--transition-default);
       background-color: currentColor;
@@ -1933,8 +1933,8 @@
     display: flex;
 
     &:hover {
-      background-color: var(--accent);
-      color: var(--accent-foreground);
+      background-color: var(--muted);
+      color: var(--secondary-foreground);
     }
   }
 
@@ -2144,13 +2144,13 @@
 
     &:hover {
       color: var(--foreground);
-      background-color: var(--accent);
+      background-color: var(--muted);
     }
   }
 
   nav a[aria-current="page"], nav a[aria-current="true"] {
     color: var(--foreground);
-    background-color: var(--accent);
+    background-color: var(--muted);
   }
 
   nav strong {
@@ -2173,7 +2173,7 @@
 
     &:hover {
       color: var(--foreground);
-      background-color: var(--accent);
+      background-color: var(--muted);
     }
   }
 
@@ -2245,7 +2245,7 @@
 
   progress {
     width: 100%;
-    height: .5rem;
+    height: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
     background-color: var(--muted);
     border-radius: var(--progress-radius);

@@ -1,39 +1,116 @@
 /**
  * CSS Custom Properties (Design Tokens)
- * Hierarchical system: root variables → derived variables → semantic tokens
+ * Hierarchical system: root → derived → component
  */
 
 :root {
   color-scheme: light dark;
 
   /* ===== TIER 0: ROOT VARIABLES ===== */
-  /* These control the entire design system */
+  /* Fundamental values that control the entire design system */
 
+  /* Layout & Sizing */
   --spacing: 1rem;
   --radius: 0.5rem;
-  --font-size-base: 1rem;
-  --line-height: 1.5;
-  --transition: 150ms;
   --component-height: 2.25rem;
 
-  /* ===== TIER 1: DERIVED VARIABLES ===== */
+  /* Typography */
+  --font-size-base: 1rem;
+  --line-height: 1.5;
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Spacing scale (derived from --spacing) */
+  /* Animation */
+  --transition: 150ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Core Colors */
+  --background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
+  --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+  --primary: light-dark(oklch(0.2 0.27 260), oklch(0.35 0.22 260));
+  --muted: light-dark(oklch(0.95 0 0), oklch(0.27 0 0));
+  --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
+  --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
+
+  /* ===== TIER 1: DERIVED VARIABLES ===== */
+  /* Scales and values calculated from root variables */
+
+  /* Spacing Scale */
   --spacing-xs: calc(var(--spacing) * 0.25);
   --spacing-sm: calc(var(--spacing) * 0.5);
   --spacing-md: calc(var(--spacing) * 0.75);
-  /* --spacing is the base (1rem) */
   --spacing-lg: calc(var(--spacing) * 1.5);
   --spacing-xl: calc(var(--spacing) * 2);
 
-  /* Border radius (additive scale from --radius) */
+  /* Radius Scale */
   --radius-sm: calc(var(--radius) - 0.125rem);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 0.125rem);
   --radius-xl: calc(var(--radius) + 0.375rem);
   --radius-full: 9999px;
 
-  /* Component radius (override to customize individual components) */
+  /* Typography Scale */
+  --text-xs: calc(var(--font-size-base) * 0.75);
+  --text-sm: calc(var(--font-size-base) * 0.875);
+  --text: var(--font-size-base);
+  --text-base: var(--font-size-base);
+  --text-lg: calc(var(--font-size-base) * 1.125);
+  --text-xl: calc(var(--font-size-base) * 1.25);
+  --text-2xl: calc(var(--font-size-base) * 1.5);
+  --text-3xl: calc(var(--font-size-base) * 1.875);
+  --text-4xl: calc(var(--font-size-base) * 2.25);
+
+  /* Line Height Scale */
+  --line-height-sm: calc(var(--line-height) - 0.25);
+  --line-height-lg: calc(var(--line-height) + 0.25);
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Transition Scale */
+  --transition-fast: calc(var(--transition) * 0.67);
+  --transition-base: var(--transition);
+  --transition-slow: calc(var(--transition) * 2);
+  --transition-default: var(--transition) var(--ease-default);
+
+  /* Component Height Scale */
+  --component-height-sm: calc(var(--component-height) - 0.25rem);
+  --component-height-lg: calc(var(--component-height) + 0.5rem);
+
+  /* Control Sizes */
+  --control-size: calc(var(--component-height) * 0.5);
+  --icon-size: 1rem;
+  --switch-height: calc(var(--control-size) + var(--spacing-xs));
+  --switch-width: calc(var(--control-size) + var(--switch-height));
+  --switch-thumb: calc(var(--switch-height) - 4px);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.3));
+  --shadow-sm: 0 1px 3px 0 light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 1px 2px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
+  --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
+  --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
+
+  /* Derived Colors */
+  --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--card-foreground);
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
+  --primary-foreground: oklch(0.985 0 0);
+  --destructive-foreground: oklch(0.985 0 0);
+  --input: var(--border);
+  --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
+
+  /* ===== TIER 2: COMPONENT TOKENS ===== */
+  /* Per-component customization points */
+
+  /* Component Radii */
   --button-radius: var(--radius-md);
   --input-radius: var(--radius-md);
   --card-radius: var(--radius-xl);
@@ -43,133 +120,45 @@
   --badge-radius: var(--radius-full);
   --progress-radius: var(--radius-full);
 
-  /* Typography scale (fixed Tailwind ratios × dynamic base) */
-  --text-xs: calc(var(--font-size-base) * 0.75);     /* 12px at 1rem base */
-  --text-sm: calc(var(--font-size-base) * 0.875);    /* 14px at 1rem base */
-  --text: var(--font-size-base);
-  --text-base: var(--font-size-base);                /* 16px at 1rem base */
-  --text-lg: calc(var(--font-size-base) * 1.125);    /* 18px at 1rem base */
-  --text-xl: calc(var(--font-size-base) * 1.25);     /* 20px at 1rem base */
-  --text-2xl: calc(var(--font-size-base) * 1.5);     /* 24px at 1rem base */
-  --text-3xl: calc(var(--font-size-base) * 1.875);   /* 30px at 1rem base */
-  --text-4xl: calc(var(--font-size-base) * 2.25);    /* 36px at 1rem base */
-
-  /* Line heights (derived from --line-height) */
-  --line-height-sm: calc(var(--line-height) - 0.25);
-  --line-height-lg: calc(var(--line-height) + 0.25);
-
-  /* Transitions (derived from --transition) */
-  --transition-fast: calc(var(--transition) * 0.67);
-  --transition-base: var(--transition);
-  --transition-slow: calc(var(--transition) * 2);
-  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-default: var(--transition) var(--ease-default);
-
-  /* Component heights (derived from --component-height) */
-  --component-height-sm: calc(var(--component-height) - 0.25rem);
-  --component-height-lg: calc(var(--component-height) + 0.5rem);
+  /* Component Heights */
   --input-height: var(--component-height);
   --button-height: var(--component-height);
   --button-height-sm: var(--component-height-sm);
   --button-height-lg: var(--component-height-lg);
 
-  /* Control size (checkbox, radio, range thumb) */
-  --control-size: 1.125rem;
+  /* State Opacities */
+  --hover-opacity: 90%;
+  --active-opacity: 85%;
+  --disabled-opacity: 0.5;
 
-  /* Font weights */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
+  /* Focus Ring */
+  --focus-ring-width: 3px;
+  --focus-ring-opacity: 30%;
 
-  /* Shadows - using light-dark() */
-  --shadow-xs: 0 1px 2px 0 light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.3));
-  --shadow-sm: 0 1px 3px 0 light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 1px 2px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
-  --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
-  --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
-
-  /* Icons (used as masks, color applied via background-color) */
-  --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-
-  /* Icon for select (neutral gray works on both light and dark backgrounds) */
-  --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-
-  /* ===== TIER 2: SEMANTIC TOKENS (shadcn naming) ===== */
-
-  /* Base colors */
-  --background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
-  --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
-
-  /* Card surfaces */
-  --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
-  --card-foreground: var(--foreground);
-
-  /* Popover surfaces */
-  --popover: var(--card);
-  --popover-foreground: var(--foreground);
-
-  /* Primary action color */
-  --primary: light-dark(oklch(0.2 0.27 260), oklch(0.35 0.22 260));
-  --primary-foreground: oklch(0.985 0 0);
-
-  /* Muted text and backgrounds */
-  --muted: light-dark(oklch(0.95 0 0), oklch(0.27 0 0));
-  --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
-
-  /* Secondary elements (same as muted) */
-  --secondary: var(--muted);
-  --secondary-foreground: light-dark(oklch(0.205 0 0), oklch(0.985 0 0));
-
-  /* Accent/hover states (same as muted) */
-  --accent: var(--muted);
-  --accent-foreground: var(--secondary-foreground);
-
-  /* Destructive/error states */
-  --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
-  --destructive-foreground: oklch(0.985 0 0);
-
-  /* Structural colors */
-  --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
-  --input: var(--border);
-  --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
-
-  /* Semantic spacing aliases */
-  --block-spacing-vertical: var(--spacing);
-  --block-spacing-horizontal: var(--spacing);
-  --typography-spacing-vertical: var(--spacing);
-
-  /* Font family */
-  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-
-  /* Border */
+  /* Border Widths */
   --border-width: 1px;
   --outline-width: 2px;
   --outline-offset: 2px;
 
-  /* Interactive state opacities */
-  --hover-opacity: 90%;
-  --active-opacity: 85%;
+  /* Icons */
+  --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
-  /* Focus ring */
-  --focus-ring-width: 3px;
-  --focus-ring-opacity: 30%;
-
-  /* Component-specific */
-  --disabled-opacity: 0.5;
+  /* Miscellaneous */
   --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
   --breadcrumb-divider: "›";
-
-  /* Layout */
   --aside-width: fit-content(20rem);
+  --block-spacing-vertical: var(--spacing);
+  --block-spacing-horizontal: var(--spacing);
+  --typography-spacing-vertical: var(--spacing);
 }
 
 /* Auto-contrast foreground colors (Firefox 128+, Chrome 119+, Safari 18+) */
 @supports (color: oklch(from red l c h)) {
   :root {
     --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+    --secondary-foreground: oklch(from var(--secondary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
   }
 }

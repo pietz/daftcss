@@ -70,7 +70,7 @@ select {
   background-image: var(--icon-select-chevron);
   background-repeat: no-repeat;
   background-position: right var(--spacing-md) center;
-  background-size: 1rem;
+  background-size: var(--icon-size);
 
   &[multiple] {
     height: auto;

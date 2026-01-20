@@ -41,7 +41,7 @@ nav a {
 
   &:hover {
     color: var(--foreground);
-    background-color: var(--accent);
+    background-color: var(--muted);
   }
 }
 
@@ -49,7 +49,7 @@ nav a {
 nav a[aria-current="page"],
 nav a[aria-current="true"] {
   color: var(--foreground);
-  background-color: var(--accent);
+  background-color: var(--muted);
 }
 
 /* Nav with strong (brand) */
@@ -75,7 +75,7 @@ nav details.dropdown > summary {
 
   &:hover {
     color: var(--foreground);
-    background-color: var(--accent);
+    background-color: var(--muted);
   }
 }
 
