@@ -90,6 +90,7 @@
     --disabled-opacity: .5;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
+    --aside-width: fit-content(20rem);
   }
 
   @supports (color: oklch(from red l c h)) {
@@ -409,6 +410,14 @@
 
     .grid:has( > :nth-child(6):last-child) {
       grid-template-columns: repeat(6, 1fr);
+    }
+
+    .grid:has( > aside:first-child) {
+      grid-template-columns: var(--aside-width, auto) 1fr;
+    }
+
+    .grid:has( > aside:last-child):not(:has( > aside:first-child)) {
+      grid-template-columns: 1fr var(--aside-width, auto);
     }
   }
 

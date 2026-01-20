@@ -159,6 +159,9 @@
   --disabled-opacity: 0.5;
   --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
   --breadcrumb-divider: "›";
+
+  /* Layout */
+  --aside-width: fit-content(20rem);
 }
 
 /* Auto-contrast foreground colors (Firefox 128+, Chrome 119+, Safari 18+) */
