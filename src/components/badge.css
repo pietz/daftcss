@@ -14,7 +14,7 @@
   line-height: 1;
   white-space: nowrap;
   border: var(--border-width) solid transparent;
-  border-radius: var(--radius-full);
+  border-radius: var(--badge-radius);
 
   /* Primary variant (default) */
   color: var(--primary-foreground);

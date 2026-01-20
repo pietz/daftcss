@@ -26,12 +26,22 @@
   --spacing-lg: calc(var(--spacing) * 1.5);
   --spacing-xl: calc(var(--spacing) * 2);
 
-  /* Border radius (derived from --radius) */
-  --radius-sm: calc(var(--radius) * 0.75);
+  /* Border radius (additive scale from --radius) */
+  --radius-sm: calc(var(--radius) - 0.125rem);
   --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) * 1.25);
-  --radius-xl: calc(var(--radius) * 1.75);
+  --radius-lg: calc(var(--radius) + 0.125rem);
+  --radius-xl: calc(var(--radius) + 0.375rem);
   --radius-full: 9999px;
+
+  /* Component radius (override to customize individual components) */
+  --button-radius: var(--radius-md);
+  --input-radius: var(--radius-md);
+  --card-radius: var(--radius-xl);
+  --modal-radius: var(--radius-xl);
+  --dropdown-radius: var(--radius-md);
+  --tooltip-radius: var(--radius-sm);
+  --badge-radius: var(--radius-full);
+  --progress-radius: var(--radius-full);
 
   /* Typography scale (fixed Tailwind ratios × dynamic base) */
   --text-xs: calc(var(--font-size-base) * 0.75);     /* 12px at 1rem base */
@@ -119,14 +129,6 @@
   /* Destructive/error states */
   --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
   --destructive-foreground: oklch(0.985 0 0);
-
-  /* Success states */
-  --success: light-dark(oklch(0.6 0.2 145), oklch(0.65 0.2 145));
-  --success-foreground: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
-
-  /* Warning states */
-  --warning: light-dark(oklch(0.75 0.18 85), oklch(0.8 0.15 85));
-  --warning-foreground: light-dark(oklch(0.205 0 0), oklch(0.145 0 0));
 
   /* Structural colors */
   --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));

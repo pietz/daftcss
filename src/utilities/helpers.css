@@ -19,16 +19,6 @@ a.secondary {
   color: var(--muted-foreground);
 }
 
-/* Success colored text */
-.success {
-  color: var(--success);
-}
-
-/* Warning colored text */
-.warning {
-  color: var(--warning);
-}
-
 /* ===== VISIBILITY ===== */
 
 /* Screen reader only - visually hidden but accessible */

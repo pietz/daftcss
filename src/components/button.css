@@ -22,7 +22,7 @@
   cursor: pointer;
   user-select: none;
   border: var(--border-width) solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--button-radius);
   transition: color var(--transition-default),
               background-color var(--transition-default),
               border-color var(--transition-default),

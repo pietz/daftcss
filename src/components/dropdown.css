@@ -22,7 +22,7 @@ details.dropdown > summary {
   color: var(--foreground);
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
-  border-radius: var(--radius-md);
+  border-radius: var(--dropdown-radius);
   cursor: pointer;
   transition: border-color var(--transition-default),
               background-color var(--transition-default);
@@ -63,7 +63,7 @@ details.dropdown > ul {
   list-style: none;
   background-color: var(--popover);
   border: var(--border-width) solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--dropdown-radius);
   box-shadow: var(--shadow-md);
   opacity: 0;
   transform: translateY(-0.5rem);

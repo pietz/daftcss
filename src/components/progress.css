@@ -10,7 +10,7 @@ progress {
   overflow: hidden;
   background-color: var(--muted);
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: var(--progress-radius);
   appearance: none;
 }
 
@@ -20,18 +20,18 @@ progress:last-child {
 
 progress::-webkit-progress-bar {
   background-color: var(--muted);
-  border-radius: var(--radius-full);
+  border-radius: var(--progress-radius);
 }
 
 progress::-webkit-progress-value {
   background-color: var(--primary);
-  border-radius: var(--radius-full);
+  border-radius: var(--progress-radius);
   transition: width var(--transition-slow) var(--ease-default);
 }
 
 progress::-moz-progress-bar {
   background-color: var(--primary);
-  border-radius: var(--radius-full);
+  border-radius: var(--progress-radius);
 }
 
 /* Indeterminate progress */

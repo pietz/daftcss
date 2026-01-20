@@ -12,11 +12,19 @@
     --spacing-md: calc(var(--spacing) * .75);
     --spacing-lg: calc(var(--spacing) * 1.5);
     --spacing-xl: calc(var(--spacing) * 2);
-    --radius-sm: calc(var(--radius) * .75);
+    --radius-sm: calc(var(--radius)  - .125rem);
     --radius-md: var(--radius);
-    --radius-lg: calc(var(--radius) * 1.25);
-    --radius-xl: calc(var(--radius) * 1.75);
+    --radius-lg: calc(var(--radius)  + .125rem);
+    --radius-xl: calc(var(--radius)  + .375rem);
     --radius-full: 9999px;
+    --button-radius: var(--radius-md);
+    --input-radius: var(--radius-md);
+    --card-radius: var(--radius-xl);
+    --modal-radius: var(--radius-xl);
+    --dropdown-radius: var(--radius-md);
+    --tooltip-radius: var(--radius-sm);
+    --badge-radius: var(--radius-full);
+    --progress-radius: var(--radius-full);
     --text-xs: calc(var(--font-size-base) * .75);
     --text-sm: calc(var(--font-size-base) * .875);
     --text: var(--font-size-base);
@@ -68,10 +76,6 @@
     --accent-foreground: var(--secondary-foreground);
     --destructive: light-dark(oklch(57.7% .245 27.325), oklch(70.4% .191 22.216));
     --destructive-foreground: oklch(98.5% 0 0);
-    --success: light-dark(oklch(60% .2 145), oklch(65% .2 145));
-    --success-foreground: light-dark(oklch(98.5% 0 0), oklch(14.5% 0 0));
-    --warning: light-dark(oklch(75% .18 85), oklch(80% .15 85));
-    --warning-foreground: light-dark(oklch(20.5% 0 0), oklch(14.5% 0 0));
     --border: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --input: var(--border);
     --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
@@ -545,7 +549,7 @@
   }
 
   mark {
-    background-color: color-mix(in oklch, var(--warning) 40%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 40%, transparent);
     color: var(--foreground);
     border-radius: var(--radius-sm);
     padding: .125em .25em;
@@ -558,7 +562,7 @@
 
   ins {
     text-decoration: underline wavy;
-    text-decoration-color: var(--success);
+    text-decoration-color: var(--primary);
   }
 
   u {
@@ -839,7 +843,7 @@
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
-    border-radius: var(--radius-md);
+    border-radius: var(--input-radius);
     transition: border-color var(--transition-default), box-shadow var(--transition-default);
     appearance: none;
     display: block;
@@ -903,7 +907,7 @@
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
-    border-radius: var(--radius-md);
+    border-radius: var(--input-radius);
     cursor: pointer;
     transition: border-color var(--transition-default);
 
@@ -935,7 +939,7 @@
     height: var(--input-height);
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
-    border-radius: var(--radius-md);
+    border-radius: var(--input-radius);
     cursor: pointer;
     padding: 6px;
 
@@ -1283,7 +1287,7 @@
   }
 
   input[aria-invalid="false"], textarea[aria-invalid="false"], select[aria-invalid="false"] {
-    border-color: var(--success);
+    border-color: var(--primary);
   }
 
   input[aria-invalid="true"] + small, textarea[aria-invalid="true"] + small, select[aria-invalid="true"] + small, input[aria-invalid="true"] ~ small, textarea[aria-invalid="true"] ~ small, select[aria-invalid="true"] ~ small {
@@ -1291,7 +1295,7 @@
   }
 
   input[aria-invalid="false"] + small, textarea[aria-invalid="false"] + small, select[aria-invalid="false"] + small, input[aria-invalid="false"] ~ small, textarea[aria-invalid="false"] ~ small, select[aria-invalid="false"] ~ small {
-    color: var(--success);
+    color: var(--primary);
   }
 
   input[type="checkbox"][aria-invalid="true"], input[type="radio"][aria-invalid="true"] {
@@ -1299,7 +1303,7 @@
   }
 
   input[type="checkbox"][aria-invalid="false"], input[type="radio"][aria-invalid="false"] {
-    border-color: var(--success);
+    border-color: var(--primary);
   }
 
   input:user-invalid:not([type="checkbox"]):not([type="radio"]), textarea:user-invalid {
@@ -1307,7 +1311,7 @@
   }
 
   input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]), textarea:user-valid:not(:placeholder-shown) {
-    border-color: var(--success);
+    border-color: var(--primary);
   }
 
   label:has( + input:required):after, label:has( + textarea:required):after, label:has( + select:required):after, label:has( > input:required):after, label:has( > textarea:required):after, label:has( > select:required):after {
@@ -1320,7 +1324,7 @@
   }
 
   details.dropdown[aria-invalid="false"] > summary {
-    border-color: var(--success);
+    border-color: var(--primary);
   }
 }
 
@@ -1341,7 +1345,7 @@
     cursor: pointer;
     user-select: none;
     border: var(--border-width) solid transparent;
-    border-radius: var(--radius-md);
+    border-radius: var(--button-radius);
     transition: color var(--transition-default), background-color var(--transition-default), border-color var(--transition-default), box-shadow var(--transition-default);
     color: var(--primary-foreground);
     background-color: var(--primary);
@@ -1631,7 +1635,7 @@
     background-color: var(--card);
     color: var(--card-foreground);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--card-radius);
     margin-bottom: var(--spacing);
   }
 
@@ -1684,7 +1688,7 @@
 
   a:has( > article) {
     color: inherit;
-    border-radius: var(--radius-xl);
+    border-radius: var(--card-radius);
     transition: box-shadow var(--transition-default);
     text-decoration: none;
     display: block;
@@ -1858,7 +1862,7 @@
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width) solid var(--input);
-    border-radius: var(--radius-md);
+    border-radius: var(--dropdown-radius);
     cursor: pointer;
     transition: border-color var(--transition-default), background-color var(--transition-default);
     display: inline-flex;
@@ -1896,7 +1900,7 @@
     padding: var(--spacing-xs);
     background-color: var(--popover);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--dropdown-radius);
     box-shadow: var(--shadow-md);
     opacity: 0;
     animation: dropdown-in var(--transition-default) forwards;
@@ -1989,7 +1993,7 @@
     padding: var(--spacing-lg);
     background-color: var(--card);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--modal-radius);
     box-shadow: var(--shadow-lg);
     animation: modal-in var(--transition-slow) var(--ease-default);
     margin: 0;
@@ -2244,7 +2248,7 @@
     height: .5rem;
     margin-bottom: var(--spacing-sm);
     background-color: var(--muted);
-    border-radius: var(--radius-full);
+    border-radius: var(--progress-radius);
     appearance: none;
     border: none;
     display: block;
@@ -2257,18 +2261,18 @@
 
   progress::-webkit-progress-bar {
     background-color: var(--muted);
-    border-radius: var(--radius-full);
+    border-radius: var(--progress-radius);
   }
 
   progress::-webkit-progress-value {
     background-color: var(--primary);
-    border-radius: var(--radius-full);
+    border-radius: var(--progress-radius);
     transition: width var(--transition-slow) var(--ease-default);
   }
 
   progress::-moz-progress-bar {
     background-color: var(--primary);
-    border-radius: var(--radius-full);
+    border-radius: var(--progress-radius);
   }
 
   progress:not([value]) {
@@ -2445,7 +2449,7 @@
     line-height: var(--line-height-sm);
     color: var(--background);
     background-color: var(--foreground);
-    border-radius: var(--radius-sm);
+    border-radius: var(--tooltip-radius);
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;
@@ -2592,7 +2596,7 @@
     font-weight: var(--font-medium);
     white-space: nowrap;
     border: var(--border-width) solid transparent;
-    border-radius: var(--radius-full);
+    border-radius: var(--badge-radius);
     color: var(--primary-foreground);
     background-color: var(--primary);
     line-height: 1;
@@ -2656,14 +2660,6 @@
 
   .muted {
     color: var(--muted-foreground);
-  }
-
-  .success {
-    color: var(--success);
-  }
-
-  .warning {
-    color: var(--warning);
   }
 
   .sr-only {

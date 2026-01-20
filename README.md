@@ -249,15 +249,38 @@ Follows system preference automatically. Override with `data-theme`:
 
 ### CSS Variables
 
-Rapidly customize the design by overriding core variables:
+Daft CSS uses a hierarchical variable system designed to give you both simplicity and granularity.
+
+**1. Root variables** — A small set of core values that control the entire design system. Change one, and everything adapts:
 
 ```css
 :root {
-  --primary: oklch(55% 0.25 265);  /* Different primary color */
-  --radius: 1rem;                  /* Make corners rounder */
-  --spacing: 0.75rem;              /* Condense spacing */
+  --spacing: 1rem;      /* Controls all spacing throughout the app */
+  --radius: 0.5rem;     /* Controls all border radii */
+  --primary: oklch(0.2 0.27 260);  /* Primary brand color */
 }
 ```
+
+The system automatically handles derived concerns — for example, button text color adjusts based on whether the primary color is light or dark.
+
+**2. Scale variables** — Root values cascade into scales. Decrease `--spacing` and all spacing shrinks proportionally:
+
+```css
+--spacing-sm   /* 0.5rem  — derived from --spacing */
+--spacing      /* 1rem    — the base */
+--spacing-lg   /* 1.5rem  — derived from --spacing */
+```
+
+**3. Component variables** — For fine-grained control, override individual components without affecting others:
+
+```css
+:root {
+  --button-radius: var(--radius-full);  /* Pill-shaped buttons */
+  --card-radius: var(--radius-lg);      /* Slightly rounded cards */
+}
+```
+
+This tree structure gives you the best of both worlds: change a few root variables for a quick redesign, or drill down into component-specific tokens when you need precise control.
 
 ## Browser Support
 

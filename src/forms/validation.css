@@ -14,7 +14,7 @@ select[aria-invalid="true"] {
 input[aria-invalid="false"],
 textarea[aria-invalid="false"],
 select[aria-invalid="false"] {
-  border-color: var(--success);
+  border-color: var(--primary);
 }
 
 /* Helper text colors for validation */
@@ -33,7 +33,7 @@ select[aria-invalid="false"] + small,
 input[aria-invalid="false"] ~ small,
 textarea[aria-invalid="false"] ~ small,
 select[aria-invalid="false"] ~ small {
-  color: var(--success);
+  color: var(--primary);
 }
 
 /* Checkbox/radio validation */
@@ -44,7 +44,7 @@ input[type="radio"][aria-invalid="true"] {
 
 input[type="checkbox"][aria-invalid="false"],
 input[type="radio"][aria-invalid="false"] {
-  border-color: var(--success);
+  border-color: var(--primary);
 }
 
 /* Native browser validation (optional enhancement) */
@@ -55,7 +55,7 @@ textarea:user-invalid {
 
 input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]),
 textarea:user-valid:not(:placeholder-shown) {
-  border-color: var(--success);
+  border-color: var(--primary);
 }
 
 /* Required field indicator */
@@ -75,5 +75,5 @@ details.dropdown[aria-invalid="true"] > summary {
 }
 
 details.dropdown[aria-invalid="false"] > summary {
-  border-color: var(--success);
+  border-color: var(--primary);
 }

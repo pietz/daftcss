@@ -20,7 +20,7 @@
   line-height: var(--line-height-sm);
   color: var(--background);
   background-color: var(--foreground);
-  border-radius: var(--radius-sm);
+  border-radius: var(--tooltip-radius);
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;

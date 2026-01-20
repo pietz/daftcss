@@ -18,7 +18,7 @@ select {
   color: var(--foreground);
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
-  border-radius: var(--radius-md);
+  border-radius: var(--input-radius);
   transition: border-color var(--transition-default),
               box-shadow var(--transition-default);
   appearance: none;
@@ -91,7 +91,7 @@ input[type="file"] {
   color: var(--foreground);
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
-  border-radius: var(--radius-md);
+  border-radius: var(--input-radius);
   cursor: pointer;
   transition: border-color var(--transition-default);
 
@@ -125,7 +125,7 @@ input[type="color"] {
   padding: 6px;
   background-color: var(--background);
   border: var(--border-width) solid var(--input);
-  border-radius: var(--radius-md);
+  border-radius: var(--input-radius);
   cursor: pointer;
 
   &::-webkit-color-swatch-wrapper {

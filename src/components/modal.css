@@ -56,7 +56,7 @@ dialog > article {
   overflow: auto;
   background-color: var(--card);
   border: var(--border-width) solid var(--border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--modal-radius);
   box-shadow: var(--shadow-lg);
   animation: modal-in var(--transition-slow) var(--ease-default);
 }
