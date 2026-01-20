@@ -362,8 +362,22 @@
     padding: var(--spacing);
   }
 
-  .grid > aside, [style*="display: flex"] > aside, [style*="display:flex"] > aside {
+  main > aside, .grid > aside, [style*="display: flex"] > aside, [style*="display:flex"] > aside {
     padding: 0;
+  }
+
+  @media (width >= 768px) {
+    main:has( > aside:first-child) {
+      grid-template-columns: var(--aside-width) 1fr;
+      gap: var(--spacing);
+      display: grid;
+    }
+
+    main:has( > aside:last-child):not(:has( > aside:first-child)) {
+      grid-template-columns: 1fr var(--aside-width);
+      gap: var(--spacing);
+      display: grid;
+    }
   }
 
   section section, body > article, main > article, section > article, .container > article {
@@ -410,14 +424,6 @@
 
     .grid:has( > :nth-child(6):last-child) {
       grid-template-columns: repeat(6, 1fr);
-    }
-
-    .grid:has( > aside:first-child) {
-      grid-template-columns: var(--aside-width, auto) 1fr;
-    }
-
-    .grid:has( > aside:last-child):not(:has( > aside:first-child)) {
-      grid-template-columns: 1fr var(--aside-width, auto);
     }
   }
 

@@ -40,15 +40,6 @@
   .grid:has(> :nth-child(6):last-child) {
     grid-template-columns: repeat(6, 1fr);
   }
-
-  /* Aside in grid - semantic sidebar behavior */
-  .grid:has(> aside:first-child) {
-    grid-template-columns: var(--aside-width, auto) 1fr;
-  }
-
-  .grid:has(> aside:last-child):not(:has(> aside:first-child)) {
-    grid-template-columns: 1fr var(--aside-width, auto);
-  }
 }
 
 /* Grid items */

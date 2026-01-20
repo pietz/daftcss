@@ -40,10 +40,26 @@ aside {
 }
 
 /* Inside a grid or flex container, aside shouldn't have padding (gap handles spacing) */
+main > aside,
 .grid > aside,
 [style*="display: flex"] > aside,
 [style*="display:flex"] > aside {
   padding: 0;
+}
+
+/* Sidebar layout - aside as direct child of main */
+@media (min-width: 768px) {
+  main:has(> aside:first-child) {
+    display: grid;
+    grid-template-columns: var(--aside-width) 1fr;
+    gap: var(--spacing);
+  }
+
+  main:has(> aside:last-child):not(:has(> aside:first-child)) {
+    display: grid;
+    grid-template-columns: 1fr var(--aside-width);
+    gap: var(--spacing);
+  }
 }
 
 /* Nested sections have less spacing */

@@ -161,6 +161,73 @@ The grid automatically adjusts its column count when spans are present. For exam
 </div>
 ```
 
+### Sidebar Layout
+
+When `<aside>` is placed as a direct child of `<main>`, it automatically creates a sidebar layout—no classes required. The aside sizes to its content (up to 20rem) while the sibling takes the remaining space.
+
+```html
+<body>
+  <header>...</header>
+  <main>
+    <aside>
+      <nav>
+        <ul>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <section>
+      <h2>Main Content</h2>
+      <p>This takes the remaining width.</p>
+    </section>
+  </main>
+  <footer>...</footer>
+</body>
+```
+
+The aside position is detected automatically—whether it's the first or last child:
+
+```html
+<!-- Sidebar on the left -->
+<main>
+  <aside>Navigation</aside>
+  <section>Content</section>
+</main>
+
+<!-- Sidebar on the right -->
+<main>
+  <section>Content</section>
+  <aside>Navigation</aside>
+</main>
+```
+
+**Custom Sidebar Width:**
+
+Override the default width using the `--aside-width` variable:
+
+```html
+<!-- Narrower sidebar -->
+<main style="--aside-width: fit-content(200px)">
+  <aside>Nav</aside>
+  <section>Content</section>
+</main>
+
+<!-- Fixed width sidebar -->
+<main style="--aside-width: 280px">
+  <aside>Nav</aside>
+  <section>Content</section>
+</main>
+
+<!-- Unconstrained (sizes to content) -->
+<main style="--aside-width: auto">
+  <aside>Nav</aside>
+  <section>Content</section>
+</main>
+```
+
+**Note:** On mobile (below 768px), the sidebar stacks vertically above/below the content.
+
 ### Landmarks
 
 Use semantic HTML elements for page structure:
