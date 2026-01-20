@@ -39,12 +39,11 @@ aside {
   padding: var(--spacing);
 }
 
-/* Inside a grid or flex container, aside shouldn't have horizontal padding (gap handles it) */
+/* Inside a grid or flex container, aside shouldn't have padding (gap handles spacing) */
 .grid > aside,
 [style*="display: flex"] > aside,
 [style*="display:flex"] > aside {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 
 /* Nested sections have less spacing */

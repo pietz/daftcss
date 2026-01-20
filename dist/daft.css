@@ -362,8 +362,7 @@
   }
 
   .grid > aside, [style*="display: flex"] > aside, [style*="display:flex"] > aside {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
   }
 
   section section, body > article, main > article, section > article, .container > article {
