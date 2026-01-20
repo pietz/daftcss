@@ -345,27 +345,6 @@
     display: block;
   }
 
-  body > header, main > header, .container > header, body > footer, main > footer, .container > footer {
-    padding-top: var(--spacing);
-    padding-bottom: var(--spacing);
-  }
-
-  section {
-    margin-bottom: var(--spacing-xl);
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
-
-  aside {
-    padding: var(--spacing);
-  }
-
-  main > aside, .grid > aside, [style*="display: flex"] > aside, [style*="display:flex"] > aside {
-    padding: 0;
-  }
-
   @media (width >= 768px) {
     main:has( > aside:first-child) {
       grid-template-columns: var(--aside-width) 1fr;
@@ -378,6 +357,18 @@
       gap: var(--spacing);
       display: grid;
     }
+  }
+
+  body > header, main > header, .container > header, body > footer, main > footer, .container > footer {
+    padding-block: var(--spacing);
+  }
+
+  section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  section:last-child {
+    margin-bottom: 0;
   }
 
   section section, body > article, main > article, section > article, .container > article {

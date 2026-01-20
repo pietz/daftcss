@@ -9,44 +9,6 @@ main {
   min-height: 1px;
 }
 
-/* Header landmark */
-body > header,
-main > header,
-.container > header {
-  padding-top: var(--spacing);
-  padding-bottom: var(--spacing);
-}
-
-/* Footer landmark */
-body > footer,
-main > footer,
-.container > footer {
-  padding-top: var(--spacing);
-  padding-bottom: var(--spacing);
-}
-
-/* Section with spacing */
-section {
-  margin-bottom: var(--spacing-xl);
-}
-
-section:last-child {
-  margin-bottom: 0;
-}
-
-/* Aside (sidebar) */
-aside {
-  padding: var(--spacing);
-}
-
-/* Inside a grid or flex container, aside shouldn't have padding (gap handles spacing) */
-main > aside,
-.grid > aside,
-[style*="display: flex"] > aside,
-[style*="display:flex"] > aside {
-  padding: 0;
-}
-
 /* Sidebar layout - aside as direct child of main */
 @media (min-width: 768px) {
   main:has(> aside:first-child) {
@@ -62,12 +24,35 @@ main > aside,
   }
 }
 
+/* Header landmark */
+body > header,
+main > header,
+.container > header {
+  padding-block: var(--spacing);
+}
+
+/* Footer landmark */
+body > footer,
+main > footer,
+.container > footer {
+  padding-block: var(--spacing);
+}
+
+/* Section with spacing */
+section {
+  margin-bottom: var(--spacing-xl);
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
 /* Nested sections have less spacing */
 section section {
   margin-bottom: var(--spacing);
 }
 
-/* Article gets card-like styling when used as a direct child */
+/* Article spacing when used as a direct child */
 body > article,
 main > article,
 section > article,
@@ -75,7 +60,7 @@ section > article,
   margin-bottom: var(--spacing);
 }
 
-/* Responsive landmark padding */
+/* Responsive section spacing */
 @media (min-width: 768px) {
   section {
     margin-bottom: calc(var(--spacing-xl) * 1.5);
