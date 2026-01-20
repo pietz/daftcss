@@ -631,41 +631,31 @@ Use `<details class="dropdown">`:
 
 ### Modal
 
-Use native `<dialog>` element:
+Use native `<dialog>` with the Popover API for zero-JavaScript modals:
 
 ```html
-<dialog id="modal">
+<button popovertarget="my-modal">Open Modal</button>
+
+<dialog id="my-modal" popover>
   <article>
     <header>
+      <button aria-label="Close" popovertarget="my-modal"></button>
       <strong>Modal Title</strong>
-      <button aria-label="Close" onclick="this.closest('dialog').close()"></button>
     </header>
     <p>Modal content here.</p>
     <footer>
-      <button class="secondary" onclick="this.closest('dialog').close()">Cancel</button>
+      <button class="secondary" popovertarget="my-modal">Cancel</button>
       <button>Confirm</button>
     </footer>
   </article>
 </dialog>
-
-<button onclick="document.getElementById('modal').showModal()">Open Modal</button>
 ```
 
-**Body Scroll Lock:**
-
-Add `modal-is-open` class to `<html>` when modal opens:
-
-```js
-const modal = document.getElementById('modal');
-
-modal.addEventListener('open', () => {
-  document.documentElement.classList.add('modal-is-open');
-});
-
-modal.addEventListener('close', () => {
-  document.documentElement.classList.remove('modal-is-open');
-});
-```
+The `popover` attribute enables:
+- Click outside to close (light dismiss)
+- Escape key to close
+- Automatic backdrop
+- No JavaScript required
 
 ### Navigation
 

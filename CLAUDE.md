@@ -69,6 +69,16 @@ Theme switching uses `light-dark()` function with `color-scheme` property. Overr
 - Role-based switches: `<input type="checkbox" role="switch">`
 - Data attributes for features: `data-tooltip`, `data-placement`, `data-theme`
 
+## Adding New Components or Features
+
+When adding a new component or feature to the library:
+
+1. **Create the CSS** in the appropriate `src/` directory
+2. **Import it** in `src/daft.css` with the correct layer
+3. **Update `examples/components.html`** with usage examples
+4. **Update documentation** if applicable
+5. **Run `npm run build`** to verify it compiles
+
 ## Visual Testing with Agent Browser
 
 Use the `agent-browser` skill to visually verify CSS changes. This is especially useful for checking color variants, theme switching, and responsive layouts.
