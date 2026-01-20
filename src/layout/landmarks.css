@@ -62,16 +62,6 @@ section > article,
 
 /* Responsive landmark padding */
 @media (min-width: 768px) {
-  body > header,
-  main > header,
-  .container > header,
-  body > footer,
-  main > footer,
-  .container > footer {
-    padding-top: var(--spacing-lg);
-    padding-bottom: var(--spacing-lg);
-  }
-
   section {
     margin-bottom: calc(var(--spacing-xl) * 1.5);
   }

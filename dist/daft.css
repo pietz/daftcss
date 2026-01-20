@@ -371,11 +371,6 @@
   }
 
   @media (width >= 768px) {
-    body > header, main > header, .container > header, body > footer, main > footer, .container > footer {
-      padding-top: var(--spacing-lg);
-      padding-bottom: var(--spacing-lg);
-    }
-
     section {
       margin-bottom: calc(var(--spacing-xl) * 1.5);
     }
@@ -2294,6 +2289,45 @@
     100% {
       background-position: -200% 0;
     }
+  }
+
+  progress.secondary::-webkit-progress-value {
+    background-color: var(--muted-foreground);
+  }
+
+  progress.secondary::-moz-progress-bar {
+    background-color: var(--muted-foreground);
+  }
+
+  progress.secondary:not([value]) {
+    background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 40%, var(--muted-foreground) 50%, var(--muted) 60%, var(--muted) 100%);
+    background-size: 200% 100%;
+  }
+
+  progress.contrast::-webkit-progress-value {
+    background-color: var(--foreground);
+  }
+
+  progress.contrast::-moz-progress-bar {
+    background-color: var(--foreground);
+  }
+
+  progress.contrast:not([value]) {
+    background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 40%, var(--foreground) 50%, var(--muted) 60%, var(--muted) 100%);
+    background-size: 200% 100%;
+  }
+
+  progress.destructive::-webkit-progress-value {
+    background-color: var(--destructive);
+  }
+
+  progress.destructive::-moz-progress-bar {
+    background-color: var(--destructive);
+  }
+
+  progress.destructive:not([value]) {
+    background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 40%, var(--destructive) 50%, var(--muted) 60%, var(--muted) 100%);
+    background-size: 200% 100%;
   }
 
   label:has( > progress) {

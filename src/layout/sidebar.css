@@ -1,0 +1,183 @@
+/**
+ * Sidebar component
+ * CSS-only responsive sidebar using checkbox hack
+ *
+ * Usage:
+ * <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle">
+ * <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu">☰</label>
+ * <aside class="sidebar">
+ *   <nav>...</nav>
+ * </aside>
+ *
+ * Desktop (≥1024px): Sidebar always visible below header, toggle hidden
+ * Mobile (<1024px): Sidebar hidden, toggle shows, opens as overlay
+ */
+
+/* Hidden checkbox that controls state */
+.sidebar-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hamburger toggle button - visible only on mobile */
+.sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-height);
+  height: var(--button-height);
+  padding: 0;
+  font-size: var(--text-lg);
+  color: var(--foreground);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-default);
+
+  &:hover {
+    background-color: var(--muted);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-toggle-btn {
+    display: none;
+  }
+}
+
+/* Sidebar base styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(20rem, 85vw);
+  padding: var(--spacing-lg);
+  background-color: var(--card);
+  border-right: var(--border-width) solid var(--border);
+  overflow-y: auto;
+  z-index: 50;
+
+  /* Mobile: hidden by default, slide from left */
+  transform: translateX(-100%);
+  transition: transform var(--transition-slow) var(--ease-default);
+}
+
+/* Mobile: backdrop overlay */
+.sidebar::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: var(--modal-overlay);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  z-index: -1;
+}
+
+/* Mobile: open state when checkbox is checked (using :has for nested sidebar) */
+body:has(.sidebar-toggle:checked) .sidebar {
+  transform: translateX(0);
+}
+
+body:has(.sidebar-toggle:checked) .sidebar::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Desktop: always visible, positioned below header */
+@media (min-width: 1024px) {
+  .sidebar {
+    top: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 16rem;
+    transform: none;
+    z-index: 40;
+  }
+
+  /* No backdrop on desktop */
+  .sidebar::before {
+    display: none;
+  }
+}
+
+/* Navigation inside sidebar */
+.sidebar > nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sidebar > nav > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar > nav > ul > li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Section headers */
+.sidebar > nav > ul > li > strong {
+  display: block;
+  padding: var(--spacing-sm) var(--spacing);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Nav links */
+.sidebar > nav > ul > li > a {
+  display: block;
+  padding: var(--spacing-sm) var(--spacing);
+  border-radius: var(--radius-md);
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color var(--transition-default),
+              color var(--transition-default);
+}
+
+.sidebar > nav > ul > li > a:hover {
+  background-color: var(--muted);
+}
+
+.sidebar > nav > ul > li > a[aria-current="page"] {
+  background-color: var(--muted);
+  font-weight: var(--font-medium);
+}
+
+/* Close button inside sidebar (for mobile) */
+.sidebar > .sidebar-close {
+  position: absolute;
+  top: var(--spacing);
+  right: var(--spacing);
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: var(--text-base);
+  color: var(--muted-foreground);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--muted);
+    color: var(--foreground);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar > .sidebar-close {
+    display: none;
+  }
+}
