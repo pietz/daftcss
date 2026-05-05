@@ -15,6 +15,8 @@
     --primary: light-dark(oklch(20% .27 260), oklch(35% .22 260));
     --muted: light-dark(oklch(95% 0 0), oklch(27% 0 0));
     --destructive: light-dark(oklch(57.7% .245 27.325), oklch(70.4% .191 22.216));
+    --success: light-dark(oklch(55% .16 145), oklch(72% .16 145));
+    --warning: light-dark(oklch(68% .16 70), oklch(82% .16 80));
     --border: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --spacing-xs: calc(var(--spacing) * .25);
     --spacing-sm: calc(var(--spacing) * .5);
@@ -25,6 +27,7 @@
     --radius-md: var(--radius);
     --radius-lg: calc(var(--radius)  + .125rem);
     --radius-xl: calc(var(--radius)  + .375rem);
+    --radius-2xl: calc(var(--radius)  + .75rem);
     --radius-full: 9999px;
     --text-xs: calc(var(--font-size-base) * .75);
     --text-sm: calc(var(--font-size-base) * .875);
@@ -55,6 +58,7 @@
     --switch-thumb: calc(var(--switch-height)  - 4px);
     --shadow-xs: 0 1px 2px 0 light-dark(#0000000d, #0000004d);
     --shadow-sm: 0 1px 3px 0 light-dark(#0000001a, #0006), 0 1px 2px -1px light-dark(#0000001a, #0006);
+    --shadow: var(--shadow-sm);
     --shadow-md: 0 4px 6px -1px light-dark(#0000001a, #0006), 0 2px 4px -2px light-dark(#0000001a, #0006);
     --shadow-lg: 0 10px 15px -3px light-dark(#0000001a, #0006), 0 4px 6px -4px light-dark(#0000001a, #0006);
     --card: light-dark(oklch(100% 0 0), oklch(20.5% 0 0));
@@ -66,6 +70,8 @@
     --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
     --primary-foreground: oklch(98.5% 0 0);
     --destructive-foreground: oklch(98.5% 0 0);
+    --success-foreground: light-dark(oklch(98.5% 0 0), oklch(14.5% 0 0));
+    --warning-foreground: oklch(14.5% 0 0);
     --input: var(--border);
     --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
     --button-radius: var(--radius-md);
@@ -77,6 +83,7 @@
     --badge-radius: var(--radius-full);
     --progress-radius: var(--radius-full);
     --input-height: var(--component-height);
+    --input-background: var(--card);
     --button-height: var(--component-height);
     --button-height-sm: var(--component-height-sm);
     --button-height-lg: var(--component-height-lg);
@@ -104,6 +111,8 @@
       --primary-foreground: oklch(from var(--primary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
       --secondary-foreground: oklch(from var(--secondary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
       --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+      --success-foreground: oklch(from var(--success) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+      --warning-foreground: oklch(from var(--warning) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     }
   }
 
@@ -111,6 +120,8 @@
     :root {
       --primary-foreground: contrast-color(var(--primary));
       --destructive-foreground: contrast-color(var(--destructive));
+      --success-foreground: contrast-color(var(--success));
+      --warning-foreground: contrast-color(var(--warning));
     }
   }
 }
@@ -270,6 +281,12 @@
     --secondary: oklch(97% 0 0);
     --muted: oklch(97% 0 0);
     --muted-foreground: oklch(55.6% 0 0);
+    --destructive: oklch(57.7% .245 27.325);
+    --destructive-foreground: oklch(98.5% 0 0);
+    --success: oklch(55% .16 145);
+    --success-foreground: oklch(98.5% 0 0);
+    --warning: oklch(68% .16 70);
+    --warning-foreground: oklch(14.5% 0 0);
     --border: oklch(92.2% 0 0);
     --input: oklch(92.2% 0 0);
     --ring: oklch(70.8% 0 0);
@@ -841,7 +858,7 @@
     font-weight: var(--font-normal);
     line-height: var(--line-height);
     color: var(--foreground);
-    background-color: var(--background);
+    background-color: var(--input-background);
     border: var(--border-width) solid var(--input);
     border-radius: var(--input-radius);
     transition: border-color var(--transition-default), box-shadow var(--transition-default);
@@ -905,7 +922,7 @@
     font-weight: var(--font-medium);
     line-height: calc(var(--input-height)  - 2 * var(--border-width));
     color: var(--foreground);
-    background-color: var(--background);
+    background-color: var(--input-background);
     border: var(--border-width) solid var(--input);
     border-radius: var(--input-radius);
     cursor: pointer;
@@ -937,7 +954,7 @@
   input[type="color"] {
     width: 100%;
     height: var(--input-height);
-    background-color: var(--background);
+    background-color: var(--input-background);
     border: var(--border-width) solid var(--input);
     border-radius: var(--input-radius);
     cursor: pointer;
@@ -1764,9 +1781,11 @@
     }
   }
 
-  details[open] > summary {
+  details[open] > summary:not([role="button"]) {
     color: var(--primary);
+  }
 
+  details[open] > summary {
     &:after {
       transform: rotate(180deg);
     }
@@ -2313,6 +2332,32 @@
     background-size: 200% 100%;
   }
 
+  progress.success::-webkit-progress-value {
+    background-color: var(--success);
+  }
+
+  progress.success::-moz-progress-bar {
+    background-color: var(--success);
+  }
+
+  progress.success:not([value]) {
+    background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 40%, var(--success) 50%, var(--muted) 60%, var(--muted) 100%);
+    background-size: 200% 100%;
+  }
+
+  progress.warning::-webkit-progress-value {
+    background-color: var(--warning);
+  }
+
+  progress.warning::-moz-progress-bar {
+    background-color: var(--warning);
+  }
+
+  progress.warning:not([value]) {
+    background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 40%, var(--warning) 50%, var(--muted) 60%, var(--muted) 100%);
+    background-size: 200% 100%;
+  }
+
   progress.contrast::-webkit-progress-value {
     background-color: var(--foreground);
   }
@@ -2613,6 +2658,16 @@
     background-color: var(--destructive);
   }
 
+  .badge.success {
+    color: var(--success-foreground);
+    background-color: var(--success);
+  }
+
+  .badge.warning {
+    color: var(--warning-foreground);
+    background-color: var(--warning);
+  }
+
   .badge.contrast {
     color: var(--background);
     background-color: var(--foreground);
@@ -2632,6 +2687,16 @@
   .badge.outline.destructive {
     color: var(--destructive);
     border-color: var(--destructive);
+  }
+
+  .badge.outline.success {
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  .badge.outline.warning {
+    color: var(--warning);
+    border-color: var(--warning);
   }
 
   .badge.outline.contrast {
@@ -2660,6 +2725,22 @@
 
   .muted {
     color: var(--muted-foreground);
+  }
+
+  :where(:not(.badge):not(button):not([role="button"]):not(progress)).primary {
+    color: var(--primary);
+  }
+
+  :where(:not(.badge):not(button):not([role="button"]):not(progress)).destructive {
+    color: var(--destructive);
+  }
+
+  :where(:not(.badge):not(button):not([role="button"]):not(progress)).success {
+    color: var(--success);
+  }
+
+  :where(:not(.badge):not(button):not([role="button"]):not(progress)).warning {
+    color: var(--warning);
   }
 
   .sr-only {

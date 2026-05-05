@@ -9,7 +9,7 @@ DAFT CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — just one 51 KB file - 40% smaller than Pico CSS
+- **A tiny footprint** — just one 55 KB minified file, about 33% smaller than Pico CSS
 
 The idea is to have a tiny dependency that makes your app look great without writing any CSS, while providing a flexible variable system to customize to your needs.
 
@@ -21,7 +21,7 @@ Daft CSS is a **drop-in replacement** for Pico CSS with the same semantic HTML a
 
 |  | Daft CSS | Pico CSS |
 |--|----------|----------|
-| Size (minified) | **51 KB** | 83 KB |
+| Size (minified) | **55 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | landing pages |
 | Source | CSS | SCSS |
@@ -37,7 +37,7 @@ Same HTML, better looks, smaller file, more features.
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **50 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **55 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -295,7 +295,7 @@ Requires modern browsers for native support of `light-dark()`, OKLCH colors, CSS
 ```bash
 npm run build    # Build daft.css and daft.min.css
 npm run watch    # Watch and rebuild on changes
-npm run dev      # Serve demo locally
+npm run dev      # Serve examples locally
 ```
 
 ## License

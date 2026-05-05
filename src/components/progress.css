@@ -87,6 +87,48 @@ progress.secondary:not([value]) {
   background-size: 200% 100%;
 }
 
+/* Success variant */
+progress.success::-webkit-progress-value {
+  background-color: var(--success);
+}
+
+progress.success::-moz-progress-bar {
+  background-color: var(--success);
+}
+
+progress.success:not([value]) {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--success) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Warning variant */
+progress.warning::-webkit-progress-value {
+  background-color: var(--warning);
+}
+
+progress.warning::-moz-progress-bar {
+  background-color: var(--warning);
+}
+
+progress.warning:not([value]) {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 40%,
+    var(--warning) 50%,
+    var(--muted) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+}
+
 /* Contrast variant */
 progress.contrast::-webkit-progress-value {
   background-color: var(--foreground);

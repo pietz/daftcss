@@ -16,7 +16,7 @@ select {
   font-weight: var(--font-normal);
   line-height: var(--line-height);
   color: var(--foreground);
-  background-color: var(--background);
+  background-color: var(--input-background);
   border: var(--border-width) solid var(--input);
   border-radius: var(--input-radius);
   transition: border-color var(--transition-default),
@@ -89,7 +89,7 @@ input[type="file"] {
   /* Line-height for vertical centering (flex doesn't work on file inputs) */
   line-height: calc(var(--input-height) - 2 * var(--border-width));
   color: var(--foreground);
-  background-color: var(--background);
+  background-color: var(--input-background);
   border: var(--border-width) solid var(--input);
   border-radius: var(--input-radius);
   cursor: pointer;
@@ -123,7 +123,7 @@ input[type="color"] {
   width: 100%;
   height: var(--input-height);
   padding: 6px;
-  background-color: var(--background);
+  background-color: var(--input-background);
   border: var(--border-width) solid var(--input);
   border-radius: var(--input-radius);
   cursor: pointer;

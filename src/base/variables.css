@@ -30,6 +30,8 @@
   --primary: light-dark(oklch(0.2 0.27 260), oklch(0.35 0.22 260));
   --muted: light-dark(oklch(0.95 0 0), oklch(0.27 0 0));
   --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
+  --success: light-dark(oklch(0.55 0.16 145), oklch(0.72 0.16 145));
+  --warning: light-dark(oklch(0.68 0.16 70), oklch(0.82 0.16 80));
   --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
 
   /* ===== TIER 1: DERIVED VARIABLES ===== */
@@ -47,6 +49,7 @@
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 0.125rem);
   --radius-xl: calc(var(--radius) + 0.375rem);
+  --radius-2xl: calc(var(--radius) + 0.75rem);
   --radius-full: 9999px;
 
   /* Typography Scale */
@@ -91,6 +94,7 @@
   /* Shadows */
   --shadow-xs: 0 1px 2px 0 light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.3));
   --shadow-sm: 0 1px 3px 0 light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 1px 2px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
+  --shadow: var(--shadow-sm);
   --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
   --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
 
@@ -104,6 +108,8 @@
   --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
   --primary-foreground: oklch(0.985 0 0);
   --destructive-foreground: oklch(0.985 0 0);
+  --success-foreground: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
+  --warning-foreground: oklch(0.145 0 0);
   --input: var(--border);
   --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 
@@ -122,6 +128,7 @@
 
   /* Component Heights */
   --input-height: var(--component-height);
+  --input-background: var(--card);
   --button-height: var(--component-height);
   --button-height-sm: var(--component-height-sm);
   --button-height-lg: var(--component-height-lg);
@@ -160,6 +167,8 @@
     --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --secondary-foreground: oklch(from var(--secondary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+    --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+    --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
   }
 }
 
@@ -168,5 +177,7 @@
   :root {
     --primary-foreground: contrast-color(var(--primary));
     --destructive-foreground: contrast-color(var(--destructive));
+    --success-foreground: contrast-color(var(--success));
+    --warning-foreground: contrast-color(var(--warning));
   }
 }

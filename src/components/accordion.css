@@ -54,9 +54,11 @@ summary {
 }
 
 /* Open state */
-details[open] > summary {
+details[open] > summary:not([role="button"]) {
   color: var(--primary);
+}
 
+details[open] > summary {
   &::after {
     transform: rotate(180deg);
   }

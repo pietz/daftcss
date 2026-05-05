@@ -19,6 +19,22 @@ a.secondary {
   color: var(--muted-foreground);
 }
 
+:where(:not(.badge):not(button):not([role="button"]):not(progress)).primary {
+  color: var(--primary);
+}
+
+:where(:not(.badge):not(button):not([role="button"]):not(progress)).destructive {
+  color: var(--destructive);
+}
+
+:where(:not(.badge):not(button):not([role="button"]):not(progress)).success {
+  color: var(--success);
+}
+
+:where(:not(.badge):not(button):not([role="button"]):not(progress)).warning {
+  color: var(--warning);
+}
+
 /* ===== VISIBILITY ===== */
 
 /* Screen reader only - visually hidden but accessible */

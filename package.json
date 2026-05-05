@@ -10,7 +10,7 @@
   "scripts": {
     "build": "lightningcss --bundle src/daft.css -o dist/daft.css && lightningcss --bundle --minify src/daft.css -o dist/daft.min.css",
     "watch": "lightningcss --bundle src/daft.css -o dist/daft.css --watch",
-    "dev": "npx serve demo"
+    "dev": "npx serve examples"
   },
   "keywords": [
     "css",

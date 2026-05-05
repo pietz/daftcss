@@ -33,6 +33,17 @@
   background-color: var(--destructive);
 }
 
+/* Status variants */
+.badge.success {
+  color: var(--success-foreground);
+  background-color: var(--success);
+}
+
+.badge.warning {
+  color: var(--warning-foreground);
+  background-color: var(--warning);
+}
+
 /* Contrast variant */
 .badge.contrast {
   color: var(--background);
@@ -54,6 +65,16 @@
 .badge.outline.destructive {
   color: var(--destructive);
   border-color: var(--destructive);
+}
+
+.badge.outline.success {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.badge.outline.warning {
+  color: var(--warning);
+  border-color: var(--warning);
 }
 
 .badge.outline.contrast {

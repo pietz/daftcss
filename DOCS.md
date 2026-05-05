@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~49KB unminified)
+- Minimal footprint (~55KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 120+, Safari 18+
 
@@ -97,8 +97,11 @@ Customize the design system by overriding root variables:
 | `--muted` | Muted backgrounds |
 | `--muted-foreground` | Muted text |
 | `--destructive` | Error/danger color |
+| `--destructive-foreground` | Text on destructive backgrounds |
 | `--success` | Success color |
+| `--success-foreground` | Text on success backgrounds |
 | `--warning` | Warning color |
+| `--warning-foreground` | Text on warning backgrounds |
 | `--border` | Border color |
 | `--card` | Card background |
 
