@@ -11,6 +11,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-xs);
   font-weight: var(--font-medium);
+  font-variant-numeric: tabular-nums;
   line-height: 1;
   white-space: nowrap;
   border: var(--border-width) solid transparent;
@@ -24,7 +25,7 @@
 /* Secondary variant */
 .badge.secondary {
   color: var(--foreground);
-  background-color: var(--secondary);
+  background-color: var(--accent);
 }
 
 /* Destructive variant */
@@ -42,12 +43,6 @@
 .badge.warning {
   color: var(--warning-foreground);
   background-color: var(--warning);
-}
-
-/* Contrast variant */
-.badge.contrast {
-  color: var(--background);
-  background-color: var(--foreground);
 }
 
 /* Outline variant */
@@ -75,12 +70,6 @@
 .badge.outline.warning {
   color: var(--warning);
   border-color: var(--warning);
-}
-
-.badge.outline.contrast {
-  color: var(--foreground);
-  background-color: transparent;
-  border-color: currentColor;
 }
 
 /* Size variants */

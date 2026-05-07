@@ -9,21 +9,6 @@ main {
   min-height: 1px;
 }
 
-/* Sidebar layout - aside as direct child of main */
-@media (min-width: 768px) {
-  main:has(> aside:first-child) {
-    display: grid;
-    grid-template-columns: var(--aside-width) 1fr;
-    gap: var(--spacing);
-  }
-
-  main:has(> aside:last-child):not(:has(> aside:first-child)) {
-    display: grid;
-    grid-template-columns: 1fr var(--aside-width);
-    gap: var(--spacing);
-  }
-}
-
 /* Header landmark */
 body > header,
 main > header,

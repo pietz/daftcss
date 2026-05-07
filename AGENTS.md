@@ -4,7 +4,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Project Overview
 
-Daft CSS is a semantic-first CSS framework that combines Pico CSS compatibility with shadcn/ui aesthetics. Requires modern browsers (Chrome 123+, Firefox 120+, Safari 18+) for native support of `light-dark()`, OKLCH colors, CSS nesting, and `color-mix()`.
+Daft CSS is a semantic-first CSS framework with shadcn/ui-quality aesthetics. It styles raw HTML — no JavaScript, no required utility classes, no JSX components. Requires modern browsers (Chrome 123+, Firefox 129+, Safari 18+) for native support of `light-dark()`, OKLCH colors, CSS nesting, `color-mix()`, the Popover API, and `@starting-style`.
 
 ## Commands
 
@@ -23,7 +23,7 @@ Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/d
 **Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
 - Bundles and minifies only (no transforms)
 - Preserves modern CSS like `light-dark()` as-is
-- Keeps output small (~55KB vs larger transformed builds with polyfills)
+- Keeps output small (~56KB vs larger transformed builds with polyfills)
 
 If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 

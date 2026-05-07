@@ -100,7 +100,7 @@ input[type="file"] {
     margin-right: var(--spacing-md);
     font-weight: var(--font-medium);
     color: var(--foreground);
-    background-color: var(--secondary);
+    background-color: var(--accent);
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -108,7 +108,7 @@ input[type="file"] {
   }
 
   &:hover::file-selector-button {
-    background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
+    background-color: color-mix(in oklch, var(--accent) 80%, var(--foreground) 5%);
   }
 
   &:focus-visible {

@@ -5,8 +5,9 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
   font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Table headers */
@@ -15,7 +16,8 @@ thead {
 }
 
 th {
-  padding: var(--spacing-md) var(--spacing);
+  height: 2.5rem;
+  padding: var(--spacing-sm);
   font-weight: var(--font-medium);
   text-align: left;
   color: var(--muted-foreground);
@@ -37,7 +39,7 @@ tbody tr:hover {
 }
 
 td {
-  padding: var(--spacing-md) var(--spacing);
+  padding: var(--spacing-sm);
   vertical-align: middle;
 }
 
@@ -48,7 +50,7 @@ tfoot {
 
 tfoot td,
 tfoot th {
-  padding: var(--spacing-md) var(--spacing);
+  padding: var(--spacing-sm);
   font-weight: var(--font-medium);
   color: var(--muted-foreground);
 }

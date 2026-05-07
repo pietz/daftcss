@@ -83,25 +83,6 @@ nav details.dropdown > ul {
   right: 0;
 }
 
-/* Vertical navigation (inside aside) */
-aside nav {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--spacing);
-}
-
-aside nav > ul {
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--spacing-xs);
-}
-
-aside nav a {
-  width: 100%;
-  justify-content: flex-start;
-}
-
 /* Breadcrumb navigation */
 nav[aria-label="breadcrumb"] > ul {
   gap: 0;

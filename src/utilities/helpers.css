@@ -232,7 +232,7 @@ a.secondary {
 }
 
 .shadow {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .shadow-md {

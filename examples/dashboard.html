@@ -11,6 +11,9 @@
   <header class="container-fluid">
     <nav>
       <ul>
+        <li>
+          <button popovertarget="sidebar" class="sidebar-toggle" aria-label="Open menu">☰</button>
+        </li>
         <li><strong>Admin Dashboard</strong></li>
       </ul>
       <ul>
@@ -36,9 +39,8 @@
     </nav>
   </header>
 
-  <div class="container-fluid" style="display: flex; gap: 2rem;">
-    <!-- Sidebar -->
-    <aside style="min-width: 200px;">
+  <main class="container-fluid">
+    <aside id="sidebar" popover>
       <nav>
         <ul>
           <li><strong>Overview</strong></li>
@@ -66,8 +68,7 @@
       </nav>
     </aside>
 
-    <!-- Main Content -->
-    <main style="flex: 1;">
+    <section>
       <hgroup>
         <h1>Dashboard</h1>
         <p>Welcome back, John. Here's what's happening today.</p>
@@ -233,8 +234,8 @@
           </label>
         </article>
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 
   <footer class="container-fluid">
     <small>&copy; 2025 Admin Dashboard. All rights reserved.</small>

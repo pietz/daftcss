@@ -64,7 +64,7 @@ details.dropdown > ul {
   background-color: var(--popover);
   border: var(--border-width) solid var(--border);
   border-radius: var(--dropdown-radius);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--dropdown-shadow);
   opacity: 0;
   transform: translateY(-0.5rem);
   animation: dropdown-in var(--transition-default) forwards;
@@ -95,8 +95,8 @@ details.dropdown > ul > li > label {
   transition: background-color var(--transition-default);
 
   &:hover {
-    background-color: var(--muted);
-    color: var(--secondary-foreground);
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 

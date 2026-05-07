@@ -31,7 +31,7 @@ pre {
   border-radius: var(--radius-lg);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
   tab-size: 2;
 
   /* Reset inline code styles when inside pre */

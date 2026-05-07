@@ -32,7 +32,7 @@ input[type="range"]::-moz-range-track {
 input[type="range"]::-webkit-slider-thumb {
   width: var(--control-size);
   height: var(--control-size);
-  margin-top: -0.3125rem;
+  margin-top: calc((0.5rem - var(--control-size)) / 2);
   background-color: var(--foreground);
   border: none;
   border-radius: var(--radius-md);

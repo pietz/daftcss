@@ -57,7 +57,7 @@ dialog > article {
   background-color: var(--card);
   border: var(--border-width) solid var(--border);
   border-radius: var(--modal-radius);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--modal-shadow);
   animation: modal-in var(--transition-slow) var(--ease-default);
 }
 
@@ -96,8 +96,8 @@ dialog > article > header > button[aria-label="Close"],
 dialog > article > button[rel="prev"],
 dialog > article > header > button[rel="prev"] {
   position: absolute;
-  top: calc(var(--spacing-lg) - 1rem);
-  right: calc(var(--spacing-lg) - 1rem);
+  top: var(--spacing);
+  right: var(--spacing);
   width: 2rem;
   height: 2rem;
   padding: 0;
@@ -111,8 +111,8 @@ dialog > article > header > button[rel="prev"] {
               color var(--transition-default);
 
   &:hover {
-    background-color: var(--muted);
-    color: var(--foreground);
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 
   &::before {

@@ -1,17 +1,25 @@
 /**
  * CSS Custom Properties (Design Tokens)
- * Hierarchical system: root → derived → component
+ *
+ * Three tiers:
+ *   Tier 0 — Root knobs: change these to retune the whole system.
+ *   Tier 1 — Scales derived from Tier 0 (spacing, radius, text, etc).
+ *   Tier 2 — Per-component tokens (override one component without affecting others).
+ *
+ * All color values use light-dark() and respect cascaded color-scheme,
+ * so theme islands flip palettes without redeclaring values.
  */
 
 :root {
   color-scheme: light dark;
 
-  /* ===== TIER 0: ROOT VARIABLES ===== */
-  /* Fundamental values that control the entire design system */
+  /* ============================================================
+     TIER 0 — ROOT
+     ============================================================ */
 
-  /* Layout & Sizing */
+  /* Layout & sizing */
   --spacing: 1rem;
-  --radius: 0.5rem;
+  --radius: 0.625rem;
   --component-height: 2.25rem;
 
   /* Typography */
@@ -24,38 +32,41 @@
   --transition: 150ms;
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Core Colors */
+  /* Surface colors */
   --background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
   --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
-  --primary: light-dark(oklch(0.2 0.27 260), oklch(0.35 0.22 260));
-  --muted: light-dark(oklch(0.95 0 0), oklch(0.27 0 0));
+  --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
+  --popover: light-dark(oklch(1 0 0), oklch(0.269 0 0));
+
+  /* Brand & semantic colors */
+  --primary: light-dark(oklch(0.205 0 0), oklch(0.922 0 0));
+  --muted: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
   --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
   --success: light-dark(oklch(0.55 0.16 145), oklch(0.72 0.16 145));
   --warning: light-dark(oklch(0.68 0.16 70), oklch(0.82 0.16 80));
-  --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
+  --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 10%));
 
-  /* ===== TIER 1: DERIVED VARIABLES ===== */
-  /* Scales and values calculated from root variables */
+  /* ============================================================
+     TIER 1 — SCALES & DERIVED VALUES
+     ============================================================ */
 
-  /* Spacing Scale */
+  /* Spacing scale */
   --spacing-xs: calc(var(--spacing) * 0.25);
   --spacing-sm: calc(var(--spacing) * 0.5);
   --spacing-md: calc(var(--spacing) * 0.75);
   --spacing-lg: calc(var(--spacing) * 1.5);
   --spacing-xl: calc(var(--spacing) * 2);
 
-  /* Radius Scale */
-  --radius-sm: calc(var(--radius) - 0.125rem);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 0.125rem);
-  --radius-xl: calc(var(--radius) + 0.375rem);
-  --radius-2xl: calc(var(--radius) + 0.75rem);
+  /* Radius scale (anchored on --radius == lg) */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --radius-full: 9999px;
 
-  /* Typography Scale */
+  /* Typography scale */
   --text-xs: calc(var(--font-size-base) * 0.75);
   --text-sm: calc(var(--font-size-base) * 0.875);
-  --text: var(--font-size-base);
   --text-base: var(--font-size-base);
   --text-lg: calc(var(--font-size-base) * 1.125);
   --text-xl: calc(var(--font-size-base) * 1.25);
@@ -63,109 +74,126 @@
   --text-3xl: calc(var(--font-size-base) * 1.875);
   --text-4xl: calc(var(--font-size-base) * 2.25);
 
-  /* Line Height Scale */
+  /* Line heights */
   --line-height-sm: calc(var(--line-height) - 0.25);
   --line-height-lg: calc(var(--line-height) + 0.25);
 
-  /* Font Weights */
+  /* Font weights */
   --font-normal: 400;
   --font-medium: 500;
   --font-semibold: 600;
   --font-bold: 700;
   --font-extrabold: 800;
 
-  /* Transition Scale */
+  /* Transition scale */
   --transition-fast: calc(var(--transition) * 0.67);
-  --transition-base: var(--transition);
   --transition-slow: calc(var(--transition) * 2);
   --transition-default: var(--transition) var(--ease-default);
 
-  /* Component Height Scale */
+  /* Component height scale */
   --component-height-sm: calc(var(--component-height) - 0.25rem);
-  --component-height-lg: calc(var(--component-height) + 0.5rem);
+  --component-height-lg: calc(var(--component-height) + 0.25rem);
 
-  /* Control Sizes */
-  --control-size: calc(var(--component-height) * 0.5);
-  --icon-size: 1rem;
-  --switch-height: calc(var(--control-size) + var(--spacing-xs));
-  --switch-width: calc(var(--control-size) + var(--switch-height));
-  --switch-thumb: calc(var(--switch-height) - 4px);
-
-  /* Shadows */
+  /* Shadow scale */
   --shadow-xs: 0 1px 2px 0 light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.3));
   --shadow-sm: 0 1px 3px 0 light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 1px 2px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
-  --shadow: var(--shadow-sm);
   --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
   --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
 
-  /* Derived Colors */
-  --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
+  /* Foreground colors (paired with each surface/brand color above) */
   --card-foreground: var(--foreground);
-  --popover: var(--card);
   --popover-foreground: var(--card-foreground);
-  --secondary: var(--muted);
-  --secondary-foreground: var(--foreground);
   --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
   --primary-foreground: oklch(0.985 0 0);
   --destructive-foreground: oklch(0.985 0 0);
   --success-foreground: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
   --warning-foreground: oklch(0.145 0 0);
-  --input: var(--border);
-  --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 
-  /* ===== TIER 2: COMPONENT TOKENS ===== */
-  /* Per-component customization points */
+  /* Hover-surface role (derived from --muted; override to retune) */
+  --accent: var(--muted);
+  --accent-foreground: var(--foreground);
 
-  /* Component Radii */
+  /* ============================================================
+     TIER 2 — COMPONENT TOKENS
+     ============================================================ */
+
+  /* Radii (per component) */
   --button-radius: var(--radius-md);
   --input-radius: var(--radius-md);
   --card-radius: var(--radius-xl);
-  --modal-radius: var(--radius-xl);
+  --modal-radius: var(--radius-lg);
   --dropdown-radius: var(--radius-md);
-  --tooltip-radius: var(--radius-sm);
-  --badge-radius: var(--radius-full);
+  --tooltip-radius: var(--radius-md);
+  --badge-radius: var(--radius-md);
   --progress-radius: var(--radius-full);
 
-  /* Component Heights */
-  --input-height: var(--component-height);
-  --input-background: var(--card);
+  /* Shadows (set any to `none` to flatten that component) */
+  --button-shadow: var(--shadow-xs);
+  --card-shadow: var(--shadow-xs);
+  --dropdown-shadow: var(--shadow-md);
+  --popover-shadow: var(--shadow-md);
+  --modal-shadow: var(--shadow-lg);
+
+  /* Button */
   --button-height: var(--component-height);
   --button-height-sm: var(--component-height-sm);
   --button-height-lg: var(--component-height-lg);
 
-  /* State Opacities */
+  /* Input */
+  --input: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
+  --input-height: var(--component-height);
+  --input-background: var(--card);
+
+  /* Form controls (checkbox, radio, range thumb) */
+  --control-size: 1rem;
+
+  /* Switch */
+  --switch-width: 2rem;
+  --switch-height: 1.25rem;
+  --switch-thumb: 1rem;
+
+  /* Modal */
+  --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
+
+  /* Breadcrumb */
+  --breadcrumb-divider: "›";
+
+  /* Sidebar */
+  --aside-width: 16rem;
+
+  /* ============================================================
+     INTERACTION STATES
+     ============================================================ */
+
+  /* Opacities */
   --hover-opacity: 90%;
   --active-opacity: 85%;
   --disabled-opacity: 0.5;
 
-  /* Focus Ring */
+  /* Focus ring */
+  --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
   --focus-ring-width: 3px;
-  --focus-ring-opacity: 30%;
+  --focus-ring-opacity: 50%;
 
-  /* Border Widths */
+  /* Borders & outlines */
   --border-width: 1px;
   --outline-width: 2px;
   --outline-offset: 2px;
 
-  /* Icons */
+  /* ============================================================
+     ICONS
+     ============================================================ */
+
+  --icon-size: 1rem;
   --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-
-  /* Miscellaneous */
-  --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
-  --breadcrumb-divider: "›";
-  --aside-width: fit-content(20rem);
-  --block-spacing-vertical: var(--spacing);
-  --block-spacing-horizontal: var(--spacing);
-  --typography-spacing-vertical: var(--spacing);
 }
 
-/* Auto-contrast foreground colors (Firefox 128+, Chrome 119+, Safari 18+) */
+/* Auto-contrast foreground colors (Chrome 119+, Firefox 128+, Safari 18+) */
 @supports (color: oklch(from red l c h)) {
   :root {
     --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-    --secondary-foreground: oklch(from var(--secondary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);

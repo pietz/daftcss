@@ -1,12 +1,24 @@
 /**
- * Theme Selection
- * Page-level theme override via data-theme attribute
+ * Theme islands
+ *
+ * Page-level or sub-tree theme override via [data-theme].
+ *
+ * All color values live in variables.css and are wrapped in light-dark().
+ * On modern browsers, light-dark() resolves per-element based on the
+ * cascaded color-scheme — so toggling color-scheme here is enough to
+ * flip the entire palette for this subtree. No color values are
+ * duplicated; this file is purely a mechanism, not a palette.
  */
+
+[data-theme="light"] {
+  color-scheme: light;
+}
 
 [data-theme="dark"] {
   color-scheme: dark;
 }
 
-[data-theme="light"] {
-  color-scheme: light;
+[data-theme] {
+  background-color: var(--background);
+  color: var(--foreground);
 }

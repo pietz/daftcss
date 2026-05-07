@@ -1,6 +1,6 @@
 # Daft CSS Documentation
 
-A semantic-first CSS framework combining [Pico CSS](https://picocss.com) compatibility with [shadcn/ui](https://ui.shadcn.com) aesthetics.
+A semantic-first CSS framework with [shadcn/ui](https://ui.shadcn.com)-quality aesthetics. Style raw HTML — no JavaScript, no required utility classes, no JSX components.
 
 ## Overview
 
@@ -10,9 +10,9 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~55KB minified)
+- Minimal footprint (~56KB minified)
 
-**Browser Support:** Chrome 123+, Firefox 120+, Safari 18+
+**Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
 ## Getting Started
 
@@ -87,14 +87,16 @@ Customize the design system by overriding root variables:
 }
 ```
 
-**Color Tokens (shadcn naming):**
+**Color Tokens (shadcn/ui naming):**
 
 | Variable | Description |
 |----------|-------------|
 | `--background` | Page background |
 | `--foreground` | Default text color |
-| `--primary` | Primary action color |
-| `--muted` | Muted backgrounds |
+| `--primary` | Primary action color (default: neutral near-black/near-white) |
+| `--secondary` | Secondary button background |
+| `--accent` | Hover surface for ghost buttons, dropdown items, etc. |
+| `--muted` | Subtle/inert background (disabled inputs, code blocks) |
 | `--muted-foreground` | Muted text |
 | `--destructive` | Error/danger color |
 | `--destructive-foreground` | Text on destructive backgrounds |
@@ -104,6 +106,33 @@ Customize the design system by overriding root variables:
 | `--warning-foreground` | Text on warning backgrounds |
 | `--border` | Border color |
 | `--card` | Card background |
+| `--popover` | Dropdown / popover background |
+
+`--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune ghost-hover, secondary-button, and disabled surfaces independently.
+
+**Component Shadows:**
+
+Each elevated component has its own shadow token. Set any to `none` to flatten that component, or override globally for a flat or extra-lifted feel.
+
+| Variable | Default | Used by |
+|----------|---------|---------|
+| `--button-shadow` | `var(--shadow-xs)` | Buttons, button-styled accordion summaries |
+| `--card-shadow` | `var(--shadow-xs)` | `<article>` cards |
+| `--dropdown-shadow` | `var(--shadow-md)` | `<details class="dropdown">` menus |
+| `--popover-shadow` | `var(--shadow-md)` | Reserved for popovers |
+| `--modal-shadow` | `var(--shadow-lg)` | `<dialog>` modals |
+
+```css
+/* Flatten cards globally */
+:root {
+  --card-shadow: none;
+}
+
+/* Or replace with a specific elevation */
+:root {
+  --card-shadow: var(--shadow-md);
+}
+```
 
 ---
 
@@ -164,72 +193,100 @@ The grid automatically adjusts its column count when spans are present. For exam
 </div>
 ```
 
-### Sidebar Layout
+### Sidebar
 
-When `<aside>` is placed as a direct child of `<main>`, it automatically creates a sidebar layout—no classes required. The aside sizes to its content (up to 20rem) while the sibling takes the remaining space.
+In Daft, a direct child `<aside>` of `<main>` is a sidebar layout slot — no classes required. The aside renders as a sticky 16rem column on desktop (≥ 768px) with a side border separating it from content. Section labels use `<strong>` inside `<li>`; nav links go in standard `<a>`.
+
+Wrap your main content in a single element (`<section>`, `<div>`, or `<article>`) so the layout is a clean two-column grid:
 
 ```html
-<body>
-  <header>...</header>
-  <main>
-    <aside>
-      <nav>
-        <ul>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Settings</a></li>
-        </ul>
-      </nav>
-    </aside>
-    <section>
-      <h2>Main Content</h2>
-      <p>This takes the remaining width.</p>
-    </section>
-  </main>
-  <footer>...</footer>
-</body>
+<main>
+  <aside>
+    <nav>
+      <ul>
+        <li><strong>Overview</strong></li>
+        <li><a href="#" aria-current="page">Dashboard</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><strong>Settings</strong></li>
+        <li><a href="#">Account</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <section>
+    <hgroup>
+      <h1>Page Title</h1>
+      <p>Subtitle</p>
+    </hgroup>
+    <article>Content card</article>
+    <article>Another content card</article>
+  </section>
+</main>
 ```
 
-The aside position is detected automatically—whether it's the first or last child:
+Position is determined by document order — `<aside>` as first child renders on the left, last child renders on the right. Two asides (one of each) gives a three-column layout.
 
 ```html
-<!-- Sidebar on the left -->
-<main>
-  <aside>Navigation</aside>
-  <section>Content</section>
-</main>
-
 <!-- Sidebar on the right -->
 <main>
-  <section>Content</section>
-  <aside>Navigation</aside>
+  <article>Content</article>
+  <aside>Nav</aside>
+</main>
+
+<!-- Both sides -->
+<main>
+  <aside>Left nav</aside>
+  <article>Content</article>
+  <aside>Right panel</aside>
 </main>
 ```
 
-**Custom Sidebar Width:**
+**Mobile slide-out (hamburger menu)**
 
-Override the default width using the `--aside-width` variable:
+For a slide-out overlay on mobile, opt in with two attributes — no JavaScript:
 
 ```html
-<!-- Narrower sidebar -->
-<main style="--aside-width: fit-content(200px)">
-  <aside>Nav</aside>
-  <section>Content</section>
-</main>
-
-<!-- Fixed width sidebar -->
-<main style="--aside-width: 280px">
-  <aside>Nav</aside>
-  <section>Content</section>
-</main>
-
-<!-- Unconstrained (sizes to content) -->
-<main style="--aside-width: auto">
-  <aside>Nav</aside>
-  <section>Content</section>
+<header>
+  <button popovertarget="sidebar" class="sidebar-toggle" aria-label="Open menu">☰</button>
+  <strong>My App</strong>
+</header>
+<main>
+  <aside id="sidebar" popover>
+    <nav>
+      <ul>
+        <li><strong>Overview</strong></li>
+        <li><a href="#">Dashboard</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <article>Content</article>
 </main>
 ```
 
-**Note:** On mobile (below 768px), the sidebar stacks vertically above/below the content.
+The browser's native Popover API handles open/close, ESC, click-outside, focus management, and the backdrop. On desktop the aside still renders as a column; on mobile (< 768px) it hides and slides in from the side when the hamburger is clicked.
+
+**Plain aside**
+
+Use `data-plain` when a direct child `<aside>` should remain ordinary complementary content instead of becoming a sidebar:
+
+```html
+<main>
+  <article>Content</article>
+  <aside data-plain>Related note</aside>
+</main>
+```
+
+Sidebars include their own padding. If the sidebar contains a padded surface like `<article>`, set padding to `0` on that sidebar when you want the card to define the full rail surface.
+
+**Custom width**
+
+Override the default 16rem column width:
+
+```css
+:root {
+  --aside-width: 14rem;  /* narrower */
+}
+```
 
 ### Landmarks
 
@@ -329,7 +386,6 @@ Buttons are styled automatically. Use `<button>`, `<input type="submit">`, or `<
 ```html
 <button>Primary</button>
 <button class="secondary">Secondary</button>
-<button class="contrast">Contrast</button>
 <button class="outline">Outline</button>
 <button class="ghost">Ghost</button>
 <button class="link">Link</button>
@@ -341,7 +397,6 @@ Buttons are styled automatically. Use `<button>`, `<input type="submit">`, or `<
 ```html
 <button class="outline">Outline</button>
 <button class="outline secondary">Outline Secondary</button>
-<button class="outline contrast">Outline Contrast</button>
 ```
 
 ### Sizes
@@ -939,7 +994,6 @@ Add the `.sticky` class for sticky positioning:
 
 ```html
 <a href="#" class="secondary">Secondary link</a>
-<a href="#" class="contrast">Contrast link</a>
 ```
 
 ### Text Utilities
@@ -1060,38 +1114,24 @@ Daft CSS is built with accessibility in mind:
 
 ---
 
-## Pico CSS Compatibility
+## Semantic HTML Cheat Sheet
 
-Daft CSS is largely compatible with Pico CSS markup. Key patterns:
+Daft styles these elements directly — no classes needed for basic usage:
 
 | Feature | Syntax |
 |---------|--------|
 | Card | `<article>` |
 | Button | `<button>`, `<a role="button">` |
-| Modal | `<dialog>` |
+| Modal | `<dialog popover>` |
 | Accordion | `<details>` |
 | Dropdown | `<details class="dropdown">` |
 | Switch | `<input type="checkbox" role="switch">` |
 | Loading | `aria-busy="true"` |
-| Validation | `aria-invalid="true/false"` |
+| Validation | `aria-invalid="true|false"` |
 | Active nav | `aria-current="page"` |
 | Tooltip | `data-tooltip="text"` |
 | Grid | `.grid` |
 | Container | `.container` |
-
----
-
-## Differences from Pico CSS
-
-While compatible with Pico CSS patterns, Daft CSS includes several enhancements:
-
-1. **shadcn/ui Aesthetics**: Modern, minimal design language
-2. **OKLCH Colors**: Perceptually uniform color system
-3. **Button Variants**: Additional `.ghost`, `.link`, and `.destructive` variants
-4. **Progress Variants**: Color variants for progress bars
-5. **Utility Classes**: Extended utility class system
-6. **Sticky Utility**: Opt-in `.sticky` class for fixed headers
-7. **Modern CSS**: Uses `light-dark()`, CSS nesting, `color-mix()`
 
 ---
 

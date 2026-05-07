@@ -21,7 +21,6 @@ h1 {
 
 h2 {
   font-size: var(--text-3xl);
-  font-weight: var(--font-bold);
 }
 
 h3 {
@@ -42,7 +41,7 @@ h6 {
 
 /* Heading groups */
 hgroup {
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
 
   & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
     margin-bottom: var(--spacing-sm);
@@ -56,7 +55,7 @@ hgroup {
 
 /* Paragraphs */
 p {
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
   line-height: var(--line-height-lg);
 }
 
@@ -188,7 +187,7 @@ blockquote {
 
 /* Lists */
 ul, ol {
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
   padding-left: calc(var(--spacing) * 1.25);
 }
 
@@ -212,7 +211,7 @@ ul ul, ol ol, ul ol, ol ul {
 
 /* Definition lists */
 dl {
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
 }
 
 dt {
@@ -233,7 +232,7 @@ dd:last-child {
 /* Address */
 address {
   font-style: normal;
-  margin-bottom: var(--typography-spacing-vertical);
+  margin-bottom: var(--spacing);
 }
 
 /* Time */

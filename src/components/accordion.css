@@ -16,7 +16,7 @@ summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing) 0;
   font-weight: var(--font-medium);
   cursor: pointer;
   user-select: none;
@@ -87,7 +87,7 @@ summary[role="button"] {
   color: var(--primary-foreground);
   background-color: var(--primary);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--button-shadow);
   transition: background-color var(--transition-default);
 
   &:hover {
@@ -98,10 +98,10 @@ summary[role="button"] {
 /* Button variants */
 summary[role="button"].secondary {
   color: var(--foreground);
-  background-color: var(--secondary);
+  background-color: var(--accent);
 
   &:hover {
-    background-color: color-mix(in oklch, var(--secondary) 80%, var(--foreground) 5%);
+    background-color: color-mix(in oklch, var(--accent) 80%, var(--foreground) 5%);
   }
 }
 
@@ -113,15 +113,6 @@ summary[role="button"].outline {
   &:hover {
     background-color: var(--primary);
     color: var(--primary-foreground);
-  }
-}
-
-summary[role="button"].contrast {
-  color: var(--background);
-  background-color: var(--foreground);
-
-  &:hover {
-    background-color: color-mix(in oklch, var(--foreground) var(--active-opacity), transparent);
   }
 }
 

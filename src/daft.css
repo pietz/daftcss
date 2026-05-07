@@ -23,7 +23,6 @@
 /* Layout */
 @import "layout/container.css" layer(layout);
 @import "layout/landmarks.css" layer(layout);
-/* @import "layout/sidebar.css" layer(layout); */
 @import "layout/grid.css" layer(layout);
 @import "layout/overflow.css" layer(layout);
 
@@ -46,6 +45,7 @@
 @import "components/tooltip.css" layer(components);
 @import "components/group.css" layer(components);
 @import "components/badge.css" layer(components);
+@import "layout/sidebar.css" layer(components);
 
 /* Utilities */
 @import "utilities/helpers.css" layer(utilities);

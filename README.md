@@ -1,35 +1,44 @@
 # Daft CSS
 
-A semantic-first CSS framework that combines the developer experience of [Pico CSS](https://picocss.com) with the modern aesthetics of [shadcn/ui](https://ui.shadcn.com).
+A semantic-first CSS framework with [shadcn/ui](https://ui.shadcn.com)-quality aesthetics. Style raw HTML — no JavaScript, no required utility classes, no JSX components.
 
 ## Who is this for?
 
-DAFT CSS is for developers who want:
+Daft CSS is for developers who want:
 
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — just one 55 KB minified file, about 33% smaller than Pico CSS
+- **A tiny footprint** — one ~56 KB minified file
 
-The idea is to have a tiny dependency that makes your app look great without writing any CSS, while providing a flexible variable system to customize to your needs.
+The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
+
+## Principles
+
+- **Semantic HTML first.** Native elements (`<button>`, `<article>`, `<dialog>`, `<details>`) ship styled. You shouldn't need a class to get a polished result.
+- **A few well-chosen classes, not a utility framework.** A small set of variant classes (`.secondary`, `.outline`, `.ghost`) and layout helpers (`.container`, `.grid`) for the cases native HTML can't express. This is not Tailwind — it's the minimum vocabulary on top of HTML.
+- **shadcn/ui aesthetics, simpler internals.** We borrow shadcn's visual language because it's clean and tunable, but we don't borrow its variable graph. Daft's tokens form a tier system (root → scale → component) where most values derive from a handful of knobs at the top.
+- **Connected by default, overridable when you need it.** Tweak `--spacing` and every component breathes differently. Tweak `--card-radius` to round just cards. The chain is the feature; you only break it when the value genuinely needs to differ.
+- **No JavaScript.** Modals, dropdowns, accordions, tooltips — all CSS and native HTML APIs (`<dialog>`, popover, `<details>`).
+- **Modern CSS only.** `light-dark()`, OKLCH, nesting, `color-mix()`, Popover, `@starting-style`. No polyfills, no fallbacks. The result is smaller, cleaner, and easier to read than the cross-browser layers older frameworks carry.
 
 ## How is it different?
 
 ### vs Pico CSS
 
-Daft CSS is a **drop-in replacement** for Pico CSS with the same semantic HTML approach. The differences:
+Both style semantic HTML, but Daft targets app UIs over content sites and ships a more modern aesthetic.
 
-|  | Daft CSS | Pico CSS |
+|  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **55 KB** | 83 KB |
+| Size (minified) | **~56 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
-| Focus | App UIs | landing pages |
+| Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
-| Dark mode | Native `light-dark()` | separate mode |
+| Dark mode | Native `light-dark()` | Separate stylesheet |
 | Color system | OKLCH | HSL |
-| More components | Tooltips, dropdowns, button groups | — |
+| Extras | Tooltips, dropdowns, button groups, badges | — |
 
-Same HTML, better looks, smaller file, more features.
+Daft is **not** a drop-in replacement for Pico — variable names and class variants differ.
 
 ### vs Franken UI / Franken Style
 
@@ -37,7 +46,7 @@ Same HTML, better looks, smaller file, more features.
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **55 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~56 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -257,7 +266,7 @@ Daft CSS uses a hierarchical variable system designed to give you both simplicit
 :root {
   --spacing: 1rem;      /* Controls all spacing throughout the app */
   --radius: 0.5rem;     /* Controls all border radii */
-  --primary: oklch(0.2 0.27 260);  /* Primary brand color */
+  --primary: oklch(0.5 0.22 295);  /* Primary brand color (default is neutral) */
 }
 ```
 
@@ -277,6 +286,7 @@ The system automatically handles derived concerns — for example, button text c
 :root {
   --button-radius: var(--radius-full);  /* Pill-shaped buttons */
   --card-radius: var(--radius-lg);      /* Slightly rounded cards */
+  --card-shadow: none;                   /* Flat cards (no elevation) */
 }
 ```
 
@@ -284,10 +294,10 @@ This tree structure gives you the best of both worlds: change a few root variabl
 
 ## Browser Support
 
-Requires modern browsers for native support of `light-dark()`, OKLCH colors, CSS nesting, and Popover API:
+Requires modern browsers for native support of `light-dark()`, OKLCH colors, CSS nesting, `color-mix()`, the Popover API, and `@starting-style`:
 
 - Chrome 123+
-- Firefox 120+
+- Firefox 129+
 - Safari 18+
 
 ## Development

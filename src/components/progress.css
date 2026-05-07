@@ -129,27 +129,6 @@ progress.warning:not([value]) {
   background-size: 200% 100%;
 }
 
-/* Contrast variant */
-progress.contrast::-webkit-progress-value {
-  background-color: var(--foreground);
-}
-
-progress.contrast::-moz-progress-bar {
-  background-color: var(--foreground);
-}
-
-progress.contrast:not([value]) {
-  background: linear-gradient(
-    90deg,
-    var(--muted) 0%,
-    var(--muted) 40%,
-    var(--foreground) 50%,
-    var(--muted) 60%,
-    var(--muted) 100%
-  );
-  background-size: 200% 100%;
-}
-
 /* Destructive variant */
 progress.destructive::-webkit-progress-value {
   background-color: var(--destructive);

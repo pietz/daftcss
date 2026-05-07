@@ -1,7 +1,7 @@
 {
   "name": "daft-css",
-  "version": "1.0.0",
-  "description": "A semantic-first, utility-second CSS framework with shadcn/ui aesthetics",
+  "version": "1.2.0",
+  "description": "A semantic-first CSS framework with shadcn/ui-quality aesthetics",
   "main": "dist/daft.css",
   "files": [
     "dist",
@@ -16,7 +16,7 @@
     "css",
     "framework",
     "semantic",
-    "pico",
+    "html",
     "shadcn"
   ],
   "license": "MIT",

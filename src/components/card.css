@@ -9,6 +9,7 @@ article {
   color: var(--card-foreground);
   border: var(--border-width) solid var(--border);
   border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
   margin-bottom: var(--spacing);
 }
 
@@ -64,6 +65,7 @@ article > footer {
 article article {
   background-color: var(--muted);
   border: none;
+  box-shadow: none;
 }
 
 /* Card inside grid */
@@ -92,14 +94,4 @@ a:has(> article) {
 /* Card with loading state */
 article[aria-busy="true"] {
   min-height: 8rem;
-}
-
-/* Contrast card - uses inverted theme from .contrast utility */
-article.contrast {
-  border-color: transparent;
-}
-
-/* Nested articles in contrast cards */
-article.contrast article {
-  background-color: var(--muted);
 }
