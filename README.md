@@ -9,7 +9,7 @@ Daft CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — one ~54 KB minified file
+- **A tiny footprint** — one ~57 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -30,7 +30,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~54 KB** | 83 KB |
+| Size (minified) | **~57 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -46,7 +46,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~54 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~57 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -195,6 +195,20 @@ Then write semantic HTML:
     </footer>
   </article>
 </dialog>
+```
+
+### Alerts
+
+```html
+<div role="alert">
+  <strong>Payment failed</strong>
+  <p>Your card could not be charged.</p>
+</div>
+
+<div role="status">
+  <strong>Sync in progress</strong>
+  <p>We are updating your workspace.</p>
+</div>
 ```
 
 ### Navigation

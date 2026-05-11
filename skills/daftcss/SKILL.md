@@ -44,6 +44,8 @@ Add to `<head>`:
 
 **Badge** = `<span class="badge">`. Variants: `.secondary`, `.success`, `.warning`, `.destructive`, `.outline`.
 
+**Alert** = `<div role="alert">` (assertive, destructive tint) or `<div role="status">` (polite, neutral tint). Inner `<strong>` is the title, `<p>` is the body. No class variants.
+
 **Grid** = `<div class="grid">` auto-sizes columns from child count (2–6). For explicit control add `.cols-N`; for responsive add `.cols-md-N` / `.cols-lg-N` / `.cols-xl-N`. Children can use `.span-N` and `.span-md-N` / `.span-lg-N` / `.span-xl-N` (plus `.span-full`).
 
 **Container** = `<main class="container">` (max-width) or `.container-fluid` (full-width with edge padding).
@@ -79,4 +81,5 @@ Retune the design with a small set of root CSS variables — examples:
 
 ## When you need more detail
 
-For the full component catalog (every variant + attribute combination), the complete CSS variable system, the full utility-class list, and the cascade layer order, see [REFERENCE.md](REFERENCE.md).
+- [REFERENCE.md](REFERENCE.md) — full component catalog, complete CSS variable system, utility-class list, cascade layer order.
+- [THEMING.md](THEMING.md) — load this when the user wants to retheme Daft: match a brand, change feel ("sharper", "softer", "denser"), build a custom palette, or set up a branded dark mode. Tier-0 / Tier-2 recipes and anti-patterns.

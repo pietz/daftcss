@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~56KB minified)
+- Minimal footprint (~57 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
@@ -25,7 +25,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 Or via npm:
 
 ```bash
-npm install daft-css
+npm install daftcss
 ```
 
 ### Basic Template
@@ -195,20 +195,23 @@ The grid automatically adjusts its column count when spans are present. For exam
 
 ### Sidebar
 
-In Daft, a direct child `<aside>` of `<main>` is a sidebar layout slot — no classes required. The aside renders as a sticky 16rem column on desktop (≥ 768px) with a side border separating it from content. Section labels use `<strong>` inside `<li>`; nav links go in standard `<a>`.
-
-Wrap your main content in a single element (`<section>`, `<div>`, or `<article>`) so the layout is a clean two-column grid:
+Add `.sidebar` to a direct child `<aside>` of `<main>` to create an app sidebar. On desktop (≥ 768px), it becomes a fixed full-height column and the page gets left padding for the rail. On mobile, pair it with the `popover` attribute and a `.sidebar-toggle` button for a slide-out drawer with no JavaScript.
 
 ```html
-<main>
-  <aside>
+<header class="container-fluid">
+  <button class="ghost icon sidebar-toggle"
+          popovertarget="sidebar"
+          aria-label="Open menu">☰</button>
+  <strong>Admin</strong>
+</header>
+
+<main class="container-fluid">
+  <aside id="sidebar" class="sidebar" popover>
     <nav>
       <ul>
         <li><strong>Overview</strong></li>
         <li><a href="#" aria-current="page">Dashboard</a></li>
         <li><a href="#">Reports</a></li>
-        <li><strong>Settings</strong></li>
-        <li><a href="#">Account</a></li>
       </ul>
     </nav>
   </aside>
@@ -219,68 +222,15 @@ Wrap your main content in a single element (`<section>`, `<div>`, or `<article>`
       <p>Subtitle</p>
     </hgroup>
     <article>Content card</article>
-    <article>Another content card</article>
   </section>
 </main>
 ```
 
-Position is determined by document order — `<aside>` as first child renders on the left, last child renders on the right. Two asides (one of each) gives a three-column layout.
-
-```html
-<!-- Sidebar on the right -->
-<main>
-  <article>Content</article>
-  <aside>Nav</aside>
-</main>
-
-<!-- Both sides -->
-<main>
-  <aside>Left nav</aside>
-  <article>Content</article>
-  <aside>Right panel</aside>
-</main>
-```
-
-**Mobile slide-out (hamburger menu)**
-
-For a slide-out overlay on mobile, opt in with two attributes — no JavaScript:
-
-```html
-<header>
-  <button popovertarget="sidebar" class="sidebar-toggle" aria-label="Open menu">☰</button>
-  <strong>My App</strong>
-</header>
-<main>
-  <aside id="sidebar" popover>
-    <nav>
-      <ul>
-        <li><strong>Overview</strong></li>
-        <li><a href="#">Dashboard</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <article>Content</article>
-</main>
-```
-
-The browser's native Popover API handles open/close, ESC, click-outside, focus management, and the backdrop. On desktop the aside still renders as a column; on mobile (< 768px) it hides and slides in from the side when the hamburger is clicked.
-
-**Plain aside**
-
-Use `data-plain` when a direct child `<aside>` should remain ordinary complementary content instead of becoming a sidebar:
-
-```html
-<main>
-  <article>Content</article>
-  <aside data-plain>Related note</aside>
-</main>
-```
-
-Sidebars include their own padding. If the sidebar contains a padded surface like `<article>`, set padding to `0` on that sidebar when you want the card to define the full rail surface.
+The `.sidebar-toggle` helper hides the menu button on desktop. The browser's native Popover API handles mobile open/close behavior, ESC, click-outside behavior, focus management, and the backdrop.
 
 **Custom width**
 
-Override the default 16rem column width:
+Override the sidebar width with `--aside-width`:
 
 ```css
 :root {
@@ -868,6 +818,24 @@ The `popover` attribute enables:
   <progress value="45" max="100"></progress>
 </label>
 ```
+
+### Alert
+
+Use `role="alert"` for assertive/error messages and `role="status"` for polite/informational ones. The role drives the styling — no class needed.
+
+```html
+<div role="alert">
+  <strong>Payment failed</strong>
+  <p>Your card could not be charged. Try another payment method.</p>
+</div>
+
+<div role="status">
+  <strong>Sync in progress</strong>
+  <p>We are updating your workspace.</p>
+</div>
+```
+
+`role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
 
 ### Tooltip
 

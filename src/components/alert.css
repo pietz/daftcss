@@ -1,0 +1,57 @@
+/**
+ * Alert / Status messages
+ *
+ * Semantic-first: role="alert" (assertive, errors) and role="status" (polite, info).
+ * Surfaces are tinted via color-mix() over the background so they sit visually
+ * flatter than <article> cards.
+ */
+
+[role="alert"],
+[role="status"] {
+  display: block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: var(--border-width) solid;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing);
+
+  & > strong {
+    display: block;
+    font-weight: var(--font-semibold);
+    line-height: var(--line-height-sm);
+  }
+
+  & > p {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  & > strong + p {
+    margin-top: var(--spacing-xs);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* role="status" — polite/info default (neutral) */
+[role="status"] {
+  color: var(--foreground);
+  background-color: color-mix(in oklab, var(--muted) 60%, var(--background));
+  border-color: var(--border);
+
+  & > p {
+    color: var(--muted-foreground);
+  }
+}
+
+/* role="alert" — assertive default (destructive) */
+[role="alert"] {
+  color: var(--destructive);
+  background-color: color-mix(in oklab, var(--destructive) 12%, var(--background));
+  border-color: color-mix(in oklab, var(--destructive) 35%, var(--background));
+
+  & > p {
+    color: color-mix(in oklab, var(--destructive) 85%, var(--foreground));
+  }
+}

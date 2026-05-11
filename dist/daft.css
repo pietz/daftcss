@@ -2766,6 +2766,53 @@
     padding: var(--spacing-sm) var(--spacing-md);
   }
 
+  [role="alert"], [role="status"] {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: var(--border-width) solid;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing);
+    display: block;
+
+    & > strong {
+      font-weight: var(--font-semibold);
+      line-height: var(--line-height-sm);
+      display: block;
+    }
+
+    & > p {
+      font-size: var(--text-sm);
+      margin: 0;
+    }
+
+    & > strong + p {
+      margin-top: var(--spacing-xs);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  [role="status"] {
+    color: var(--foreground);
+    background-color: color-mix(in oklab, var(--muted) 60%, var(--background));
+    border-color: var(--border);
+
+    & > p {
+      color: var(--muted-foreground);
+    }
+  }
+
+  [role="alert"] {
+    color: var(--destructive);
+    background-color: color-mix(in oklab, var(--destructive) 12%, var(--background));
+    border-color: color-mix(in oklab, var(--destructive) 35%, var(--background));
+
+    & > p {
+      color: color-mix(in oklab, var(--destructive) 85%, var(--foreground));
+    }
+  }
+
   main > aside.sidebar {
     background-color: var(--muted);
     color: inherit;
