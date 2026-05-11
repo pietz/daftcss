@@ -86,17 +86,17 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 Add one line to your HTML:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/daft-css/dist/daft.min.css">
+<link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
 ```
 
 Or install via npm:
 
 ```bash
-npm install daft-css
+npm install daftcss
 ```
 
 ```js
-import 'daft-css/dist/daft.min.css';
+import 'daftcss/dist/daft.min.css';
 ```
 
 Then write semantic HTML:
@@ -108,7 +108,7 @@ Then write semantic HTML:
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="https://unpkg.com/daft-css/dist/daft.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
     <title>My App</title>
   </head>
   <body>
