@@ -1,6 +1,6 @@
 {
   "name": "daftcss",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A semantic-first CSS framework with shadcn/ui-quality aesthetics",
   "main": "dist/daft.css",
   "files": [

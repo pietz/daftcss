@@ -9,7 +9,7 @@ Daft CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — one ~56 KB minified file
+- **A tiny footprint** — one ~54 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -30,7 +30,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~56 KB** | 83 KB |
+| Size (minified) | **~54 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -46,7 +46,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~56 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~54 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -274,6 +274,10 @@ The `.sidebar-toggle` button auto-hides on desktop (≥768px). On mobile it open
 
 ### Grid
 
+Three tiers of control — start simple, opt in to more when you need it.
+
+**Auto-count** — `.grid` picks column count from the number of children (2–6), collapses to one column on mobile:
+
 ```html
 <div class="grid">
   <div>Column 1</div>
@@ -281,6 +285,30 @@ The `.sidebar-toggle` button auto-hides on desktop (≥768px). On mobile it open
   <div>Column 3</div>
 </div>
 ```
+
+**Explicit columns** — add `.cols-N` to take over:
+
+```html
+<div class="grid cols-4">
+  <article>1</article>
+  <article>2</article>
+  <article>3</article>
+  <article>4</article>
+</div>
+```
+
+**Per breakpoint** — combine with `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` (mobile-first). Children can use `.span-N` and breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N` (plus `.span-full`):
+
+```html
+<div class="grid cols-2 cols-lg-4">
+  <article class="span-lg-2">Featured</article>
+  <article>A</article>
+  <article>B</article>
+  <article>C</article>
+</div>
+```
+
+Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
 
 ## Utility Classes
 
@@ -335,7 +363,7 @@ Daft CSS uses a hierarchical variable system designed to give you both simplicit
 ```css
 :root {
   --spacing: 1rem;      /* Controls all spacing throughout the app */
-  --radius: 0.5rem;     /* Controls all border radii */
+  --radius: 0.625rem;   /* Controls all border radii */
   --primary: oklch(0.5 0.22 295);  /* Primary brand color (default is neutral) */
 }
 ```

@@ -1,6 +1,13 @@
 /**
  * Grid layout
- * Auto-layout columns that collapse on small screens
+ *
+ * Three tiers of control:
+ *   1. Simple:   <div class="grid">              — auto-counts children
+ *   2. Explicit: <div class="grid cols-3">       — fixed column count
+ *   3. Responsive: <div class="grid cols-2 cols-lg-4">  — per breakpoint
+ *
+ * Adding any .cols-* class opts out of auto-counting.
+ * Children can use .span-N / .span-md-N / .span-lg-N / .span-xl-N.
  */
 
 .grid {
@@ -14,30 +21,29 @@
   margin-bottom: 0;
 }
 
-/* Auto-layout columns on larger screens */
+/* Auto-counting only when no explicit .cols-* class is set */
 @media (min-width: 768px) {
-  .grid {
+  .grid:not([class*="cols-"]) {
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   }
 
-  /* Explicit column counts when children are present */
-  .grid:has(> :nth-child(2):last-child) {
+  .grid:not([class*="cols-"]):where(:has(> :nth-child(2):last-child)) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .grid:has(> :nth-child(3):last-child) {
+  .grid:not([class*="cols-"]):where(:has(> :nth-child(3):last-child)) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .grid:has(> :nth-child(4):last-child) {
+  .grid:not([class*="cols-"]):where(:has(> :nth-child(4):last-child)) {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .grid:has(> :nth-child(5):last-child) {
+  .grid:not([class*="cols-"]):where(:has(> :nth-child(5):last-child)) {
     grid-template-columns: repeat(5, 1fr);
   }
 
-  .grid:has(> :nth-child(6):last-child) {
+  .grid:not([class*="cols-"]):where(:has(> :nth-child(6):last-child)) {
     grid-template-columns: repeat(6, 1fr);
   }
 }
@@ -47,21 +53,73 @@
   min-width: 0; /* Prevent overflow */
 }
 
-/* Full-width grid items */
+/* Explicit column counts (mobile-first, apply at all sizes) */
+.grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+@media (min-width: 768px) {
+  .grid.cols-md-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-md-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-md-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-md-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid.cols-md-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid.cols-lg-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-lg-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-lg-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-lg-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid.cols-lg-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .grid.cols-xl-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-xl-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-xl-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-xl-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid.cols-xl-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+/* Full-width grid items (legacy attribute, kept for back-compat) */
 .grid > [data-span="full"] {
   grid-column: 1 / -1;
 }
 
-/* Column span utilities */
-.grid > .span-2 {
-  grid-column: span 2;
+/* Column spans (mobile-first) */
+.grid > .span-2 { grid-column: span 2; }
+.grid > .span-3 { grid-column: span 3; }
+.grid > .span-4 { grid-column: span 4; }
+.grid > .span-5 { grid-column: span 5; }
+.grid > .span-6 { grid-column: span 6; }
+.grid > .span-full { grid-column: 1 / -1; }
+
+@media (min-width: 768px) {
+  .grid > .span-md-2 { grid-column: span 2; }
+  .grid > .span-md-3 { grid-column: span 3; }
+  .grid > .span-md-4 { grid-column: span 4; }
+  .grid > .span-md-5 { grid-column: span 5; }
+  .grid > .span-md-6 { grid-column: span 6; }
+  .grid > .span-md-full { grid-column: 1 / -1; }
 }
 
-.grid > .span-3 {
-  grid-column: span 3;
+@media (min-width: 1024px) {
+  .grid > .span-lg-2 { grid-column: span 2; }
+  .grid > .span-lg-3 { grid-column: span 3; }
+  .grid > .span-lg-4 { grid-column: span 4; }
+  .grid > .span-lg-5 { grid-column: span 5; }
+  .grid > .span-lg-6 { grid-column: span 6; }
+  .grid > .span-lg-full { grid-column: 1 / -1; }
 }
 
-.grid > .span-4 {
-  grid-column: span 4;
+@media (min-width: 1280px) {
+  .grid > .span-xl-2 { grid-column: span 2; }
+  .grid > .span-xl-3 { grid-column: span 3; }
+  .grid > .span-xl-4 { grid-column: span 4; }
+  .grid > .span-xl-5 { grid-column: span 5; }
+  .grid > .span-xl-6 { grid-column: span 6; }
+  .grid > .span-xl-full { grid-column: 1 / -1; }
 }
-
