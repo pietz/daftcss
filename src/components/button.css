@@ -61,7 +61,7 @@
   }
 }
 
-/* Reset button - secondary by default (Pico behavior) */
+/* Reset button defaults to a secondary look. */
 [type="reset"] {
   color: var(--foreground);
   background-color: var(--accent);

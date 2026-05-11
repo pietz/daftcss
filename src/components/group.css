@@ -78,6 +78,9 @@ fieldset[role="group"] {
 
 [role="search"] > input[type="search"] {
   flex: 1 1 auto;
+}
+
+[role="search"] > input[type="search"]:not(:only-child) {
   border-radius: var(--radius-full) 0 0 var(--radius-full);
 }
 

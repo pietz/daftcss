@@ -4,7 +4,9 @@
  */
 
 /* Base input styles */
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]),
+/* :where() keeps the long :not() chain at specificity 0 so type-specific rules
+   below (search pill radius, etc.) can override without an arms race. */
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])),
 textarea,
 select {
   display: block;
@@ -42,14 +44,13 @@ select {
   }
 }
 
-/* Form buttons - full width by default (Pico CSS compatibility) */
-/* Search forms excluded - they use inline layout per Pico docs */
+/* Form buttons span full width — except in search forms, which stay inline. */
 form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
   width: 100%;
 }
 
 /* Read-only state - only for text inputs and textarea, not select */
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):read-only,
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])):read-only,
 textarea:read-only {
   background-color: var(--muted);
 }

@@ -11,9 +11,7 @@
   <header class="container-fluid">
     <nav>
       <ul>
-        <li>
-          <button popovertarget="sidebar" class="sidebar-toggle" aria-label="Open menu">☰</button>
-        </li>
+        <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
         <li><strong>Admin Dashboard</strong></li>
       </ul>
       <ul>
@@ -32,15 +30,13 @@
             </ul>
           </details>
         </li>
-        <li>
-          <button id="theme-toggle" class="outline small">Toggle Theme</button>
-        </li>
+        <li><button id="theme-toggle" class="ghost icon" aria-label="Toggle theme">🌓</button></li>
       </ul>
     </nav>
   </header>
 
   <main class="container-fluid">
-    <aside id="sidebar" popover>
+    <aside id="sidebar" class="sidebar" popover>
       <nav>
         <ul>
           <li><strong>Overview</strong></li>
@@ -74,53 +70,60 @@
         <p>Welcome back, John. Here's what's happening today.</p>
       </hgroup>
 
-      <!-- Stats Row -->
+      <!-- Stat cards -->
       <div class="grid">
         <article>
-          <small>Total Users</small>
-          <p><strong style="font-size: 1.75rem;">12,847</strong></p>
-          <small style="color: var(--success);">+12.5% from last month</small>
+          <small class="muted">Total Users</small>
+          <p class="text-3xl m-0"><strong>12,847</strong></p>
+          <small class="success">+12.5% from last month</small>
         </article>
         <article>
-          <small>Revenue</small>
-          <p><strong style="font-size: 1.75rem;">$48,294</strong></p>
-          <small style="color: var(--success);">+8.2% from last month</small>
+          <small class="muted">Revenue</small>
+          <p class="text-3xl m-0"><strong>$48,294</strong></p>
+          <small class="success">+8.2% from last month</small>
         </article>
         <article>
-          <small>Orders</small>
-          <p><strong style="font-size: 1.75rem;">384</strong></p>
-          <small style="color: var(--destructive);">-3.1% from last month</small>
+          <small class="muted">Orders</small>
+          <p class="text-3xl m-0"><strong>384</strong></p>
+          <small class="destructive">-3.1% from last month</small>
         </article>
         <article>
-          <small>Conversion Rate</small>
-          <p><strong style="font-size: 1.75rem;">3.24%</strong></p>
-          <small style="color: var(--success);">+0.4% from last month</small>
+          <small class="muted">Conversion Rate</small>
+          <p class="text-3xl m-0"><strong>3.24%</strong></p>
+          <small class="success">+0.4% from last month</small>
         </article>
       </div>
 
-      <!-- Charts Row -->
+      <!-- "Charts" rendered as labeled progress bars -->
       <div class="grid">
         <article>
           <header>
-            <strong>Revenue Overview</strong>
-            <p>Monthly revenue for the current year</p>
+            <strong>Revenue by Month</strong>
+            <p>Current year, normalized to peak</p>
           </header>
-          <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Chart placeholder</small>
-          </div>
+          <label>Jan <progress value="32" max="100"></progress></label>
+          <label>Feb <progress value="48" max="100"></progress></label>
+          <label>Mar <progress value="55" max="100"></progress></label>
+          <label>Apr <progress value="61" max="100"></progress></label>
+          <label>May <progress value="74" max="100"></progress></label>
+          <label>Jun <progress value="83" max="100"></progress></label>
+          <label>Jul <progress value="91" max="100"></progress></label>
+          <label>Aug <progress value="100" max="100"></progress></label>
         </article>
         <article>
           <header>
             <strong>Traffic Sources</strong>
             <p>Where your visitors come from</p>
           </header>
-          <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Chart placeholder</small>
-          </div>
+          <label>Direct <progress value="42" max="100"></progress></label>
+          <label>Organic Search <progress value="28" max="100"></progress></label>
+          <label>Referral <progress class="warning" value="18" max="100"></progress></label>
+          <label>Social <progress class="secondary" value="9" max="100"></progress></label>
+          <label>Email <progress class="secondary" value="3" max="100"></progress></label>
         </article>
       </div>
 
-      <!-- Recent Activity Table -->
+      <!-- Recent orders table -->
       <article>
         <header>
           <strong>Recent Orders</strong>
@@ -143,40 +146,40 @@
               <td>Sarah Wilson</td>
               <td>Premium Plan</td>
               <td>$299.00</td>
-              <td><mark>Completed</mark></td>
-              <td>Jan 18, 2025</td>
+              <td><span class="badge success">Completed</span></td>
+              <td>Jan 18, 2026</td>
             </tr>
             <tr>
               <td><code>#ORD-7891</code></td>
               <td>Mike Chen</td>
               <td>Pro Plan</td>
               <td>$99.00</td>
-              <td><mark>Completed</mark></td>
-              <td>Jan 18, 2025</td>
+              <td><span class="badge success">Completed</span></td>
+              <td>Jan 18, 2026</td>
             </tr>
             <tr>
               <td><code>#ORD-7890</code></td>
               <td>Emma Davis</td>
               <td>Enterprise Plan</td>
               <td>$599.00</td>
-              <td><mark>Pending</mark></td>
-              <td>Jan 17, 2025</td>
+              <td><span class="badge warning">Pending</span></td>
+              <td>Jan 17, 2026</td>
             </tr>
             <tr>
               <td><code>#ORD-7889</code></td>
               <td>James Brown</td>
               <td>Pro Plan</td>
               <td>$99.00</td>
-              <td><mark>Completed</mark></td>
-              <td>Jan 17, 2025</td>
+              <td><span class="badge success">Completed</span></td>
+              <td>Jan 17, 2026</td>
             </tr>
             <tr>
               <td><code>#ORD-7888</code></td>
               <td>Lisa Johnson</td>
               <td>Premium Plan</td>
               <td>$299.00</td>
-              <td><mark>Refunded</mark></td>
-              <td>Jan 16, 2025</td>
+              <td><span class="badge destructive">Refunded</span></td>
+              <td>Jan 16, 2026</td>
             </tr>
           </tbody>
         </table>
@@ -185,7 +188,7 @@
         </footer>
       </article>
 
-      <!-- Quick Actions -->
+      <!-- Quick actions -->
       <article>
         <header>
           <strong>Quick Actions</strong>
@@ -198,52 +201,39 @@
         </div>
       </article>
 
-      <!-- Recent Activity Feed -->
+      <!-- Activity feed + system status -->
       <div class="grid">
         <article>
           <header>
             <strong>Recent Activity</strong>
           </header>
           <ul>
-            <li><small>2 min ago</small> — New user <strong>alex@email.com</strong> signed up</li>
-            <li><small>15 min ago</small> — Order <code>#ORD-7892</code> was completed</li>
-            <li><small>1 hour ago</small> — Payment of <strong>$299.00</strong> received</li>
-            <li><small>2 hours ago</small> — New support ticket opened by Mike Chen</li>
-            <li><small>3 hours ago</small> — Product "Pro Plan" was updated</li>
+            <li><small class="muted">2 min ago</small> — New user <strong>alex@email.com</strong> signed up</li>
+            <li><small class="muted">15 min ago</small> — Order <code>#ORD-7892</code> was completed</li>
+            <li><small class="muted">1 hour ago</small> — Payment of <strong>$299.00</strong> received</li>
+            <li><small class="muted">2 hours ago</small> — New support ticket opened by Mike Chen</li>
+            <li><small class="muted">3 hours ago</small> — Product "Pro Plan" was updated</li>
           </ul>
         </article>
         <article>
           <header>
             <strong>System Status</strong>
           </header>
-          <label>
-            API Server
-            <progress value="99" max="100"></progress>
-          </label>
-          <label>
-            Database
-            <progress value="87" max="100"></progress>
-          </label>
-          <label>
-            CDN
-            <progress value="100" max="100"></progress>
-          </label>
-          <label>
-            Storage
-            <progress value="64" max="100"></progress>
-          </label>
+          <label>API Server <progress class="success" value="99" max="100"></progress></label>
+          <label>Database <progress class="success" value="87" max="100"></progress></label>
+          <label>CDN <progress class="success" value="100" max="100"></progress></label>
+          <label>Storage <progress class="warning" value="64" max="100"></progress></label>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="container-fluid">
-    <small>&copy; 2025 Admin Dashboard. All rights reserved.</small>
+    <small class="muted">&copy; 2026 Admin Dashboard. All rights reserved.</small>
   </footer>
 
   <script>
-    const toggle = document.getElementById('theme-toggle');
-    toggle.addEventListener('click', () => {
+    document.getElementById('theme-toggle').addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);

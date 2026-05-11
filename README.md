@@ -212,6 +212,45 @@ Then write semantic HTML:
 </nav>
 ```
 
+### Sidebar
+
+An `<aside class="sidebar">` inside `<main>` becomes a fixed full-height column on desktop. Add the `popover` attribute and a `.sidebar-toggle` button for a mobile slide-out drawer — no JavaScript.
+
+```html
+<body>
+  <header class="container-fluid">
+    <nav>
+      <ul>
+        <li>
+          <button class="ghost icon sidebar-toggle"
+                  popovertarget="sidebar"
+                  aria-label="Open menu">☰</button>
+        </li>
+        <li><strong>Admin</strong></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container-fluid">
+    <aside id="sidebar" class="sidebar" popover>
+      <nav>
+        <ul>
+          <li><strong>Overview</strong></li>
+          <li><a href="#" aria-current="page">Dashboard</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section>
+      <!-- page content -->
+    </section>
+  </main>
+</body>
+```
+
+The `.sidebar-toggle` button auto-hides on desktop (≥768px). On mobile it opens the sidebar as a drawer via the native Popover API. Override `--aside-width` to change the column width.
+
 ### Tooltips
 
 ```html
@@ -242,6 +281,37 @@ Then write semantic HTML:
   <div>Column 3</div>
 </div>
 ```
+
+## Utility Classes
+
+For when semantic HTML alone isn't enough. Daft ships a small, opinionated set — not a full utility framework.
+
+| Group | Classes |
+|---|---|
+| Text color | `.muted` `.primary` `.success` `.warning` `.destructive` |
+| Text size | `.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl` |
+| Font weight | `.font-normal` `.font-medium` `.font-semibold` `.font-bold` |
+| Text align | `.text-left` `.text-center` `.text-right` |
+| Truncate | `.truncate` |
+| Visibility | `.hidden` `.invisible` `.sr-only` `.no-print` |
+| Display | `.flex` `.flex-col` |
+| Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |
+| Gap | `.gap-2` `.gap-4` |
+| Width | `.w-full` |
+| Margin | `.m-0` `.mx-auto` `.mt-4` `.mb-4` `.my-4` |
+| Padding | `.p-0` `.p-4` `.p-6` |
+| Overflow | `.overflow-auto` `.overflow-hidden` |
+| Radius | `.rounded-none` `.rounded-sm` `.rounded` `.rounded-lg` `.rounded-xl` `.rounded-full` |
+| Border | `.border` `.border-none` |
+| Background | `.bg-card` `.bg-muted` `.bg-transparent` |
+| Shadow | `.shadow-none` `.shadow-sm` `.shadow` `.shadow-md` `.shadow-lg` |
+| Position | `.sticky` |
+| Cursor | `.cursor-pointer` `.cursor-not-allowed` |
+| Interaction | `.pointer-events-none` `.select-none` |
+| Transition | `.transition` `.transition-none` |
+| Animation | `.animate-spin` `.animate-pulse` |
+
+If you find yourself reaching for utilities that aren't here, that's a signal to either lean on a semantic element you might be overlooking — or, if it's a real gap, open an issue.
 
 ## Theming
 

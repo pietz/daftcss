@@ -1,83 +1,90 @@
 /**
  * Sidebar
  *
- * In Daft, a direct child <aside> of <main> is a sidebar layout slot:
- *   - Desktop (≥ 768px): renders as a sticky column. First child = left,
- *     last child = right. Both can coexist for two-column layouts.
- *   - Mobile (< 768px): stacks above content by default.
+ * <aside class="sidebar"> as a direct child of <main> is an app-dashboard
+ * sidebar:
+ *   - Desktop (≥ 768px): position-fixed full viewport height on the left.
+ *     Body gets padding-left so header / main / footer flow in the column
+ *     to the right of it.
+ *   - Mobile (< 768px): hidden by default. Add the popover attribute and a
+ *     <button class="sidebar-toggle" popovertarget="sidebar"> to slide it
+ *     out as a drawer.
  *
- * Use <aside data-plain> for complementary content that should keep
- * normal document flow instead of becoming a sidebar.
+ * Plain <aside> (no .sidebar class) keeps normal document flow — useful
+ * for pullquotes, callouts, and other tangential content.
  *
- * For a slide-out hamburger menu on mobile, opt in with two attributes:
- *   <button popovertarget="nav" class="sidebar-toggle">☰</button>
- *   <aside id="nav" popover>...</aside>
- *
- * Native HTML Popover API handles open/close, ESC, click-outside,
- * focus management, and backdrop. No JavaScript, no checkbox hack.
+ * Customization: override --aside-width for column width, override
+ * background-color on the selector below for surface color.
  */
 
-/* ============================================================
-   Aside as a layout slot
-   ============================================================ */
-
-/* Transparent by default — the sidebar aside is a positioning/separation shell
-   so anything inside (nav, article, form, custom content) renders
-   without a competing surface. Override main > aside { background-color: ... }
-   for a tinted sidebar. */
-main > aside:not([data-plain]) {
-  padding: var(--spacing-lg);
-  background-color: transparent;
+/* Surface (applies on all viewports — hidden on mobile via media query) */
+main > aside.sidebar {
+  background-color: var(--muted);
   color: inherit;
   border: none;
-}
-
-/* Side border to separate sidebar from content. */
-main > aside:first-child:not([data-plain]) {
-  border-right: var(--border-width) solid var(--border);
-}
-
-main > aside:last-child:not(:first-child):not([data-plain]) {
-  border-left: var(--border-width) solid var(--border);
+  padding: var(--spacing-lg);
 }
 
 /* ============================================================
-   Desktop column layout (≥ 768px)
+   Desktop: fixed full-height column
    ============================================================ */
 
 @media (min-width: 768px) {
-  main:has(> aside:not([data-plain])) {
-    display: grid;
-    gap: var(--spacing);
-    align-items: start;
-  }
-
-  main:has(> aside:not([data-plain])) > aside:not([data-plain]) {
-    position: sticky;
-    top: var(--spacing);
-    max-height: calc(100vh - 2 * var(--spacing));
-    overflow-y: auto;
-  }
-
-  /* Left sidebar (default) */
-  main:has(> aside:first-child:not([data-plain])):not(:has(> aside:last-child:not(:first-child):not([data-plain]))) {
-    grid-template-columns: var(--aside-width) 1fr;
-  }
-
-  /* Right sidebar */
-  main:has(> aside:last-child:not(:first-child):not([data-plain])):not(:has(> aside:first-child:not([data-plain]))) {
-    grid-template-columns: 1fr var(--aside-width);
-  }
-
-  /* Both sides */
-  main:has(> aside:first-child:not([data-plain])):has(> aside:last-child:not(:first-child):not([data-plain])) {
-    grid-template-columns: var(--aside-width) 1fr var(--aside-width);
-  }
-
-  /* Force popover-attributed aside to render as a normal column on desktop.
-     Overrides the UA stylesheet's display:none for closed popovers. */
-  main > aside[popover]:not([data-plain]) {
+  /* display + height overrides fight the UA popover styles, which set
+     display: none on closed popovers and height: fit-content always. */
+  main > aside.sidebar {
     display: block;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--aside-width);
+    height: 100dvh;
+    overflow-y: auto;
+    z-index: 10;
+  }
+
+  /* Make room for the fixed sidebar by padding the body */
+  body:has(> main > aside.sidebar) {
+    padding-left: var(--aside-width);
+  }
+
+  /* Disable any grid layout on main (the aside is out of normal flow now) */
+  main:has(> aside.sidebar) {
+    display: block;
+  }
+}
+
+/* ============================================================
+   Mobile: hidden by default, slide-out drawer when popover-open
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+  main > aside.sidebar {
+    display: none;
+  }
+
+  main > aside.sidebar[popover]:popover-open {
+    display: block;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(var(--aside-width), 85vw);
+    height: 100dvh;
+    z-index: 100;
+    overflow-y: auto;
+    transform: translateX(0);
+    transition: transform var(--transition-slow) var(--ease-default),
+                overlay var(--transition-slow) var(--ease-default) allow-discrete,
+                display var(--transition-slow) var(--ease-default) allow-discrete;
+  }
+
+  main > aside.sidebar[popover]::backdrop {
+    background-color: var(--modal-overlay);
+    backdrop-filter: blur(4px);
+  }
+
+  @starting-style {
+    main > aside.sidebar[popover]:popover-open {
+      transform: translateX(-100%);
+    }
   }
 }
 
@@ -85,7 +92,7 @@ main > aside:last-child:not(:first-child):not([data-plain]) {
    Aside nav (vertical link list)
    ============================================================ */
 
-main > aside:not([data-plain]) > nav {
+main > aside.sidebar > nav {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -94,23 +101,23 @@ main > aside:not([data-plain]) > nav {
   gap: var(--spacing-sm);
 }
 
-main > aside:not([data-plain]) > nav > ul {
+main > aside.sidebar > nav > ul {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 2px;
+  gap: var(--spacing-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-main > aside:not([data-plain]) > nav > ul > li {
+main > aside.sidebar > nav > ul > li {
   margin: 0;
 }
 
 /* Section labels */
-main > aside:not([data-plain]) > nav > ul > li > strong {
+main > aside.sidebar > nav > ul > li > strong {
   display: block;
   padding: var(--spacing-sm) var(--spacing);
   margin-top: var(--spacing);
@@ -121,12 +128,12 @@ main > aside:not([data-plain]) > nav > ul > li > strong {
   letter-spacing: 0.05em;
 }
 
-main > aside:not([data-plain]) > nav > ul > li:first-child > strong {
+main > aside.sidebar > nav > ul > li:first-child > strong {
   margin-top: 0;
 }
 
 /* Sidebar links */
-main > aside:not([data-plain]) > nav > ul > li > a {
+main > aside.sidebar > nav > ul > li > a {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -137,104 +144,35 @@ main > aside:not([data-plain]) > nav > ul > li > a {
   color: var(--foreground);
   text-decoration: none;
   border-radius: var(--radius-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: background-color var(--transition-default),
               color var(--transition-default);
 }
 
-main > aside:not([data-plain]) > nav > ul > li > a:hover {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
-}
-
-main > aside:not([data-plain]) > nav > ul > li > a[aria-current="page"],
-main > aside:not([data-plain]) > nav > ul > li > a[aria-current="true"] {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
-}
-
-/* ============================================================
-   Mobile slide-out (< 768px)
-   ============================================================ */
-
-@media (max-width: 767.98px) {
-  main > aside[popover]:not([data-plain]) {
-    display: none;
-    position: fixed;
-    inset: 0;
-    margin: 0;
-    width: min(20rem, 85vw);
-    height: 100dvh;
-    background-color: var(--card);
-    color: var(--card-foreground);
-    border: none;
-    border-right: var(--border-width) solid var(--border);
-    border-radius: 0;
-    transform: translateX(-100%);
-    transition: transform var(--transition-slow) var(--ease-default),
-                overlay var(--transition-slow) var(--ease-default) allow-discrete,
-                display var(--transition-slow) var(--ease-default) allow-discrete;
-  }
-
-  main > aside[popover]:popover-open:not([data-plain]) {
-    display: block;
-    transform: translateX(0);
-  }
-
-  /* Right-side variant */
-  main > aside[popover]:last-child:not(:first-child):not([data-plain]) {
-    left: auto;
-    right: 0;
-    border-right: none;
-    border-left: var(--border-width) solid var(--border);
-    transform: translateX(100%);
-  }
-
-  main > aside[popover]:popover-open:last-child:not(:first-child):not([data-plain]) {
-    transform: translateX(0);
-  }
-
-  main > aside[popover]:not([data-plain])::backdrop {
-    background-color: var(--modal-overlay);
-    backdrop-filter: blur(4px);
-  }
-
-  /* Entry animation */
-  @starting-style {
-    main > aside[popover]:popover-open:not([data-plain]) {
-      transform: translateX(-100%);
-    }
-    main > aside[popover]:popover-open:last-child:not(:first-child):not([data-plain]) {
-      transform: translateX(100%);
-    }
-  }
-}
-
-/* ============================================================
-   Hamburger toggle button
-   ============================================================ */
-
-.sidebar-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--button-height);
-  height: var(--button-height);
-  padding: 0;
-  font-size: var(--text-lg);
+/* Hover/active: a subtle shade darker than --muted in light mode, lighter
+   in dark mode — matches shadcn's sidebar-accent pattern of a quiet hover
+   that stays within the sidebar's tonal range. */
+main > aside.sidebar > nav > ul > li > a:hover,
+main > aside.sidebar > nav > ul > li > a[aria-current="page"],
+main > aside.sidebar > nav > ul > li > a[aria-current="true"] {
+  background-color: color-mix(in oklch, var(--muted) 88%, var(--foreground));
   color: var(--foreground);
-  background-color: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: background-color var(--transition-default);
 }
 
-.sidebar-toggle:hover {
-  background-color: var(--accent);
-}
+/* ============================================================
+   Hamburger toggle (mobile-only)
+   ============================================================
+   .sidebar-toggle is a behavior-only class: it hides the button on desktop.
+   For the visual look, pair it with .ghost and .icon (or any button variant
+   you prefer). Example:
+     <button class="ghost icon sidebar-toggle" popovertarget="sidebar">☰</button>
+*/
 
 @media (min-width: 768px) {
-  .sidebar-toggle {
+  .sidebar-toggle,
+  li:has(> .sidebar-toggle) {
     display: none;
   }
 }

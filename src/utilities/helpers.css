@@ -93,6 +93,10 @@ a.secondary {
 }
 
 /* Font size */
+.text-xs {
+  font-size: var(--text-xs);
+}
+
 .text-sm {
   font-size: var(--text-sm);
 }
@@ -107,6 +111,18 @@ a.secondary {
 
 .text-xl {
   font-size: var(--text-xl);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+}
+
+.text-3xl {
+  font-size: var(--text-3xl);
+}
+
+.text-4xl {
+  font-size: var(--text-4xl);
 }
 
 /* ===== LAYOUT UTILITIES ===== */
@@ -141,6 +157,10 @@ a.secondary {
   justify-content: space-between;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .gap-2 {
   gap: var(--spacing-sm);
 }
@@ -157,6 +177,10 @@ a.secondary {
 /* Margin utilities */
 .m-0 {
   margin: 0;
+}
+
+.mx-auto {
+  margin-inline: auto;
 }
 
 .mt-4 {
@@ -185,7 +209,31 @@ a.secondary {
   padding: var(--spacing-lg);
 }
 
+/* ===== OVERFLOW & TRUNCATION ===== */
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ===== BORDER UTILITIES ===== */
+
+.rounded-none {
+  border-radius: 0;
+}
+
+.rounded-sm {
+  border-radius: var(--radius-sm);
+}
 
 .rounded {
   border-radius: var(--radius-md);
@@ -193,6 +241,10 @@ a.secondary {
 
 .rounded-lg {
   border-radius: var(--radius-lg);
+}
+
+.rounded-xl {
+  border-radius: var(--radius-xl);
 }
 
 .rounded-full {
