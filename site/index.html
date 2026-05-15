@@ -45,7 +45,7 @@
     section.s { padding: var(--section-gap) 0; margin: 0; }
 
     /* Hero — centered headline + lede + actions */
-    .hero { padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem); text-align: center; }
+    .hero { padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(3rem, 5vw, 4rem); text-align: center; }
     .hero h1 {
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 700;
@@ -56,35 +56,9 @@
       text-wrap: balance;
     }
     .hero > p { max-width: 52ch; margin: 0 auto; color: var(--muted-foreground); }
-
-    /* Install picker — uses role="group" for the merged pill */
-    .install {
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      max-width: min(36rem, 100%);
-      overflow: hidden;
-    }
-    .install select {
-      width: auto;
-      background-color: var(--muted);
-      padding: 0.45rem 2rem 0.45rem 0.85rem;
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      height: auto;
-    }
-    .install code {
-      padding: 0.5rem 0.85rem;
-      background: transparent;
-      flex: 1;
-      overflow-x: auto;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-      border-radius: 0;
-    }
-    .install code::before { content: "$"; color: var(--muted-foreground); }
-    .install code[data-method="cdn"]::before { content: "<>"; font-size: 0.75em; }
+    .hero .install-wrap { margin: var(--spacing-xl) auto; display: flex; justify-content: center; }
+    .hero .install-wrap .combo { max-width: min(40rem, 100%); }
+    .hero .actions { display: flex; gap: var(--spacing-sm); justify-content: center; }
 
     /* Icon-only toggle button in the nav */
     .icon-btn {
@@ -251,7 +225,7 @@
     <div class="container flex items-center justify-between">
       <a href="#" class="flex items-center gap-2">
         <strong>daft.css</strong>
-        <span class="badge outline small">v1.6.0</span>
+        <span class="badge outline small">v1.6.1</span>
       </a>
       <ul>
         <li><a href="#components">Components</a></li>
@@ -274,19 +248,19 @@
       <h1>The CSS file you forgot was allowed.</h1>
       <p>No build step. No JSX. No utility soup. Write <code>&lt;button&gt;</code>, get a button that looks designed. Change one variable, restyle the app.</p>
 
-      <div class="flex justify-center my-4">
-        <div class="install" role="group">
+      <div class="install-wrap">
+        <div class="combo">
           <select id="install-method" aria-label="Install method">
             <option value="cdn" selected>CDN</option>
             <option value="npm">npm</option>
             <option value="pnpm">pnpm</option>
             <option value="yarn">yarn</option>
           </select>
-          <code id="install-cmd" data-method="cdn">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1.6.0/dist/daft.min.css"&gt;</code>
+          <code id="install-cmd">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code>
         </div>
       </div>
 
-      <div class="flex gap-2 justify-center">
+      <div class="actions">
         <a href="#components" role="button">See it adapt</a>
         <a href="#components" role="button" class="outline">Components</a>
       </div>
@@ -516,7 +490,7 @@
         </article>
 
         <article>
-          <header><strong>Daft</strong> <span class="badge outline">57 KB</span></header>
+          <header><strong>Daft</strong> <span class="badge outline">59 KB</span></header>
           <article style="margin:0">
             <header><strong>Aurora pipelines</strong></header>
             <p>Streaming ingest pipeline with backpressure handling.</p>
@@ -542,8 +516,8 @@
         <div class="flex flex-col gap-3">
           <div class="size-row">
             <span class="font-semibold">Daft</span>
-            <progress value="57" max="200"></progress>
-            <span class="muted text-sm text-right">57 KB</span>
+            <progress value="59" max="200"></progress>
+            <span class="muted text-sm text-right">59 KB</span>
           </div>
           <div class="size-row">
             <span class="font-semibold">Pico.css</span>
@@ -607,8 +581,8 @@
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.6.0</span>
-        <span>57 KB</span>
+        <span>v1.6.1</span>
+        <span>59 KB</span>
         <span>MIT</span>
         <span>© 2026</span>
       </div>
@@ -664,13 +638,12 @@
       const sel = document.getElementById('install-method');
       const cmd = document.getElementById('install-cmd');
       const map = {
-        cdn:  '&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1.6.0/dist/daft.min.css"&gt;',
+        cdn:  '&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;',
         npm:  'npm install daftcss',
         pnpm: 'pnpm add daftcss',
         yarn: 'yarn add daftcss',
       };
       sel.addEventListener('change', () => {
-        cmd.dataset.method = sel.value;
         cmd.innerHTML = map[sel.value];
       });
     })();

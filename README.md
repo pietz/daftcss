@@ -277,6 +277,22 @@ A round container for initials, an image, or an SVG icon.
 <span class="avatar"><img src="/avatars/kai.jpg" alt=""></span>
 ```
 
+### Combo
+
+Joins adjacent controls into a single pill. Last child fills, others size to content.
+
+```html
+<div class="combo">
+  <select><option>CDN</option><option>npm</option></select>
+  <code>npm install daftcss</code>
+</div>
+
+<div class="combo">
+  <input type="search" placeholder="Search">
+  <button>Go</button>
+</div>
+```
+
 ### Tooltips
 
 ```html

@@ -9,6 +9,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
+  padding-block: var(--spacing-sm);
 }
 
 nav ul {

@@ -837,6 +837,38 @@ Use `role="alert"` for assertive/error messages and `role="status"` for polite/i
 
 `role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
 
+### Combo
+
+Joins adjacent controls into a single pill — inner borders merge, outer corners stay rounded. The **last child fills** remaining width; all others size to their content.
+
+```html
+<div class="combo">
+  <select>
+    <option>CDN</option>
+    <option>npm</option>
+  </select>
+  <code>npm install daftcss</code>
+</div>
+```
+
+**Common patterns:**
+
+```html
+<!-- Country code + phone -->
+<div class="combo">
+  <select><option>+1</option><option>+44</option></select>
+  <input type="tel" placeholder="555-0100">
+</div>
+
+<!-- Search + submit -->
+<div class="combo">
+  <input type="search" placeholder="Search">
+  <button>Go</button>
+</div>
+```
+
+A leading `<select>` automatically gets a muted "addon" background. Display children (`<code>`, `<samp>`, `<kbd>`, `<span>`, `<output>`) align vertically and scroll horizontally if content overflows.
+
 ### Avatar
 
 A round container sized to match form controls. Wrap initials, an `<img>`, or an inline `<svg>`.

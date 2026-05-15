@@ -2222,6 +2222,7 @@
     justify-content: space-between;
     align-items: center;
     gap: var(--spacing);
+    padding-block: var(--spacing-sm);
     flex-wrap: wrap;
     display: flex;
   }
@@ -2696,6 +2697,50 @@
     margin-top: calc(var(--border-width) * -1);
   }
 
+  .combo {
+    max-width: 100%;
+    height: var(--component-height);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--background);
+    align-items: stretch;
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .combo > * {
+    width: auto;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    flex: none;
+    height: auto;
+    margin: 0;
+  }
+
+  .combo > * + * {
+    border-left: var(--border-width) solid var(--border);
+  }
+
+  .combo > :last-child {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .combo > :is(code, samp, kbd, span, output) {
+    padding: 0 var(--spacing-md);
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    background-color: #0000;
+    align-items: center;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .combo > select:first-child {
+    background-color: var(--muted);
+  }
+
   .badge {
     align-items: center;
     gap: var(--spacing-xs);
@@ -3089,7 +3134,7 @@
 
   .glass {
     background-color: color-mix(in oklch, var(--background) 80%, transparent);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 
   .flex {

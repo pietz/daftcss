@@ -308,6 +308,29 @@ Sortable column indicator: `<th aria-sort="ascending">` or `"descending"`.
 
 Combine: `.outline.success`, `.outline.destructive`, etc.
 
+### Combo
+```html
+<div class="combo">
+  <select>
+    <option>CDN</option>
+    <option>npm</option>
+  </select>
+  <code>npm install daftcss</code>
+</div>
+
+<div class="combo">
+  <select><option>+1</option><option>+44</option></select>
+  <input type="tel" placeholder="555-0100">
+</div>
+
+<div class="combo">
+  <input type="search" placeholder="Search">
+  <button>Go</button>
+</div>
+```
+
+Joins adjacent controls into a single pill: inner borders merge, outer corners stay rounded. **Last child fills** remaining width; others size to content. A leading `<select>` renders with a muted "addon" background.
+
 ### Avatar
 ```html
 <span class="avatar">KS</span>
