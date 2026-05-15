@@ -2,12 +2,14 @@
  * Grid layout
  *
  * Three tiers of control:
- *   1. Simple:   <div class="grid">              — auto-counts children
- *   2. Explicit: <div class="grid cols-3">       — fixed column count
- *   3. Responsive: <div class="grid cols-2 cols-lg-4">  — per breakpoint
+ *   1. Auto:      <div class="grid">          — fits as many ~--grid-min cells as the row allows
+ *   2. Explicit:  <div class="grid cols-3">   — fixed column count
+ *   3. Responsive:<div class="grid cols-2 cols-lg-4">  — per breakpoint
  *
  * Adding any .cols-* class opts out of auto-counting.
  * Children can use .span-N / .span-md-N / .span-lg-N / .span-xl-N.
+ *
+ * Tune the auto-mode cell width via --grid-min (default 18rem).
  */
 
 .grid {
@@ -24,27 +26,7 @@
 /* Auto-counting only when no explicit .cols-* class is set */
 @media (min-width: 768px) {
   .grid:not([class*="cols-"]) {
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  }
-
-  .grid:not([class*="cols-"]):where(:has(> :nth-child(2):last-child)) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid:not([class*="cols-"]):where(:has(> :nth-child(3):last-child)) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .grid:not([class*="cols-"]):where(:has(> :nth-child(4):last-child)) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .grid:not([class*="cols-"]):where(:has(> :nth-child(5):last-child)) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .grid:not([class*="cols-"]):where(:has(> :nth-child(6):last-child)) {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
   }
 }
 
@@ -82,11 +64,6 @@
   .grid.cols-xl-4 { grid-template-columns: repeat(4, 1fr); }
   .grid.cols-xl-5 { grid-template-columns: repeat(5, 1fr); }
   .grid.cols-xl-6 { grid-template-columns: repeat(6, 1fr); }
-}
-
-/* Full-width grid items (legacy attribute, kept for back-compat) */
-.grid > [data-span="full"] {
-  grid-column: 1 / -1;
 }
 
 /* Column spans (mobile-first) */

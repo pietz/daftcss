@@ -79,6 +79,90 @@ When adding a new component or feature to the library:
 4. **Update documentation** if applicable
 5. **Run `npm run build`** to verify it compiles
 
+## Release & Publishing Process
+
+When the user asks to publish a new version, follow these steps in order. Never skip steps or batch them without acknowledgement — each is a separate trust boundary.
+
+### 1. Version bump
+
+Update the version in three places (they must match):
+- `package.json` → `"version": "x.y.z"`
+- `src/daft.css` → header comment `* Daft CSS vx.y.z`
+- `site/index.html` → footer + nav badge (`v1.x.y`)
+
+SemVer guidance for this project:
+- **Patch (1.6.x)** — bug fixes, additive helpers, no behavior change for existing markup
+- **Minor (1.x.0)** — new component, new utility class, behavior changes that aren't user-visible breaks
+- **Major (x.0.0)** — removed classes, renamed selectors, changed default behavior that could break existing pages
+
+### 2. Build
+
+```bash
+npm run build
+```
+
+Verify `dist/daft.css` and `dist/daft.min.css` regenerated. Check the minified size hasn't ballooned unexpectedly.
+
+### 3. Visual smoke test
+
+Run a quick check on `site/index.html` or `examples/components.html` via `agent-browser` to catch regressions, especially for layout/grid/component changes.
+
+### 4. Update documentation
+
+Whenever the framework gains or loses a class, the following files must reflect it:
+- `README.md` — Components section + Utility table
+- `DOCS.md` — Components or Utilities sections
+- `skills/daftcss/SKILL.md` — Component idioms (one-liners)
+- `skills/daftcss/REFERENCE.md` — Component examples + utility lists
+
+### 5. Git commit + tag + push
+
+```bash
+git add -A
+git commit -m "vx.y.z - <one-line summary>
+
+- <bullet>
+- <bullet>"
+git tag -a vx.y.z -m "vx.y.z"
+git push origin main
+git push origin vx.y.z
+```
+
+Never commit/push without explicit user request. Never amend a published commit — make a new one.
+
+### 6. Publish to npm
+
+```bash
+npm publish
+```
+
+Requires `npm whoami` to show the publish-authorized account.
+
+### 7. Create the GitHub Release
+
+```bash
+gh release create vx.y.z --title "vx.y.z — <short title>" --notes "$(cat <<'EOF'
+## Highlights
+
+- <bullet>
+- <bullet>
+
+## Changes
+
+- <bullet>
+EOF
+)"
+```
+
+This is **easy to forget** — the npm publish does not create a GitHub release. Verify with `gh release list` afterward.
+
+### Common mistakes
+
+- Forgetting to bump `src/daft.css` header or `site/index.html` version after `package.json`
+- Publishing to npm before pushing the git tag (release will reference a commit that's not on the remote)
+- Skipping the GitHub release step — npm-only releases leave the GH page stale and users have no readable changelog
+- Using `git commit --amend` after the commit was pushed — create a new commit instead
+
 ## Visual Testing with Agent Browser
 
 Use the `agent-browser` skill to visually verify CSS changes. This is especially useful for checking color variants, theme switching, and responsive layouts.

@@ -184,6 +184,8 @@ Nested articles get a muted background. Wrapping an article in `<a>` makes it a 
 
 Use the native Popover API. ESC and click-outside close automatically.
 
+Bare `<dialog>` (opened via `showModal()`) is also styled as a card — wrap content in `<article>` only when you want the full header/footer/close-button layout.
+
 ### Sidebar
 ```html
 <body>
@@ -308,6 +310,15 @@ Sortable column indicator: `<th aria-sort="ascending">` or `"descending"`.
 
 Combine: `.outline.success`, `.outline.destructive`, etc.
 
+**Chip** — `.badge` on a `<button>` becomes an interactive filter pill. Use `aria-pressed="true"` for the selected state.
+```html
+<div class="cluster">
+  <button class="badge outline" aria-pressed="true">All</button>
+  <button class="badge outline">Active</button>
+  <button class="badge outline">Draft</button>
+</div>
+```
+
 ### Combo
 ```html
 <div class="combo">
@@ -370,9 +381,11 @@ Round container sized to `--component-height`. Wraps initials, images, or SVGs. 
 
 **Grid:** Three tiers of control.
 
-1. **Auto-count** — `<div class="grid">` sizes columns from child count (2–6). Mobile collapses to 1 col.
-2. **Explicit** — add `.cols-N` (2–6) to lock the column count at all sizes. Opts out of auto-counting.
+1. **Auto** — `<div class="grid">` fits as many ~`--grid-min` (default 18rem) cells as the row allows. Cells wrap to new rows; mobile collapses to 1 col.
+2. **Explicit** — add `.cols-N` (2–6) to lock the column count at all sizes. Opts out of auto.
 3. **Responsive** — combine with `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` (mobile-first cumulative). Children use `.span-N` (2–6) plus breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N`, and `.span-full` / `.span-md-full` etc. for row-wide items.
+
+Tune auto-mode cell width with `--grid-min`. Set it per-grid for narrower or wider cells: `<div class="grid" style="--grid-min: 12rem">`.
 
 Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
 
@@ -416,6 +429,10 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 
 ### Gap
 `.gap-1` (0.25rem), `.gap-2` (0.5rem), `.gap-3` (0.75rem), `.gap-4` (1rem), `.gap-6` (1.5rem), `.gap-8` (2rem)
+
+### Layout primitives
+`.cluster` — wrapping row, center-aligned, spacing-sm gap (button toolbars, chip rows).
+`.stack` — column with default spacing gap (form fields, vertical lists).
 
 ### Width / margin / padding
 `.w-full`, `.m-0`, `.mx-auto`, `.mt-4`, `.mb-4`, `.my-4`, `.p-0`, `.p-4`, `.p-6`

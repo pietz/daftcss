@@ -1,12 +1,16 @@
 /**
  * Modal/Dialog styles
- * Supports both native <dialog> and Popover API for no-JS modals
+ * Supports both native <dialog> and Popover API for no-JS modals.
  *
- * Popover usage (no JavaScript needed):
- * <button popovertarget="my-modal">Open</button>
- * <dialog id="my-modal" popover>
- *   <article>Content</article>
- * </dialog>
+ * Preferred (no JS): <dialog popover> wrapping <article>.
+ *   <button popovertarget="my-modal">Open</button>
+ *   <dialog id="my-modal" popover>
+ *     <article>Content</article>
+ *   </dialog>
+ *
+ * Bare <dialog> opened via showModal() also renders as a designed card
+ * (see fallback rule below). Wrap content in <article> for full layout
+ * (header/footer/close-button positioning).
  */
 
 /* Base dialog styles (shared by both approaches) */
@@ -34,6 +38,27 @@ dialog::backdrop {
 
 dialog:not([open]):not(:popover-open) {
   display: none;
+}
+
+/* Bare-dialog fallback. Styles <dialog> itself as the card when there is no
+   inner <article>, so showModal() with arbitrary children still looks
+   designed. Wrap content in <article> for the full modal layout. */
+dialog:not(:has(> article)) {
+  display: block;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: auto;
+  max-width: 32rem;
+  height: fit-content;
+  max-height: calc(100vh - var(--spacing-xl));
+  padding: var(--spacing-lg);
+  color: var(--foreground);
+  background-color: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--modal-radius);
+  box-shadow: var(--modal-shadow);
+  overflow: auto;
 }
 
 /* Popover-based modal (no JS required) */

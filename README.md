@@ -277,6 +277,18 @@ A round container for initials, an image, or an SVG icon.
 <span class="avatar"><img src="/avatars/kai.jpg" alt=""></span>
 ```
 
+### Chip
+
+Apply `.badge` to a `<button>` for filter pills. Use `aria-pressed="true"` for the selected state.
+
+```html
+<div class="cluster">
+  <button class="badge outline" aria-pressed="true">All</button>
+  <button class="badge outline">Active</button>
+  <button class="badge outline">Archived</button>
+</div>
+```
+
 ### Combo
 
 Joins adjacent controls into a single pill. Last child fills, others size to content.
@@ -318,7 +330,7 @@ Joins adjacent controls into a single pill. Last child fills, others size to con
 
 Three tiers of control — start simple, opt in to more when you need it.
 
-**Auto-count** — `.grid` picks column count from the number of children (2–6), collapses to one column on mobile:
+**Auto** — `.grid` fits as many cells as the row allows (each ≥ `--grid-min`, default 18rem). Wraps to new rows; mobile collapses to one column:
 
 ```html
 <div class="grid">
@@ -365,6 +377,7 @@ For when semantic HTML alone isn't enough. Daft ships a small, opinionated set �
 | Truncate | `.truncate` |
 | Visibility | `.hidden` `.invisible` `.sr-only` `.no-print` |
 | Display | `.flex` `.flex-col` |
+| Layout primitives | `.cluster` `.stack` |
 | Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |
 | Gap | `.gap-1` `.gap-2` `.gap-3` `.gap-4` `.gap-6` `.gap-8` |
 | Width | `.w-full` |

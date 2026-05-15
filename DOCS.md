@@ -158,38 +158,44 @@ Use `.container-fluid` for full-width with padding:
 
 ### Grid
 
-Auto-layout grid that adapts to child count:
+Three tiers of control.
+
+**1. Auto** — `<div class="grid">` fits as many cells as the row allows, where each cell is at least `--grid-min` (default 18rem) wide. Cells wrap to new rows automatically. Mobile collapses to a single column.
 
 ```html
 <div class="grid">
-  <div>Column 1</div>
-  <div>Column 2</div>
-  <div>Column 3</div>
+  <article>One</article>
+  <article>Two</article>
+  <article>Three</article>
 </div>
 ```
 
-The grid automatically creates 1-6 equal columns based on the number of children. On mobile, columns stack vertically.
-
-**Column Spanning:**
-
-Use `.span-2`, `.span-3`, or `.span-4` to make items span multiple columns:
+Tune cell width per grid:
 
 ```html
-<div class="grid">
-  <div class="span-3">Takes 3/4 width</div>
-  <div>Takes 1/4 width</div>
-</div>
+<div class="grid" style="--grid-min: 12rem">…</div>
 ```
 
-The grid automatically adjusts its column count when spans are present. For example, 2 children with one having `.span-3` creates a 4-column grid.
-
-**Full-width Item:**
+**2. Explicit** — add `.cols-N` (N = 2–6) to lock the column count at all sizes. Opts out of auto.
 
 ```html
-<div class="grid">
-  <div>Normal</div>
-  <div>Normal</div>
-  <div data-span="full">Full width row</div>
+<div class="grid cols-3">…</div>
+```
+
+**3. Responsive** — combine `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` for mobile-first cumulative breakpoints.
+
+```html
+<div class="grid cols-2 cols-lg-4">…</div>
+```
+
+**Column spans:** children can use `.span-N` (2–6), breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N`, and `.span-full` / `.span-md-full` for row-wide items.
+
+```html
+<div class="grid cols-4">
+  <article class="span-2">Wide</article>
+  <article>A</article>
+  <article>B</article>
+  <article class="span-full">Full row</article>
 </div>
 ```
 
@@ -732,6 +738,17 @@ The `popover` attribute enables:
 - Automatic backdrop
 - No JavaScript required
 
+**Bare `<dialog>` + `showModal()`** is also styled. The `<dialog>` element itself renders as a card surface when there is no inner `<article>`, so the standard HTML5 path looks designed too. Wrap content in `<article>` only when you need the full header / footer / close-button positioning.
+
+```html
+<dialog id="alert">
+  <p><strong>Heads up</strong></p>
+  <p>Migration finished with 3 warnings.</p>
+  <button onclick="alert.close()">OK</button>
+</dialog>
+<button onclick="alert.showModal()">Open</button>
+```
+
 ### Navigation
 
 **Horizontal Nav:**
@@ -836,6 +853,21 @@ Use `role="alert"` for assertive/error messages and `role="status"` for polite/i
 ```
 
 `role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
+
+### Chip
+
+Apply `.badge` to a `<button>` for filter pills and selectable tags. The button gets cursor + hover + `aria-pressed` selected styling automatically — no new component class.
+
+```html
+<div class="cluster">
+  <button class="badge outline" aria-pressed="true">All</button>
+  <button class="badge outline">Active</button>
+  <button class="badge outline">Archived</button>
+  <button class="badge outline">Draft</button>
+</div>
+```
+
+Selected chips use `aria-pressed="true"`. Pair with the `.cluster` utility for filter rows.
 
 ### Combo
 
@@ -1060,6 +1092,24 @@ Add the `.sticky` class for sticky positioning:
 <div class="flex gap-8">Extra-large gap (2rem)</div>
 
 <div class="w-full">Full width</div>
+```
+
+**Composite layout primitives** — compose the flex atoms above into common patterns:
+
+```html
+<!-- Wrapping row with small gap, vertically centered. Use for toolbars, chip rows. -->
+<div class="cluster">
+  <button>Save</button>
+  <button class="secondary">Cancel</button>
+  <span class="muted">3 changes pending</span>
+</div>
+
+<!-- Vertical stack with default gap. Use for forms, card columns, list items. -->
+<div class="stack">
+  <input placeholder="Email">
+  <input type="password" placeholder="Password">
+  <button>Sign in</button>
+</div>
 ```
 
 ### Spacing

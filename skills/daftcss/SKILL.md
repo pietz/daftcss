@@ -30,7 +30,7 @@ Add to `<head>`:
 
 **Card** = `<article>` with optional `<header>` and `<footer>`. No class.
 
-**Modal** = `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`.
+**Modal** = `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card (no JS attribute trade-off either way).
 
 **Sidebar** = `<aside class="sidebar">` as direct child of `<main>`. Add `popover` attribute + `<button class="ghost icon sidebar-toggle" popovertarget="sidebar">` for a mobile drawer.
 
@@ -47,6 +47,12 @@ Add to `<head>`:
 **Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
 
 **Combo** = adjacent controls joined as one pill — `<div class="combo"><select>…</select><code>…</code></div>`. Last child fills, others size to content. Works for select+input, input+button, select+code.
+
+**Chip** = `.badge` on a `<button>` for filter pills. Use `aria-pressed="true"` for selected state.
+
+**Cluster** = `<div class="cluster">` — wrapping row, center-aligned, small gap. Use for button toolbars, chip rows, header trailing items.
+
+**Stack** = `<div class="stack">` — column with default gap. Use for vertical groups of fields, cards, list items.
 
 **Alert** = `<div role="alert">` (assertive, destructive tint) or `<div role="status">` (polite, neutral tint). Inner `<strong>` is the title, `<p>` is the body. No class variants.
 

@@ -80,3 +80,22 @@
 .badge.large {
   padding: var(--spacing-sm) var(--spacing-md);
 }
+
+/* Chip — interactive badge. Apply .badge to a <button> for filter pills,
+   removable tags, etc. Adds aria-pressed selected state. */
+:is(button, [type="button"], [role="button"]).badge {
+  height: auto;
+  line-height: 1;
+  font-family: inherit;
+  box-shadow: none;
+}
+
+:is(button, [type="button"], [role="button"]).badge.outline:hover {
+  background-color: var(--muted);
+}
+
+:is(button, [type="button"], [role="button"]).badge[aria-pressed="true"] {
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
