@@ -837,6 +837,26 @@ Use `role="alert"` for assertive/error messages and `role="status"` for polite/i
 
 `role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
 
+### Avatar
+
+A round container sized to match form controls. Wrap initials, an `<img>`, or an inline `<svg>`.
+
+```html
+<span class="avatar">KS</span>
+<span class="avatar"><img src="/me.jpg" alt=""></span>
+<span class="avatar"><svg viewBox="0 0 24 24">…</svg></span>
+```
+
+**Sizes:**
+
+```html
+<span class="avatar small">XS</span>
+<span class="avatar">MD</span>
+<span class="avatar large">LG</span>
+```
+
+The default size tracks `--component-height` so avatars align with buttons and inputs in toolbars.
+
 ### Tooltip
 
 Use `data-tooltip` attribute:
@@ -998,8 +1018,15 @@ Add the `.sticky` class for sticky positioning:
 <div class="flex items-center">Vertically centered</div>
 <div class="flex justify-center">Horizontally centered</div>
 <div class="flex justify-between">Space between</div>
-<div class="flex gap-2">Small gap</div>
-<div class="flex gap-4">Default gap</div>
+
+<!-- Gap scale mirrors --spacing-*: xs/sm/md/default/lg/xl -->
+<div class="flex gap-1">Extra-small gap (0.25rem)</div>
+<div class="flex gap-2">Small gap (0.5rem)</div>
+<div class="flex gap-3">Medium gap (0.75rem)</div>
+<div class="flex gap-4">Default gap (1rem)</div>
+<div class="flex gap-6">Large gap (1.5rem)</div>
+<div class="flex gap-8">Extra-large gap (2rem)</div>
+
 <div class="w-full">Full width</div>
 ```
 
@@ -1011,6 +1038,16 @@ Add the `.sticky` class for sticky positioning:
 <div class="mb-4">Margin bottom</div>
 <div class="my-4">Margin vertical</div>
 
+<!-- Auto-margin helpers — push items inside flex/grid -->
+<div class="flex flex-col">
+  <header>Top</header>
+  <footer class="mt-auto">Pushed to the bottom</footer>
+</div>
+<div class="flex">
+  <span>Left</span>
+  <span class="ml-auto">Pushed to the right</span>
+</div>
+
 <div class="p-0">No padding</div>
 <div class="p-4">Default padding</div>
 <div class="p-6">Large padding</div>
@@ -1019,8 +1056,13 @@ Add the `.sticky` class for sticky positioning:
 ### Borders & Radius
 
 ```html
-<div class="border">Has border</div>
+<div class="border">Border on all sides</div>
+<div class="border-t">Top border only</div>
+<div class="border-r">Right border only</div>
+<div class="border-b">Bottom border only</div>
+<div class="border-l">Left border only</div>
 <div class="border-none">No border</div>
+
 <div class="rounded">Default radius</div>
 <div class="rounded-lg">Large radius</div>
 <div class="rounded-full">Full radius (circle)</div>

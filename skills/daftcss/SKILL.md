@@ -44,6 +44,8 @@ Add to `<head>`:
 
 **Badge** = `<span class="badge">`. Variants: `.secondary`, `.success`, `.warning`, `.destructive`, `.outline`.
 
+**Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
+
 **Alert** = `<div role="alert">` (assertive, destructive tint) or `<div role="status">` (polite, neutral tint). Inner `<strong>` is the title, `<p>` is the body. No class variants.
 
 **Grid** = `<div class="grid">` auto-sizes columns from child count (2–6). For explicit control add `.cols-N`; for responsive add `.cols-md-N` / `.cols-lg-N` / `.cols-xl-N`. Children can use `.span-N` and `.span-md-N` / `.span-lg-N` / `.span-xl-N` (plus `.span-full`).

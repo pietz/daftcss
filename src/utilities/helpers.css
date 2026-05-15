@@ -136,6 +136,14 @@ a.secondary {
   border-bottom: var(--border-width) solid var(--border);
 }
 
+/* Glass background - translucent surface with backdrop blur.
+   Composes with .sticky for app-bar style headers. */
+.glass {
+  background-color: color-mix(in oklch, var(--background) 80%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 /* Flexbox */
 .flex {
   display: flex;
@@ -161,12 +169,28 @@ a.secondary {
   justify-content: flex-end;
 }
 
+.gap-1 {
+  gap: var(--spacing-xs);
+}
+
 .gap-2 {
   gap: var(--spacing-sm);
 }
 
+.gap-3 {
+  gap: var(--spacing-md);
+}
+
 .gap-4 {
   gap: var(--spacing);
+}
+
+.gap-6 {
+  gap: var(--spacing-lg);
+}
+
+.gap-8 {
+  gap: var(--spacing-xl);
 }
 
 /* Full width */
@@ -182,6 +206,11 @@ a.secondary {
 .mx-auto {
   margin-inline: auto;
 }
+
+.mt-auto { margin-top:    auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left:   auto; }
+.mr-auto { margin-right:  auto; }
 
 .mt-4 {
   margin-top: var(--spacing);
@@ -254,6 +283,11 @@ a.secondary {
 .border {
   border: var(--border-width) solid var(--border);
 }
+
+.border-t { border-top:    var(--border-width) solid var(--border); }
+.border-r { border-right:  var(--border-width) solid var(--border); }
+.border-b { border-bottom: var(--border-width) solid var(--border); }
+.border-l { border-left:   var(--border-width) solid var(--border); }
 
 .border-none {
   border: none;

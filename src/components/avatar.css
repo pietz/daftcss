@@ -1,0 +1,42 @@
+/**
+ * Avatar
+ * Round container for initials or images.
+ * Use any inline content; an <img> child fills the circle.
+ */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background-color: var(--muted);
+  color: var(--foreground);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  line-height: 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+.avatar > img,
+.avatar > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Size variants */
+.avatar.small {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: var(--text-xs);
+}
+
+.avatar.large {
+  width: 3rem;
+  height: 3rem;
+  font-size: var(--text-base);
+}

@@ -11,7 +11,7 @@ nav {
   gap: var(--spacing);
 }
 
-nav > ul {
+nav ul {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -21,7 +21,7 @@ nav > ul {
   list-style: none;
 }
 
-nav > ul > li {
+nav ul > li {
   margin: 0;
   line-height: var(--line-height);
 }

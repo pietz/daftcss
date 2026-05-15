@@ -265,6 +265,18 @@ An `<aside class="sidebar">` inside `<main>` becomes a fixed full-height column 
 
 The `.sidebar-toggle` button auto-hides on desktop (â‰¥768px). On mobile it opens the sidebar as a drawer via the native Popover API. Override `--aside-width` to change the column width.
 
+### Avatar
+
+A round container for initials, an image, or an SVG icon.
+
+```html
+<span class="avatar">KS</span>
+<span class="avatar small">KS</span>
+<span class="avatar large">KS</span>
+
+<span class="avatar"><img src="/avatars/kai.jpg" alt=""></span>
+```
+
 ### Tooltips
 
 ```html
@@ -338,16 +350,16 @@ For when semantic HTML alone isn't enough. Daft ships a small, opinionated set â
 | Visibility | `.hidden` `.invisible` `.sr-only` `.no-print` |
 | Display | `.flex` `.flex-col` |
 | Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |
-| Gap | `.gap-2` `.gap-4` |
+| Gap | `.gap-1` `.gap-2` `.gap-3` `.gap-4` `.gap-6` `.gap-8` |
 | Width | `.w-full` |
-| Margin | `.m-0` `.mx-auto` `.mt-4` `.mb-4` `.my-4` |
+| Margin | `.m-0` `.mx-auto` `.mt-4` `.mb-4` `.my-4` `.mt-auto` `.mb-auto` `.ml-auto` `.mr-auto` |
 | Padding | `.p-0` `.p-4` `.p-6` |
 | Overflow | `.overflow-auto` `.overflow-hidden` |
 | Radius | `.rounded-none` `.rounded-sm` `.rounded` `.rounded-lg` `.rounded-xl` `.rounded-full` |
-| Border | `.border` `.border-none` |
+| Border | `.border` `.border-t` `.border-r` `.border-b` `.border-l` `.border-none` |
 | Background | `.bg-card` `.bg-muted` `.bg-transparent` |
 | Shadow | `.shadow-none` `.shadow-sm` `.shadow` `.shadow-md` `.shadow-lg` |
-| Position | `.sticky` |
+| Position | `.sticky` `.glass` |
 | Cursor | `.cursor-pointer` `.cursor-not-allowed` |
 | Interaction | `.pointer-events-none` `.select-none` |
 | Transition | `.transition` `.transition-none` |

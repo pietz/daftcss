@@ -308,6 +308,30 @@ Sortable column indicator: `<th aria-sort="ascending">` or `"descending"`.
 
 Combine: `.outline.success`, `.outline.destructive`, etc.
 
+### Avatar
+```html
+<span class="avatar">KS</span>
+<span class="avatar small">JD</span>
+<span class="avatar large"><img src="/me.jpg" alt=""></span>
+<span class="avatar"><svg>…</svg></span>
+```
+
+Round container sized to `--component-height`. Wraps initials, images, or SVGs. Variants: `.small`, `.large`.
+
+### Alert
+```html
+<div role="alert">
+  <strong>Error</strong>
+  <p>Something went wrong.</p>
+</div>
+<div role="status">
+  <strong>Heads up</strong>
+  <p>Neutral notice.</p>
+</div>
+```
+
+`role="alert"` = destructive tint, `role="status"` = neutral tint. No class variants.
+
 ### Progress
 ```html
 <progress value="64" max="100"></progress>
@@ -368,19 +392,23 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 `.flex`, `.flex-col`, `.items-center`, `.justify-center`, `.justify-between`, `.justify-end`
 
 ### Gap
-`.gap-2` (0.5rem), `.gap-4` (1rem)
+`.gap-1` (0.25rem), `.gap-2` (0.5rem), `.gap-3` (0.75rem), `.gap-4` (1rem), `.gap-6` (1.5rem), `.gap-8` (2rem)
 
 ### Width / margin / padding
 `.w-full`, `.m-0`, `.mx-auto`, `.mt-4`, `.mb-4`, `.my-4`, `.p-0`, `.p-4`, `.p-6`
+Auto margins (great for pushing things in flex): `.mt-auto`, `.mb-auto`, `.ml-auto`, `.mr-auto`
 
 ### Radius
 `.rounded-none`, `.rounded-sm`, `.rounded` (md), `.rounded-lg`, `.rounded-xl`, `.rounded-full`
 
 ### Border / bg
-`.border`, `.border-none`, `.bg-card`, `.bg-muted`, `.bg-transparent`
+`.border` (all sides), `.border-t` / `.border-r` / `.border-b` / `.border-l` (single side), `.border-none`, `.bg-card`, `.bg-muted`, `.bg-transparent`
 
 ### Shadow
 `.shadow-none`, `.shadow-sm`, `.shadow` (sm), `.shadow-md`, `.shadow-lg`
+
+### Glass
+`.glass` — translucent background + backdrop blur. Pairs well with `.sticky` headers.
 
 ### Position / interaction
 `.sticky`, `.cursor-pointer`, `.cursor-not-allowed`, `.pointer-events-none`, `.select-none`
