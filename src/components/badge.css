@@ -90,7 +90,31 @@
   box-shadow: none;
 }
 
+/* Outline chip hover — preserve the variant color, nudge bg to muted.
+   Each variant needs its own override because button.outline:hover
+   otherwise forces color to --primary-foreground. */
 :is(button, [type="button"], [role="button"]).badge.outline:hover {
+  color: var(--primary);
+  background-color: var(--muted);
+}
+
+:is(button, [type="button"], [role="button"]).badge.outline.secondary:hover {
+  color: var(--foreground);
+  background-color: var(--muted);
+}
+
+:is(button, [type="button"], [role="button"]).badge.outline.destructive:hover {
+  color: var(--destructive);
+  background-color: var(--muted);
+}
+
+:is(button, [type="button"], [role="button"]).badge.outline.success:hover {
+  color: var(--success);
+  background-color: var(--muted);
+}
+
+:is(button, [type="button"], [role="button"]).badge.outline.warning:hover {
+  color: var(--warning);
   background-color: var(--muted);
 }
 
