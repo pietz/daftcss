@@ -319,28 +319,40 @@ Combine: `.outline.success`, `.outline.destructive`, etc.
 </div>
 ```
 
-### Combo
+### Groups
 ```html
-<div class="combo">
-  <select>
-    <option>CDN</option>
-    <option>npm</option>
-  </select>
+<!-- Button group -->
+<div role="group">
+  <button class="outline">Day</button>
+  <button class="outline" aria-current="true">Week</button>
+  <button class="outline">Month</button>
+</div>
+
+<!-- Vertical button group -->
+<div role="group" class="vertical">
+  <button class="outline">First</button>
+  <button class="outline">Second</button>
+</div>
+
+<!-- Search form -->
+<form role="search">
+  <input type="search" placeholder="Search…">
+  <button type="submit">Search</button>
+</form>
+
+<!-- Addon group: select + code/input -->
+<div role="group">
+  <select><option>CDN</option><option>npm</option></select>
   <code>npm install daftcss</code>
 </div>
 
-<div class="combo">
+<div role="group">
   <select><option>+1</option><option>+44</option></select>
   <input type="tel" placeholder="555-0100">
 </div>
-
-<div class="combo">
-  <input type="search" placeholder="Search">
-  <button>Go</button>
-</div>
 ```
 
-Joins adjacent controls into a single pill: inner borders merge, outer corners stay rounded. **Last child fills** remaining width; others size to content. A leading `<select>` renders with a muted "addon" background.
+`role="group"` joins adjacent controls into a single pill. Variants: `.vertical`, `.full-width`. When a child is a display element (`<code>`, `<samp>`, `<kbd>`, `<span>`, `<output>`), the group switches to addon mode: one outer border, internal hairlines, last child fills, a leading `<select>` gets a muted addon background.
 
 ### Avatar
 ```html
@@ -407,7 +419,7 @@ Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
 Daft is NOT a utility framework. This is a small, opinionated set.
 
 ### Text color
-`.muted` (muted-foreground), `.primary` (skipping buttons/badges/progress), `.success`, `.warning`, `.destructive`. Also `a.secondary` for muted-link.
+`.muted` (muted-foreground). Also `a.secondary` for muted links.
 
 ### Text size
 `.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl`

@@ -30,7 +30,6 @@ pre {
   padding: var(--spacing);
   border-radius: var(--radius-lg);
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   margin-bottom: var(--spacing);
   tab-size: 2;
 

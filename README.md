@@ -13,6 +13,8 @@ Daft CSS is for developers who want:
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
+Daft follows Pico's semantic syntax: native elements, ARIA states, roles, and small data attributes are the component API. The difference is visual: Daft gives that Pico-like authoring model a shadcn/ui-inspired aesthetic.
+
 ## Principles
 
 - **Semantic HTML first.** Native elements (`<button>`, `<article>`, `<dialog>`, `<details>`) ship styled. You shouldn't need a class to get a polished result.
@@ -289,17 +291,17 @@ Apply `.badge` to a `<button>` for filter pills. Use `aria-pressed="true"` for t
 </div>
 ```
 
-### Combo
+### Groups
 
-Joins adjacent controls into a single pill. Last child fills, others size to content.
+`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width.
 
 ```html
-<div class="combo">
+<div role="group">
   <select><option>CDN</option><option>npm</option></select>
   <code>npm install daftcss</code>
 </div>
 
-<div class="combo">
+<div role="group">
   <input type="search" placeholder="Search">
   <button>Go</button>
 </div>
@@ -366,11 +368,11 @@ Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
 
 ## Utility Classes
 
-For when semantic HTML alone isn't enough. Daft ships a small, opinionated set — not a full utility framework.
+For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatch: roughly the 10% of Tailwind-style classes that cover the boring 90% of layout glue. Use them for composition gaps, not for designing components from scratch. If a utility starts defining visual identity, prefer semantic HTML, component variants, or tokens instead.
 
 | Group | Classes |
 |---|---|
-| Text color | `.muted` `.primary` `.success` `.warning` `.destructive` |
+| Text color | `.muted` |
 | Text size | `.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl` |
 | Font weight | `.font-normal` `.font-medium` `.font-semibold` `.font-bold` |
 | Text align | `.text-left` `.text-center` `.text-right` |

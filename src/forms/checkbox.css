@@ -44,10 +44,6 @@ input[type="checkbox"]:checked::after {
   mask-size: 0.875rem;
   mask-position: center;
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-  -webkit-mask-size: 0.875rem;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
 }
 
 /* Radio dot using mask */
@@ -60,10 +56,6 @@ input[type="radio"]:checked::after {
   mask-size: 0.875rem;
   mask-position: center;
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='black'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E");
-  -webkit-mask-size: 0.875rem;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
 }
 
 /* Indeterminate checkbox using mask */
@@ -81,10 +73,6 @@ input[type="checkbox"]:indeterminate::after {
   mask-size: 0.875rem;
   mask-position: center;
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
-  -webkit-mask-size: 0.875rem;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
 }
 
 /* Focus state */

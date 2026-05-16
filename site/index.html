@@ -52,7 +52,7 @@
     }
     .hero > p { max-width: 52ch; margin: 0 auto; color: var(--muted-foreground); }
     .hero .install-wrap { margin: var(--spacing-xl) auto; display: flex; justify-content: center; }
-    .hero .install-wrap .combo { max-width: min(40rem, 100%); }
+    .hero .install-wrap [role="group"] { max-width: min(40rem, 100%); }
     .hero .actions { display: flex; gap: var(--spacing-sm); justify-content: center; }
 
     /* Mode toggle icons — cycles light/dark/auto */
@@ -110,6 +110,8 @@
       line-height: 1;
     }
     .stat-delta { font-family: var(--font-mono); font-size: var(--text-xs); }
+    .stat-delta.good { color: var(--success); }
+    .stat-delta.bad { color: var(--destructive); }
 
     /* Task row "done" state */
     .task-done { color: var(--muted-foreground); text-decoration: line-through; }
@@ -163,7 +165,7 @@
     <div class="container flex items-center justify-between">
       <a href="#" class="flex items-center gap-2">
         <strong>daft.css</strong>
-        <span class="badge outline small">v1.7.1</span>
+        <span class="badge outline small">v1.8.0</span>
       </a>
       <ul>
         <li><a href="#components">Components</a></li>
@@ -182,12 +184,12 @@
 
     <!-- HERO ========================================================== -->
     <section class="hero">
-      <span class="badge outline mb-4">For when you don't want a framework</span>
-      <h1>The CSS file you forgot was allowed.</h1>
-      <p>No build step. No JSX. No utility soup. Write <code>&lt;button&gt;</code>, get a button that looks designed. Change one variable, restyle the app.</p>
+      <span class="badge outline mb-4">shadcn aesthetics, Pico semantics.</span>
+      <h1>Raw HTML that looks like an app.</h1>
+      <p>Drop 57 KB in your <code>&lt;head&gt;</code>. Write <code>&lt;button&gt;</code>, <code>&lt;dialog&gt;</code>, <code>&lt;input&gt;</code>, get buttons, modals, forms, and dropdowns — dark mode included. Change <code>--spacing</code> or <code>--primary</code>, restyle everything.</p>
 
       <div class="install-wrap">
-        <div class="combo">
+        <div role="group">
           <select id="install-method" aria-label="Install method">
             <option value="cdn" selected>CDN</option>
             <option value="npm">npm</option>
@@ -267,14 +269,14 @@
             <div data-theme="light" class="flex flex-col gap-2">
               <small class="muted">LIGHT</small>
               <div class="flex items-center gap-2 mt-auto">
-                <button class="primary small">Deploy</button>
+                <button class="small">Deploy</button>
                 <span class="badge">stable</span>
               </div>
             </div>
             <div data-theme="dark" class="flex flex-col gap-2 border-l">
               <small class="muted">DARK</small>
               <div class="flex items-center gap-2 mt-auto">
-                <button class="primary small">Deploy</button>
+                <button class="small">Deploy</button>
                 <span class="badge">stable</span>
               </div>
             </div>
@@ -292,7 +294,7 @@
           </label>
           <label><input type="checkbox" role="switch" checked> Stay signed in</label>
           <footer class="mt-auto">
-            <button class="primary">Continue</button>
+            <button>Continue</button>
             <button class="ghost">Use SSO</button>
           </footer>
         </article>
@@ -304,17 +306,17 @@
             <div>
               <div class="stat-num">$24.8k</div>
               <small class="muted">MRR</small>
-              <div class="stat-delta success">↑ 12.4%</div>
+              <div class="stat-delta good">↑ 12.4%</div>
             </div>
             <div>
               <div class="stat-num">1,284</div>
               <small class="muted">Active</small>
-              <div class="stat-delta success">↑ 3.1%</div>
+              <div class="stat-delta good">↑ 3.1%</div>
             </div>
             <div>
               <div class="stat-num">2.3%</div>
               <small class="muted">Churn</small>
-              <div class="stat-delta destructive">↑ 0.4%</div>
+              <div class="stat-delta bad">↑ 0.4%</div>
             </div>
           </div>
           <footer class="mt-auto">
@@ -387,7 +389,7 @@
             <li>Audit log retention</li>
           </ul>
           <footer class="mt-auto">
-            <button class="primary">Upgrade</button>
+            <button>Upgrade</button>
             <button class="ghost">Compare plans</button>
           </footer>
         </article>
@@ -425,7 +427,7 @@
               <input type="text" value="https://api.aurora.dev">
             </label>
             <footer>
-              <button class="primary">Deploy</button>
+              <button>Deploy</button>
               <button class="outline">Preview</button>
             </footer>
           </article>
@@ -475,13 +477,13 @@
       <div class="grid cols-md-3" style="align-items:center">
         <div>
           <small class="eyebrow">Daft</small>
-<pre>&lt;button class="primary"&gt;
+<pre>&lt;button&gt;
   Save changes
 &lt;/button&gt;</pre>
         </div>
 
         <div class="render-box">
-          <button class="primary">Save changes</button>
+          <button>Save changes</button>
         </div>
 
         <div>
@@ -508,7 +510,7 @@
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.7.1</span>
+        <span>v1.8.0</span>
         <span>59 KB</span>
         <span>MIT</span>
         <span>© 2026</span>

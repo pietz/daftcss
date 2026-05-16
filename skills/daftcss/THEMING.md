@@ -89,7 +89,6 @@ Per-component if you want pill buttons but normal cards:
   --button-shadow: none;
   --card-shadow: none;
   --dropdown-shadow: none;
-  --popover-shadow: none;
   --modal-shadow: none;
 }
 ```

@@ -46,7 +46,7 @@ Add to `<head>`:
 
 **Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
 
-**Combo** = adjacent controls joined as one pill — `<div class="combo"><select>…</select><code>…</code></div>`. Last child fills, others size to content. Works for select+input, input+button, select+code.
+**Group** = `<div role="group">` joins adjacent controls into one pill (buttons, inputs, or mixed). Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted addon; a leading `<select>` also gets the muted addon background. Last child fills.
 
 **Chip** = `.badge` on a `<button>` for filter pills. Use `aria-pressed="true"` for selected state.
 
@@ -64,7 +64,7 @@ Add to `<head>`:
 
 ## Status semantics
 
-For status-meaning on text, badges, or progress: use `.success` | `.warning` | `.destructive` | `.muted`. These map to the matching CSS color tokens and work in both light and dark mode automatically.
+For muted supporting text, use `.muted`. For status meaning, prefer semantic badges, alerts, or progress variants (`.success`, `.warning`, `.destructive`) instead of coloring plain text.
 
 ## Theming
 

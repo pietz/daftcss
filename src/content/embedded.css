@@ -32,7 +32,6 @@ figure {
 /* Allow figure to wrap tables with overflow */
 figure:has(> table) {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 
   & > table {
     margin: 0;

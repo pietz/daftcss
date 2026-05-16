@@ -4,7 +4,7 @@
  */
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+:is(h1, h2, h3, h4, h5, h6) {
   color: var(--foreground);
   font-weight: var(--font-semibold);
   line-height: var(--line-height-sm);
@@ -43,7 +43,7 @@ h6 {
 hgroup {
   margin-bottom: var(--spacing);
 
-  & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
+  & > :is(h1, h2, h3, h4, h5, h6) {
     margin-bottom: var(--spacing-sm);
   }
 
@@ -60,13 +60,7 @@ p {
 }
 
 /* Remove margin from last child */
-p:last-child,
-h1:last-child,
-h2:last-child,
-h3:last-child,
-h4:last-child,
-h5:last-child,
-h6:last-child {
+:is(p, h1, h2, h3, h4, h5, h6):last-child {
   margin-bottom: 0;
 }
 

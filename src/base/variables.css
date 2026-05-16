@@ -132,7 +132,6 @@
   --button-shadow: var(--shadow-xs);
   --card-shadow: var(--shadow-xs);
   --dropdown-shadow: var(--shadow-md);
-  --popover-shadow: var(--shadow-md);
   --modal-shadow: var(--shadow-lg);
 
   /* Button */
@@ -197,15 +196,5 @@
     --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
     --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-  }
-}
-
-/* Future: native contrast-color() when available */
-@supports (color: contrast-color(red)) {
-  :root {
-    --primary-foreground: contrast-color(var(--primary));
-    --destructive-foreground: contrast-color(var(--destructive));
-    --success-foreground: contrast-color(var(--success));
-    --warning-foreground: contrast-color(var(--warning));
   }
 }

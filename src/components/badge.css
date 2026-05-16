@@ -1,10 +1,13 @@
 /**
  * Badge/Pill styles
- * Small status indicators with color variants
+ * Small status indicators with color variants.
+ * Variants set a single --badge-tint; solid/outline/hover all derive from it.
  */
 
-/* Base badge styles */
 .badge {
+  --badge-tint: var(--primary);
+  --badge-on-tint: var(--primary-foreground);
+
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
@@ -17,59 +20,33 @@
   border: var(--border-width) solid transparent;
   border-radius: var(--badge-radius);
 
-  /* Primary variant (default) */
-  color: var(--primary-foreground);
-  background-color: var(--primary);
+  color: var(--badge-on-tint);
+  background-color: var(--badge-tint);
 }
 
-/* Secondary variant */
-.badge.secondary {
-  color: var(--foreground);
-  background-color: var(--accent);
-}
+/* Variants — retint only. */
+.badge.secondary    { --badge-tint: var(--accent);      --badge-on-tint: var(--foreground); }
+.badge.destructive  { --badge-tint: var(--destructive); --badge-on-tint: var(--destructive-foreground); }
+.badge.success      { --badge-tint: var(--success);     --badge-on-tint: var(--success-foreground); }
+.badge.warning      { --badge-tint: var(--warning);     --badge-on-tint: var(--warning-foreground); }
 
-/* Destructive variant */
-.badge.destructive {
-  color: var(--destructive-foreground);
-  background-color: var(--destructive);
-}
-
-/* Status variants */
-.badge.success {
-  color: var(--success-foreground);
-  background-color: var(--success);
-}
-
-.badge.warning {
-  color: var(--warning-foreground);
-  background-color: var(--warning);
-}
-
-/* Outline variant */
+/* Outline — invert: tint becomes text + border, bg goes transparent. */
 .badge.outline {
-  color: var(--primary);
+  color: var(--badge-tint);
   background-color: transparent;
-  border-color: var(--primary);
+  border-color: var(--badge-tint);
 }
 
+/* Secondary outline diverges from the tint pattern: text stays neutral and
+   border uses the muted neutral instead of the accent fill color. */
 .badge.outline.secondary {
   color: var(--foreground);
   border-color: var(--border);
 }
 
-.badge.outline.destructive {
-  color: var(--destructive);
-  border-color: var(--destructive);
-}
-
-.badge.outline.success {
-  color: var(--success);
-  border-color: var(--success);
-}
-
-.badge.outline.warning {
-  color: var(--warning);
-  border-color: var(--warning);
+/* Secondary chip hover keeps neutral text — overrides the generic tint rule. */
+:is(button, [type="button"], [role="button"]).badge.outline.secondary:hover {
+  color: var(--foreground);
 }
 
 /* Size variants */
@@ -90,31 +67,9 @@
   box-shadow: none;
 }
 
-/* Outline chip hover — preserve the variant color, nudge bg to muted.
-   Each variant needs its own override because button.outline:hover
-   otherwise forces color to --primary-foreground. */
+/* Outline chip hover — preserve tint, nudge bg to muted. One rule for all variants. */
 :is(button, [type="button"], [role="button"]).badge.outline:hover {
-  color: var(--primary);
-  background-color: var(--muted);
-}
-
-:is(button, [type="button"], [role="button"]).badge.outline.secondary:hover {
-  color: var(--foreground);
-  background-color: var(--muted);
-}
-
-:is(button, [type="button"], [role="button"]).badge.outline.destructive:hover {
-  color: var(--destructive);
-  background-color: var(--muted);
-}
-
-:is(button, [type="button"], [role="button"]).badge.outline.success:hover {
-  color: var(--success);
-  background-color: var(--muted);
-}
-
-:is(button, [type="button"], [role="button"]).badge.outline.warning:hover {
-  color: var(--warning);
+  color: var(--badge-tint);
   background-color: var(--muted);
 }
 

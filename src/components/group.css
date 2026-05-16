@@ -117,3 +117,53 @@ fieldset[role="group"] {
   margin-left: 0;
   margin-top: calc(var(--border-width) * -1);
 }
+
+/* === Addon groups ===
+   When a group contains a display child (code/samp/kbd/span/output) as an
+   inline addon, treat it as a unified pill: one outer border, internal
+   hairlines between siblings, children lose their own border + radius.
+   Last child fills the remaining width; others size to content. */
+
+[role="group"]:has(> :is(code, samp, kbd, span, output)) {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  height: var(--component-height);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--background);
+
+  & > * {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+  }
+
+  & > * + * {
+    border-left: var(--border-width) solid var(--border);
+  }
+
+  & > :last-child {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  & > :is(code, samp, kbd, span, output) {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-md);
+    background-color: transparent;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  & > select:first-child {
+    background-color: var(--muted);
+  }
+}

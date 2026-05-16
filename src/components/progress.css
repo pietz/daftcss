@@ -3,6 +3,8 @@
  */
 
 progress {
+  --progress-color: var(--primary);
+
   display: block;
   width: 100%;
   height: var(--spacing-sm);
@@ -24,13 +26,13 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-  background-color: var(--primary);
+  background-color: var(--progress-color);
   border-radius: var(--progress-radius);
   transition: width var(--transition-slow) var(--ease-default);
 }
 
 progress::-moz-progress-bar {
-  background-color: var(--primary);
+  background-color: var(--progress-color);
   border-radius: var(--progress-radius);
 }
 
@@ -41,7 +43,7 @@ progress:not([value]) {
     90deg,
     var(--muted) 0%,
     var(--muted) 40%,
-    var(--primary) 50%,
+    var(--progress-color) 50%,
     var(--muted) 60%,
     var(--muted) 100%
   );
@@ -66,89 +68,11 @@ progress:not([value])::-moz-progress-bar {
   }
 }
 
-/* Secondary variant */
-progress.secondary::-webkit-progress-value {
-  background-color: var(--muted-foreground);
-}
-
-progress.secondary::-moz-progress-bar {
-  background-color: var(--muted-foreground);
-}
-
-progress.secondary:not([value]) {
-  background: linear-gradient(
-    90deg,
-    var(--muted) 0%,
-    var(--muted) 40%,
-    var(--muted-foreground) 50%,
-    var(--muted) 60%,
-    var(--muted) 100%
-  );
-  background-size: 200% 100%;
-}
-
-/* Success variant */
-progress.success::-webkit-progress-value {
-  background-color: var(--success);
-}
-
-progress.success::-moz-progress-bar {
-  background-color: var(--success);
-}
-
-progress.success:not([value]) {
-  background: linear-gradient(
-    90deg,
-    var(--muted) 0%,
-    var(--muted) 40%,
-    var(--success) 50%,
-    var(--muted) 60%,
-    var(--muted) 100%
-  );
-  background-size: 200% 100%;
-}
-
-/* Warning variant */
-progress.warning::-webkit-progress-value {
-  background-color: var(--warning);
-}
-
-progress.warning::-moz-progress-bar {
-  background-color: var(--warning);
-}
-
-progress.warning:not([value]) {
-  background: linear-gradient(
-    90deg,
-    var(--muted) 0%,
-    var(--muted) 40%,
-    var(--warning) 50%,
-    var(--muted) 60%,
-    var(--muted) 100%
-  );
-  background-size: 200% 100%;
-}
-
-/* Destructive variant */
-progress.destructive::-webkit-progress-value {
-  background-color: var(--destructive);
-}
-
-progress.destructive::-moz-progress-bar {
-  background-color: var(--destructive);
-}
-
-progress.destructive:not([value]) {
-  background: linear-gradient(
-    90deg,
-    var(--muted) 0%,
-    var(--muted) 40%,
-    var(--destructive) 50%,
-    var(--muted) 60%,
-    var(--muted) 100%
-  );
-  background-size: 200% 100%;
-}
+/* Color variants — only set the variable, everything else inherits. */
+progress.secondary    { --progress-color: var(--muted-foreground); }
+progress.success      { --progress-color: var(--success); }
+progress.warning      { --progress-color: var(--warning); }
+progress.destructive  { --progress-color: var(--destructive); }
 
 /* Label with progress */
 label:has(> progress) {

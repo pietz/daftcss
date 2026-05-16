@@ -119,7 +119,6 @@ Each elevated component has its own shadow token. Set any to `none` to flatten t
 | `--button-shadow` | `var(--shadow-xs)` | Buttons, button-styled accordion summaries |
 | `--card-shadow` | `var(--shadow-xs)` | `<article>` cards |
 | `--dropdown-shadow` | `var(--shadow-md)` | `<details class="dropdown">` menus |
-| `--popover-shadow` | `var(--shadow-md)` | Reserved for popovers |
 | `--modal-shadow` | `var(--shadow-lg)` | `<dialog>` modals |
 
 ```css
@@ -869,38 +868,6 @@ Apply `.badge` to a `<button>` for filter pills and selectable tags. The button 
 
 Selected chips use `aria-pressed="true"`. Pair with the `.cluster` utility for filter rows.
 
-### Combo
-
-Joins adjacent controls into a single pill — inner borders merge, outer corners stay rounded. The **last child fills** remaining width; all others size to their content.
-
-```html
-<div class="combo">
-  <select>
-    <option>CDN</option>
-    <option>npm</option>
-  </select>
-  <code>npm install daftcss</code>
-</div>
-```
-
-**Common patterns:**
-
-```html
-<!-- Country code + phone -->
-<div class="combo">
-  <select><option>+1</option><option>+44</option></select>
-  <input type="tel" placeholder="555-0100">
-</div>
-
-<!-- Search + submit -->
-<div class="combo">
-  <input type="search" placeholder="Search">
-  <button>Go</button>
-</div>
-```
-
-A leading `<select>` automatically gets a muted "addon" background. Display children (`<code>`, `<samp>`, `<kbd>`, `<span>`, `<output>`) align vertically and scroll horizontally if content overflows.
-
 ### Avatar
 
 A round container sized to match form controls. Wrap initials, an `<img>`, or an inline `<svg>`.
@@ -996,6 +963,24 @@ Use `role="group"` for button groups and input groups:
 </div>
 ```
 
+**Addon Group:**
+
+Mix in a `<code>`, `<samp>`, `<kbd>`, `<span>`, or `<output>` child and the group becomes a unified pill with that child rendered as a muted addon. A leading `<select>` automatically picks up the muted addon background. The last child fills the remaining width; others size to content.
+
+```html
+<!-- CDN snippet picker -->
+<div role="group">
+  <select><option>CDN</option><option>npm</option></select>
+  <code>npm install daftcss</code>
+</div>
+
+<!-- Country code + phone -->
+<div role="group">
+  <select><option>+1</option><option>+44</option></select>
+  <input type="tel" placeholder="555-0100">
+</div>
+```
+
 ### Loading States
 
 Use `aria-busy="true"` for loading indicators:
@@ -1030,16 +1015,10 @@ Add the `.sticky` class for sticky positioning:
 </header>
 ```
 
-### Color Classes
-
-**Text Colors:**
+### Muted Text
 
 ```html
 <p class="muted">Muted text</p>
-<p class="primary">Primary color</p>
-<p class="destructive">Destructive/error</p>
-<p class="success">Success</p>
-<p class="warning">Warning</p>
 ```
 
 **Link Variants:**

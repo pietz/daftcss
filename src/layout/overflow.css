@@ -5,7 +5,6 @@
 
 .overflow-auto {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Ensure tables inside overflow containers display properly */
