@@ -71,14 +71,3 @@ svg:not([width]) {
   width: 1em;
   height: 1em;
 }
-
-/* Object and embed */
-object,
-embed {
-  max-width: 100%;
-}
-
-/* Canvas */
-canvas {
-  display: block;
-}

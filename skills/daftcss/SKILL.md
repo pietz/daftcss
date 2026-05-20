@@ -32,11 +32,11 @@ Add to `<head>`:
 
 **Modal** = `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card (no JS attribute trade-off either way).
 
-**Sidebar** = `<aside class="sidebar">` as direct child of `<main>`. Add `popover` attribute + `<button class="ghost icon sidebar-toggle" popovertarget="sidebar">` for a mobile drawer.
+**Sidebar** = body-level `<aside class="sidebar">`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add `popover` attribute + `<button class="ghost icon sidebar-toggle" popovertarget="sidebar">` for a mobile drawer.
 
 **Accordion** = `<details>` + `<summary>`. No class.
 
-**Dropdown** = `<details class="dropdown">` containing `<summary>` and `<ul>`.
+**Dropdown** = `<details class="dropdown">` containing `<summary>` and `<ul>`. The `<summary>` uses button styling and accepts button variants like `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`.
 
 **Tooltip** = `data-tooltip="text"` attribute on any element. Optional `data-placement="top|bottom|left|right"`.
 
@@ -56,9 +56,11 @@ Add to `<head>`:
 
 **Alert** = `<div role="alert">` (assertive, destructive tint) or `<div role="status">` (polite, neutral tint). Inner `<strong>` is the title, `<p>` is the body. No class variants.
 
-**Grid** = `<div class="grid">` auto-sizes columns from child count (2–6). For explicit control add `.cols-N`; for responsive add `.cols-md-N` / `.cols-lg-N` / `.cols-xl-N`. Children can use `.span-N` and `.span-md-N` / `.span-lg-N` / `.span-xl-N` (plus `.span-full`).
+**Grid** = `<div class="grid">` — direct children become equal columns (3 children → 3 cols). A child with `.span-N` (N = 2, 3, 4) claims more tracks (spans are weights, adding to the total). Stacks to 1 col below 768px. For multi-row layouts use multiple grids.
 
 **Container** = `<main class="container">` (max-width) or `.container-fluid` (full-width with edge padding).
+
+**Slides** = `<body class="deck">`, then each direct-child `<section>` is a slide. Roles: `.title`, `.quote`, `.full`, `.code`. Column layouts use the same Daft `.grid` + `.span-N` primitive; there is no slide-specific column layout. For "heading + columns", keep the heading outside the grid (slide section is already a flex column). Speaker notes go in `<aside class="notes">` (hidden by default). Export to PDF with the browser's print dialog. See [SLIDES.md](../../SLIDES.md) for the full reference.
 
 **Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Add `aria-invalid="true"` for error state.
 

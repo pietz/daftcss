@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~57 KB minified)
+- Minimal footprint (~55 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
@@ -157,9 +157,9 @@ Use `.container-fluid` for full-width with padding:
 
 ### Grid
 
-Three tiers of control.
+One primitive. No breakpoint matrix.
 
-**1. Auto** — `<div class="grid">` fits as many cells as the row allows, where each cell is at least `--grid-min` (default 18rem) wide. Cells wrap to new rows automatically. Mobile collapses to a single column.
+**`.grid`** — direct children become equal columns. Three children → three columns; five children → five columns. The child count is the column count. Below 768px, the grid stacks to a single column.
 
 ```html
 <div class="grid">
@@ -169,40 +169,32 @@ Three tiers of control.
 </div>
 ```
 
-Tune cell width per grid:
+A child with `.span-N` (N = 2, 3, or 4) claims N tracks instead of one. Spans are *weights*, not Bootstrap-style fixed columns — a 2-child grid with one `.span-2` becomes a 1:2 ratio (3 total tracks). For a 2:1 layout:
 
 ```html
-<div class="grid" style="--grid-min: 12rem">…</div>
-```
-
-**2. Explicit** — add `.cols-N` (N = 2–6) to lock the column count at all sizes. Opts out of auto.
-
-```html
-<div class="grid cols-3">…</div>
-```
-
-**3. Responsive** — combine `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` for mobile-first cumulative breakpoints.
-
-```html
-<div class="grid cols-2 cols-lg-4">…</div>
-```
-
-**Column spans:** children can use `.span-N` (2–6), breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N`, and `.span-full` / `.span-md-full` for row-wide items.
-
-```html
-<div class="grid cols-4">
-  <article class="span-2">Wide</article>
-  <article>A</article>
-  <article>B</article>
-  <article class="span-full">Full row</article>
+<div class="grid">
+  <aside>Nav</aside>
+  <main class="span-2">Content</main>
 </div>
 ```
 
+For a multi-row layout, use multiple grids — one per row. The layout reads top-to-bottom and each row is independent.
+
 ### Sidebar
 
-Add `.sidebar` to a direct child `<aside>` of `<main>` to create an app sidebar. On desktop (≥ 768px), it becomes a fixed full-height column and the page gets left padding for the rail. On mobile, pair it with the `popover` attribute and a `.sidebar-toggle` button for a slide-out drawer with no JavaScript.
+Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar. On desktop (≥ 768px), placement defines the layout: put the sidebar before the top header/nav for a full-height rail, or after it when the rail should sit below the top bar. On mobile, pair it with the `popover` attribute and a `.sidebar-toggle` button for a slide-out drawer with no JavaScript.
 
 ```html
+<aside id="sidebar" class="sidebar" popover>
+  <nav>
+    <ul>
+      <li><h6>Overview</h6></li>
+      <li><a href="#" aria-current="page">Dashboard</a></li>
+      <li><a href="#">Reports</a></li>
+    </ul>
+  </nav>
+</aside>
+
 <header class="container-fluid">
   <button class="ghost icon sidebar-toggle"
           popovertarget="sidebar"
@@ -211,16 +203,6 @@ Add `.sidebar` to a direct child `<aside>` of `<main>` to create an app sidebar.
 </header>
 
 <main class="container-fluid">
-  <aside id="sidebar" class="sidebar" popover>
-    <nav>
-      <ul>
-        <li><strong>Overview</strong></li>
-        <li><a href="#" aria-current="page">Dashboard</a></li>
-        <li><a href="#">Reports</a></li>
-      </ul>
-    </nav>
-  </aside>
-
   <section>
     <hgroup>
       <h1>Page Title</h1>
@@ -270,7 +252,7 @@ All typography is styled automatically. No classes needed.
 <h3>Heading 3</h3>
 <h4>Heading 4</h4>
 <h5>Heading 5</h5>
-<h6>Heading 6</h6>
+<h6>Eyebrow heading</h6>
 ```
 
 ### Heading Groups
@@ -674,11 +656,11 @@ Use `<details class="dropdown">`:
 </details>
 ```
 
-**Button-styled Dropdown:**
+Dropdown summaries use the same styling and variants as buttons:
 
 ```html
 <details class="dropdown">
-  <summary role="button">Actions</summary>
+  <summary class="ghost">Actions</summary>
   <ul>
     <li><a href="#">Option 1</a></li>
     <li><a href="#">Option 2</a></li>
@@ -1170,6 +1152,27 @@ Add the `.sticky` class for sticky positioning:
 ```html
 <div class="no-print">Hidden when printing</div>
 ```
+
+---
+
+## Slides
+
+Daft ships an optional slide layer for HTML-native presentation decks. Apply `class="deck"` to `<body>` and every direct-child `<section>` becomes a slide; layouts compose from the same `.grid` and `.span-N` primitives used everywhere else in Daft. PDF export goes through the browser's print dialog — no tooling required.
+
+```html
+<body class="deck">
+  <section class="title"><h1>Quarterly review</h1></section>
+  <section>
+    <h2>Heading</h2>
+    <div class="grid">
+      <div>Left</div>
+      <figure><img src="…"></figure>
+    </div>
+  </section>
+</body>
+```
+
+See [SLIDES.md](SLIDES.md) for the full reference (role modifiers, weighted grids, tokens, PDF tips).
 
 ---
 

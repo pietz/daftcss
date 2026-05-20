@@ -22,16 +22,7 @@
     html { scroll-behavior: smooth; }
     .container { max-width: var(--page-max); }
 
-    /* Section header pattern — eyebrow + heading + lede */
-    .eyebrow {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted-foreground);
-      margin-bottom: var(--spacing-sm);
-    }
+    /* Section header pattern */
     .s-head { max-width: 60ch; margin: 0 auto clamp(2rem, 4vw, 3rem); text-align: center; }
     .s-head.left { margin-inline: 0; text-align: left; max-width: 64ch; }
     .s-head h2 { margin: 0 0 var(--spacing-sm); text-wrap: balance; }
@@ -55,22 +46,23 @@
     .hero .install-wrap [role="group"] { max-width: min(40rem, 100%); }
     .hero .actions { display: flex; gap: var(--spacing-sm); justify-content: center; }
 
-    /* Mode toggle icons — cycles light/dark/auto */
-    .mode-toggle .sun, .mode-toggle .moon { display: none; }
-    :root:not([data-theme]) .mode-toggle .auto,
-    [data-theme="light"] .mode-toggle .sun,
-    [data-theme="dark"]  .mode-toggle .moon { display: inline; }
-
     /* Light + Dark proof — inner halves get their own theme island */
-    .mode-split > div {
+    .mode-pair > div {
       padding: var(--spacing);
       background: var(--background);
       color: var(--foreground);
     }
 
-    /* Toggle which palette override is shown */
-    pre[data-for] { display: none; margin-top: var(--spacing); }
-    pre[data-for].on { display: block; }
+    /* Stack all snippets in the same grid cell — container sizes to the tallest,
+       so picking a theme never changes the card height. */
+    .snippet-stack { display: grid; flex: 1; min-width: 0; }
+    .snippet-stack > pre[data-for] {
+      grid-column: 1;
+      grid-row: 1;
+      margin: 0;
+      visibility: hidden;
+    }
+    .snippet-stack > pre[data-for].on { visibility: visible; }
 
     /* Render box (the area showing the actual button next to the code) */
     .render-box {
@@ -162,20 +154,29 @@
 
   <!-- NAV ============================================================ -->
   <nav class="sticky glass">
-    <div class="container flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2">
-        <strong>daft.css</strong>
-        <span class="badge outline small">v1.8.0</span>
-      </a>
+    <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><a href="#components">Components</a></li>
-        <li><a href="#fit">Where it fits</a></li>
-        <li><a href="examples/">Examples</a></li>
-        <li><a href="https://github.com/pietz/daftcss">GitHub</a></li>
+        <li><a href="index.html"><strong>daft.css</strong></a></li>
+      </ul>
+      <ul>
+        <li><a href="components.html" role="button" class="ghost">Components</a></li>
         <li>
-          <button class="ghost icon small mode-toggle" id="mode-toggle" type="button" aria-label="Toggle color mode" title="Toggle light/dark">
-            <span class="auto">◐</span><span class="sun">☀</span><span class="moon">☾</span>
-          </button>
+          <details class="dropdown">
+            <summary class="ghost">Examples</summary>
+            <ul>
+              <li><a href="examples/landing.html">Landing</a></li>
+              <li><a href="examples/dashboard.html">Dashboard</a></li>
+              <li><a href="examples/product.html">Product</a></li>
+              <li><a href="examples/slides.html">Slides</a></li>
+              <li><a href="examples/demo.html">Demo</a></li>
+              <li><a href="examples/pico_example.html">Pico comparison</a></li>
+              <li><a href="examples/">All examples</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
+        <li>
+          <button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme">🌓</button>
         </li>
       </ul>
     </div>
@@ -203,34 +204,39 @@
 
       <div class="actions">
         <a href="#components" role="button">See it adapt</a>
-        <a href="#components" role="button" class="outline">Components</a>
+        <a href="components.html" role="button" class="outline">Components</a>
       </div>
     </section>
 
     <!-- §2 COMPONENTS + THEME ========================================= -->
     <section class="s" id="components">
       <div class="s-head">
-        <span class="eyebrow">Components</span>
+        <h6>Components</h6>
         <h2>Pick a palette and every card below follows.</h2>
         <p>Theme tokens cascade through every component on this page. Same markup, new look — no class swap.</p>
       </div>
 
-      <div class="grid cols-md-4">
+      <div class="grid mb-6">
 
-        <!-- Row 1a — Theme picker + override (span-md-2) -->
-        <article class="span-md-2 flex flex-col">
+        <!-- Theme picker -->
+        <article class="flex flex-col">
           <header><strong>Theme</strong></header>
           <label>Palette
             <select id="palette">
-              <option value="default" selected>Default — 0 vars</option>
-              <option value="forest">Forest — 1 var</option>
-              <option value="rounded">Rounded — 2 vars</option>
-              <option value="corporate">Corporate — 3 vars</option>
-              <option value="brutalist">Brutalist — 7 vars</option>
+              <option value="default" selected>Default</option>
+              <option value="forest">Forest</option>
+              <option value="rounded">Rounded</option>
+              <option value="corporate">Corporate</option>
+              <option value="brutalist">Brutalist</option>
             </select>
           </label>
-<pre data-for="default" class="on">/* Default — shadcn baseline. */
-/* 0 overrides.               */</pre>
+        </article>
+
+        <!-- Override snippet -->
+        <article class="flex flex-col">
+          <header><strong>Override</strong></header>
+          <div class="snippet-stack">
+<pre data-for="default" class="on">/* Default — shadcn baseline. */</pre>
 <pre data-for="forest">[data-palette="forest"] {
   --primary: light-dark(
     oklch(.50 .13 150),
@@ -260,13 +266,14 @@
   --radius:        0;
   --button-shadow: 3px 3px 0 currentColor;
 }</pre>
+          </div>
         </article>
 
-        <!-- Row 1b — Light + Dark proof (span-md-2) -->
-        <article class="span-md-2 flex flex-col">
+        <!-- Light + Dark proof -->
+        <article class="flex flex-col">
           <header><strong>Light and dark</strong> <span class="badge outline small">free with <code>light-dark()</code></span></header>
           <p class="muted">Surfaces flow through CSS <code>light-dark()</code>. The mode toggle in the nav flips the whole page — no class swap, no extra CSS.</p>
-          <div class="grid cols-2 mode-split mt-auto" style="gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;">
+          <div class="grid mode-pair mt-auto" style="gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;">
             <div data-theme="light" class="flex flex-col gap-2">
               <small class="muted">LIGHT</small>
               <div class="flex items-center gap-2 mt-auto">
@@ -284,8 +291,11 @@
           </div>
         </article>
 
+      </div>
+
+      <div class="grid">
         <!-- Sign in -->
-        <article class="span-md-2 flex flex-col">
+        <article class="flex flex-col">
           <header><strong>Sign in to Aurora</strong></header>
           <label>Email
             <input type="email" value="kai@example.com">
@@ -301,9 +311,9 @@
         </article>
 
         <!-- Stats -->
-        <article class="span-md-2 flex flex-col">
+        <article class="flex flex-col">
           <header><strong>This week</strong></header>
-          <div class="grid cols-3">
+          <div class="grid">
             <div>
               <div class="stat-num">$24.8k</div>
               <small class="muted">MRR</small>
@@ -324,9 +334,11 @@
             <small class="muted">Updated 4 min ago</small>
           </footer>
         </article>
+      </div>
 
+      <div class="grid">
         <!-- Tasks -->
-        <article class="span-md-3 flex flex-col">
+        <article class="span-2 flex flex-col">
           <header><strong>Sprint 14</strong> <span class="badge">12 / 18</span></header>
           <div>
             <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Ship Postgres migration</span></label>
@@ -363,9 +375,11 @@
             </div>
           </div>
         </article>
+      </div>
 
+      <div class="grid">
         <!-- Notifications -->
-        <article class="span-md-2 flex flex-col">
+        <article class="flex flex-col">
           <header><strong>Notifications</strong></header>
           <div role="status">
             <strong>Build #482 queued</strong>
@@ -378,7 +392,7 @@
         </article>
 
         <!-- Pricing -->
-        <article class="span-md-2 flex flex-col">
+        <article class="flex flex-col">
           <header><strong>Pro</strong> <span class="badge success">recommended</span></header>
           <div class="flex items-baseline gap-1">
             <span class="stat-num" style="font-size: var(--text-2xl)">$12</span>
@@ -394,26 +408,25 @@
             <button class="ghost">Compare plans</button>
           </footer>
         </article>
-
       </div>
     </section>
 
     <!-- §3 COMPARISONS ================================================ -->
     <section class="s" id="fit">
       <div class="s-head">
-        <span class="eyebrow">What we kept from others</span>
+        <h6>What we kept from others</h6>
         <h2>We picked the parts we liked.</h2>
         <p>Three honest comparisons against the libraries Daft borrowed from. Same goals, different trade-offs.</p>
       </div>
 
       <!-- 3a. vs Pico — semantics -->
       <div class="s-head left" style="margin-top: var(--section-gap)">
-        <span class="eyebrow">vs Pico.css</span>
+        <h6>vs Pico.css</h6>
         <h2>Same idea, a sharper finish.</h2>
         <p>Pico opened the door: style plain HTML without classes. Daft keeps that idea and pushes the visual finish toward shadcn-grade defaults — same markup, sharper outcome.</p>
       </div>
 
-      <div class="grid cols-md-2">
+      <div class="grid">
         <article>
           <header><strong>Pico.css</strong> <span class="badge outline">83 KB</span></header>
           <iframe class="compare-frame" title="Pico.css preview" srcdoc='<!doctype html><html><head><meta name="color-scheme" content="light"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"><style>body{padding:1.25rem;margin:0;font-size:14px}article{margin:0}</style></head><body><main><article><header><strong>Aurora pipelines</strong></header><p>Streaming ingest pipeline with backpressure handling.</p><label>Endpoint<input type="text" value="https://api.aurora.dev"></label><footer><button>Deploy</button> <button class="secondary">Preview</button></footer></article></main></body></html>' style="height:340px"></iframe>
@@ -437,7 +450,7 @@
 
       <!-- 3b. vs daisyUI — size -->
       <div class="s-head left" style="margin-top: var(--section-gap)">
-        <span class="eyebrow">vs daisyUI</span>
+        <h6>vs daisyUI</h6>
         <h2>Smaller than the plugin you'd add to Tailwind.</h2>
         <p>daisyUI's pitch is the one we like: readable semantic class names instead of utility soup. The trade-off is the dependency. daisyUI is a Tailwind plugin — you ship Tailwind, the JIT compiler runs, and daisyUI's output stacks on top. Daft is the single file you link.</p>
       </div>
@@ -470,14 +483,14 @@
 
       <!-- 3c. vs Tailwind — utility soup vs semantic -->
       <div class="s-head left" style="margin-top: var(--section-gap)">
-        <span class="eyebrow">vs Tailwind</span>
+        <h6>vs Tailwind</h6>
         <h2>One render, two ways to write it.</h2>
         <p>We borrow Tailwind's discipline around design tokens, modern color, and responsive primitives. Where Daft differs is what ends up in your markup. Same button, both styles below.</p>
       </div>
 
-      <div class="grid cols-md-3" style="align-items:center">
+      <div class="grid" style="align-items:center">
         <div>
-          <small class="eyebrow">Daft</small>
+          <h6>Daft</h6>
 <pre>&lt;button&gt;
   Save changes
 &lt;/button&gt;</pre>
@@ -488,7 +501,7 @@
         </div>
 
         <div>
-          <small class="eyebrow">Tailwind</small>
+          <h6>Tailwind</h6>
 <pre>&lt;button class="inline-flex
   items-center justify-center
   rounded-md text-sm font-medium
@@ -511,40 +524,31 @@
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.8.0</span>
+        <span>v1.9.0</span>
         <span>59 KB</span>
         <span>MIT</span>
         <span>© 2026</span>
       </div>
       <div class="flex gap-6 text-sm" style="flex-wrap: wrap">
         <a href="examples/" class="muted">Examples</a>
-        <a href="examples/components.html" class="muted">Components</a>
+        <a href="components.html" class="muted">Components</a>
         <a href="https://github.com/pietz/daftcss" class="muted">GitHub</a>
       </div>
     </div>
   </footer>
 
   <script>
-    /* Mode toggle: cycles light → dark → auto → light → … and persists. */
+    /* Theme toggle */
     (function () {
       const root = document.documentElement;
       const stored = localStorage.getItem('daft-mode');
-      if (stored && stored !== 'auto') root.setAttribute('data-theme', stored);
+      if (stored) root.setAttribute('data-theme', stored);
 
-      document.getElementById('mode-toggle').addEventListener('click', () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => {
         const current = root.getAttribute('data-theme');
-        let next;
-        if (current === null) next = 'light';
-        else if (current === 'light') next = 'dark';
-        else next = null;
-
-        if (next === null) {
-          root.removeAttribute('data-theme');
-          localStorage.removeItem('daft-mode');
-        } else {
-          root.setAttribute('data-theme', next);
-          localStorage.setItem('daft-mode', next);
-        }
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('daft-mode', next);
       });
     })();
 

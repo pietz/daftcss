@@ -1,20 +1,20 @@
 /**
  * Grid layout
  *
- * Three tiers of control:
- *   1. Auto:      <div class="grid">          — fits as many ~--grid-min cells as the row allows
- *   2. Explicit:  <div class="grid cols-3">   — fixed column count
- *   3. Responsive:<div class="grid cols-2 cols-lg-4">  — per breakpoint
+ * .grid — direct children become equal columns.
+ *         3 children → 3 columns. 5 children → 5 columns.
+ *         A child with .span-N takes N tracks instead of 1, so
+ *         the total track count is (sibling count - 1 + N).
+ *         Spans are weights, not Bootstrap-style fixed columns.
+ *         Stacks to a single column below 768px.
  *
- * Adding any .cols-* class opts out of auto-counting.
- * Children can use .span-N / .span-md-N / .span-lg-N / .span-xl-N.
- *
- * Tune the auto-mode cell width via --grid-min (default 18rem).
+ * For fixed-width sidebar + fluid content, use body-level
+ * `<aside class="sidebar">` placement (see layout/sidebar.css).
  */
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   gap: var(--spacing);
   margin-bottom: var(--spacing);
 }
@@ -23,80 +23,22 @@
   margin-bottom: 0;
 }
 
-/* Auto-counting only when no explicit .cols-* class is set */
-@media (min-width: 768px) {
-  .grid:not([class*="cols-"]) {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
-  }
-}
-
-/* Grid items */
 .grid > * {
-  min-width: 0; /* Prevent overflow */
+  min-width: 0;
 }
 
-/* Explicit column counts (mobile-first, apply at all sizes) */
-.grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
-.grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-.grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
-.grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
-
-@media (min-width: 768px) {
-  .grid.cols-md-2 { grid-template-columns: repeat(2, 1fr); }
-  .grid.cols-md-3 { grid-template-columns: repeat(3, 1fr); }
-  .grid.cols-md-4 { grid-template-columns: repeat(4, 1fr); }
-  .grid.cols-md-5 { grid-template-columns: repeat(5, 1fr); }
-  .grid.cols-md-6 { grid-template-columns: repeat(6, 1fr); }
-}
-
-@media (min-width: 1024px) {
-  .grid.cols-lg-2 { grid-template-columns: repeat(2, 1fr); }
-  .grid.cols-lg-3 { grid-template-columns: repeat(3, 1fr); }
-  .grid.cols-lg-4 { grid-template-columns: repeat(4, 1fr); }
-  .grid.cols-lg-5 { grid-template-columns: repeat(5, 1fr); }
-  .grid.cols-lg-6 { grid-template-columns: repeat(6, 1fr); }
-}
-
-@media (min-width: 1280px) {
-  .grid.cols-xl-2 { grid-template-columns: repeat(2, 1fr); }
-  .grid.cols-xl-3 { grid-template-columns: repeat(3, 1fr); }
-  .grid.cols-xl-4 { grid-template-columns: repeat(4, 1fr); }
-  .grid.cols-xl-5 { grid-template-columns: repeat(5, 1fr); }
-  .grid.cols-xl-6 { grid-template-columns: repeat(6, 1fr); }
-}
-
-/* Column spans (mobile-first) */
 .grid > .span-2 { grid-column: span 2; }
 .grid > .span-3 { grid-column: span 3; }
 .grid > .span-4 { grid-column: span 4; }
-.grid > .span-5 { grid-column: span 5; }
-.grid > .span-6 { grid-column: span 6; }
-.grid > .span-full { grid-column: 1 / -1; }
 
-@media (min-width: 768px) {
-  .grid > .span-md-2 { grid-column: span 2; }
-  .grid > .span-md-3 { grid-column: span 3; }
-  .grid > .span-md-4 { grid-column: span 4; }
-  .grid > .span-md-5 { grid-column: span 5; }
-  .grid > .span-md-6 { grid-column: span 6; }
-  .grid > .span-md-full { grid-column: 1 / -1; }
-}
-
-@media (min-width: 1024px) {
-  .grid > .span-lg-2 { grid-column: span 2; }
-  .grid > .span-lg-3 { grid-column: span 3; }
-  .grid > .span-lg-4 { grid-column: span 4; }
-  .grid > .span-lg-5 { grid-column: span 5; }
-  .grid > .span-lg-6 { grid-column: span 6; }
-  .grid > .span-lg-full { grid-column: 1 / -1; }
-}
-
-@media (min-width: 1280px) {
-  .grid > .span-xl-2 { grid-column: span 2; }
-  .grid > .span-xl-3 { grid-column: span 3; }
-  .grid > .span-xl-4 { grid-column: span 4; }
-  .grid > .span-xl-5 { grid-column: span 5; }
-  .grid > .span-xl-6 { grid-column: span 6; }
-  .grid > .span-xl-full { grid-column: 1 / -1; }
+/* Stack on small viewports */
+@media (max-width: 767.98px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .grid > .span-2,
+  .grid > .span-3,
+  .grid > .span-4 {
+    grid-column: auto;
+  }
 }

@@ -1,11 +1,11 @@
 /**
- * Daft CSS v1.8.0
+ * Daft CSS v1.9.0
  * A semantic-first, utility-second CSS framework
  * https://github.com/pietz/daft-css
  */
 
 /* Define layer order for specificity management */
-@layer tokens, reset, base, layout, content, forms, components, utilities;
+@layer tokens, reset, base, layout, content, forms, components, slides, utilities;
 
 /* Design tokens (first in output) */
 @import "base/variables.css" layer(tokens);
@@ -48,6 +48,9 @@
 @import "components/avatar.css" layer(components);
 @import "components/alert.css" layer(components);
 @import "layout/sidebar.css" layer(components);
+
+/* Slides */
+@import "slides/slides.css" layer(slides);
 
 /* Utilities */
 @import "utilities/helpers.css" layer(utilities);

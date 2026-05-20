@@ -11,21 +11,8 @@ details.dropdown {
 }
 
 details.dropdown > summary {
-  display: inline-flex;
-  align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-sm);
-  height: var(--input-height);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--foreground);
-  background-color: var(--background);
-  border: var(--border-width) solid var(--input);
   border-radius: var(--dropdown-radius);
-  cursor: pointer;
-  transition: border-color var(--transition-default),
-              background-color var(--transition-default);
 
   &::after {
     content: "";
@@ -39,14 +26,14 @@ details.dropdown > summary {
     transition: transform var(--transition-default);
   }
 
-  &:hover {
-    border-color: var(--ring);
+  & > svg {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    flex-shrink: 0;
   }
 }
 
 details.dropdown[open] > summary {
-  border-color: var(--ring);
-
   &::after {
     transform: rotate(180deg);
   }
@@ -54,6 +41,7 @@ details.dropdown[open] > summary {
 
 /* Dropdown menu */
 details.dropdown > ul {
+  display: block;
   position: absolute;
   z-index: 50;
   min-width: 10rem;
@@ -107,14 +95,8 @@ details.dropdown > ul[dir="rtl"] {
   direction: ltr;
 }
 
-/* Button-styled dropdown - inherits colors from button.css */
-details.dropdown > summary[role="button"] {
-  border-color: transparent;
-}
-
 /* Dropdown with checkboxes/radios */
 details.dropdown > ul label:has(input[type="checkbox"]),
 details.dropdown > ul label:has(input[type="radio"]) {
   margin-bottom: 0;
 }
-

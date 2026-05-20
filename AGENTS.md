@@ -75,7 +75,7 @@ When adding a new component or feature to the library:
 
 1. **Create the CSS** in the appropriate `src/` directory
 2. **Import it** in `src/daft.css` with the correct layer
-3. **Update `examples/components.html`** with usage examples
+3. **Update `docs/components.html`** with usage examples
 4. **Update documentation** if applicable
 5. **Run `npm run build`** to verify it compiles
 
@@ -87,7 +87,7 @@ Use the `agent-browser` skill to visually verify CSS changes. This is especially
 
 ```bash
 # Open an HTML file directly (no server needed)
-agent-browser open "file:///Users/pietz/Private/daftcss/examples/components.html"
+agent-browser open "file:///Users/pietz/Private/daftcss/docs/components.html"
 
 # Take screenshots to verify visual output
 agent-browser screenshot --full /tmp/screenshot.png

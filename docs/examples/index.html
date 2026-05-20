@@ -8,20 +8,31 @@
   <link rel="stylesheet" href="../dist/daft.css">
 </head>
 <body>
-  <header>
-    <nav class="container">
+  <nav class="sticky glass">
+    <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><a href="../"><strong>daft.css</strong></a></li>
-        <li><small class="muted">Examples</small></li>
+        <li><a href="../index.html"><strong>daft.css</strong></a></li>
       </ul>
       <ul>
-        <li><a href="../">Home</a></li>
-        <li><a href="components.html">Components</a></li>
-        <li><a href="https://github.com/pietz/daftcss">GitHub</a></li>
-        <li><button id="theme-toggle" class="ghost icon" aria-label="Toggle theme">🌓</button></li>
+        <li><a href="../components.html" role="button" class="ghost">Components</a></li>
+        <li>
+          <details class="dropdown">
+            <summary class="ghost">Examples</summary>
+            <ul>
+              <li><a href="landing.html">Landing</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="product.html">Product</a></li>
+              <li><a href="slides.html">Slides</a></li>
+              <li><a href="demo.html">Demo</a></li>
+              <li><a href="pico_example.html">Pico comparison</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
+        <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme">🌓</button></li>
       </ul>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
   <main class="container">
     <hgroup>
@@ -51,7 +62,9 @@
           <a href="dashboard.html" role="button" class="outline">Open</a>
         </footer>
       </article>
+    </div>
 
+    <div class="grid">
       <article>
         <header>
           <strong>Product page</strong>
@@ -65,23 +78,25 @@
 
       <article>
         <header>
-          <strong>Article</strong>
-          <p>Long-form reading view with code and quotes.</p>
+          <strong>Demo</strong>
+          <p>Compact kitchen-sink page for quick checks.</p>
         </header>
-        <p><small class="muted">Typography · code blocks · figures</small></p>
+        <p><small class="muted">Typography · forms · components</small></p>
         <footer>
-          <a href="article.html" role="button" class="outline">Open</a>
+          <a href="demo.html" role="button" class="outline">Open</a>
         </footer>
       </article>
+    </div>
 
+    <div class="grid">
       <article>
         <header>
-          <strong>Settings</strong>
-          <p>Account settings with forms and switches.</p>
+          <strong>Pico comparison</strong>
+          <p>A side-by-side semantic HTML comparison.</p>
         </header>
-        <p><small class="muted">Forms · validation · switches · danger zone</small></p>
+        <p><small class="muted">Pico · Daft · plain markup</small></p>
         <footer>
-          <a href="settings.html" role="button" class="outline">Open</a>
+          <a href="pico_example.html" role="button" class="outline">Open</a>
         </footer>
       </article>
 
@@ -90,7 +105,7 @@
           <strong>Slides</strong>
           <p>Presentation deck rendered as HTML.</p>
         </header>
-        <p><small class="muted">Slide layouts · keyboard navigation</small></p>
+        <p><small class="muted">Deck styling · grid layouts · PDF export</small></p>
         <footer>
           <a href="slides.html" role="button" class="outline">Open</a>
         </footer>
@@ -99,17 +114,8 @@
 
     <section>
       <h2>Reference</h2>
-      <div class="grid">
-        <article>
-          <header>
-            <strong>Component showcase</strong>
-            <p>Every component on one page.</p>
-          </header>
-          <footer>
-            <a href="components.html" role="button" class="outline">Open</a>
-          </footer>
-        </article>
-      </div>
+      <p>Looking for the component reference? It now lives outside the examples gallery.</p>
+      <p><a href="../components.html" role="button" class="outline">Open Components</a></p>
     </section>
   </main>
 
@@ -118,11 +124,18 @@
   </footer>
 
   <script>
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-    });
+    (function () {
+      const root = document.documentElement;
+      const stored = localStorage.getItem('daft-mode');
+      if (stored) root.setAttribute('data-theme', stored);
+
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const current = root.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('daft-mode', next);
+      });
+    })();
   </script>
 </body>
 </html>

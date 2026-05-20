@@ -6,7 +6,7 @@ Loaded on demand. Use this when SKILL.md isn't enough.
 
 Cascade priority (later wins):
 ```
-tokens → reset → base → layout → content → forms → components → utilities
+tokens → reset → base → layout → content → forms → components → slides → utilities
 ```
 
 ## Design Tokens
@@ -187,8 +187,19 @@ Use the native Popover API. ESC and click-outside close automatically.
 Bare `<dialog>` (opened via `showModal()`) is also styled as a card — wrap content in `<article>` only when you want the full header/footer/close-button layout.
 
 ### Sidebar
+
 ```html
 <body>
+  <aside id="sidebar" class="sidebar" popover>
+    <nav>
+      <ul>
+        <li><h6>Section Label</h6></li>
+        <li><a href="#" aria-current="page">Active link</a></li>
+        <li><a href="#">Regular link</a></li>
+      </ul>
+    </nav>
+  </aside>
+
   <header class="container-fluid">
     <nav>
       <ul>
@@ -201,21 +212,12 @@ Bare `<dialog>` (opened via `showModal()`) is also styled as a card — wrap con
   </header>
 
   <main class="container-fluid">
-    <aside id="sidebar" class="sidebar" popover>
-      <nav>
-        <ul>
-          <li><strong>Section Label</strong></li>
-          <li><a href="#" aria-current="page">Active link</a></li>
-          <li><a href="#">Regular link</a></li>
-        </ul>
-      </nav>
-    </aside>
     <section>...page content...</section>
   </main>
 </body>
 ```
 
-Desktop (≥768px): fixed full-height left column, body padded right by `--aside-width`. Mobile: hidden by default, slides in as a drawer when the `.sidebar-toggle` button is clicked. The button auto-hides on desktop.
+Desktop (≥768px): fixed left column, with placement defining whether it spans the full viewport height or starts below the top header/nav. Mobile: hidden by default, slides in as a drawer when the `.sidebar-toggle` button is clicked. The button auto-hides on desktop.
 
 ### Accordion
 ```html
@@ -234,7 +236,7 @@ Desktop (≥768px): fixed full-height left column, body padded right by `--aside
 ### Dropdown
 ```html
 <details class="dropdown">
-  <summary>Menu</summary>
+  <summary class="ghost">Menu</summary>
   <ul>
     <li><a href="#">Option 1</a></li>
     <li><a href="#">Option 2</a></li>
@@ -242,7 +244,7 @@ Desktop (≥768px): fixed full-height left column, body padded right by `--aside
 </details>
 ```
 
-Summary can have `role="button"` for a button-styled trigger.
+Summary uses the same variants as buttons: `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`.
 
 ### Navigation
 ```html
@@ -391,26 +393,73 @@ Round container sized to `--component-height`. Wraps initials, images, or SVGs. 
 
 **Container:** `<main class="container">` (max-width centered) or `.container-fluid` (full-width with edge padding).
 
-**Grid:** Three tiers of control.
+**Grid:** One primitive.
 
-1. **Auto** — `<div class="grid">` fits as many ~`--grid-min` (default 18rem) cells as the row allows. Cells wrap to new rows; mobile collapses to 1 col.
-2. **Explicit** — add `.cols-N` (2–6) to lock the column count at all sizes. Opts out of auto.
-3. **Responsive** — combine with `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` (mobile-first cumulative). Children use `.span-N` (2–6) plus breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N`, and `.span-full` / `.span-md-full` etc. for row-wide items.
-
-Tune auto-mode cell width with `--grid-min`. Set it per-grid for narrower or wider cells: `<div class="grid" style="--grid-min: 12rem">`.
-
-Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
+**`.grid`** — `<div class="grid">` makes direct children equal columns (3 children → 3 cols). A child with `.span-N` (N = 2, 3, 4) claims N tracks instead of 1. Spans are weights, not Bootstrap columns: in a 2-child grid, `.span-2` on one child gives a 1:2 ratio (3 total tracks). Stacks to 1 col below 768px. For multi-row layouts use multiple grids — one per row.
 
 ```html
-<div class="grid cols-2 cols-lg-4">
-  <article class="span-lg-2">Featured</article>
-  <article>A</article>
-  <article>B</article>
-  <article>C</article>
+<!-- 2:1 ratio -->
+<div class="grid">
+  <aside>Nav</aside>
+  <main class="span-2">Content</main>
 </div>
 ```
 
 **Aside:** see Sidebar above.
+
+### Slides
+
+`<body class="deck">` turns every direct-child `<section>` into a slide. Each slide auto-fits the viewport at the deck's aspect ratio (default 16:9), establishes a CSS container, and inherits Daft tokens. Layouts compose with `.grid` + `.span-N` — no slide-specific layout vocabulary.
+
+```html
+<body class="deck">
+  <section class="title">
+    <h1>Title</h1>
+    <p>Subtitle</p>
+  </section>
+
+  <section>
+    <h2>Heading sits above the grid</h2>
+    <div class="grid">
+      <div>Left column</div>
+      <figure><img src="…"></figure>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote>Pull quote.</blockquote>
+    <cite>— Source</cite>
+  </section>
+
+  <section class="full"><img src="…"></section>
+  <section class="code"><pre><code>…</code></pre></section>
+</body>
+```
+
+**Role modifiers** (one per slide): `.title` (centered hero), `.quote` (pull quote), `.full` (edge-to-edge media), `.code` (large `<pre>`).
+
+**Positional modifier**: `.center` (vertically center the slide's flow).
+
+**Weighted slide grids** use Daft's regular grid spans:
+```html
+<section>
+  <h2>Wide left, narrow right</h2>
+  <div class="grid">
+    <div class="span-2">…</div>
+    <figure>…</figure>
+  </div>
+</section>
+```
+
+**Speaker notes** — `<aside class="notes">` is hidden everywhere; reserved markup for a future presenter mode.
+
+**Tokens** (Tier 0): `--slide-aspect` (`calc(16/9)`), `--slide-padding` (`5cqi`), `--slide-text` (`2.2cqi`), `--slide-text-scale` (`1`), `--slide-bg` (`var(--background)`), `--slide-gap` (`2rem`).
+
+**Theming**: deck follows OS preference by default. Pin with `<html data-theme="dark|light">` or per-slide `<section data-theme="…">`.
+
+**PDF export**: open in a modern browser, `⌘P` → Save as PDF. The `@page` rule sets 16:9 paper. Disable Headers/Footers in the print dialog.
+
+Full reference: [SLIDES.md](../../SLIDES.md).
 
 ---
 

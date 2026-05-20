@@ -4,7 +4,7 @@
  */
 
 /* Base button styles */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]) {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@ a[role="button"] {
 }
 
 /* Secondary variant — also the default for <input type="reset">. */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]):is(.secondary, [type="reset"]) {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary):is(.secondary, [type="reset"]) {
   color: var(--foreground);
   background-color: var(--accent);
 
@@ -81,7 +81,7 @@ a[role="button"] {
 }
 
 /* Destructive variant */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).destructive {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).destructive {
   color: var(--destructive-foreground);
   background-color: var(--destructive);
 
@@ -99,7 +99,7 @@ a[role="button"] {
 }
 
 /* Outline variant */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).outline {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).outline {
   color: var(--primary);
   background-color: var(--background);
   border-color: var(--primary);
@@ -115,7 +115,7 @@ a[role="button"] {
 }
 
 /* Outline secondary */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).outline.secondary {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).outline.secondary {
   color: var(--foreground);
   border-color: var(--border);
 
@@ -125,7 +125,7 @@ a[role="button"] {
 }
 
 /* Ghost variant (no background) */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).ghost {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).ghost {
   color: var(--foreground);
   background-color: transparent;
   box-shadow: none;
@@ -137,7 +137,7 @@ a[role="button"] {
 }
 
 /* Link variant (looks like a link) */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).link {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).link {
   color: var(--primary);
   background-color: transparent;
   box-shadow: none;
@@ -149,7 +149,7 @@ a[role="button"] {
 }
 
 /* Active/current variant (e.g., selected item in a group) */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"])[aria-current="true"] {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary)[aria-current="true"] {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
@@ -160,34 +160,34 @@ a[role="button"] {
 }
 
 /* Small button */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).small {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).small {
   height: var(--button-height-sm);
   padding: var(--spacing-xs) var(--spacing-md);
   line-height: calc(var(--button-height-sm) - 2 * var(--border-width) - 2 * var(--spacing-xs));
 }
 
 /* Large button */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).large {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).large {
   height: var(--button-height-lg);
   padding: var(--spacing-sm) var(--spacing-xl);
   line-height: calc(var(--button-height-lg) - 2 * var(--border-width) - 2 * var(--spacing-sm));
 }
 
 /* Icon-only button */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).icon {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon {
   width: var(--button-height);
   padding: 0;
 }
 
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).icon.small {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.small {
   width: var(--button-height-sm);
 }
 
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).icon.large {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.large {
   width: var(--button-height-lg);
 }
 
 /* Full width button */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"]).full-width {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).full-width {
   width: 100%;
 }

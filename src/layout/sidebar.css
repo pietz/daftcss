@@ -1,68 +1,125 @@
 /**
  * Sidebar
  *
- * <aside class="sidebar"> as a direct child of <main> is an app-dashboard
- * sidebar:
- *   - Desktop (≥ 768px): position-fixed full viewport height on the left.
- *     Body gets padding-left so header / main / footer flow in the column
- *     to the right of it.
- *   - Mobile (< 768px): hidden by default. Add the popover attribute and a
- *     <button class="sidebar-toggle" popovertarget="sidebar"> to slide it
- *     out as a drawer.
+ * <aside class="sidebar"> is a body-level page/application sidebar.
  *
- * Plain <aside> (no .sidebar class) keeps normal document flow — useful
- * for pullquotes, callouts, and other tangential content.
+ * Placement defines the desktop layout:
+ *   - <aside.sidebar> before the top header/nav: full-height rail.
+ *   - <aside.sidebar> after the top header/nav: rail starts below it.
  *
- * Customization: override --aside-width for column width, override
- * background-color on the selector below for surface color.
+ * Mobile: hidden by default. Add the popover attribute and a
+ * <button class="sidebar-toggle" popovertarget="sidebar"> to open it as a
+ * drawer.
  */
 
-/* Surface (applies on all viewports — hidden on mobile via media query) */
-main > aside.sidebar {
+body {
+  --sidebar-offset-top: 0px;
+}
+
+body > aside.sidebar {
   background-color: var(--muted);
   color: inherit;
   border: none;
   padding: var(--spacing-lg);
 }
 
-/* ============================================================
-   Desktop: fixed full-height column
-   ============================================================ */
+body > aside.sidebar > nav {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+}
+
+body > aside.sidebar > nav > ul {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body > aside.sidebar > nav > ul > li {
+  margin: 0;
+}
+
+body > aside.sidebar > nav h6,
+body > aside.sidebar > nav > ul > li > strong {
+  display: block;
+  padding: var(--spacing-sm) 0;
+  margin-top: var(--spacing);
+  margin-bottom: 0;
+}
+
+body > aside.sidebar > nav > h6:first-child,
+body > aside.sidebar > nav > ul > li:first-child > :is(h6, strong) {
+  margin-top: 0;
+}
+
+body > aside.sidebar > nav > ul > li > a {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-xs) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--transition-default);
+}
+
+body > aside.sidebar > nav > ul > li > a:hover {
+  color: inherit;
+  text-decoration: underline;
+}
 
 @media (min-width: 768px) {
-  /* display + height overrides fight the UA popover styles, which set
-     display: none on closed popovers and height: fit-content always. */
-  main > aside.sidebar {
+  body > aside.sidebar {
     display: block;
     position: fixed;
-    inset: 0 auto 0 0;
+    inset: var(--sidebar-offset-top) auto 0 0;
     width: var(--aside-width);
-    height: 100dvh;
+    height: calc(100dvh - var(--sidebar-offset-top));
     overflow-y: auto;
     z-index: 10;
   }
 
-  /* Make room for the fixed sidebar by padding the body */
-  body:has(> main > aside.sidebar) {
-    padding-left: var(--aside-width);
+  body > aside.sidebar ~ :is(header, nav, main, footer) {
+    margin-left: var(--aside-width);
+    width: auto;
   }
 
-  /* Disable any grid layout on main (the aside is out of normal flow now) */
-  main:has(> aside.sidebar) {
-    display: block;
+  body > :is(header, nav):first-child:has(+ aside.sidebar) {
+    --sidebar-offset-top: 0px;
+  }
+
+  body > :is(header, nav):first-child:has(+ aside.sidebar) + aside.sidebar {
+    --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
+  }
+
+  body > :is(header, nav):first-child:has(+ aside.sidebar) ~ main,
+  body > :is(header, nav):first-child:has(+ aside.sidebar) ~ footer {
+    margin-left: var(--aside-width);
+    width: auto;
   }
 }
 
-/* ============================================================
-   Mobile: hidden by default, slide-out drawer when popover-open
-   ============================================================ */
-
 @media (max-width: 767.98px) {
-  main > aside.sidebar {
+  body > aside.sidebar {
     display: none;
   }
 
-  main > aside.sidebar[popover]:popover-open {
+  body > aside.sidebar[popover]:popover-open {
     display: block;
     position: fixed;
     inset: 0 auto 0 0;
@@ -76,99 +133,17 @@ main > aside.sidebar {
                 display var(--transition-slow) var(--ease-default) allow-discrete;
   }
 
-  main > aside.sidebar[popover]::backdrop {
+  body > aside.sidebar[popover]::backdrop {
     background-color: var(--modal-overlay);
     backdrop-filter: blur(4px);
   }
 
   @starting-style {
-    main > aside.sidebar[popover]:popover-open {
+    body > aside.sidebar[popover]:popover-open {
       transform: translateX(-100%);
     }
   }
 }
-
-/* ============================================================
-   Aside nav (vertical link list)
-   ============================================================ */
-
-main > aside.sidebar > nav {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: var(--spacing-sm);
-}
-
-main > aside.sidebar > nav > ul {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  gap: var(--spacing-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-main > aside.sidebar > nav > ul > li {
-  margin: 0;
-}
-
-/* Section labels */
-main > aside.sidebar > nav > ul > li > strong {
-  display: block;
-  padding: var(--spacing-sm) var(--spacing);
-  margin-top: var(--spacing);
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
-  color: var(--muted-foreground);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-main > aside.sidebar > nav > ul > li:first-child > strong {
-  margin-top: 0;
-}
-
-/* Sidebar links */
-main > aside.sidebar > nav > ul > li > a {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--foreground);
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  transition: background-color var(--transition-default),
-              color var(--transition-default);
-}
-
-/* Hover/active: a subtle shade darker than --muted in light mode, lighter
-   in dark mode — matches shadcn's sidebar-accent pattern of a quiet hover
-   that stays within the sidebar's tonal range. */
-main > aside.sidebar > nav > ul > li > a:hover,
-main > aside.sidebar > nav > ul > li > a[aria-current="page"],
-main > aside.sidebar > nav > ul > li > a[aria-current="true"] {
-  background-color: color-mix(in oklch, var(--muted) 88%, var(--foreground));
-  color: var(--foreground);
-}
-
-/* ============================================================
-   Hamburger toggle (mobile-only)
-   ============================================================
-   .sidebar-toggle is a behavior-only class: it hides the button on desktop.
-   For the visual look, pair it with .ghost and .icon (or any button variant
-   you prefer). Example:
-     <button class="ghost icon sidebar-toggle" popovertarget="sidebar">☰</button>
-*/
 
 @media (min-width: 768px) {
   .sidebar-toggle,

@@ -33,8 +33,7 @@ article > header > h1,
 article > header > h2,
 article > header > h3,
 article > header > h4,
-article > header > h5,
-article > header > h6 {
+article > header > h5 {
   margin-bottom: var(--spacing-xs);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);

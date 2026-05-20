@@ -36,7 +36,14 @@ h5 {
 }
 
 h6 {
-  font-size: var(--text-base);
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  line-height: var(--line-height-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
 
 /* Heading groups */
@@ -103,38 +110,14 @@ mark {
   border-radius: var(--radius-sm);
 }
 
-del {
-  text-decoration: line-through;
-  color: var(--muted-foreground);
-}
-
-ins {
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--primary);
-}
-
 u {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-s {
-  text-decoration: line-through;
-}
-
 abbr[title] {
   text-decoration: underline dotted;
   cursor: help;
-}
-
-cite {
-  font-style: italic;
-}
-
-dfn {
-  font-style: italic;
-  font-weight: var(--font-medium);
 }
 
 sub, sup {
@@ -221,15 +204,4 @@ dd {
 
 dd:last-child {
   margin-bottom: 0;
-}
-
-/* Address */
-address {
-  font-style: normal;
-  margin-bottom: var(--spacing);
-}
-
-/* Time */
-time {
-  font-variant-numeric: tabular-nums;
 }

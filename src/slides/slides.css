@@ -1,0 +1,170 @@
+/*
+ * Daft Slides — prototype
+ * Inside <body class="deck">, every direct-child <section> is a slide.
+ * Layouts compose from Daft (.grid + .span-N, .stack, .cluster, .card, ...).
+ */
+
+:root {
+  --slide-aspect: calc(16 / 9);
+  --slide-padding: 5cqi;
+  --slide-text: 2.2cqi;
+  --slide-text-scale: 1;
+  --slide-bg: var(--background);
+  --slide-gap: 2rem;
+}
+
+body.deck {
+  margin: 0;
+  padding: var(--slide-gap);
+  background: color-mix(in oklch, var(--background) 88%, var(--foreground));
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-gap);
+  align-items: center;
+
+  & > section {
+    width: min(
+      calc(100vw - 2 * var(--slide-gap)),
+      calc((100vh - 2 * var(--slide-gap)) * var(--slide-aspect))
+    );
+    aspect-ratio: var(--slide-aspect);
+    container-type: size;
+    background: var(--slide-bg);
+    color: var(--foreground);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.15);
+    overflow: hidden;
+    padding: var(--slide-padding);
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.6em;
+
+    font-size: calc(var(--slide-text) * var(--slide-text-scale));
+    line-height: 1.3;
+
+    /* Typography — clamp() keeps sizes sane at the extremes */
+    & h1 {
+      font-size: clamp(1.6rem, calc(5.5cqi * var(--slide-text-scale)), 5rem);
+      line-height: 1.1; margin: 0; text-wrap: balance;
+    }
+    & h2 {
+      font-size: clamp(1.3rem, calc(4cqi * var(--slide-text-scale)), 3.5rem);
+      line-height: 1.15; margin: 0; text-wrap: balance;
+    }
+    & h3 {
+      font-size: clamp(1rem, calc(2.8cqi * var(--slide-text-scale)), 2.25rem);
+      line-height: 1.2; margin: 0;
+    }
+    & :is(p, li) {
+      font-size: calc(var(--slide-text) * var(--slide-text-scale));
+      margin: 0;
+    }
+
+    /* Modifiers */
+    &.center { justify-content: center; }
+
+    /* Roles */
+    &.title {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      & h1 { font-size: clamp(2rem, calc(7cqi * var(--slide-text-scale)), 6rem); }
+    }
+
+    &.quote {
+      justify-content: center;
+
+      & blockquote {
+        font-size: clamp(1.5rem, calc(4cqi * var(--slide-text-scale)), 4rem);
+        line-height: 1.2; font-style: italic;
+        margin: 0; padding: 0; border: none;
+        text-wrap: balance;
+      }
+      & cite {
+        font-size: calc(var(--slide-text) * var(--slide-text-scale));
+        opacity: 0.7; font-style: normal; margin-top: 0.6em; display: block;
+      }
+    }
+
+    &.full {
+      padding: 0;
+
+      & > :is(img, figure, video) {
+        width: 100%; height: 100%; margin: 0; object-fit: cover;
+      }
+    }
+
+    &.code pre {
+      font-size: clamp(0.85rem, calc(1.8cqi * var(--slide-text-scale)), 1.6rem);
+      margin: 0; overflow: auto;
+    }
+
+    /* Grid layout — reuse Daft's .grid, retune for slide context.
+       N children → N columns; .span-N claims extra tracks.
+       Spans must keep working at every viewport (slides are CQ-sized,
+       not viewport-sized), so re-declare here to beat the global
+       mobile-stack rule.
+
+       Note: a heading inside `.grid` is no longer auto-spanned. For
+       "heading + columns" layouts, keep the heading as a sibling of the
+       grid: <section><h2/>…<div class="grid">…</div></section>. */
+    &:is(.grid),
+    & > .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      gap: calc(var(--slide-padding) / 2);
+      margin-bottom: 0;
+      align-items: stretch;
+      width: 100%;
+      min-width: 0;
+
+      & > .span-2 { grid-column: span 2; }
+      & > .span-3 { grid-column: span 3; }
+      & > .span-4 { grid-column: span 4; }
+
+      /* Figures/images fill their cell. */
+      & > :is(figure, img),
+      & > figure > img {
+        width: 100%; height: 100%; margin: 0; object-fit: cover;
+        border-radius: var(--radius-sm, 0.25rem);
+      }
+    }
+
+    & > .grid:has(figure, img, video) {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+
+  /* Speaker notes — markup reserved, no UI yet */
+  & aside.notes { display: none; }
+}
+
+/* Print / PDF — Cmd+P picks up @page; no tooling required */
+@media print {
+  @page { size: 16in 9in; margin: 0; }
+
+  html, body, body.deck > section {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body.deck {
+    background: var(--background);
+    padding: 0;
+    gap: 0;
+
+    & > section {
+      width: 16in; height: 9in;
+      max-width: none; margin: 0;
+      border-radius: 0; box-shadow: none;
+      break-after: page;
+
+      &:last-child { break-after: auto; }
+    }
+  }
+}

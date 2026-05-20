@@ -9,6 +9,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
+  overflow: visible;
   padding-block: var(--spacing-sm);
 }
 
@@ -16,7 +17,7 @@ nav ul {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -24,33 +25,25 @@ nav ul {
 
 nav ul > li {
   margin: 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
   line-height: var(--line-height);
 }
 
-/* Nav links */
-nav a {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--spacing-sm) var(--spacing-md);
+nav li :where(a, [role="link"]) {
+  display: inline-block;
+  margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
+  padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: var(--muted-foreground);
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: color var(--transition-default),
-              background-color var(--transition-default);
-
-  &:hover {
-    color: var(--foreground);
-    background-color: var(--muted);
-  }
+  border-radius: var(--radius-sm);
 }
 
-/* Active page indicator */
-nav a[aria-current="page"],
-nav a[aria-current="true"] {
-  color: var(--foreground);
-  background-color: var(--muted);
+nav li :where(a, [role="link"]):not(:hover) {
+  text-decoration: none;
+}
+
+nav li :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
+  margin-block: calc(var(--spacing-xs) * -1);
 }
 
 /* Nav with strong (brand) */
@@ -58,26 +51,6 @@ nav strong {
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   color: var(--foreground);
-}
-
-/* Nav buttons */
-nav button {
-  height: var(--button-height-sm);
-  font-size: var(--text-sm);
-}
-
-/* Dropdown in nav */
-nav details.dropdown > summary {
-  height: auto;
-  padding: var(--spacing-sm) var(--spacing-md);
-  color: var(--muted-foreground);
-  background-color: transparent;
-  border: none;
-
-  &:hover {
-    color: var(--foreground);
-    background-color: var(--muted);
-  }
 }
 
 nav details.dropdown > ul {
@@ -94,23 +67,20 @@ nav[aria-label="breadcrumb"] > ul > li {
   align-items: center;
 }
 
+nav[aria-label="breadcrumb"] > ul > li:not(:first-child) {
+  margin-inline-start: var(--spacing-sm);
+}
+
 nav[aria-label="breadcrumb"] > ul > li:not(:last-child)::after {
   content: var(--breadcrumb-divider);
   padding: 0 var(--spacing-sm);
   color: var(--muted-foreground);
 }
 
-nav[aria-label="breadcrumb"] a {
-  padding: var(--spacing-xs) 0;
-  color: var(--muted-foreground);
-  background-color: transparent;
-  border-radius: 0;
-
-  &:hover {
-    color: var(--foreground);
-    background-color: transparent;
-    text-decoration: underline;
-  }
+nav[aria-label="breadcrumb"] a[aria-current]:not([aria-current="false"]) {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
 }
 
 nav[aria-label="breadcrumb"] > ul > li:last-child {
@@ -129,4 +99,3 @@ nav[aria-label="breadcrumb"] > ul > li:last-child {
     justify-content: center;
   }
 }
-

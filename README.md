@@ -9,7 +9,7 @@ Daft CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — one ~57 KB minified file
+- **A tiny footprint** — one ~55 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -32,7 +32,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~57 KB** | 83 KB |
+| Size (minified) | **~55 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -48,7 +48,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~57 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~55 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -178,6 +178,11 @@ Then write semantic HTML:
     <li><a href="#">Option 2</a></li>
   </ul>
 </details>
+
+<details class="dropdown">
+  <summary class="ghost">Ghost menu</summary>
+  <ul>...</ul>
+</details>
 ```
 
 ### Modal
@@ -230,10 +235,20 @@ Then write semantic HTML:
 
 ### Sidebar
 
-An `<aside class="sidebar">` inside `<main>` becomes a fixed full-height column on desktop. Add the `popover` attribute and a `.sidebar-toggle` button for a mobile slide-out drawer — no JavaScript.
+Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add the `popover` attribute and a `.sidebar-toggle` button for a mobile slide-out drawer — no JavaScript.
 
 ```html
 <body>
+  <aside id="sidebar" class="sidebar" popover>
+    <nav>
+      <ul>
+        <li><h6>Overview</h6></li>
+        <li><a href="#" aria-current="page">Dashboard</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+  </aside>
+
   <header class="container-fluid">
     <nav>
       <ul>
@@ -248,16 +263,6 @@ An `<aside class="sidebar">` inside `<main>` becomes a fixed full-height column 
   </header>
 
   <main class="container-fluid">
-    <aside id="sidebar" class="sidebar" popover>
-      <nav>
-        <ul>
-          <li><strong>Overview</strong></li>
-          <li><a href="#" aria-current="page">Dashboard</a></li>
-          <li><a href="#">Reports</a></li>
-        </ul>
-      </nav>
-    </aside>
-
     <section>
       <!-- page content -->
     </section>
@@ -330,41 +335,28 @@ Apply `.badge` to a `<button>` for filter pills. Use `aria-pressed="true"` for t
 
 ### Grid
 
-Three tiers of control — start simple, opt in to more when you need it.
+One primitive, no breakpoint matrix.
 
-**Auto** — `.grid` fits as many cells as the row allows (each ≥ `--grid-min`, default 18rem). Wraps to new rows; mobile collapses to one column:
+**`.grid`** — direct children become equal columns. The child count is the column count. Stacks to a single column below 768px.
 
 ```html
 <div class="grid">
-  <div>Column 1</div>
-  <div>Column 2</div>
-  <div>Column 3</div>
+  <div>A</div>
+  <div>B</div>
+  <div>C</div>
 </div>
 ```
 
-**Explicit columns** — add `.cols-N` to take over:
+Add `.span-2`, `.span-3`, or `.span-4` to a child to claim more tracks (spans are weights, not Bootstrap columns — they add to the total). For a 2:1 ratio, use a two-child grid with `.span-2` on one child:
 
 ```html
-<div class="grid cols-4">
-  <article>1</article>
-  <article>2</article>
-  <article>3</article>
-  <article>4</article>
+<div class="grid">
+  <aside>Nav</aside>
+  <main class="span-2">Content</main>
 </div>
 ```
 
-**Per breakpoint** — combine with `.cols-md-N`, `.cols-lg-N`, `.cols-xl-N` (mobile-first). Children can use `.span-N` and breakpoint variants `.span-md-N` / `.span-lg-N` / `.span-xl-N` (plus `.span-full`):
-
-```html
-<div class="grid cols-2 cols-lg-4">
-  <article class="span-lg-2">Featured</article>
-  <article>A</article>
-  <article>B</article>
-  <article>C</article>
-</div>
-```
-
-Breakpoints: `md` ≥768px, `lg` ≥1024px, `xl` ≥1280px.
+For a different follow-up row, close the grid and start another one. For fixed-width sidebar + fluid content layouts, use the body-level `<aside class="sidebar">` app shell pattern.
 
 ## Utility Classes
 
@@ -397,6 +389,23 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Animation | `.animate-spin` `.animate-pulse` |
 
 If you find yourself reaching for utilities that aren't here, that's a signal to either lean on a semantic element you might be overlooking — or, if it's a real gap, open an issue.
+
+## Slides
+
+Daft includes a small slide layer for building presentation decks from semantic HTML. Mark `<body class="deck">` and every direct-child `<section>` becomes a slide. Layouts reuse Daft's `.grid` and `.span-N`; PDF export runs through the browser's print dialog. The full reference lives in [SLIDES.md](SLIDES.md).
+
+```html
+<body class="deck">
+  <section class="title"><h1>My deck</h1></section>
+  <section>
+    <h2>Heading</h2>
+    <div class="grid">
+      <div>Left</div>
+      <figure><img src="..."></figure>
+    </div>
+  </section>
+</body>
+```
 
 ## Theming
 
