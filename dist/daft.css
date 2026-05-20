@@ -50,6 +50,7 @@
     --transition-default: var(--transition) var(--ease-default);
     --component-height-sm: calc(var(--component-height)  - .25rem);
     --component-height-lg: calc(var(--component-height)  + .25rem);
+    --blur: 10px;
     --shadow-xs: 0 1px 2px 0 light-dark(#0000000d, #0000004d);
     --shadow-sm: 0 1px 3px 0 light-dark(#0000001a, #0006), 0 1px 2px -1px light-dark(#0000001a, #0006);
     --shadow-md: 0 4px 6px -1px light-dark(#0000001a, #0006), 0 2px 4px -2px light-dark(#0000001a, #0006);
@@ -2358,10 +2359,6 @@
     border-color: var(--border);
   }
 
-  :is(button, [type="button"], [role="button"]).badge.outline.secondary:hover {
-    color: var(--foreground);
-  }
-
   .badge.small {
     padding: 0 var(--spacing-xs);
   }
@@ -2370,29 +2367,11 @@
     padding: var(--spacing-sm) var(--spacing-md);
   }
 
-  :is(button, [type="button"], [role="button"]).badge {
-    height: auto;
-    box-shadow: none;
-    font-family: inherit;
-    line-height: 1;
-  }
-
-  :is(button, [type="button"], [role="button"]).badge.outline:hover {
-    color: var(--badge-tint);
-    background-color: var(--muted);
-  }
-
-  :is(button, [type="button"], [role="button"]).badge[aria-pressed="true"] {
-    color: var(--primary-foreground);
-    background-color: var(--primary);
-    border-color: var(--primary);
-  }
-
   .avatar {
+    width: var(--component-height);
+    height: var(--component-height);
     border-radius: var(--radius-full);
     background-color: var(--muted);
-    width: 2.25rem;
-    height: 2.25rem;
     color: var(--foreground);
     font-weight: var(--font-semibold);
     font-size: var(--text-sm);
@@ -2412,14 +2391,14 @@
   }
 
   .avatar.small {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: var(--component-height-sm);
+    height: var(--component-height-sm);
     font-size: var(--text-xs);
   }
 
   .avatar.large {
-    width: 3rem;
-    height: 3rem;
+    width: var(--component-height-lg);
+    height: var(--component-height-lg);
     font-size: var(--text-base);
   }
 
@@ -2895,7 +2874,7 @@
 
   .glass {
     background-color: color-mix(in oklch, var(--background) 80%, transparent);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--blur));
   }
 
   .flex {
@@ -3090,11 +3069,11 @@
     box-shadow: none;
   }
 
-  .shadow-sm, .shadow {
+  .shadow-sm {
     box-shadow: var(--shadow-sm);
   }
 
-  .shadow-md {
+  .shadow {
     box-shadow: var(--shadow-md);
   }
 

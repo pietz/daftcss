@@ -835,21 +835,6 @@ Use `role="alert"` for assertive/error messages and `role="status"` for polite/i
 
 `role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
 
-### Chip
-
-Apply `.badge` to a `<button>` for filter pills and selectable tags. The button gets cursor + hover + `aria-pressed` selected styling automatically — no new component class.
-
-```html
-<div class="cluster">
-  <button class="badge outline" aria-pressed="true">All</button>
-  <button class="badge outline">Active</button>
-  <button class="badge outline">Archived</button>
-  <button class="badge outline">Draft</button>
-</div>
-```
-
-Selected chips use `aria-pressed="true"`. Pair with the `.cluster` utility for filter rows.
-
 ### Avatar
 
 A round container sized to match form controls. Wrap initials, an `<img>`, or an inline `<svg>`.
@@ -1058,7 +1043,7 @@ Add the `.sticky` class for sticky positioning:
 **Composite layout primitives** — compose the flex atoms above into common patterns:
 
 ```html
-<!-- Wrapping row with small gap, vertically centered. Use for toolbars, chip rows. -->
+<!-- Wrapping row with small gap, vertically centered. Use for toolbars, tag rows. -->
 <div class="cluster">
   <button>Save</button>
   <button class="secondary">Cancel</button>
@@ -1125,7 +1110,6 @@ Add the `.sticky` class for sticky positioning:
 <div class="shadow-none">No shadow</div>
 <div class="shadow-sm">Small shadow</div>
 <div class="shadow">Default shadow</div>
-<div class="shadow-md">Medium shadow</div>
 <div class="shadow-lg">Large shadow</div>
 ```
 

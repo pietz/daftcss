@@ -48,9 +48,7 @@ Add to `<head>`:
 
 **Group** = `<div role="group">` joins adjacent controls into one pill (buttons, inputs, or mixed). Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted addon; a leading `<select>` also gets the muted addon background. Last child fills.
 
-**Chip** = `.badge` on a `<button>` for filter pills. Use `aria-pressed="true"` for selected state.
-
-**Cluster** = `<div class="cluster">` — wrapping row, center-aligned, small gap. Use for button toolbars, chip rows, header trailing items.
+**Cluster** = `<div class="cluster">` — wrapping row, center-aligned, small gap. Use for button toolbars, tag rows, header trailing items.
 
 **Stack** = `<div class="stack">` — column with default gap. Use for vertical groups of fields, cards, list items.
 

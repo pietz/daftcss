@@ -124,7 +124,7 @@ a.secondary {
    Composes with .sticky for app-bar style headers. */
 .glass {
   background-color: color-mix(in oklch, var(--background) 80%, transparent);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--blur));
 }
 
 /* Flexbox */
@@ -315,10 +315,6 @@ a.secondary {
 }
 
 .shadow {
-  box-shadow: var(--shadow-sm);
-}
-
-.shadow-md {
   box-shadow: var(--shadow-md);
 }
 

@@ -312,15 +312,6 @@ Sortable column indicator: `<th aria-sort="ascending">` or `"descending"`.
 
 Combine: `.outline.success`, `.outline.destructive`, etc.
 
-**Chip** — `.badge` on a `<button>` becomes an interactive filter pill. Use `aria-pressed="true"` for the selected state.
-```html
-<div class="cluster">
-  <button class="badge outline" aria-pressed="true">All</button>
-  <button class="badge outline">Active</button>
-  <button class="badge outline">Draft</button>
-</div>
-```
-
 ### Groups
 ```html
 <!-- Button group -->
@@ -492,7 +483,7 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 `.gap-1` (0.25rem), `.gap-2` (0.5rem), `.gap-3` (0.75rem), `.gap-4` (1rem), `.gap-6` (1.5rem), `.gap-8` (2rem)
 
 ### Layout primitives
-`.cluster` — wrapping row, center-aligned, spacing-sm gap (button toolbars, chip rows).
+`.cluster` — wrapping row, center-aligned, spacing-sm gap (button toolbars, tag rows).
 `.stack` — column with default spacing gap (form fields, vertical lists).
 
 ### Width / margin / padding
@@ -506,7 +497,7 @@ Auto margins (great for pushing things in flex): `.mt-auto`, `.mb-auto`, `.ml-au
 `.border` (all sides), `.border-t` / `.border-r` / `.border-b` / `.border-l` (single side), `.border-none`, `.bg-card`, `.bg-muted`, `.bg-transparent`
 
 ### Shadow
-`.shadow-none`, `.shadow-sm`, `.shadow` (sm), `.shadow-md`, `.shadow-lg`
+`.shadow-none`, `.shadow-sm`, `.shadow` (md), `.shadow-lg`
 
 ### Glass
 `.glass` — translucent background + backdrop blur. Pairs well with `.sticky` headers.

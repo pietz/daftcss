@@ -284,18 +284,6 @@ A round container for initials, an image, or an SVG icon.
 <span class="avatar"><img src="/avatars/kai.jpg" alt=""></span>
 ```
 
-### Chip
-
-Apply `.badge` to a `<button>` for filter pills. Use `aria-pressed="true"` for the selected state.
-
-```html
-<div class="cluster">
-  <button class="badge outline" aria-pressed="true">All</button>
-  <button class="badge outline">Active</button>
-  <button class="badge outline">Archived</button>
-</div>
-```
-
 ### Groups
 
 `role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width.
@@ -381,7 +369,7 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Radius | `.rounded-none` `.rounded-sm` `.rounded` `.rounded-lg` `.rounded-xl` `.rounded-full` |
 | Border | `.border` `.border-t` `.border-r` `.border-b` `.border-l` `.border-none` |
 | Background | `.bg-card` `.bg-muted` `.bg-transparent` |
-| Shadow | `.shadow-none` `.shadow-sm` `.shadow` `.shadow-md` `.shadow-lg` |
+| Shadow | `.shadow-none` `.shadow-sm` `.shadow` `.shadow-lg` |
 | Position | `.sticky` `.glass` |
 | Cursor | `.cursor-pointer` `.cursor-not-allowed` |
 | Interaction | `.pointer-events-none` `.select-none` |

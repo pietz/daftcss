@@ -8,8 +8,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--component-height);
+  height: var(--component-height);
   border-radius: var(--radius-full);
   background-color: var(--muted);
   color: var(--foreground);
@@ -30,13 +30,13 @@
 
 /* Size variants */
 .avatar.small {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--component-height-sm);
+  height: var(--component-height-sm);
   font-size: var(--text-xs);
 }
 
 .avatar.large {
-  width: 3rem;
-  height: 3rem;
+  width: var(--component-height-lg);
+  height: var(--component-height-lg);
   font-size: var(--text-base);
 }

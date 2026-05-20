@@ -75,7 +75,7 @@
           <h3>Heading 3</h3>
           <h4>Heading 4</h4>
           <h5>Heading 5</h5>
-          <h6>Eyebrow heading</h6>
+          <h6>Heading 6</h6>
         </article>
         <article>
           <pre><code>&lt;h1&gt;Heading 1&lt;/h1&gt;
@@ -250,6 +250,10 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <input type="search" placeholder="Search...">
             <button type="submit">Search</button>
           </form>
+          <span role="group">
+            <span>https://</span>
+            <input type="text" value="daftcss.dev">
+          </span>
         </article>
         <article>
           <pre><code>&lt;input type="text" value="Correct value" aria-invalid="false"&gt;
@@ -258,7 +262,12 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;form role="search"&gt;
   &lt;input type="search" placeholder="Search..."&gt;
   &lt;button type="submit"&gt;Search&lt;/button&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+
+&lt;span role="group"&gt;
+  &lt;span&gt;https://&lt;/span&gt;
+  &lt;input type="text" value="daftcss.dev"&gt;
+&lt;/span&gt;</code></pre>
         </article>
       </div>
     </section>
@@ -340,6 +349,37 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;div class="grid"&gt;
   &lt;article class="span-2"&gt;span-2&lt;/article&gt;
   &lt;article&gt;Default&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+
+      <h3>Cluster and Stack</h3>
+      <div class="grid">
+        <article>
+          <div class="cluster">
+            <button>Save</button>
+            <button class="outline">Cancel</button>
+            <span class="badge">Draft</span>
+          </div>
+          <div class="stack" style="margin-top: var(--spacing)">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <button>Submit</button>
+          </div>
+        </article>
+        <article>
+          <pre><code>&lt;!-- Wrapping horizontal row, centered, gap --&gt;
+&lt;div class="cluster"&gt;
+  &lt;button&gt;Save&lt;/button&gt;
+  &lt;button class="outline"&gt;Cancel&lt;/button&gt;
+  &lt;span class="badge"&gt;Draft&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Vertical flow, gap --&gt;
+&lt;div class="stack"&gt;
+  &lt;input type="text" placeholder="Name"&gt;
+  &lt;input type="email" placeholder="Email"&gt;
+  &lt;button&gt;Submit&lt;/button&gt;
 &lt;/div&gt;</code></pre>
         </article>
       </div>
