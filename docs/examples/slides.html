@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daft CSS — Slides</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body class="deck">
+
+<!-- 1. Title slide -->
+<section class="title">
+  <h1>Daft Slides</h1>
+  <p>Semantic HTML for presentation decks.</p>
+</section>
+
+<!-- 2. Default layout — top-aligned single column -->
+<section>
+  <h2>The problem</h2>
+  <p>Agents write HTML well, but every deck reinvents the same six layouts.</p>
+  <ul>
+    <li>Markdown is too rigid</li>
+    <li>Raw HTML reinvents the wheel</li>
+    <li>Slidev and Reveal both ship a runtime</li>
+  </ul>
+</section>
+
+<!-- 3. Two-column grid — heading spans full width, body splits 50/50 -->
+<section class="grid cols-2">
+  <h2>Split layout</h2>
+  <div>
+    <p>Heading at the top spans both columns automatically.</p>
+    <p>Use this for feature + screenshot, claim + evidence, or before + after.</p>
+  </div>
+  <figure>
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200" alt="">
+  </figure>
+</section>
+
+<!-- 4. Asymmetric split — 2:1 via cols-3 + span-2 -->
+<section class="grid cols-3">
+  <h2>Asymmetric split (2:1)</h2>
+  <div class="span-2">
+    <p>Use <code>cols-3</code> with a <code>span-2</code> child for a 2:1 ratio. No new vocabulary — just Daft's grid primitives.</p>
+  </div>
+  <figure>
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600" alt="">
+  </figure>
+</section>
+
+<!-- 5. Tile grid — 3 cards -->
+<section class="grid cols-3">
+  <h2>Three things</h2>
+  <article class="card">
+    <h3>Semantic</h3>
+    <p><code>&lt;section&gt;</code> is a slide. No divs required.</p>
+  </article>
+  <article class="card">
+    <h3>Themable</h3>
+    <p>Inherit Daft tokens. Override five vars.</p>
+  </article>
+  <article class="card">
+    <h3>PDF-ready</h3>
+    <p>Browser print. No tooling required.</p>
+  </article>
+</section>
+
+<!-- 6. Quote (light theme override on one slide) -->
+<section class="quote" data-theme="light">
+  <blockquote>
+    Give the agent a vocabulary, not a runtime.
+  </blockquote>
+  <cite>— A reasonable take</cite>
+  <aside class="notes">
+    Speaker notes are hidden by default. Reserved markup for a future presenter mode.
+  </aside>
+</section>
+
+<!-- 7. Full bleed -->
+<section class="full">
+  <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920" alt="">
+</section>
+
+<!-- 8. Code -->
+<section class="code">
+  <h3>Just write HTML</h3>
+  <pre><code>&lt;body class="deck"&gt;
+  &lt;section class="grid cols-2"&gt;
+    &lt;h2&gt;Heading&lt;/h2&gt;
+    &lt;div&gt;&lt;p&gt;Left&lt;/p&gt;&lt;/div&gt;
+    &lt;figure&gt;&lt;img src="..."&gt;&lt;/figure&gt;
+  &lt;/section&gt;
+&lt;/body&gt;</code></pre>
+</section>
+
+</body>
+</html>

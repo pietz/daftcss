@@ -8,10 +8,9 @@
     "src"
   ],
   "scripts": {
-    "build": "lightningcss --bundle src/daft.css -o dist/daft.css && lightningcss --bundle --minify src/daft.css -o dist/daft.min.css",
+    "build": "lightningcss --bundle src/daft.css -o dist/daft.css && lightningcss --bundle --minify src/daft.css -o dist/daft.min.css && cp dist/daft.css dist/daft.min.css docs/dist/",
     "watch": "lightningcss --bundle src/daft.css -o dist/daft.css --watch",
-    "dev": "npx serve examples",
-    "dev:site": "npx serve site"
+    "dev": "npx serve docs"
   },
   "keywords": [
     "css",

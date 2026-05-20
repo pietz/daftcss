@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Daft CSS — Examples</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><a href="../"><strong>daft.css</strong></a></li>
+        <li><small class="muted">Examples</small></li>
+      </ul>
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="components.html">Components</a></li>
+        <li><a href="https://github.com/pietz/daftcss">GitHub</a></li>
+        <li><button id="theme-toggle" class="ghost icon" aria-label="Toggle theme">🌓</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <hgroup>
+      <h1>Examples</h1>
+      <p>Real pages built with Daft CSS. Zero custom styles.</p>
+    </hgroup>
+
+    <div class="grid">
+      <article>
+        <header>
+          <strong>Landing page</strong>
+          <p>Marketing site for a SaaS product.</p>
+        </header>
+        <p><small class="muted">Hero · pricing · testimonials · CTA</small></p>
+        <footer>
+          <a href="landing.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <strong>Dashboard</strong>
+          <p>Admin view with stats, charts and tables.</p>
+        </header>
+        <p><small class="muted">Sidebar · stat cards · table · activity feed</small></p>
+        <footer>
+          <a href="dashboard.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <strong>Product page</strong>
+          <p>E-commerce detail page with reviews.</p>
+        </header>
+        <p><small class="muted">Gallery · variant picker · specs · related</small></p>
+        <footer>
+          <a href="product.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <strong>Article</strong>
+          <p>Long-form reading view with code and quotes.</p>
+        </header>
+        <p><small class="muted">Typography · code blocks · figures</small></p>
+        <footer>
+          <a href="article.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <strong>Settings</strong>
+          <p>Account settings with forms and switches.</p>
+        </header>
+        <p><small class="muted">Forms · validation · switches · danger zone</small></p>
+        <footer>
+          <a href="settings.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <strong>Slides</strong>
+          <p>Presentation deck rendered as HTML.</p>
+        </header>
+        <p><small class="muted">Slide layouts · keyboard navigation</small></p>
+        <footer>
+          <a href="slides.html" role="button" class="outline">Open</a>
+        </footer>
+      </article>
+    </div>
+
+    <section>
+      <h2>Reference</h2>
+      <div class="grid">
+        <article>
+          <header>
+            <strong>Component showcase</strong>
+            <p>Every component on one page.</p>
+          </header>
+          <footer>
+            <a href="components.html" role="button" class="outline">Open</a>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <small class="muted">Built with Daft CSS · <a href="https://github.com/pietz/daftcss">github.com/pietz/daftcss</a></small>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    });
+  </script>
+</body>
+</html>

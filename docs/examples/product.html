@@ -23,7 +23,7 @@
           </form>
         </li>
         <li>
-          <button id="theme-toggle" class="outline small">Toggle Theme</button>
+          <button id="theme-toggle" class="outline">Toggle Theme</button>
         </li>
         <li><a href="#" role="button" class="outline">Cart (3)</a></li>
       </ul>
@@ -46,23 +46,13 @@
       <!-- Product Image -->
       <div>
         <article>
-          <div style="height: 400px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <strong>Product Image</strong>
-          </div>
+          <img src="https://placehold.co/800x600/e5e5e5/737373?text=SoundMax+Pro" alt="SoundMax Pro Wireless Headphones">
         </article>
-        <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
-          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
-            <small>1</small>
-          </div>
-          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
-            <small>2</small>
-          </div>
-          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
-            <small>3</small>
-          </div>
-          <div style="height: 80px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-sm);">
-            <small>4</small>
-          </div>
+        <div class="grid cols-4">
+          <img src="https://placehold.co/200x200/e5e5e5/737373?text=1" alt="Product view 1">
+          <img src="https://placehold.co/200x200/e5e5e5/737373?text=2" alt="Product view 2">
+          <img src="https://placehold.co/200x200/e5e5e5/737373?text=3" alt="Product view 3">
+          <img src="https://placehold.co/200x200/e5e5e5/737373?text=4" alt="Product view 4">
         </div>
       </div>
 
@@ -74,7 +64,7 @@
         </hgroup>
 
         <p>
-          <strong style="font-size: 2rem;">$299.99</strong>
+          <strong class="text-3xl">$299.99</strong>
           <small><s>$349.99</s></small>
           <mark>Save 14%</mark>
         </p>
@@ -90,11 +80,13 @@
           </fieldset>
 
           <label for="quantity">Quantity</label>
-          <input type="number" id="quantity" value="1" min="1" max="10" style="max-width: 100px;">
+          <div role="group">
+            <input type="number" id="quantity" value="1" min="1" max="10">
+            <button type="submit">Add to Cart</button>
+          </div>
 
           <p>
-            <button type="submit" class="large">Add to Cart</button>
-            <button type="button" class="large outline">Add to Wishlist</button>
+            <button type="button" class="outline">Add to Wishlist</button>
           </p>
         </form>
 
@@ -204,9 +196,7 @@
       <h2>You might also like</h2>
       <div class="grid">
         <article>
-          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Image</small>
-          </div>
+          <img src="https://placehold.co/400x300/e5e5e5/737373?text=Earbuds" alt="SoundMax Earbuds">
           <header>
             <strong>SoundMax Earbuds</strong>
             <p>True wireless earbuds</p>
@@ -217,9 +207,7 @@
           </footer>
         </article>
         <article>
-          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Image</small>
-          </div>
+          <img src="https://placehold.co/400x300/e5e5e5/737373?text=Stand" alt="Premium Headphone Stand">
           <header>
             <strong>Premium Headphone Stand</strong>
             <p>Aluminum construction</p>
@@ -230,9 +218,7 @@
           </footer>
         </article>
         <article>
-          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Image</small>
-          </div>
+          <img src="https://placehold.co/400x300/e5e5e5/737373?text=Cushions" alt="Replacement Ear Cushions">
           <header>
             <strong>Replacement Ear Cushions</strong>
             <p>Memory foam, pack of 2</p>
@@ -243,9 +229,7 @@
           </footer>
         </article>
         <article>
-          <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: var(--muted); border-radius: var(--radius-md);">
-            <small>Image</small>
-          </div>
+          <img src="https://placehold.co/400x300/e5e5e5/737373?text=Cable" alt="Audio Cable 3.5mm">
           <header>
             <strong>Audio Cable 3.5mm</strong>
             <p>1.5m braided cable</p>

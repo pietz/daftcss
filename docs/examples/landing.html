@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Daft Analytics — Product analytics for teams that ship</title>
+  <link rel="stylesheet" href="../dist/daft.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><small class="muted"><a href="index.html">← Examples</a></small></li>
+        <li><strong>Daft Analytics</strong></li>
+      </ul>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#customers">Customers</a></li>
+        <li><button id="theme-toggle" class="ghost icon" aria-label="Toggle theme">🌓</button></li>
+        <li><a href="#" role="button">Start free</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section>
+      <div class="grid cols-1 cols-md-2">
+        <div>
+          <span class="badge">v4.0 — Funnels are live.</span>
+          <h1>Product analytics for teams that ship.</h1>
+          <p>Track events, watch funnels, and find the moments that move retention. No SQL, no warehouse.</p>
+          <p>
+            <button class="large">Start free</button>
+            <button class="large outline">Book a demo</button>
+          </p>
+          <p><small class="muted">14-day trial. No credit card.</small></p>
+        </div>
+        <article>
+          <header>
+            <strong>Signup funnel</strong>
+            <p>Last 7 days · 12,847 visitors</p>
+          </header>
+          <label>Landing page <progress value="100" max="100"></progress></label>
+          <label>Started signup <progress value="62" max="100"></progress></label>
+          <label>Verified email <progress value="48" max="100"></progress></label>
+          <label>Completed onboarding <progress class="warning" value="31" max="100"></progress></label>
+          <label>Returned day 2 <progress class="secondary" value="19" max="100"></progress></label>
+          <footer>
+            <div class="cluster">
+              <span class="badge success">+4.2% vs last week</span>
+              <small class="muted">Onboarding is the drop.</small>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- Trust bar -->
+    <section>
+      <p class="muted"><small>In production at</small></p>
+      <div class="cluster">
+        <strong>Acme</strong>
+        <strong>TechFlow</strong>
+        <strong>CloudBase</strong>
+        <strong>DataSync</strong>
+        <strong>Quantum Labs</strong>
+        <strong>Northwind</strong>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+      <hgroup>
+        <h2>The basics, done right.</h2>
+        <p>Six features your team will use every day.</p>
+      </hgroup>
+      <div class="grid cols-1 cols-md-3">
+        <article>
+          <header><strong>Real-time events</strong></header>
+          <p>Events show up in your dashboard within a second of firing. Watch a release land live.</p>
+        </article>
+        <article>
+          <header><strong>Funnels</strong></header>
+          <p>Drop a funnel definition. See exactly where users drop off, broken down by source and cohort.</p>
+        </article>
+        <article>
+          <header><strong>Retention</strong></header>
+          <p>Compare retention across signup weeks without writing a single query.</p>
+        </article>
+        <article>
+          <header><strong>Alerts</strong></header>
+          <p>Get paged when conversion drops below the baseline you set. Slack, email, or PagerDuty.</p>
+        </article>
+        <article>
+          <header><strong>REST API</strong></header>
+          <p>Pull any chart into your own tools with one HTTP call. Full OpenAPI spec included.</p>
+        </article>
+        <article>
+          <header><strong>SOC 2 Type II</strong></header>
+          <p>Audit logs, SSO, and SOC 2 Type II are on every plan. Not gated behind enterprise.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+      <hgroup>
+        <h2>Pricing that scales with you.</h2>
+        <p>Start free. Upgrade when you ship.</p>
+      </hgroup>
+      <div class="grid cols-1 cols-md-3">
+        <article>
+          <header>
+            <strong>Free</strong>
+            <p>For side projects.</p>
+          </header>
+          <p><strong class="text-3xl">$0</strong> <small class="muted">/month</small></p>
+          <ul>
+            <li>10,000 events / month</li>
+            <li>3 dashboards</li>
+            <li>7-day retention</li>
+            <li>Community support</li>
+          </ul>
+          <footer>
+            <button class="outline">Start free</button>
+          </footer>
+        </article>
+        <article>
+          <header>
+            <div class="cluster">
+              <strong>Pro</strong>
+              <span class="badge">Most popular</span>
+            </div>
+            <p>For growing teams.</p>
+          </header>
+          <p><strong class="text-3xl">$49</strong> <small class="muted">/month</small></p>
+          <ul>
+            <li>1M events / month</li>
+            <li>Unlimited dashboards</li>
+            <li>12-month retention</li>
+            <li>Funnels and cohorts</li>
+            <li>REST API access</li>
+            <li>Email support, 1 day SLA</li>
+          </ul>
+          <footer>
+            <button>Start 14-day trial</button>
+          </footer>
+        </article>
+        <article>
+          <header>
+            <strong>Enterprise</strong>
+            <p>For regulated industries.</p>
+          </header>
+          <p><strong class="text-3xl">Custom</strong></p>
+          <ul>
+            <li>Unlimited events</li>
+            <li>SSO and SCIM</li>
+            <li>Custom retention</li>
+            <li>Dedicated support</li>
+            <li>On-prem option</li>
+            <li>99.99% uptime SLA</li>
+          </ul>
+          <footer>
+            <button class="secondary">Talk to sales</button>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- Customers -->
+    <section id="customers">
+      <hgroup>
+        <h2>What teams are saying.</h2>
+        <p>From the people who switched.</p>
+      </hgroup>
+      <div class="grid cols-1 cols-md-3">
+        <article>
+          <blockquote>
+            "We replaced our warehouse + BI stack with Daft Analytics and cut $4k/month. Engineers don't get pulled into ad-hoc queries anymore."
+            <footer><cite>— Sarah Chen, CTO at TechFlow</cite></footer>
+          </blockquote>
+        </article>
+        <article>
+          <blockquote>
+            "The funnel view caught a regression in our checkout flow on day one. Paid for itself before the trial ended."
+            <footer><cite>— Marcus Johnson, Product Lead at CloudBase</cite></footer>
+          </blockquote>
+        </article>
+        <article>
+          <blockquote>
+            "Alerts are the killer feature. Conversion drops page on-call before customers complain."
+            <footer><cite>— Elena Rodriguez, VP Engineering at DataSync</cite></footer>
+          </blockquote>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <article>
+        <hgroup>
+          <h2>Try it on your own events.</h2>
+          <p>Free for 14 days. No card needed.</p>
+        </hgroup>
+        <form>
+          <fieldset role="group">
+            <input type="email" placeholder="you@company.com" aria-label="Work email">
+            <button type="submit">Start free</button>
+          </fieldset>
+        </form>
+        <small class="muted">Or <a href="#">book a 20-minute demo</a> if you'd rather see it first.</small>
+      </article>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div class="grid cols-2 cols-md-4">
+      <div>
+        <strong>Daft Analytics</strong>
+        <p><small class="muted">Product analytics for teams that ship.</small></p>
+      </div>
+      <div>
+        <strong>Product</strong>
+        <nav>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Integrations</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <strong>Company</strong>
+        <nav>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <nav>
+          <ul>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <hr>
+    <small class="muted">© 2026 Daft Analytics. All rights reserved.</small>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    });
+  </script>
+</body>
+</html>
