@@ -38,6 +38,8 @@ Add to `<head>`:
 
 **Dropdown** = `<details class="dropdown">` containing `<summary>` and `<ul>`. The `<summary>` uses button styling and accepts button variants like `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`.
 
+**Tree** = `<ul class="tree">` with nested `<ul>`s. Folders are `<li><details><summary>name</summary><ul>…</ul></details></li>`. Files are `<li><a href="…">name</a></li>`. Mark the current file with `aria-current="page"`. Override `--tree-indent` for tighter/looser indentation.
+
 **Tooltip** = `data-tooltip="text"` attribute on any element. Optional `data-placement="top|bottom|left|right"`.
 
 **Switch** = `<input type="checkbox" role="switch">`. Just the role.

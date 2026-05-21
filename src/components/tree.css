@@ -1,0 +1,120 @@
+/**
+ * Tree
+ *
+ * Compact, IDE-style file tree. Folders use <details>/<summary> for native
+ * open/close; files are <a> inside <li> for clickable rows. The chevron alone
+ * differentiates folders from files.
+ *
+ * <ul class="tree">
+ *   <li>
+ *     <details open>
+ *       <summary>src</summary>
+ *       <ul>
+ *         <li><a href="#">daft.css</a></li>
+ *       </ul>
+ *     </details>
+ *   </li>
+ *   <li><a href="#">README.md</a></li>
+ * </ul>
+ */
+
+.tree {
+  /* Per-level indent. Chevron column also equals one indent step, so children
+     line up under the parent's label. */
+  --tree-indent: var(--spacing-md);
+}
+
+.tree,
+.tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree ul {
+  padding-left: var(--tree-indent);
+}
+
+.tree li {
+  margin: 0;
+}
+
+/* Clear accordion defaults on folders */
+.tree details {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.tree details > *:not(summary) {
+  padding-bottom: 0;
+}
+
+/* Shared row styling for folder summaries and file links */
+.tree summary,
+.tree li > a {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: calc(var(--spacing) * 0.1875) var(--spacing-xs);
+  font-size: var(--text-sm);
+  line-height: var(--line-height-sm);
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-default);
+}
+
+.tree summary {
+  justify-content: flex-start;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.tree summary::after {
+  content: none;
+}
+
+.tree summary::before {
+  content: "";
+  width: calc(var(--tree-indent) - var(--spacing-xs));
+  height: calc(var(--tree-indent) - var(--spacing-xs));
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-image: var(--icon-chevron);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  /* The SVG path uses only the middle 50% of its viewBox. Scaling the mask to
+     200% makes the chevron path fill the box, so visible chevron position
+     matches the box position (clean alignment math). */
+  mask-size: 200%;
+  transform: rotate(-90deg);
+  transition: transform var(--transition-default);
+}
+
+/* Override accordion's hover underline and color-on-open */
+.tree details:not(.dropdown) > summary:not([role="button"]):hover,
+.tree li > a:hover {
+  background-color: color-mix(in oklch, var(--foreground) 8%, transparent);
+  text-decoration: none;
+}
+
+.tree details[open] > summary:not([role="button"]) {
+  color: inherit;
+}
+
+.tree details[open] > summary::before {
+  transform: rotate(0deg);
+}
+
+/* Files: padding-left aligns label with folder label
+   (= summary's padding-x + chevron column) */
+.tree li > a {
+  padding-left: calc(var(--spacing-xs) + var(--tree-indent));
+}
+
+.tree li > a[aria-current],
+.tree li > a.active {
+  background-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  font-weight: var(--font-medium);
+}

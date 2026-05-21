@@ -684,6 +684,41 @@ Dropdown summaries use the same styling and variants as buttons:
 </details>
 ```
 
+### Tree
+
+Compact, IDE-style file tree. Folders use `<details>`/`<summary>` for native open/close; files are `<a>` inside `<li>` for clickable rows. The chevron alone differentiates folders from files — no icons required.
+
+```html
+<ul class="tree">
+  <li>
+    <details open>
+      <summary>src</summary>
+      <ul>
+        <li>
+          <details>
+            <summary>components</summary>
+            <ul>
+              <li><a href="#">button.css</a></li>
+              <li><a href="#" aria-current="page">tree.css</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="#">daft.css</a></li>
+      </ul>
+    </details>
+  </li>
+  <li><a href="#">README.md</a></li>
+</ul>
+```
+
+**Active state:** Add `aria-current="page"` (preferred, accessible) or `.active` to the file link to highlight the current selection.
+
+**Customize indent:** Override `--tree-indent` on the `.tree` root to change the per-level indent step. Defaults to `var(--spacing-md)`.
+
+```html
+<ul class="tree" style="--tree-indent: 1.25rem">…</ul>
+```
+
 ### Modal
 
 Use native `<dialog>` with the Popover API for zero-JavaScript modals:

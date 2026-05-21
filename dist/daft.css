@@ -2589,6 +2589,93 @@
       display: none;
     }
   }
+
+  .tree {
+    --tree-indent: var(--spacing-md);
+  }
+
+  .tree, .tree ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tree ul {
+    padding-left: var(--tree-indent);
+  }
+
+  .tree li {
+    margin: 0;
+  }
+
+  .tree details {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .tree details > :not(summary) {
+    padding-bottom: 0;
+  }
+
+  .tree summary, .tree li > a {
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: calc(var(--spacing) * .1875) var(--spacing-xs);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-sm);
+    color: inherit;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-default);
+    text-decoration: none;
+    display: flex;
+  }
+
+  .tree summary {
+    cursor: pointer;
+    user-select: none;
+    justify-content: flex-start;
+    list-style: none;
+  }
+
+  .tree summary:after {
+    content: none;
+  }
+
+  .tree summary:before {
+    content: "";
+    width: calc(var(--tree-indent)  - var(--spacing-xs));
+    height: calc(var(--tree-indent)  - var(--spacing-xs));
+    mask-image: var(--icon-chevron);
+    transition: transform var(--transition-default);
+    background-color: currentColor;
+    flex-shrink: 0;
+    transform: rotate(-90deg);
+    mask-position: center;
+    mask-size: 200%;
+    mask-repeat: no-repeat;
+  }
+
+  .tree details:not(.dropdown) > summary:not([role="button"]):hover, .tree li > a:hover {
+    background-color: color-mix(in oklch, var(--foreground) 8%, transparent);
+    text-decoration: none;
+  }
+
+  .tree details[open] > summary:not([role="button"]) {
+    color: inherit;
+  }
+
+  .tree details[open] > summary:before {
+    transform: rotate(0);
+  }
+
+  .tree li > a {
+    padding-left: calc(var(--spacing-xs)  + var(--tree-indent));
+  }
+
+  .tree li > a[aria-current], .tree li > a.active {
+    background-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+    font-weight: var(--font-medium);
+  }
 }
 
 @layer slides {

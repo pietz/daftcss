@@ -246,6 +246,32 @@ Desktop (≥768px): fixed left column, with placement defining whether it spans 
 
 Summary uses the same variants as buttons: `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`.
 
+### Tree
+```html
+<ul class="tree">
+  <li>
+    <details open>
+      <summary>src</summary>
+      <ul>
+        <li>
+          <details>
+            <summary>components</summary>
+            <ul>
+              <li><a href="#">button.css</a></li>
+              <li><a href="#" aria-current="page">tree.css</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="#">daft.css</a></li>
+      </ul>
+    </details>
+  </li>
+  <li><a href="#">README.md</a></li>
+</ul>
+```
+
+Folders are `<details>`/`<summary>` (native open/close). Files are `<a>` inside `<li>`. Mark the active file with `aria-current="page"` (or `.active`). Override `--tree-indent` on `.tree` to change the per-level indent step (defaults to `var(--spacing-md)`).
+
 ### Navigation
 ```html
 <nav>

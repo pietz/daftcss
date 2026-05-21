@@ -1,5 +1,5 @@
 /**
- * Daft CSS v1.10.0
+ * Daft CSS v1.11.0
  * A semantic-first, utility-second CSS framework
  * https://github.com/pietz/daft-css
  */
@@ -48,6 +48,7 @@
 @import "components/avatar.css" layer(components);
 @import "components/alert.css" layer(components);
 @import "components/sidebar.css" layer(components);
+@import "components/tree.css" layer(components);
 
 /* Slides */
 @import "slides/slides.css" layer(slides);

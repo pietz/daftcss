@@ -185,6 +185,25 @@ Then write semantic HTML:
 </details>
 ```
 
+### Tree
+
+Compact, IDE-style file tree. Folders use native `<details>`/`<summary>` for open/close; files are `<a>` links inside `<li>` for clickable rows. The chevron alone differentiates folders from files. Override `--tree-indent` to change the per-level indent step.
+
+```html
+<ul class="tree">
+  <li>
+    <details open>
+      <summary>src</summary>
+      <ul>
+        <li><a href="#">daft.css</a></li>
+        <li><a href="#" aria-current="page">tree.css</a></li>
+      </ul>
+    </details>
+  </li>
+  <li><a href="#">README.md</a></li>
+</ul>
+```
+
 ### Modal
 
 ```html
