@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Daft Slides — Semantic HTML for decks</title>
+  <link rel="stylesheet" href="/dist/daft.css?v=1.10.0">
+</head>
+<body class="deck">
+
+  <!-- 1. Title -->
+  <section class="title">
+    <h1>Daft Slides.</h1>
+    <p>Semantic HTML for presentation decks.</p>
+    <aside class="notes">
+      Back to daft.css: /
+    </aside>
+  </section>
+
+  <!-- 2. The pitch -->
+  <section class="center">
+    <h2>A deck is a stylesheet away.</h2>
+    <p>Add <code>class="deck"</code> to <code>&lt;body&gt;</code>. Each <code>&lt;section&gt;</code> becomes a 16:9 slide. No runtime, no build step, no framework.</p>
+  </section>
+
+  <!-- 3. The why — AI angle -->
+  <section>
+    <h2>Why this exists.</h2>
+    <p>Agents write HTML fluently. They write PowerPoint poorly. Give the agent a vocabulary it already speaks, and the deck writes itself.</p>
+    <ul>
+      <li>HTML is the agent's first language</li>
+      <li>Semantic elements carry intent</li>
+      <li>Daft fills in the design</li>
+    </ul>
+  </section>
+
+  <!-- 4. How it works -->
+  <section class="code">
+    <h3>The whole API.</h3>
+    <pre><code>&lt;body class="deck"&gt;
+  &lt;section class="title"&gt;
+    &lt;h1&gt;Q4 review&lt;/h1&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h2&gt;What shipped&lt;/h2&gt;
+    &lt;ul&gt;&lt;li&gt;…&lt;/li&gt;&lt;/ul&gt;
+  &lt;/section&gt;
+&lt;/body&gt;</code></pre>
+  </section>
+
+  <!-- 5. Two-column grid -->
+  <section>
+    <h2>Two columns, no wrappers.</h2>
+    <div class="grid">
+      <div>
+        <p>Drop a <code>.grid</code> inside a slide and its children become equal columns.</p>
+        <p>Pair a thought with a picture, a claim with evidence, a before with an after.</p>
+      </div>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?w=1200" alt="">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6. Weighted grid 2:1 -->
+  <section>
+    <h2>Weighted layouts with <code>.span-2</code>.</h2>
+    <div class="grid">
+      <div class="span-2">
+        <p>One child claims two tracks, the other claims one. You get a 2:1 split with the same vocabulary you use everywhere else in Daft.</p>
+        <p>No new primitives. Same <code>.grid</code>, same <code>.span-N</code>.</p>
+      </div>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800" alt="">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 7. Feature tiles -->
+  <section>
+    <h2>Three things this gives you.</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Semantic</h3>
+        <p>A <code>&lt;section&gt;</code> is a slide. A <code>&lt;blockquote&gt;</code> is a pull quote. Markup carries meaning.</p>
+      </article>
+      <article class="card">
+        <h3>Themable</h3>
+        <p>Slides inherit Daft tokens. Change <code>--primary</code> at the root and the whole deck retunes.</p>
+      </article>
+      <article class="card">
+        <h3>Portable</h3>
+        <p>One HTML file. Email it, host it, version it in git, diff it in a pull request.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 8. Full-bleed -->
+  <section class="full">
+    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920" alt="">
+  </section>
+
+  <!-- 9. Quote -->
+  <section class="quote">
+    <blockquote>
+      Give the agent a vocabulary, not a runtime.
+    </blockquote>
+    <cite>— The point of Daft Slides</cite>
+  </section>
+
+  <!-- 10. Theming — light island in a dark deck (or vice versa) -->
+  <section data-theme="light">
+    <h2>Change a variable, retune the deck.</h2>
+    <div class="grid">
+      <div>
+        <p>This slide pins itself to <code>data-theme="light"</code>. Every other slide follows your system preference.</p>
+        <p>Override <code>--primary</code>, <code>--radius</code>, or <code>--background</code> on the root and the deck respects it everywhere.</p>
+      </div>
+      <article class="card">
+        <header><strong>Q4 revenue</strong> <span class="badge success">on track</span></header>
+        <p>Surfaces, borders, badges — all sourced from the same token set as the rest of Daft.</p>
+        <footer>
+          <button>Review</button>
+          <button class="ghost">Defer</button>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- 11. Export -->
+  <section class="center">
+    <h2>Cmd+P. That's the export.</h2>
+    <p>The print stylesheet sets <code>@page</code> to 16 by 9 inches. Your browser's PDF dialog produces a clean, page-per-slide PDF. No headless Chrome, no CLI, no plugin.</p>
+  </section>
+
+  <!-- 12. CTA -->
+  <section class="title">
+    <h1>View source.</h1>
+    <p>This page is the example. Open devtools, read the HTML, copy what you need.</p>
+    <p><a href="/">Back to daft.css</a> &nbsp;·&nbsp; <a href="https://github.com/pietz/daftcss">GitHub</a></p>
+  </section>
+
+</body>
+</html>

@@ -160,6 +160,7 @@
       </ul>
       <ul>
         <li><a href="/components/" role="button" class="ghost">Components</a></li>
+        <li><a href="/slides/" role="button" class="ghost">Slides</a></li>
         <li>
           <details class="dropdown">
             <summary class="ghost">Examples</summary>
@@ -167,7 +168,6 @@
               <li><a href="/examples/landing/">Landing</a></li>
               <li><a href="/examples/dashboard/">Dashboard</a></li>
               <li><a href="/examples/product/">Product</a></li>
-              <li><a href="/examples/slides/">Slides</a></li>
               <li><a href="/examples/demo/">Demo</a></li>
               <li><a href="/examples/pico-comparison/">Pico comparison</a></li>
               <li><a href="/examples/">All examples</a></li>
@@ -411,7 +411,71 @@
       </div>
     </section>
 
-    <!-- §3 COMPARISONS ================================================ -->
+    <!-- §3 THEME HIERARCHY ============================================ -->
+    <section class="s" id="tokens">
+      <div class="s-head">
+        <p class="label">Theme tokens</p>
+        <h2>One variable. Every component.</h2>
+        <p>Daft tokens cascade in three layers. Set a handful at the root and the rest of the system — every spacing step, every radius, every component state — recomputes from them.</p>
+      </div>
+
+      <div class="grid">
+        <article class="flex flex-col">
+          <header><strong>Core</strong> <span class="badge outline small">set at :root</span></header>
+          <p class="muted text-sm">A small set of variables defines the shape of the system.</p>
+<pre>--spacing:         1rem;
+--radius:          0.5rem;
+--font-scale:      1.25;
+--component-height: 2.5rem;</pre>
+        </article>
+
+        <article class="flex flex-col">
+          <header><strong>Derived</strong> <span class="badge outline small">via calc()</span></header>
+          <p class="muted text-sm">Every step on every scale recomputes from the core.</p>
+<pre>--spacing-xs: calc(var(--spacing) / 4);
+--radius-sm:  calc(var(--radius)  / 2);
+--text-lg:    calc(var(--text-base)
+              * var(--font-scale));</pre>
+        </article>
+
+        <article class="flex flex-col">
+          <header><strong>Semantic</strong> <span class="badge outline small">light-dark()</span></header>
+          <p class="muted text-sm">Surfaces and brand follow color-scheme on their own.</p>
+<pre>--background: light-dark(…, …);
+--foreground: light-dark(…, …);
+--primary:    light-dark(…, …);
+--border:     light-dark(…, …);</pre>
+        </article>
+      </div>
+    </section>
+
+    <!-- §4 FOR CODING AGENTS =========================================== -->
+    <section class="s" id="agents">
+      <div class="s-head">
+        <p class="label">For coding agents</p>
+        <h2>Cheap to generate, hard to drift on.</h2>
+        <p>Daft is the same framework whether a human or a coding agent writes the HTML. Two side effects of "no classes needed" matter more when the writer is a model.</p>
+      </div>
+
+      <div class="grid">
+        <article class="flex flex-col">
+          <header><strong>Fewer tokens per element</strong> <span class="badge outline small">~3 vs ~50</span></header>
+          <p>A Daft button is <code>&lt;button&gt;</code>. A Tailwind button is nine utility classes the agent regenerates from working memory on every page. Across a real codebase the difference is measurable.</p>
+        </article>
+
+        <article class="flex flex-col">
+          <header><strong>Nothing to drift on</strong></header>
+          <p>The theme lives at the root in roughly ten variables. Generated pages share the same radius, spacing, color, and focus states because there is structurally no surface for an agent to invent variations on.</p>
+        </article>
+
+        <article class="flex flex-col">
+          <header><strong>No design system to feed in</strong></header>
+          <p>Semantic HTML is already in the model's training data. There is no component API to paste into context, no class vocabulary to keep in working memory, no design-system docs to keep updated.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- §5 COMPARISONS ================================================ -->
     <section class="s" id="fit">
       <div class="s-head">
         <p class="label">What we kept from others</p>
@@ -419,7 +483,42 @@
         <p>Three honest comparisons against the libraries Daft borrowed from. Same goals, different trade-offs.</p>
       </div>
 
-      <!-- 3a. vs Pico — semantics -->
+      <!-- 5a. vs Tailwind — utility soup vs semantic -->
+      <div class="s-head left" style="margin-top: var(--section-gap)">
+        <p class="label">vs Tailwind</p>
+        <h2>One render, two ways to write it.</h2>
+        <p>Daft borrows Tailwind's discipline around design tokens, color, and responsive primitives. What changes is the markup. Same button, both styles below.</p>
+      </div>
+
+      <div class="grid" style="align-items:center">
+        <div>
+          <p class="label">Daft</p>
+<pre>&lt;button&gt;
+  Save changes
+&lt;/button&gt;</pre>
+        </div>
+
+        <div class="render-box">
+          <button>Save changes</button>
+        </div>
+
+        <div>
+          <p class="label">Tailwind</p>
+<pre>&lt;button class="inline-flex
+  items-center justify-center
+  rounded-md text-sm font-medium
+  transition-colors
+  disabled:opacity-50
+  bg-primary
+  text-primary-foreground
+  hover:bg-primary/90
+  h-10 px-4 py-2"&gt;
+  Save changes
+&lt;/button&gt;</pre>
+        </div>
+      </div>
+
+      <!-- 5b. vs Pico — semantics -->
       <div class="s-head left" style="margin-top: var(--section-gap)">
         <p class="label">vs Pico.css</p>
         <h2>Same idea, a sharper finish.</h2>
@@ -448,11 +547,11 @@
         </article>
       </div>
 
-      <!-- 3b. vs daisyUI — size -->
+      <!-- 5c. vs daisyUI — size -->
       <div class="s-head left" style="margin-top: var(--section-gap)">
         <p class="label">vs daisyUI</p>
         <h2>Smaller than the plugin you'd add to Tailwind.</h2>
-        <p>daisyUI's pitch is the one we like: readable semantic class names instead of utility soup. The trade-off is the dependency. daisyUI is a Tailwind plugin — you ship Tailwind, the JIT compiler runs, and daisyUI's output stacks on top. Daft is the single file you link.</p>
+        <p>daisyUI shares Daft's preference for readable class names over utility soup. The trade-off is the dependency: daisyUI is a Tailwind plugin, so the shipped bundle stacks on top of Tailwind. Daft is the single file you link.</p>
       </div>
 
       <article>
@@ -480,39 +579,16 @@
         </div>
         <p class="muted text-sm mt-4" style="font-style: italic">Minified CSS, full default ruleset (not gzipped). daisyUI is a Tailwind plugin, so the real bundle adds Tailwind's compiled output on top.</p>
       </article>
+    </section>
 
-      <!-- 3c. vs Tailwind — utility soup vs semantic -->
-      <div class="s-head left" style="margin-top: var(--section-gap)">
-        <p class="label">vs Tailwind</p>
-        <h2>One render, two ways to write it.</h2>
-        <p>We borrow Tailwind's discipline around design tokens, modern color, and responsive primitives. Where Daft differs is what ends up in your markup. Same button, both styles below.</p>
-      </div>
-
-      <div class="grid" style="align-items:center">
-        <div>
-          <p class="label">Daft</p>
-<pre>&lt;button&gt;
-  Save changes
-&lt;/button&gt;</pre>
-        </div>
-
-        <div class="render-box">
-          <button>Save changes</button>
-        </div>
-
-        <div>
-          <p class="label">Tailwind</p>
-<pre>&lt;button class="inline-flex
-  items-center justify-center
-  rounded-md text-sm font-medium
-  transition-colors
-  disabled:opacity-50
-  bg-primary
-  text-primary-foreground
-  hover:bg-primary/90
-  h-10 px-4 py-2"&gt;
-  Save changes
-&lt;/button&gt;</pre>
+    <!-- §6 SLIDES ===================================================== -->
+    <section class="s" id="slides-teaser">
+      <div class="s-head">
+        <p class="label">Slides</p>
+        <h2>HTML has a presentation mode.</h2>
+        <p>Add <code>class="deck"</code> to <code>&lt;body&gt;</code>. Every <code>&lt;section&gt;</code> becomes a 16:9 slide. Cmd+P prints to PDF. No runtime, no build, no slot in the bundle — it ships with Daft.</p>
+        <div class="actions" style="justify-content: center; gap: var(--spacing-sm); margin-top: var(--spacing-lg);">
+          <a href="/slides/" role="button">Open the deck</a>
         </div>
       </div>
     </section>
