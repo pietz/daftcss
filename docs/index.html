@@ -114,10 +114,9 @@
        Daft's light-dark() defaults so palettes work in BOTH modes.
        ============================================================ */
 
-    /* Forest — earthy sage / deep forest. */
-    [data-palette="forest"] {
-      --primary:    light-dark(oklch(0.5 0.13 150), oklch(0.7 0.15 150));
-      --background: light-dark(oklch(0.96 0.02 140), oklch(0.22 0.04 150));
+    /* Iris — indigo-violet primary on a neutral surface. */
+    [data-palette="iris"] {
+      --primary: light-dark(#6050DC, #9D90FF);
     }
 
     /* Rounded — one var, every corner follows. */
@@ -230,7 +229,7 @@
           <label>Palette
             <select id="palette">
               <option value="default" selected>Default</option>
-              <option value="forest">Forest</option>
+              <option value="iris">Iris</option>
               <option value="rounded">Rounded</option>
               <option value="corporate">Corporate</option>
               <option value="brutalist">Brutalist</option>
@@ -273,11 +272,8 @@
   --background: light-dark(
     oklch(1 0 0), oklch(.14 .04 263));
 }</pre>
-<pre data-for="forest">[data-palette="forest"] {
-  --primary:    light-dark(
-    oklch(.50 .13 150), oklch(.70 .15 150));
-  --background: light-dark(
-    oklch(.96 .02 140), oklch(.22 .04 150));
+<pre data-for="iris">[data-palette="iris"] {
+  --primary: light-dark(#6050DC, #9D90FF);
 }</pre>
 <pre data-for="rounded">[data-palette="rounded"] {
   /* One variable. Every corner. */
