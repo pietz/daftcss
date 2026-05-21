@@ -114,10 +114,10 @@
        Daft's light-dark() defaults so palettes work in BOTH modes.
        ============================================================ */
 
-    /* Iris — Pantone 2736 C cobalt-indigo on a pale-blue surface. */
-    [data-palette="iris"] {
-      --primary:    light-dark(#1F2A87, #8E9DFF);
-      --background: light-dark(oklch(0.97 0.015 270), oklch(0.22 0.05 270));
+    /* Forest — earthy sage / deep forest. */
+    [data-palette="forest"] {
+      --primary:    light-dark(oklch(0.5 0.13 150), oklch(0.7 0.15 150));
+      --background: light-dark(oklch(0.96 0.02 140), oklch(0.22 0.04 150));
     }
 
     /* Rounded — one var, every corner follows. */
@@ -230,7 +230,7 @@
           <label>Palette
             <select id="palette">
               <option value="default" selected>Default</option>
-              <option value="iris">Iris</option>
+              <option value="forest">Forest</option>
               <option value="rounded">Rounded</option>
               <option value="corporate">Corporate</option>
               <option value="brutalist">Brutalist</option>
@@ -267,10 +267,11 @@
           <div class="snippet-stack" style="max-height: 14em; overflow: auto">
 <pre data-for="default" class="on">/* Default — shadcn baseline.
    No override needed. */</pre>
-<pre data-for="iris">[data-palette="iris"] {
-  --primary:    light-dark(#1F2A87, #8E9DFF);
+<pre data-for="forest">[data-palette="forest"] {
+  --primary:    light-dark(
+    oklch(.50 .13 150), oklch(.70 .15 150));
   --background: light-dark(
-    oklch(.97 .015 270), oklch(.22 .05 270));
+    oklch(.96 .02 140), oklch(.22 .04 150));
 }</pre>
 <pre data-for="rounded">[data-palette="rounded"] {
   /* One variable. Every corner. */
