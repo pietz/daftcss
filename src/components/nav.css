@@ -57,33 +57,53 @@ nav details.dropdown > ul {
   right: 0;
 }
 
-/* Breadcrumb navigation */
-nav[aria-label="breadcrumb"] > ul {
+/* Breadcrumb — standalone <ul aria-label="Breadcrumb">, no <nav> wrapper */
+ul[aria-label="Breadcrumb" i] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
 }
 
-nav[aria-label="breadcrumb"] > ul > li {
+ul[aria-label="Breadcrumb" i] > li {
   display: flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: var(--line-height);
 }
 
-nav[aria-label="breadcrumb"] > ul > li:not(:first-child) {
+ul[aria-label="Breadcrumb" i] > li:not(:first-child) {
   margin-inline-start: var(--spacing-sm);
 }
 
-nav[aria-label="breadcrumb"] > ul > li:not(:last-child)::after {
+ul[aria-label="Breadcrumb" i] > li:not(:last-child)::after {
   content: var(--breadcrumb-divider);
   padding: 0 var(--spacing-sm);
   color: var(--muted-foreground);
 }
 
-nav[aria-label="breadcrumb"] a[aria-current]:not([aria-current="false"]) {
+ul[aria-label="Breadcrumb" i] a {
+  color: inherit;
+  font-weight: var(--font-medium);
+  text-decoration: none;
+}
+
+ul[aria-label="Breadcrumb" i] a:hover {
+  text-decoration: underline;
+}
+
+ul[aria-label="Breadcrumb" i] a[aria-current]:not([aria-current="false"]) {
   color: inherit;
   text-decoration: none;
   pointer-events: none;
 }
 
-nav[aria-label="breadcrumb"] > ul > li:last-child {
+ul[aria-label="Breadcrumb" i] > li:last-child {
   color: var(--foreground);
   font-weight: var(--font-medium);
 }

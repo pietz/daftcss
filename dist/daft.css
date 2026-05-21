@@ -1942,32 +1942,52 @@
     right: 0;
   }
 
-  nav[aria-label="breadcrumb"] > ul {
-    gap: 0;
-  }
-
-  nav[aria-label="breadcrumb"] > ul > li {
+  ul[aria-label="Breadcrumb" i] {
+    font-size: var(--text-sm);
+    flex-wrap: wrap;
     align-items: center;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
     display: flex;
   }
 
-  nav[aria-label="breadcrumb"] > ul > li:not(:first-child) {
+  ul[aria-label="Breadcrumb" i] > li {
+    line-height: var(--line-height);
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  ul[aria-label="Breadcrumb" i] > li:not(:first-child) {
     margin-inline-start: var(--spacing-sm);
   }
 
-  nav[aria-label="breadcrumb"] > ul > li:not(:last-child):after {
+  ul[aria-label="Breadcrumb" i] > li:not(:last-child):after {
     content: var(--breadcrumb-divider);
     padding: 0 var(--spacing-sm);
     color: var(--muted-foreground);
   }
 
-  nav[aria-label="breadcrumb"] a[aria-current]:not([aria-current="false"]) {
+  ul[aria-label="Breadcrumb" i] a {
+    color: inherit;
+    font-weight: var(--font-medium);
+    text-decoration: none;
+  }
+
+  ul[aria-label="Breadcrumb" i] a:hover {
+    text-decoration: underline;
+  }
+
+  ul[aria-label="Breadcrumb" i] a[aria-current]:not([aria-current="false"]) {
     color: inherit;
     pointer-events: none;
     text-decoration: none;
   }
 
-  nav[aria-label="breadcrumb"] > ul > li:last-child {
+  ul[aria-label="Breadcrumb" i] > li:last-child {
     color: var(--foreground);
     font-weight: var(--font-medium);
   }
@@ -2787,6 +2807,10 @@
         & h1 {
           font-size: clamp(2rem, calc(7cqi * var(--slide-text-scale)), 6rem);
         }
+
+        & hgroup > p {
+          font-size: clamp(1.3rem, calc(3.5cqi * var(--slide-text-scale)), 3rem);
+        }
       }
 
       &.quote {
@@ -2933,6 +2957,18 @@
 
   .invisible {
     visibility: hidden;
+  }
+
+  @media (width <= 767.98px) {
+    .hidden-mobile {
+      display: none !important;
+    }
+  }
+
+  @media (width >= 768px) {
+    .hidden-desktop {
+      display: none !important;
+    }
   }
 
   .text-left {

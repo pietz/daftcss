@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Components</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.11.0">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.12.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-light.min.css" media="(prefers-color-scheme: light)">
@@ -676,25 +676,21 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <p><span data-tooltip="Default tooltip">Hover me</span> | <span data-tooltip="Bottom placement"
               data-placement="bottom">Bottom</span></p>
           <button data-tooltip="Click to submit">Submit</button>
-          <nav aria-label="breadcrumb">
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Products</a></li>
-              <li>Current</li>
-            </ul>
-          </nav>
+          <ul aria-label="Breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li>Current</li>
+          </ul>
         </article>
         <article>
           <pre><code>&lt;span data-tooltip="Default tooltip"&gt;Hover me&lt;/span&gt;
 &lt;span data-tooltip="Bottom placement" data-placement="bottom"&gt;Bottom&lt;/span&gt;
 &lt;button data-tooltip="Click to submit"&gt;Submit&lt;/button&gt;
 
-&lt;nav aria-label="breadcrumb"&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;Current&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/nav&gt;</code></pre>
+&lt;ul aria-label="Breadcrumb"&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Current&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
         </article>
       </div>
     </section>

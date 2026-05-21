@@ -44,6 +44,19 @@ a.secondary {
   visibility: hidden;
 }
 
+/* Responsive visibility — Daft's mobile breakpoint is 768px */
+@media (max-width: 767.98px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+}
+
 /* ===== TEXT UTILITIES ===== */
 
 /* Text alignment */

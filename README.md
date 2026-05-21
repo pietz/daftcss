@@ -376,7 +376,7 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Font weight | `.font-normal` `.font-medium` `.font-semibold` `.font-bold` |
 | Text align | `.text-left` `.text-center` `.text-right` |
 | Truncate | `.truncate` |
-| Visibility | `.hidden` `.invisible` `.sr-only` `.no-print` |
+| Visibility | `.hidden` `.invisible` `.sr-only` `.no-print` `.hidden-mobile` `.hidden-desktop` |
 | Display | `.flex` `.flex-col` |
 | Layout primitives | `.cluster` `.stack` |
 | Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |

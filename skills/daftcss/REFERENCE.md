@@ -288,15 +288,13 @@ Folders are `<details>`/`<summary>` (native open/close). Files are `<a>` inside 
 
 Two `<ul>`s = left and right groups. Mobile: stacks and centers.
 
-Breadcrumb variant:
+Breadcrumb (standalone `<ul>` — no nav landmark, safe to nest inside `<nav>`):
 ```html
-<nav aria-label="breadcrumb">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/docs">Docs</a></li>
-    <li>Page</li>
-  </ul>
-</nav>
+<ul aria-label="Breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/docs">Docs</a></li>
+  <li>Page</li>
+</ul>
 ```
 
 ### Tooltips
@@ -500,7 +498,7 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 `.truncate` (ellipsis), `.overflow-auto`, `.overflow-hidden`
 
 ### Visibility
-`.hidden`, `.invisible`, `.sr-only`, `.no-print`
+`.hidden`, `.invisible`, `.sr-only`, `.no-print`, `.hidden-mobile`, `.hidden-desktop` (responsive variants hide at < 768px or ≥ 768px respectively)
 
 ### Display / flex
 `.flex`, `.flex-col`, `.items-center`, `.justify-center`, `.justify-between`, `.justify-end`

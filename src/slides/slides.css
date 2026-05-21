@@ -104,6 +104,11 @@ body.deck {
       text-align: center;
 
       & h1 { font-size: clamp(2rem, calc(7cqi * var(--slide-text-scale)), 6rem); }
+
+      /* Subtitle scales with the bigger title — keep the ~2:1 ratio */
+      & hgroup > p {
+        font-size: clamp(1.3rem, calc(3.5cqi * var(--slide-text-scale)), 3rem);
+      }
     }
 
     &.quote {

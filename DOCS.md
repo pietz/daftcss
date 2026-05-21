@@ -805,13 +805,11 @@ The `popover` attribute enables:
 **Breadcrumb:**
 
 ```html
-<nav aria-label="breadcrumb">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/products">Products</a></li>
-    <li>Current Page</li>
-  </ul>
-</nav>
+<ul aria-label="Breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/products">Products</a></li>
+  <li>Current Page</li>
+</ul>
 ```
 
 ### Progress
@@ -1046,6 +1044,10 @@ Add the `.sticky` class for sticky positioning:
 <span class="sr-only">Screen reader only</span>
 <div class="hidden">Completely hidden</div>
 <div class="invisible">Invisible but takes space</div>
+
+<!-- Responsive — Daft's mobile breakpoint is 768px -->
+<div class="hidden-mobile">Visible only on desktop</div>
+<div class="hidden-desktop">Visible only on mobile</div>
 ```
 
 ### Layout Utilities
