@@ -245,25 +245,31 @@
           <div class="snippet-stack">
 <pre data-for="default" class="on">/* Default — shadcn baseline. */</pre>
 <pre data-for="forest">[data-palette="forest"] {
-  --primary: light-dark(
+  --primary:    light-dark(
     oklch(.50 .13 150),
     oklch(.70 .15 150)
   );
-  /* That's it. The rest follows. */
+  --background: light-dark(
+    oklch(.96 .02 140),
+    oklch(.22 .04 150)
+  );
 }</pre>
 <pre data-for="rounded">[data-palette="rounded"] {
-  --radius:        1rem;
-  --button-radius: 9999px;
+  --radius: 1rem;
 }</pre>
 <pre data-for="corporate">[data-palette="corporate"] {
-  --primary: light-dark(
+  --primary:    light-dark(
     oklch(.35 .06 250),
     oklch(.72 .08 250)
   );
-  --radius: 0.375rem;
-  --border: light-dark(
+  --radius:     0.25rem;
+  --border:     light-dark(
     oklch(.86 .01 250),
     oklch(.28 .01 250)
+  );
+  --background: light-dark(
+    oklch(.98 .003 248),
+    oklch(.21 .04 266)
   );
 }</pre>
 <pre data-for="brutalist">[data-palette="brutalist"] {
@@ -272,6 +278,10 @@
   --border-width:  2px;
   --radius:        0;
   --button-shadow: 3px 3px 0 currentColor;
+  --background:    light-dark(
+    oklch(.93 .18 100),
+    oklch(.32 .22 330)
+  );
 }</pre>
           </div>
         </article>
@@ -635,15 +645,15 @@
       });
     })();
 
-    /* Theme switcher — applies to #components and reveals the matching <pre>. */
+    /* Theme switcher — applies to <html> so the entire page repaints. */
     (function () {
       const sel = document.getElementById('palette');
-      const target = document.getElementById('components');
+      const root = document.documentElement;
       const panes = document.querySelectorAll('pre[data-for]');
       sel.addEventListener('change', () => {
         const v = sel.value;
-        if (v === 'default') target.removeAttribute('data-palette');
-        else target.setAttribute('data-palette', v);
+        if (v === 'default') root.removeAttribute('data-palette');
+        else root.setAttribute('data-palette', v);
         panes.forEach(p => p.classList.toggle('on', p.dataset.for === v));
       });
     })();
