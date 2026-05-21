@@ -223,9 +223,8 @@
         <p>Theme tokens cascade through every component on this page. Same markup, new look — no class swap.</p>
       </div>
 
+      <!-- CONTROL BAND — Theme (preview-rich) + Override snippet, balanced 1:1 -->
       <div class="grid mb-6">
-
-        <!-- Theme picker -->
         <article class="flex flex-col">
           <header><strong>Theme</strong></header>
           <label>Palette
@@ -237,81 +236,77 @@
               <option value="brutalist">Brutalist</option>
             </select>
           </label>
+          <div class="mt-auto mode-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden">
+            <div data-theme="light" class="flex flex-col gap-2">
+              <small class="muted">LIGHT</small>
+              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+                <button class="small">Save</button>
+                <button class="outline small">Cancel</button>
+              </div>
+              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+                <span class="badge">stable</span>
+                <span class="badge outline">beta</span>
+              </div>
+            </div>
+            <div data-theme="dark" class="flex flex-col gap-2" style="border-left:1px solid var(--border)">
+              <small class="muted">DARK</small>
+              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+                <button class="small">Save</button>
+                <button class="outline small">Cancel</button>
+              </div>
+              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+                <span class="badge">stable</span>
+                <span class="badge outline">beta</span>
+              </div>
+            </div>
+          </div>
         </article>
 
-        <!-- Override snippet -->
         <article class="flex flex-col">
-          <header><strong>Override</strong></header>
-          <div class="snippet-stack">
-<pre data-for="default" class="on">/* Default — shadcn baseline. */</pre>
+          <header><strong>Override</strong> <span class="badge outline small">paste at <code>:root</code></span></header>
+          <div class="snippet-stack" style="max-height: 14em; overflow: auto">
+<pre data-for="default" class="on">/* Default — shadcn baseline. */
+:root {
+  --primary:    light-dark(
+    oklch(.21 .04 269), oklch(.97 0 0));
+  --radius:     0.625rem;
+  --background: light-dark(
+    oklch(1 0 0), oklch(.14 .04 263));
+}</pre>
 <pre data-for="forest">[data-palette="forest"] {
   --primary:    light-dark(
-    oklch(.50 .13 150),
-    oklch(.70 .15 150)
-  );
+    oklch(.50 .13 150), oklch(.70 .15 150));
   --background: light-dark(
-    oklch(.96 .02 140),
-    oklch(.22 .04 150)
-  );
+    oklch(.96 .02 140), oklch(.22 .04 150));
 }</pre>
 <pre data-for="rounded">[data-palette="rounded"] {
+  /* One variable. Every corner. */
   --radius: 1rem;
 }</pre>
 <pre data-for="corporate">[data-palette="corporate"] {
   --primary:    light-dark(
-    oklch(.35 .06 250),
-    oklch(.72 .08 250)
-  );
+    oklch(.35 .06 250), oklch(.72 .08 250));
   --radius:     0.25rem;
   --border:     light-dark(
-    oklch(.86 .01 250),
-    oklch(.28 .01 250)
-  );
+    oklch(.86 .01 250), oklch(.28 .01 250));
   --background: light-dark(
-    oklch(.98 .003 248),
-    oklch(.21 .04 266)
-  );
+    oklch(.98 .003 248), oklch(.21 .04 266));
 }</pre>
 <pre data-for="brutalist">[data-palette="brutalist"] {
-  --primary:       light-dark(#000,#fff);
-  --border:        light-dark(#000,#fff);
+  --primary:       light-dark(#000, #fff);
+  --border:        light-dark(#000, #fff);
   --border-width:  2px;
   --radius:        0;
   --button-shadow: 3px 3px 0 currentColor;
   --background:    light-dark(
-    oklch(.93 .18 100),
-    oklch(.32 .22 330)
-  );
+    oklch(.93 .18 100), oklch(.32 .22 330));
 }</pre>
           </div>
         </article>
-
-        <!-- Light + Dark proof -->
-        <article class="flex flex-col">
-          <header><strong>Light and dark</strong> <span class="badge outline small">free with <code>light-dark()</code></span></header>
-          <p class="muted">Surfaces flow through CSS <code>light-dark()</code>. The mode toggle in the nav flips the whole page — no class swap, no extra CSS.</p>
-          <div class="grid mode-pair mt-auto" style="gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;">
-            <div data-theme="light" class="flex flex-col gap-2">
-              <small class="muted">LIGHT</small>
-              <div class="flex items-center gap-2 mt-auto">
-                <button class="small">Deploy</button>
-                <span class="badge">stable</span>
-              </div>
-            </div>
-            <div data-theme="dark" class="flex flex-col gap-2 border-l">
-              <small class="muted">DARK</small>
-              <div class="flex items-center gap-2 mt-auto">
-                <button class="small">Deploy</button>
-                <span class="badge">stable</span>
-              </div>
-            </div>
-          </div>
-        </article>
-
       </div>
 
+      <!-- ROW A — Sign in | This week (2 stats + table) | Light+Dark -->
       <div class="grid">
-        <!-- Sign in -->
         <article class="flex flex-col">
           <header><strong>Sign in to Aurora</strong></header>
           <label>Email
@@ -320,16 +315,17 @@
           <label>Password
             <input type="password" value="••••••••">
           </label>
-          <label><input type="checkbox" role="switch" checked> Stay signed in</label>
+          <label class="flex items-center gap-2" style="margin-top:var(--spacing-sm)">
+            <input type="checkbox" role="switch" checked> Stay signed in
+          </label>
           <footer class="mt-auto">
             <button>Continue</button>
             <button class="ghost">Use SSO</button>
           </footer>
         </article>
 
-        <!-- Stats -->
         <article class="flex flex-col">
-          <header><strong>This week</strong></header>
+          <header><strong>This week</strong> <span class="badge outline small">live</span></header>
           <div class="grid">
             <div>
               <div class="stat-num">$24.8k</div>
@@ -338,24 +334,53 @@
             </div>
             <div>
               <div class="stat-num">1,284</div>
-              <small class="muted">Active</small>
+              <small class="muted">Active users</small>
               <div class="stat-delta good">↑ 3.1%</div>
             </div>
-            <div>
-              <div class="stat-num">2.3%</div>
-              <small class="muted">Churn</small>
-              <div class="stat-delta bad">↑ 0.4%</div>
-            </div>
+          </div>
+          <table class="mt-auto" style="margin-bottom:0">
+            <thead>
+              <tr><th>Source</th><th style="text-align:right">Users</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Organic</td><td style="text-align:right">734</td></tr>
+              <tr><td>Referral</td><td style="text-align:right">312</td></tr>
+              <tr><td>Direct</td><td style="text-align:right">238</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="flex flex-col">
+          <header><strong>System status</strong> <span class="badge success small">all clear</span></header>
+          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <span>API</span>
+            <span class="badge success">operational</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <span>Web app</span>
+            <span class="badge success">operational</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <span>Database</span>
+            <span class="badge warning">degraded</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <span>CDN</span>
+            <span class="badge success">operational</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0">
+            <span>Workers</span>
+            <span class="badge success">operational</span>
           </div>
           <footer class="mt-auto">
-            <small class="muted">Updated 4 min ago</small>
+            <small class="muted">Last check: 24s ago</small>
           </footer>
         </article>
       </div>
 
+      <!-- ROW B — Sprint | Team (2-col avatars) | Project files (tree) -->
       <div class="grid">
-        <!-- Tasks -->
-        <article class="span-2 flex flex-col">
+        <article class="flex flex-col">
           <header><strong>Sprint 14</strong> <span class="badge">12 / 18</span></header>
           <div>
             <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Ship Postgres migration</span></label>
@@ -367,35 +392,193 @@
           <progress value="67" max="100" class="mt-auto"></progress>
         </article>
 
-        <!-- Team -->
         <article class="flex flex-col">
           <header><strong>Team</strong></header>
-          <div class="flex items-center gap-3" style="padding: 0.4rem 0">
-            <div class="avatar">KS</div>
-            <div class="flex flex-col" style="line-height: 1.2">
-              <strong>Kai Suzuki</strong>
-              <small class="muted">Founder</small>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-sm) var(--spacing-md)">
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">KS</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Kai Suzuki</strong>
+                <small class="muted">Founder</small>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center gap-3" style="padding: 0.4rem 0">
-            <div class="avatar">RA</div>
-            <div class="flex flex-col" style="line-height: 1.2">
-              <strong>Rosa Aldana</strong>
-              <small class="muted">Eng lead</small>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">RA</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Rosa Aldana</strong>
+                <small class="muted">Eng lead</small>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center gap-3" style="padding: 0.4rem 0">
-            <div class="avatar">JT</div>
-            <div class="flex flex-col" style="line-height: 1.2">
-              <strong>Jin Tan</strong>
-              <small class="muted">Design</small>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">JT</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Jin Tan</strong>
+                <small class="muted">Design</small>
+              </div>
+            </div>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">LW</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Lin Wei</strong>
+                <small class="muted">Backend</small>
+              </div>
+            </div>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">MP</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Maya Patel</strong>
+                <small class="muted">Product</small>
+              </div>
+            </div>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">SO</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Sam Okafor</strong>
+                <small class="muted">Support</small>
+              </div>
+            </div>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">YS</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Yui Sato</strong>
+                <small class="muted">QA</small>
+              </div>
+            </div>
+            <div class="flex items-center gap-2" style="min-width:0">
+              <div class="avatar small">TM</div>
+              <div class="flex flex-col" style="line-height:1.15;min-width:0">
+                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Theo Müller</strong>
+                <small class="muted">DevOps</small>
+              </div>
             </div>
           </div>
         </article>
+
+        <article class="flex flex-col">
+          <header><strong>Project files</strong></header>
+          <ul class="tree">
+            <li>
+              <details open>
+                <summary>src</summary>
+                <ul>
+                  <li>
+                    <details open>
+                      <summary>components</summary>
+                      <ul>
+                        <li><a href="#">button.css</a></li>
+                        <li><a href="#">card.css</a></li>
+                        <li><a href="#">tree.css</a></li>
+                      </ul>
+                    </details>
+                  </li>
+                  <li>
+                    <details>
+                      <summary>base</summary>
+                      <ul>
+                        <li><a href="#">variables.css</a></li>
+                        <li><a href="#">reset.css</a></li>
+                      </ul>
+                    </details>
+                  </li>
+                  <li><a href="#">daft.css</a></li>
+                </ul>
+              </details>
+            </li>
+            <li><a href="#">README.md</a></li>
+            <li><a href="#">package.json</a></li>
+          </ul>
+        </article>
       </div>
 
+      <!-- ROW C — Activity feed | Recent deployments (1:2) -->
       <div class="grid">
-        <!-- Notifications -->
+        <article class="flex flex-col">
+          <header><strong>Recent activity</strong></header>
+          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <div class="avatar small">KS</div>
+            <div style="flex:1">
+              <p style="margin:0"><strong>Kai</strong> deployed <code>v1.6.2</code> to production</p>
+              <small class="muted">2 minutes ago</small>
+            </div>
+          </div>
+          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <div class="avatar small">RA</div>
+            <div style="flex:1">
+              <p style="margin:0"><strong>Rosa</strong> opened pull request <a href="#">#284</a></p>
+              <small class="muted">14 minutes ago</small>
+            </div>
+          </div>
+          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
+            <div class="avatar small">JT</div>
+            <div style="flex:1">
+              <p style="margin:0"><strong>Jin</strong> commented on <a href="#">Pricing card</a></p>
+              <small class="muted">1 hour ago</small>
+            </div>
+          </div>
+          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0">
+            <div class="avatar small">LW</div>
+            <div style="flex:1">
+              <p style="margin:0"><strong>Lin</strong> closed issue <a href="#">#142</a></p>
+              <small class="muted">3 hours ago</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="span-2 flex flex-col">
+          <header><strong>Recent deployments</strong></header>
+          <table>
+            <thead>
+              <tr>
+                <th>Build</th>
+                <th>Branch</th>
+                <th>Status</th>
+                <th>Duration</th>
+                <th>Author</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>#482</code></td>
+                <td>main</td>
+                <td><span class="badge success">passed</span></td>
+                <td>2m 14s</td>
+                <td>Kai</td>
+              </tr>
+              <tr>
+                <td><code>#481</code></td>
+                <td>feat/onboarding</td>
+                <td><span class="badge">queued</span></td>
+                <td>—</td>
+                <td>Rosa</td>
+              </tr>
+              <tr>
+                <td><code>#480</code></td>
+                <td>fix/migration</td>
+                <td><span class="badge destructive">failed</span></td>
+                <td>1m 02s</td>
+                <td>Jin</td>
+              </tr>
+              <tr>
+                <td><code>#479</code></td>
+                <td>main</td>
+                <td><span class="badge success">passed</span></td>
+                <td>2m 31s</td>
+                <td>Kai</td>
+              </tr>
+              <tr>
+                <td><code>#478</code></td>
+                <td>main</td>
+                <td><span class="badge success">passed</span></td>
+                <td>2m 18s</td>
+                <td>Lin</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+
+      <!-- ROW D — Notifications | Pricing (fuller) | Settings panel -->
+      <div class="grid">
         <article class="flex flex-col">
           <header><strong>Notifications</strong></header>
           <div role="status">
@@ -406,26 +589,99 @@
             <strong>Migration failed</strong>
             <p>Schema check rejected 3 changes. Roll back to retry.</p>
           </div>
+          <div role="status">
+            <strong>v1.5.2 published</strong>
+            <p>Available on npm and CDN.</p>
+          </div>
         </article>
 
-        <!-- Pricing -->
-        <article class="flex flex-col">
-          <header><strong>Pro</strong> <span class="badge success">recommended</span></header>
-          <div class="flex items-baseline gap-1">
-            <span class="stat-num" style="font-size: var(--text-2xl)">$12</span>
+        <article class="flex flex-col" style="text-align:center">
+          <header style="text-align:left"><strong>Pro</strong> <span class="badge success">recommended</span></header>
+          <div class="flex items-baseline gap-1" style="justify-content:center">
+            <span class="stat-num" style="font-size: var(--text-3xl)">$12</span>
             <span class="muted">/ month</span>
           </div>
-          <ul style="margin:0; padding-left:1.1rem; color:var(--muted-foreground); font-size:var(--text-sm); line-height:1.7">
+          <small class="muted">Billed annually, or $14 monthly.</small>
+          <ul style="margin:0 auto; padding-left:1.1rem; text-align:left; column-count:2; column-gap:var(--spacing-lg); color:var(--muted-foreground); font-size:var(--text-sm); line-height:1.8">
             <li>Unlimited projects</li>
             <li>Priority support</li>
             <li>Audit log retention</li>
+            <li>SSO &amp; SAML</li>
+            <li>99.9% uptime SLA</li>
+            <li>Custom domains</li>
           </ul>
-          <footer class="mt-auto">
+          <footer class="mt-auto" style="display:flex;justify-content:center;gap:var(--spacing-sm)">
             <button>Upgrade</button>
             <button class="ghost">Compare plans</button>
           </footer>
         </article>
+
+        <article class="flex flex-col">
+          <header><strong>Notification settings</strong></header>
+          <label class="flex items-center justify-between" style="margin:0">
+            <span>Email digests</span>
+            <input type="checkbox" role="switch" checked>
+          </label>
+          <label class="flex items-center justify-between" style="margin:0">
+            <span>Push alerts</span>
+            <input type="checkbox" role="switch">
+          </label>
+          <label class="flex items-center justify-between" style="margin:0">
+            <span>Weekly summary</span>
+            <input type="checkbox" role="switch" checked>
+          </label>
+          <label>Quiet hours
+            <input type="range" min="0" max="12" value="8">
+          </label>
+          <label>Digest frequency
+            <select>
+              <option>Daily</option>
+              <option selected>Weekly</option>
+              <option>Monthly</option>
+            </select>
+          </label>
+        </article>
       </div>
+
+      <!-- ROW E — FAQ accordion, full width -->
+      <div class="grid">
+        <article>
+          <header><strong>Frequently asked</strong></header>
+          <details open>
+            <summary>Does it need a build step?</summary>
+            <p>No. Drop one stylesheet into your <code>&lt;head&gt;</code> and your HTML starts looking like this page. The framework <em>was</em> built (LightningCSS), but consumers don't run anything.</p>
+          </details>
+          <details>
+            <summary>Can I use Daft with React, Vue, Svelte, or Next?</summary>
+            <p>Yes. Daft styles raw HTML — anything that renders <code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code> works. No component wrappers, no framework adapters, no JS runtime to integrate.</p>
+          </details>
+          <details>
+            <summary>How do I customize it?</summary>
+            <p>Override CSS variables at <code>:root</code>, or scope them to any element. Ten core tokens cover the whole system — color, radius, spacing, font scale. The Override card at the top of this section is a working example.</p>
+          </details>
+          <details>
+            <summary>How is Daft different from Pico.css?</summary>
+            <p>Same idea — style plain HTML without classes. Daft pushes the visual finish toward shadcn-grade defaults and adds modern primitives Pico predates: <code>light-dark()</code> theming, OKLCH palettes, the native Popover API, container queries on slides.</p>
+          </details>
+          <details>
+            <summary>When should I <em>not</em> use Daft?</summary>
+            <p>When you need pixel-precise marketing pages or a heavily custom design system. Daft is for products that benefit from sensible, consistent defaults — not for landing pages that have to look like nothing else.</p>
+          </details>
+          <details>
+            <summary>What if I need a component Daft doesn't have?</summary>
+            <p>Write your own using Daft's tokens (<code>--primary</code>, <code>--radius</code>, <code>--spacing</code>, <code>--border</code>). It'll inherit palette and theme changes automatically — your custom component themes itself.</p>
+          </details>
+          <details>
+            <summary>Can coding agents write Daft well?</summary>
+            <p>Yes. Semantic HTML is already in every model's training data — Pico and other class-less frameworks normalized the pattern years ago. Daft also ships an official Claude Code skill, so agents pick up the idioms and class names without you pasting docs into context.</p>
+          </details>
+          <details>
+            <summary>Which browsers are supported?</summary>
+            <p>Chrome 123+, Firefox 129+, Safari 18+. Daft relies on <code>light-dark()</code>, OKLCH, CSS nesting, <code>color-mix()</code>, the Popover API, and <code>@starting-style</code> — all of which shipped together in early 2024.</p>
+          </details>
+        </article>
+      </div>
+
     </section>
 
     <!-- §3 THEME HIERARCHY ============================================ -->
