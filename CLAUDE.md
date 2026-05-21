@@ -97,7 +97,7 @@ When the user asks to publish a new version, follow these steps in order. Never 
 Update the version in four places (they must match):
 - `package.json` → `"version": "x.y.z"`
 - `src/daft.css` → header comment `* Daft CSS vx.y.z`
-- `docs/index.html` → footer + nav badge (`v1.x.y`)
+- `docs/index.html` → footer version span (`v1.x.y`)
 - `docs/**/*.html` → every `<link rel="stylesheet" href="/dist/daft.css?v=x.y.z">` cache-buster query
 
 The cache-buster bump is what guarantees the deployed landing pages pick up the new CSS immediately — without it, browsers (and the GH Pages edge cache) can serve a stale build for hours. Quick one-liner from the repo root:

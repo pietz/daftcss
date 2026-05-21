@@ -4,19 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <title>Preview • Pico CSS</title>
-    <meta name="description" content="A pure HTML example, without dependencies.">
+    <title>Pico comparison • Daft CSS</title>
+    <meta name="description" content="Daft CSS rendering Pico's example page — same markup, side-by-side comparison.">
 
-    <!-- Pico.css -->
-    <link rel="stylesheet" href="/dist/daft.css?v=1.12.0">
+    <link rel="stylesheet" href="/dist/daft.css?v=1.12.1">
   </head>
 
   <body>
     <!-- Header -->
     <header class="container">
       <hgroup>
-        <h1>Pico</h1>
-        <p>A pure HTML example, without dependencies.</p>
+        <h1>Daft</h1>
+        <p>Daft's take on the <a href="https://4mrnhq.csb.app/">Pico example page</a> — same markup, drop-in stylesheet, side-by-side comparison.</p>
       </hgroup>
       <nav>
         <ul>
@@ -372,7 +371,7 @@
       <!-- Modal -->
       <section id="modal">
         <h2>Modal</h2>
-        <button class="contrast" data-target="modal-example" onclick="toggleModal(event)">
+        <button class="contrast" popovertarget="modal-example">
           Launch demo modal
         </button>
       </section>
@@ -452,23 +451,20 @@
     <!-- Footer -->
     <footer class="container">
       <small
-        >Built with <a href="https://picocss.com">Pico</a> •
-        <a href="https://github.com/picocss/examples/blob/master/v2-html/index.html"
-          >Source code</a
-        ></small
+        >Styled with <a href="https://github.com/pietz/daftcss">Daft CSS</a> •
+        Compare with the original <a href="https://4mrnhq.csb.app/">Pico example</a></small
       >
     </footer>
     <!-- ./ Footer -->
 
     <!-- Modal example -->
-    <dialog id="modal-example">
+    <dialog id="modal-example" popover>
       <article>
         <header>
           <button
             aria-label="Close"
-            rel="prev"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
+            popovertarget="modal-example"
+            popovertargetaction="hide"
           ></button>
           <h3>Confirm your action!</h3>
         </header>
@@ -478,17 +474,28 @@
         </p>
         <footer>
           <button
-            role="button"
             class="secondary"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
+            popovertarget="modal-example"
+            popovertargetaction="hide"
           >
             Cancel</button
-          ><button autofocus data-target="modal-example" onclick="toggleModal(event)">
+          ><button autofocus popovertarget="modal-example" popovertargetaction="hide">
             Confirm
           </button>
         </footer>
       </article>
     </dialog>
+
+    <script>
+      document.querySelectorAll('[data-theme-switcher]').forEach(el => {
+        el.addEventListener('click', e => {
+          e.preventDefault();
+          const mode = el.dataset.themeSwitcher;
+          if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+          else document.documentElement.setAttribute('data-theme', mode);
+          el.closest('details')?.removeAttribute('open');
+        });
+      });
+    </script>
   </body>
 </html>

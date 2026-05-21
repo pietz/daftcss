@@ -25,10 +25,10 @@
     --spacing-md: calc(var(--spacing) * .75);
     --spacing-lg: calc(var(--spacing) * 1.5);
     --spacing-xl: calc(var(--spacing) * 2);
-    --radius-sm: calc(var(--radius)  - 4px);
-    --radius-md: calc(var(--radius)  - 2px);
+    --radius-sm: calc(var(--radius) * .6);
+    --radius-md: calc(var(--radius) * .8);
     --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius)  + 4px);
+    --radius-xl: calc(var(--radius) * 1.4);
     --radius-full: 9999px;
     --text-xs: calc(var(--font-size-base) * .75);
     --text-sm: calc(var(--font-size-base) * .875);
