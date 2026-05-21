@@ -47,6 +47,39 @@ article > header > p {
   margin-bottom: 0;
 }
 
+/* Title + subtitle pairing — <hgroup> inside <header>.
+   Mirrors the slide convention: wrap the heading and its lead paragraph
+   in <hgroup> for the "title + subtitle" look. When a header uses
+   hgroup, it becomes flex so badges or actions align to the right;
+   headers without hgroup keep their default block layout. */
+article > header:has(> hgroup) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+article > header > hgroup {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-width: 0;
+}
+
+article > header > hgroup > :is(strong, h1, h2, h3, h4, h5) {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-sm);
+}
+
+article > header > hgroup > p {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--line-height);
+  color: var(--muted-foreground);
+}
+
 /* Card footer */
 article > footer {
   padding: 0;

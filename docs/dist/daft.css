@@ -1520,6 +1520,34 @@
     margin-bottom: 0;
   }
 
+  article > header:has( > hgroup) {
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    display: flex;
+  }
+
+  article > header > hgroup {
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    display: flex;
+  }
+
+  article > header > hgroup > :is(strong, h1, h2, h3, h4, h5) {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--line-height-sm);
+    margin: 0;
+  }
+
+  article > header > hgroup > p {
+    font-size: var(--text-sm);
+    line-height: var(--line-height);
+    color: var(--muted-foreground);
+    margin: 0;
+  }
+
   article > footer {
     margin-top: var(--spacing);
     align-items: center;

@@ -159,6 +159,21 @@ Then write semantic HTML:
 </article>
 ```
 
+Wrap the title and lead paragraph in `<hgroup>` for the shadcn-style title + muted description pair. A sibling element (badge, action) floats right automatically.
+
+```html
+<article>
+  <header>
+    <hgroup>
+      <strong>Sprint 14</strong>
+      <p>Ends Friday. Cut release branch next.</p>
+    </hgroup>
+    <span class="badge">12 / 18</span>
+  </header>
+  …
+</article>
+```
+
 ### Accordion
 
 ```html

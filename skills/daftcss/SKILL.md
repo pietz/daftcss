@@ -28,7 +28,7 @@ Add to `<head>`:
 - default = primary | `.secondary` | `.outline` | `.ghost` | `.destructive` | `.link`
 - sizes: `.small` | `.large` | `.icon` | `.full-width`
 
-**Card** = `<article>` with optional `<header>` and `<footer>`. No class.
+**Card** = `<article>` with optional `<header>` and `<footer>`. No class. For title + subtitle, wrap them in `<hgroup>` inside `<header>`; sibling badges/actions float right.
 
 **Modal** = `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card (no JS attribute trade-off either way).
 

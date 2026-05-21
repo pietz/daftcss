@@ -552,6 +552,21 @@ Use `<article>` for cards:
 </article>
 ```
 
+**Title + subtitle pair (shadcn style):** wrap the heading and lead paragraph in `<hgroup>`. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
+
+```html
+<article>
+  <header>
+    <hgroup>
+      <strong>Sprint 14</strong>
+      <p>Ends Friday. Cut release branch next.</p>
+    </hgroup>
+    <span class="badge">12 / 18</span>
+  </header>
+  …
+</article>
+```
+
 **Clickable Card:**
 
 ```html

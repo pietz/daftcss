@@ -151,12 +151,15 @@ Special inputs:
 </article>
 ```
 
-Card with subtitle:
+Card with title + subtitle — wrap the heading and lead paragraph in `<hgroup>`. A sibling element (badge, action) floats right.
 ```html
 <article>
   <header>
-    <strong>Title</strong>
-    <p>Subtitle / description</p>
+    <hgroup>
+      <strong>Sprint 14</strong>
+      <p>Ends Friday. Cut release branch next.</p>
+    </hgroup>
+    <span class="badge">12 / 18</span>
   </header>
   …
 </article>

@@ -7,7 +7,7 @@
   <title>daft.css — The UI library that's just a stylesheet</title>
   <meta name="description" content="Link one stylesheet. Write semantic HTML. Get a design system with dark mode and theme tokens. No build, no JS.">
 
-  <link rel="stylesheet" href="/dist/daft.css?v=1.12.2">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.12.3">
 
   <style>
     /* ============================================================
@@ -158,7 +158,7 @@
   <nav class="sticky glass">
     <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><a href="/" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.12.2</span></a></li>
+        <li><a href="/" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.12.3</span></a></li>
       </ul>
       <ul>
         <li><a href="/components/" role="button" class="ghost">Components</a></li>
@@ -302,7 +302,12 @@
       <!-- ROW A — Sign in | This week (2 stats + table) | Light+Dark -->
       <div class="grid">
         <article class="flex flex-col">
-          <header><strong>Sign in to Aurora</strong></header>
+          <header>
+            <hgroup>
+              <strong>Sign in to Aurora</strong>
+              <p>Welcome back. Use email or SSO.</p>
+            </hgroup>
+          </header>
           <label>Email
             <input type="email" value="kai@example.com">
           </label>
@@ -375,7 +380,13 @@
       <!-- ROW B — Sprint | Team (2-col avatars) | Project files (tree) -->
       <div class="grid">
         <article class="flex flex-col">
-          <header><strong>Sprint 14</strong> <span class="badge">12 / 18</span></header>
+          <header>
+            <hgroup>
+              <strong>Sprint 14</strong>
+              <p>Ends Friday. Cut release branch next.</p>
+            </hgroup>
+            <span class="badge">12 / 18</span>
+          </header>
           <div>
             <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Ship Postgres migration</span></label>
             <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Wire telemetry to Grafana</span></label>
@@ -387,7 +398,12 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Team</strong></header>
+          <header>
+            <hgroup>
+              <strong>Team</strong>
+              <p>8 engineers and designers.</p>
+            </hgroup>
+          </header>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-sm) var(--spacing-md)">
             <div class="flex items-center gap-2" style="min-width:0">
               <div class="avatar small">KS</div>
@@ -519,7 +535,12 @@
         </article>
 
         <article class="span-2 flex flex-col">
-          <header><strong>Recent deployments</strong></header>
+          <header>
+            <hgroup>
+              <strong>Recent deployments</strong>
+              <p>Last 5 builds across all branches.</p>
+            </hgroup>
+          </header>
           <table>
             <thead>
               <tr>
@@ -611,7 +632,12 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Notification settings</strong></header>
+          <header>
+            <hgroup>
+              <strong>Notification settings</strong>
+              <p>Pick what reaches your inbox.</p>
+            </hgroup>
+          </header>
           <label class="flex items-center justify-between" style="margin:0">
             <span>Email digests</span>
             <input type="checkbox" role="switch" checked>
@@ -867,7 +893,7 @@
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.12.2</span>
+        <span>v1.12.3</span>
         <span>57 KB</span>
         <span>MIT</span>
         <span>© 2026</span>
