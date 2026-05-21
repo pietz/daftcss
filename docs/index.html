@@ -114,25 +114,26 @@
        Daft's light-dark() defaults so palettes work in BOTH modes.
        ============================================================ */
 
-    /* Forest — 1 variable. Just shift the primary, contrast text auto-derives. */
+    /* Forest — earthy sage / deep forest. */
     [data-palette="forest"] {
-      --primary: light-dark(oklch(0.5 0.13 150), oklch(0.7 0.15 150));
+      --primary:    light-dark(oklch(0.5 0.13 150), oklch(0.7 0.15 150));
+      --background: light-dark(oklch(0.96 0.02 140), oklch(0.22 0.04 150));
     }
 
-    /* Rounded — 2 variables. Generous radius everywhere, buttons go full pill. */
+    /* Rounded — one var, every corner follows. */
     [data-palette="rounded"] {
-      --radius:        1rem;
-      --button-radius: 9999px;
+      --radius: 1rem;
     }
 
-    /* Corporate — 3 variables. Deeper navy, tighter radius, cooler borders. */
+    /* Corporate — cooler blue, tighter corners, slate surfaces (Tailwind slate-50/900). */
     [data-palette="corporate"] {
-      --primary: light-dark(oklch(0.35 0.06 250), oklch(0.72 0.08 250));
-      --radius:  0.375rem;
-      --border:  light-dark(oklch(0.86 0.01 250), oklch(0.28 0.01 250));
+      --primary:    light-dark(oklch(0.35 0.06 250), oklch(0.72 0.08 250));
+      --radius:     0.25rem;
+      --border:     light-dark(oklch(0.86 0.01 250), oklch(0.28 0.01 250));
+      --background: light-dark(oklch(0.984 0.003 247.86), oklch(0.208 0.042 265.755));
     }
 
-    /* Brutalist — 7 variables. Sharp corners, thick borders, hard shadows. */
+    /* Brutalist — sharp corners, thick borders, hard shadows, punk colors. */
     [data-palette="brutalist"] {
       --primary: light-dark(oklch(0 0 0), oklch(1 0 0));
       --primary-foreground: light-dark(oklch(1 0 0), oklch(0 0 0));
@@ -141,6 +142,7 @@
       --radius: 0;
       --button-shadow: light-dark(3px 3px 0 oklch(0 0 0), 3px 3px 0 oklch(1 0 0));
       --card-shadow: light-dark(4px 4px 0 oklch(0 0 0), 4px 4px 0 oklch(1 0 0));
+      --background: light-dark(oklch(0.93 0.18 100), oklch(0.32 0.22 330));
     }
 
     @media (prefers-reduced-motion: reduce) {
