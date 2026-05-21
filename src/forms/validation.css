@@ -3,11 +3,20 @@
  * Uses aria-invalid for semantic validation states
  */
 
-/* Invalid state */
+/* Invalid state — red border + permanent tinted ring (matches shadcn) */
 input[aria-invalid="true"],
 textarea[aria-invalid="true"],
 select[aria-invalid="true"] {
   border-color: var(--destructive);
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) 20%, transparent);
+}
+
+/* Invalid + focus — ring intensifies to focus opacity */
+input[aria-invalid="true"]:focus-visible,
+textarea[aria-invalid="true"]:focus-visible,
+select[aria-invalid="true"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
 }
 
 /* Valid state */

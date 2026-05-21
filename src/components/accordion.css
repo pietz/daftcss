@@ -42,15 +42,17 @@ summary {
     transition: transform var(--transition-default);
   }
 
-  &:hover {
-    color: var(--primary);
-  }
-
   &:focus-visible {
     outline: var(--outline-width) solid var(--ring);
     outline-offset: var(--outline-offset);
     border-radius: var(--radius-sm);
   }
+}
+
+/* Hover underline — only for plain accordion triggers, not dropdowns or button-styled summaries */
+details:not(.dropdown) > summary:not([role="button"]):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* Open state */

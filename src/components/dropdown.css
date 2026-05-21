@@ -12,7 +12,6 @@ details.dropdown {
 
 details.dropdown > summary {
   justify-content: space-between;
-  border-radius: var(--dropdown-radius);
 
   &::after {
     content: "";
@@ -37,6 +36,11 @@ details.dropdown[open] > summary {
   &::after {
     transform: rotate(180deg);
   }
+}
+
+/* Icon-only trigger: the icon is the affordance, no chevron */
+details.dropdown > summary.icon::after {
+  content: none;
 }
 
 /* Dropdown menu */
@@ -74,7 +78,7 @@ details.dropdown > ul > li > label {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
   color: var(--popover-foreground);
   text-decoration: none;
@@ -86,6 +90,20 @@ details.dropdown > ul > li > label {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
+}
+
+/* Eyebrow label inside dropdown — match item padding, no hover */
+details.dropdown > ul > li.label {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin: 0;
+}
+
+/* Separator — full-bleed hairline between groups */
+details.dropdown > ul > li[role="separator"] {
+  height: var(--border-width);
+  margin: var(--spacing-xs) calc(var(--spacing-xs) * -1);
+  background-color: var(--border);
+  padding: 0;
 }
 
 /* Right-aligned dropdown (RTL trick) */

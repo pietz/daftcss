@@ -40,8 +40,8 @@
 
   <aside id="sidebar" class="sidebar" popover>
     <nav>
-      <h6>Components</h6>
       <ul>
+        <li class="label">Components</li>
         <li><a href="#typography">Typography</a></li>
         <li><a href="#forms">Forms</a></li>
         <li><a href="#buttons">Buttons</a></li>
@@ -76,6 +76,7 @@
           <h4>Heading 4</h4>
           <h5>Heading 5</h5>
           <h6>Heading 6</h6>
+          <p class="label">Eyebrow label</p>
         </article>
         <article>
           <pre><code>&lt;h1&gt;Heading 1&lt;/h1&gt;
@@ -83,7 +84,8 @@
 &lt;h3&gt;Heading 3&lt;/h3&gt;
 &lt;h4&gt;Heading 4&lt;/h4&gt;
 &lt;h5&gt;Heading 5&lt;/h5&gt;
-&lt;h6&gt;Eyebrow heading&lt;/h6&gt;</code></pre>
+&lt;h6&gt;Heading 6&lt;/h6&gt;
+&lt;p class="label"&gt;Eyebrow label&lt;/p&gt;</code></pre>
         </article>
       </div>
 
@@ -300,6 +302,41 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
       </div>
 
+      <h3>Icon Buttons</h3>
+      <div class="grid">
+        <article>
+          <p>
+            <button class="icon" aria-label="Close">×</button>
+            <button class="icon ghost" aria-label="Settings">⚙</button>
+            <button class="icon outline" aria-label="Search">🔍</button>
+            <button class="icon ghost rounded-full" aria-label="More">⋯</button>
+          </p>
+          <p>
+            <details class="dropdown">
+              <summary class="icon ghost" aria-label="Menu">⋯</summary>
+              <ul>
+                <li><a href="#">Edit</a></li>
+                <li><a href="#">Duplicate</a></li>
+                <li><a href="#">Delete</a></li>
+              </ul>
+            </details>
+          </p>
+        </article>
+        <article>
+          <pre><code>&lt;button class="icon" aria-label="Close"&gt;×&lt;/button&gt;
+&lt;button class="icon ghost" aria-label="Settings"&gt;⚙&lt;/button&gt;
+&lt;button class="icon outline" aria-label="Search"&gt;🔍&lt;/button&gt;
+&lt;button class="icon ghost rounded-full" aria-label="More"&gt;⋯&lt;/button&gt;
+
+&lt;details class="dropdown"&gt;
+  &lt;summary class="icon ghost" aria-label="Menu"&gt;⋯&lt;/summary&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/details&gt;</code></pre>
+        </article>
+      </div>
+
       <h3>Groups, Disabled, Loading</h3>
       <div class="grid">
         <article>
@@ -458,6 +495,10 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <details class="dropdown">
             <summary class="ghost">Actions</summary>
             <ul>
+              <li class="label">My Account</li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Settings</a></li>
+              <li role="separator"></li>
               <li><a href="#">Edit</a></li>
               <li><a href="#">Archive</a></li>
             </ul>
@@ -476,7 +517,12 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
 &lt;details class="dropdown"&gt;
   &lt;summary class="ghost"&gt;Actions&lt;/summary&gt;
-  &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Edit&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li class="label"&gt;My Account&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="separator"&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
 &lt;/details&gt;</code></pre>
         </article>
       </div>

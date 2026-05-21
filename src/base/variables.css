@@ -20,7 +20,7 @@
   /* Layout & sizing */
   --spacing: 1rem;
   --radius: 0.625rem;
-  --component-height: 2.25rem;
+  --component-height: 2rem;
 
   /* Typography */
   --font-size-base: 1rem;
@@ -42,8 +42,8 @@
   --primary: light-dark(oklch(0.205 0 0), oklch(0.922 0 0));
   --muted: light-dark(oklch(0.97 0 0), oklch(0.269 0 0));
   --destructive: light-dark(oklch(0.577 0.245 27.325), oklch(0.704 0.191 22.216));
-  --success: light-dark(oklch(0.55 0.16 145), oklch(0.72 0.16 145));
-  --warning: light-dark(oklch(0.68 0.16 70), oklch(0.82 0.16 80));
+  --success: light-dark(oklch(0.55 0.12 145), oklch(0.72 0.12 145));
+  --warning: light-dark(oklch(0.68 0.13 75), oklch(0.82 0.13 80));
   --border: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 10%));
 
   /* ============================================================
@@ -121,8 +121,8 @@
      ============================================================ */
 
   /* Radii (per component) */
-  --button-radius: var(--radius-md);
-  --input-radius: var(--radius-md);
+  --button-radius: var(--radius-lg);
+  --input-radius: var(--radius-lg);
   --card-radius: var(--radius-xl);
   --modal-radius: var(--radius-lg);
   --dropdown-radius: var(--radius-md);
@@ -131,7 +131,7 @@
   --progress-radius: var(--radius-full);
 
   /* Shadows (set any to `none` to flatten that component) */
-  --button-shadow: var(--shadow-xs);
+  --button-shadow: none;
   --card-shadow: var(--shadow-xs);
   --dropdown-shadow: var(--shadow-md);
   --modal-shadow: var(--shadow-lg);

@@ -193,7 +193,7 @@ Bare `<dialog>` (opened via `showModal()`) is also styled as a card — wrap con
   <aside id="sidebar" class="sidebar" popover>
     <nav>
       <ul>
-        <li><h6>Section Label</h6></li>
+        <li class="label">Section Label</li>
         <li><a href="#" aria-current="page">Active link</a></li>
         <li><a href="#">Regular link</a></li>
       </ul>

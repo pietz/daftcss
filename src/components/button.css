@@ -10,7 +10,7 @@
   justify-content: center;
   gap: var(--spacing-sm);
   height: var(--button-height);
-  padding: var(--spacing-sm) var(--spacing);
+  padding: var(--spacing-sm) var(--spacing-md);
   font-family: inherit;
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -80,43 +80,28 @@ a[role="button"] {
   }
 }
 
-/* Destructive variant */
+/* Destructive variant — tinted background, colored text */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).destructive {
-  color: var(--destructive-foreground);
-  background-color: var(--destructive);
+  color: var(--destructive);
+  background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
 
   &:hover {
-    background-color: color-mix(in oklch, var(--destructive) var(--hover-opacity), transparent);
+    background-color: color-mix(in oklch, var(--destructive) 20%, transparent);
   }
 
   &:active {
-    background-color: color-mix(in oklch, var(--destructive) var(--active-opacity), transparent);
+    background-color: color-mix(in oklch, var(--destructive) 30%, transparent);
   }
 
   &:focus-visible {
-    box-shadow: var(--button-shadow), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
   }
 }
 
 /* Outline variant */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).outline {
-  color: var(--primary);
-  background-color: var(--background);
-  border-color: var(--primary);
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--primary-foreground);
-  }
-
-  &:focus-visible {
-    box-shadow: var(--button-shadow), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--primary) var(--focus-ring-opacity), transparent);
-  }
-}
-
-/* Outline secondary */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).outline.secondary {
   color: var(--foreground);
+  background-color: var(--background);
   border-color: var(--border);
 
   &:hover {

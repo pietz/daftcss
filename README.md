@@ -242,7 +242,7 @@ Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the
   <aside id="sidebar" class="sidebar" popover>
     <nav>
       <ul>
-        <li><h6>Overview</h6></li>
+        <li class="label">Overview</li>
         <li><a href="#" aria-current="page">Dashboard</a></li>
         <li><a href="#">Reports</a></li>
       </ul>

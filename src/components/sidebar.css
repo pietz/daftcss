@@ -47,16 +47,19 @@ body > aside.sidebar > nav > ul > li {
   margin: 0;
 }
 
-body > aside.sidebar > nav h6,
+/* Section labels — works as a direct child of <nav> or as a <li> inside the list */
+body > aside.sidebar > nav > .label,
+body > aside.sidebar > nav > ul > li.label,
 body > aside.sidebar > nav > ul > li > strong {
   display: block;
-  padding: var(--spacing-sm) 0;
-  margin-top: var(--spacing);
+  padding: var(--spacing-xs) 0;
+  margin-top: var(--spacing-sm);
   margin-bottom: 0;
 }
 
-body > aside.sidebar > nav > h6:first-child,
-body > aside.sidebar > nav > ul > li:first-child > :is(h6, strong) {
+body > aside.sidebar > nav > .label:first-child,
+body > aside.sidebar > nav > ul > li:first-child.label,
+body > aside.sidebar > nav > ul > li:first-child > strong {
   margin-top: 0;
 }
 

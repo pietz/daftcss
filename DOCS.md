@@ -188,7 +188,7 @@ Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar.
 <aside id="sidebar" class="sidebar" popover>
   <nav>
     <ul>
-      <li><h6>Overview</h6></li>
+      <li class="label">Overview</li>
       <li><a href="#" aria-current="page">Dashboard</a></li>
       <li><a href="#">Reports</a></li>
     </ul>
@@ -252,7 +252,7 @@ All typography is styled automatically. No classes needed.
 <h3>Heading 3</h3>
 <h4>Heading 4</h4>
 <h5>Heading 5</h5>
-<h6>Eyebrow heading</h6>
+<p class="label">Eyebrow label</p>
 ```
 
 ### Heading Groups
@@ -327,13 +327,6 @@ Buttons are styled automatically. Use `<button>`, `<input type="submit">`, or `<
 <button class="ghost">Ghost</button>
 <button class="link">Link</button>
 <button class="destructive">Destructive</button>
-```
-
-**Outline Combinations:**
-
-```html
-<button class="outline">Outline</button>
-<button class="outline secondary">Outline Secondary</button>
 ```
 
 ### Sizes
