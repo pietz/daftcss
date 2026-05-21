@@ -114,9 +114,10 @@
        Daft's light-dark() defaults so palettes work in BOTH modes.
        ============================================================ */
 
-    /* Iris — indigo-violet primary on a neutral surface. */
+    /* Iris — Pantone 2736 C cobalt-indigo on a pale-blue surface. */
     [data-palette="iris"] {
-      --primary: light-dark(#6050DC, #9D90FF);
+      --primary:    light-dark(#1F2A87, #8E9DFF);
+      --background: light-dark(oklch(0.97 0.015 270), oklch(0.22 0.05 270));
     }
 
     /* Rounded — one var, every corner follows. */
@@ -273,7 +274,9 @@
     oklch(1 0 0), oklch(.14 .04 263));
 }</pre>
 <pre data-for="iris">[data-palette="iris"] {
-  --primary: light-dark(#6050DC, #9D90FF);
+  --primary:    light-dark(#1F2A87, #8E9DFF);
+  --background: light-dark(
+    oklch(.97 .015 270), oklch(.22 .05 270));
 }</pre>
 <pre data-for="rounded">[data-palette="rounded"] {
   /* One variable. Every corner. */
