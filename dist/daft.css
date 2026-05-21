@@ -2729,7 +2729,7 @@
       font-size: calc(var(--slide-text) * var(--slide-text-scale));
       flex-direction: column;
       justify-content: flex-start;
-      gap: 1em;
+      gap: 1.5em;
       margin: 0;
       line-height: 1.3;
       display: flex;
@@ -2782,7 +2782,7 @@
 
       & hgroup {
         flex-direction: column;
-        gap: .2em;
+        gap: .1em;
         margin: 0;
         display: flex;
       }
