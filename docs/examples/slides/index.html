@@ -10,14 +10,18 @@
 
 <!-- 1. Title slide -->
 <section class="title">
-  <h1>Daft Slides</h1>
-  <p>Semantic HTML for presentation decks.</p>
+  <hgroup>
+    <h1>Daft Slides</h1>
+    <p>Semantic HTML for presentation decks.</p>
+  </hgroup>
 </section>
 
-<!-- 2. Default layout — top-aligned single column -->
+<!-- 2. Default layout — heading + subtitle via <hgroup> -->
 <section>
-  <h2>The problem</h2>
-  <p>Agents write HTML well, but every deck reinvents the same six layouts.</p>
+  <hgroup>
+    <h2>The problem</h2>
+    <p>Every team reinvents the same six layouts.</p>
+  </hgroup>
   <ul>
     <li>Markdown is too rigid</li>
     <li>Raw HTML reinvents the wheel</li>
@@ -66,7 +70,7 @@
     </article>
     <article class="card">
       <h3>PDF-ready</h3>
-      <p>Browser print. No tooling required.</p>
+      <p>Press <kbd>Cmd</kbd> + <kbd>P</kbd> and save as PDF. No tooling required.</p>
     </article>
   </div>
 </section>
@@ -99,6 +103,24 @@
     &lt;/div&gt;
   &lt;/section&gt;
 &lt;/body&gt;</code></pre>
+</section>
+
+<!-- 9. Heading scale -->
+<section>
+  <h2>Heading scale</h2>
+  <div class="grid">
+    <div>
+      <h1>H1</h1>
+      <h2>H2</h2>
+      <h3>H3</h3>
+    </div>
+    <div>
+      <h4>H4 subtitle scale</h4>
+      <h5>H5 compact heading</h5>
+      <h6>H6 tiny heading</h6>
+      <p>Body copy uses the deck text size and scales with the slide.</p>
+    </div>
+  </div>
 </section>
 
 </body>

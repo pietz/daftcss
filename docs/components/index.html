@@ -16,6 +16,89 @@
   <style>
     /* Let Daft's <pre> own the surface; hljs only paints tokens. */
     pre code.hljs { background: transparent; padding: 0; }
+
+    .sidebar-layouts {
+      display: grid;
+      gap: var(--spacing);
+    }
+
+    .sidebar-layout {
+      display: grid;
+      gap: var(--spacing-sm);
+    }
+
+    .sidebar-layout h4 {
+      margin: 0;
+      font-size: var(--text-base);
+    }
+
+    .layout-diagram {
+      display: grid;
+      min-height: 11rem;
+      border: var(--border-width) solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--background);
+      color: var(--muted-foreground);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+    }
+
+    .layout-diagram > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-sm);
+      border-color: var(--border);
+    }
+
+    .layout-diagram .diagram-nav {
+      background: var(--card);
+      color: var(--foreground);
+    }
+
+    .layout-diagram .diagram-sidebar {
+      background: var(--muted);
+      color: var(--foreground);
+    }
+
+    .layout-diagram .diagram-main {
+      background: color-mix(in oklch, var(--muted) 35%, transparent);
+    }
+
+    .layout-diagram.full-nav {
+      grid-template-columns: minmax(6rem, 0.36fr) 1fr;
+      grid-template-rows: 3rem 1fr;
+    }
+
+    .layout-diagram.full-nav .diagram-nav {
+      grid-column: 1 / -1;
+      border-bottom: var(--border-width) solid var(--border);
+    }
+
+    .layout-diagram.full-nav .diagram-sidebar {
+      border-right: var(--border-width) solid var(--border);
+    }
+
+    .layout-diagram.content-nav {
+      grid-template-columns: minmax(6rem, 0.36fr) 1fr;
+      grid-template-rows: 3rem 1fr;
+    }
+
+    .layout-diagram.content-nav .diagram-sidebar {
+      grid-row: 1 / -1;
+      border-right: var(--border-width) solid var(--border);
+    }
+
+    .layout-diagram.content-nav .diagram-nav {
+      border-bottom: var(--border-width) solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .sidebar-layouts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
   </style>
 </head>
 
@@ -432,22 +515,32 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       </div>
 
       <h3>Sidebar</h3>
-      <div class="grid">
-        <article>
-          <p>Place <code>&lt;aside class="sidebar"&gt;</code> as a direct child of <code>&lt;body&gt;</code>. Put it
-            before the top nav for a full-height rail, or after the top nav when the rail should sit below it. Add
-            <code>popover</code> and a <code>.sidebar-toggle</code> button for mobile.
-          </p>
-        </article>
-        <article>
-          <pre><code>&lt;nav class="sticky glass"&gt;
-  &lt;button class="ghost icon sidebar-toggle"
-          popovertarget="sidebar"&gt;☰&lt;/button&gt;
-  ...
-&lt;/nav&gt;
-
+      <p><code>&lt;aside class="sidebar"&gt;</code> supports two desktop layouts depending on where it appears as a
+        direct child of <code>&lt;body&gt;</code>. Add <code>popover</code> and a <code>.sidebar-toggle</code> button
+        wherever your mobile layout should open the drawer.</p>
+      <div class="sidebar-layouts">
+        <article class="sidebar-layout">
+          <h4>Top nav over everything</h4>
+          <div class="layout-diagram full-nav" aria-hidden="true">
+            <span class="diagram-nav">nav</span>
+            <span class="diagram-sidebar">sidebar</span>
+            <span class="diagram-main">main</span>
+          </div>
+          <pre><code>&lt;nav class="sticky glass"&gt;...&lt;/nav&gt;
 &lt;aside id="sidebar" class="sidebar" popover&gt;...&lt;/aside&gt;
-
+&lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
+        </article>
+        <article class="sidebar-layout">
+          <h4>Nav inside the content area</h4>
+          <div class="layout-diagram content-nav" aria-hidden="true">
+            <span class="diagram-sidebar">sidebar</span>
+            <span class="diagram-nav">nav</span>
+            <span class="diagram-main">main</span>
+          </div>
+          <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;...&lt;/aside&gt;
+&lt;header class="container-fluid"&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;
 &lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
         </article>
       </div>

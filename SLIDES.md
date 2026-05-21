@@ -50,7 +50,7 @@ Plus one positional modifier that composes with any role:
 
 ## Layouts — use Daft, not new vocabulary
 
-Slides reuse Daft's `.grid` system. For a slide with a heading and a column layout, keep the heading as a sibling of the grid (the slide `<section>` is already a vertical flex column).
+Slides reuse Daft's `.grid` system. Grid children become equal columns; `.span-N` acts as a weight when one child should take more space. For a slide with a heading and a column layout, keep the heading as a sibling of the grid (the slide `<section>` is already a vertical flex column).
 
 ```html
 <!-- Even 2-column grid — heading above, body below -->
@@ -106,25 +106,46 @@ PDF export captures whichever theme is active at print time — toggle your OS a
 
 ### Adjust type scale
 
+Slide typography uses container-query units, so headings and body copy scale with
+the slide canvas. `h1` through `h6` all have slide-specific sizes; use the
+heading level that matches the visual hierarchy you want. In an `hgroup`, the
+paragraph acts as a subtitle and is sized like `h4`.
+
 ```css
 :root { --slide-text-scale: 1.1; }          /* 10 % bigger across all slides */
 
 section.dense { --slide-text-scale: 0.85; } /* per-slide override */
 ```
 
-### Change aspect ratio
+### Change slide size
 
 ```css
-:root { --slide-aspect: calc(4 / 3); }   /* 4:3 */
-:root { --slide-aspect: 1; }             /* square (social) */
-:root { --slide-aspect: calc(9 / 16); }  /* portrait */
+:root {
+  --slide-width: 4;
+  --slide-height: 3;
+} /* 4:3 */
+
+:root {
+  --slide-width: 1;
+  --slide-height: 1;
+} /* square */
+
+:root {
+  --slide-width: 9;
+  --slide-height: 16;
+} /* portrait */
 ```
+
+Width and height are unitless slide proportions. Screen layout derives its aspect
+ratio from them, and PDF export uses the same values as inch dimensions.
 
 ### Slide tokens
 
 | Variable              | Default              | Purpose                              |
 |-----------------------|----------------------|--------------------------------------|
-| `--slide-aspect`      | `calc(16 / 9)`       | Slide aspect ratio.                  |
+| `--slide-width`       | `16`                 | Slide width proportion / print inches. |
+| `--slide-height`      | `9`                  | Slide height proportion / print inches. |
+| `--slide-aspect`      | `calc(var(--slide-width) / var(--slide-height))` | Derived slide aspect ratio. |
 | `--slide-padding`     | `5cqi`               | Inner padding (scales with slide).   |
 | `--slide-text`        | `2.2cqi`             | Base body text size.                 |
 | `--slide-text-scale`  | `1`                  | User multiplier for all text.        |
@@ -134,6 +155,7 @@ section.dense { --slide-text-scale: 0.85; } /* per-slide override */
 ## PDF export
 
 The primary export path is the browser's print dialog — no tooling required.
+Press `⌘P` / `Ctrl+P`, then save as PDF.
 
 1. Open the deck in a modern browser
 2. `⌘P` / `Ctrl+P`
@@ -144,7 +166,7 @@ In the print dialog, check:
 - **Margins** → None
 - **Headers and footers** → off (Chrome adds URL + page numbers by default)
 - **Background graphics** → on (the CSS forces this via `print-color-adjust: exact`)
-- **Paper size** → Default (the deck's `@page` rule sets it to 16:9 / `16in × 9in`)
+- **Paper size** → Default (the deck's `@page` rule uses `--slide-width` and `--slide-height`, `16in × 9in` by default)
 
 ## Speaker notes
 
