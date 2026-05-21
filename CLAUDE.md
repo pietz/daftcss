@@ -84,7 +84,7 @@ When adding a new component or feature to the library:
 
 1. **Create the CSS** in the appropriate `src/` directory
 2. **Import it** in `src/daft.css` with the correct layer
-3. **Update `docs/components.html`** with usage examples
+3. **Update `docs/components/index.html`** with usage examples
 4. **Update documentation** if applicable
 5. **Run `npm run build`** to verify it compiles
 
@@ -94,10 +94,17 @@ When the user asks to publish a new version, follow these steps in order. Never 
 
 ### 1. Version bump
 
-Update the version in three places (they must match):
+Update the version in four places (they must match):
 - `package.json` → `"version": "x.y.z"`
 - `src/daft.css` → header comment `* Daft CSS vx.y.z`
 - `docs/index.html` → footer + nav badge (`v1.x.y`)
+- `docs/**/*.html` → every `<link rel="stylesheet" href="/dist/daft.css?v=x.y.z">` cache-buster query
+
+The cache-buster bump is what guarantees the deployed landing pages pick up the new CSS immediately — without it, browsers (and the GH Pages edge cache) can serve a stale build for hours. Quick one-liner from the repo root:
+
+```bash
+grep -rl 'dist/daft.css?v=' docs | xargs sed -i '' "s|dist/daft.css?v=[0-9.]*|dist/daft.css?v=NEW_VERSION|g"
+```
 
 SemVer guidance for this project:
 - **Patch (1.6.x)** — bug fixes, additive helpers, no behavior change for existing markup
