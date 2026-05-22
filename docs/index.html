@@ -51,6 +51,14 @@
       --background: light-dark(oklch(0.984 0.003 247.86), oklch(0.208 0.042 265.755));
     }
 
+    /* Glass — slate background, semi-transparent white cards stack visibly. */
+    [data-palette="glass"] {
+      --background: light-dark(oklch(0.86 0.04 240), oklch(0.30 0.05 240));
+      --card:       light-dark(oklch(1 0 0 / 0.5), oklch(1 0 0 / 0.08));
+      --popover:    light-dark(oklch(1 0 0 / 0.7), oklch(1 0 0 / 0.15));
+      --border:     light-dark(oklch(1 0 0 / 0.6), oklch(1 0 0 / 0.18));
+    }
+
     /* Brutalist — sharp corners, thick borders, hard shadows, punk colors. */
     [data-palette="brutalist"] {
       --primary: light-dark(oklch(0 0 0), oklch(1 0 0));
@@ -145,6 +153,7 @@
               <option value="forest">Forest</option>
               <option value="rounded">Rounded</option>
               <option value="corporate">Corporate</option>
+              <option value="glass">Glass</option>
               <option value="brutalist">Brutalist</option>
             </select>
           </label>
@@ -179,17 +188,17 @@
           <div>
 <pre data-for="default" class="max-h-sm overflow-auto"><code>/* Default — shadcn baseline.
    No override needed. */</code></pre>
-<pre data-for="forest" class="max-h-sm overflow-auto hidden"><code>[data-palette="forest"] {
+<pre data-for="forest" class="max-h-sm overflow-auto hidden"><code>:root {
   --primary:    light-dark(
     oklch(.50 .13 150), oklch(.70 .15 150));
   --background: light-dark(
     oklch(.96 .02 140), oklch(.22 .04 150));
 }</code></pre>
-<pre data-for="rounded" class="max-h-sm overflow-auto hidden"><code>[data-palette="rounded"] {
+<pre data-for="rounded" class="max-h-sm overflow-auto hidden"><code>:root {
   /* One variable. Every corner. */
   --radius: 1rem;
 }</code></pre>
-<pre data-for="corporate" class="max-h-sm overflow-auto hidden"><code>[data-palette="corporate"] {
+<pre data-for="corporate" class="max-h-sm overflow-auto hidden"><code>:root {
   --primary:    light-dark(
     oklch(.35 .06 250), oklch(.72 .08 250));
   --radius:     0.25rem;
@@ -198,7 +207,15 @@
   --background: light-dark(
     oklch(.98 .003 248), oklch(.21 .04 266));
 }</code></pre>
-<pre data-for="brutalist" class="max-h-sm overflow-auto hidden"><code>[data-palette="brutalist"] {
+<pre data-for="glass" class="max-h-sm overflow-auto hidden"><code>:root {
+  --background: light-dark(
+    oklch(.86 .04 240), oklch(.30 .05 240));
+  --card:       light-dark(
+    oklch(1 0 0 / .5), oklch(1 0 0 / .08));
+  --border:     light-dark(
+    oklch(1 0 0 / .6), oklch(1 0 0 / .18));
+}</code></pre>
+<pre data-for="brutalist" class="max-h-sm overflow-auto hidden"><code>:root {
   --primary:       light-dark(#000, #fff);
   --border:        light-dark(#000, #fff);
   --border-width:  2px;
@@ -302,36 +319,57 @@
           <header>
             <hgroup>
               <strong>Bundle comparison</strong>
-              <p>Same general category, different shipping model.</p>
+              <p>Minified CSS, not gzipped.</p>
             </hgroup>
           </header>
           <div class="mb-4">
             <div class="flex justify-between">
-              <span>Daft</span>
+              <span>Skeleton</span>
+              <span class="muted text-sm">11 KB</span>
+            </div>
+            <progress value="11" max="700"></progress>
+          </div>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span>Pure</span>
+              <span class="muted text-sm">17 KB</span>
+            </div>
+            <progress value="17" max="700"></progress>
+          </div>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span><strong>Daft</strong></span>
               <span class="muted text-sm">57 KB</span>
             </div>
-            <progress value="57" max="700"></progress>
+            <progress value="57" max="700" class="success"></progress>
           </div>
           <div class="mb-4">
             <div class="flex justify-between">
               <span>Pico</span>
               <span class="muted text-sm">83 KB</span>
             </div>
-            <progress value="83" max="700" class="secondary"></progress>
+            <progress value="83" max="700"></progress>
+          </div>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span>Bootstrap</span>
+              <span class="muted text-sm">163 KB</span>
+            </div>
+            <progress value="163" max="700"></progress>
+          </div>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span>Bulma</span>
+              <span class="muted text-sm">196 KB</span>
+            </div>
+            <progress value="196" max="700"></progress>
           </div>
           <div>
             <div class="flex justify-between">
-              <span>daisyUI + Tailwind</span>
-              <span class="muted text-sm">~170 KB</span>
-            </div>
-            <progress value="170" max="700"></progress>
-          </div>
-          <div class="mt-4">
-            <div class="flex justify-between">
               <span>FrankenstyleKit</span>
-              <span class="muted text-sm">~640 KB</span>
+              <span class="muted text-sm">640 KB</span>
             </div>
-            <progress value="640" max="700" class="secondary"></progress>
+            <progress value="640" max="700" class="destructive"></progress>
           </div>
         </article>
 
