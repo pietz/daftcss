@@ -57,6 +57,10 @@
   --spacing-lg: calc(var(--spacing) * 1.5);
   --spacing-xl: calc(var(--spacing) * 2);
 
+  /* Vertical gap between top-level <section> landmarks. Override at :root
+     for landing-style pages (e.g. clamp(3rem, 6vw, 5rem)). */
+  --section-gap: var(--spacing-xl);
+
   /* Radius scale (anchored on --radius == lg, multiplicative so --radius: 0 → all 0, --radius: 9999px → all pill) */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -73,6 +77,8 @@
   --text-2xl: calc(var(--font-size-base) * 1.5);
   --text-3xl: calc(var(--font-size-base) * 1.875);
   --text-4xl: calc(var(--font-size-base) * 2.25);
+  --text-5xl: calc(var(--font-size-base) * 3);
+  --text-6xl: calc(var(--font-size-base) * 3.5);
 
   /* Line heights */
   --line-height-sm: calc(var(--line-height) - 0.25);
@@ -115,6 +121,10 @@
   /* Hover-surface role (derived from --muted; override to retune) */
   --accent: var(--muted);
   --accent-foreground: var(--foreground);
+
+  /* Secondary component surface (derived from --muted; override to retune) */
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
 
   /* ============================================================
      TIER 2 — COMPONENT TOKENS

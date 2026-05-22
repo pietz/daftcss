@@ -83,9 +83,12 @@ Customize the design system by overriding root variables:
   --radius: 0.5rem;       /* Border radius */
   --font-size-base: 1rem; /* Base font size */
   --transition: 150ms;    /* Animation duration */
-  --component-height: 2.25rem; /* Button/input height */
+  --component-height: 2rem; /* Button/input height */
+  --section-gap: var(--spacing-xl); /* Vertical margin between <section> landmarks */
 }
 ```
+
+**Section gap** — override `--section-gap` at `:root` for landing-style pages, e.g. `--section-gap: clamp(5rem, 10vw, 9rem)`. Default (2rem) is tuned for app/dashboard layouts.
 
 **Color Tokens (shadcn/ui naming):**
 
@@ -116,7 +119,7 @@ Each elevated component has its own shadow token. Set any to `none` to flatten t
 
 | Variable | Default | Used by |
 |----------|---------|---------|
-| `--button-shadow` | `var(--shadow-xs)` | Buttons, button-styled accordion summaries |
+| `--button-shadow` | `none` | Buttons, button-styled accordion summaries |
 | `--card-shadow` | `var(--shadow-xs)` | `<article>` cards |
 | `--dropdown-shadow` | `var(--shadow-md)` | `<details class="dropdown">` menus |
 | `--modal-shadow` | `var(--shadow-lg)` | `<dialog>` modals |
@@ -736,7 +739,7 @@ Compact, IDE-style file tree. Folders use `<details>`/`<summary>` for native ope
 
 ### Modal
 
-Use native `<dialog>` with the Popover API for zero-JavaScript modals:
+Daft's no-JavaScript modal uses the native Popover API.
 
 ```html
 <button popovertarget="my-modal">Open Modal</button>
@@ -1083,6 +1086,24 @@ Add the `.sticky` class for sticky positioning:
 <div class="flex gap-8">Extra-large gap (2rem)</div>
 
 <div class="w-full">Full width</div>
+
+<!-- Max width scale (centered columns, narrow text blocks) -->
+<div class="max-w-xs">20rem</div>
+<div class="max-w-sm">24rem</div>
+<div class="max-w-md">28rem</div>
+<div class="max-w-lg">32rem</div>
+<div class="max-w-xl">36rem</div>
+<div class="max-w-2xl">42rem</div>
+<div class="max-w-3xl">48rem</div>
+
+<!-- Max height scale (scrollable regions — pair with .overflow-auto) -->
+<pre class="max-h-xs overflow-auto">12rem</pre>
+<pre class="max-h-sm overflow-auto">16rem</pre>
+<pre class="max-h-md overflow-auto">20rem</pre>
+<pre class="max-h-lg overflow-auto">24rem</pre>
+<pre class="max-h-xl overflow-auto">32rem</pre>
+<pre class="max-h-2xl overflow-auto">40rem</pre>
+<pre class="max-h-3xl overflow-auto">48rem</pre>
 ```
 
 **Composite layout primitives** — compose the flex atoms above into common patterns:
@@ -1107,8 +1128,14 @@ Add the `.sticky` class for sticky positioning:
 
 ```html
 <div class="m-0">No margin</div>
-<div class="mt-4">Margin top</div>
-<div class="mb-4">Margin bottom</div>
+<div class="mt-4">Margin top (1rem)</div>
+<div class="mt-6">Margin top (1.5rem)</div>
+<div class="mt-8">Margin top (2rem)</div>
+<div class="mt-16">Margin top (4rem)</div>
+<div class="mt-24">Margin top (6rem)</div>
+<div class="mb-4">Margin bottom (1rem)</div>
+<div class="mb-6">Margin bottom (1.5rem)</div>
+<div class="mb-8">Margin bottom (2rem)</div>
 <div class="my-4">Margin vertical</div>
 
 <!-- Auto-margin helpers — push items inside flex/grid -->

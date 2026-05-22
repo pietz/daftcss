@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Components</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.12.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.13.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-light.min.css" media="(prefers-color-scheme: light)">
@@ -786,12 +786,13 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       <h3>Modal Dialog</h3>
       <div class="grid">
         <article>
+          <p>Daft's no-JavaScript modal uses the native Popover API.</p>
           <button popovertarget="demo-modal">Open Modal</button>
           <dialog id="demo-modal" popover>
             <article>
               <button aria-label="Close" popovertarget="demo-modal" popovertargetaction="hide"></button>
               <header><strong>Confirm Action</strong></header>
-              <p>This dialog uses the native Popover API.</p>
+              <p>Confirm this action before continuing.</p>
               <footer>
                 <button class="secondary" popovertarget="demo-modal" popovertargetaction="hide">Cancel</button>
                 <button popovertarget="demo-modal" popovertargetaction="hide">Confirm</button>

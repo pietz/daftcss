@@ -6,7 +6,7 @@ Load this when the user wants to retheme — match a brand, change feel ("sharpe
 
 Daft tokens form three tiers:
 
-- **Tier 0 — root knobs.** A handful of values that drive the whole system: `--spacing`, `--radius`, `--component-height`, `--font-size-base`, `--font-sans`, `--background`, `--foreground`, `--primary`, `--muted`, `--destructive`, `--success`, `--warning`, `--border`.
+- **Tier 0 — root knobs.** A handful of values that drive the whole system: `--spacing`, `--radius`, `--component-height`, `--font-size-base`, `--font-sans`, `--background`, `--foreground`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--success`, `--warning`, `--border`.
 - **Tier 1 — scales.** Derived from Tier 0. `--spacing-sm`, `--radius-lg`, `--text-xl`, `--shadow-md`, etc. Rarely touched.
 - **Tier 2 — component tokens.** Per-component overrides. `--button-radius`, `--card-shadow`, `--input-background`, `--aside-width`, etc.
 

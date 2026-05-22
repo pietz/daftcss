@@ -25,6 +25,7 @@
     --spacing-md: calc(var(--spacing) * .75);
     --spacing-lg: calc(var(--spacing) * 1.5);
     --spacing-xl: calc(var(--spacing) * 2);
+    --section-gap: var(--spacing-xl);
     --radius-sm: calc(var(--radius) * .6);
     --radius-md: calc(var(--radius) * .8);
     --radius-lg: var(--radius);
@@ -38,6 +39,8 @@
     --text-2xl: calc(var(--font-size-base) * 1.5);
     --text-3xl: calc(var(--font-size-base) * 1.875);
     --text-4xl: calc(var(--font-size-base) * 2.25);
+    --text-5xl: calc(var(--font-size-base) * 3);
+    --text-6xl: calc(var(--font-size-base) * 3.5);
     --line-height-sm: calc(var(--line-height)  - .25);
     --line-height-lg: calc(var(--line-height)  + .25);
     --font-normal: 400;
@@ -64,6 +67,8 @@
     --warning-foreground: oklch(14.5% 0 0);
     --accent: var(--muted);
     --accent-foreground: var(--foreground);
+    --secondary: var(--muted);
+    --secondary-foreground: var(--foreground);
     --button-radius: var(--radius-lg);
     --input-radius: var(--radius-lg);
     --card-radius: var(--radius-xl);
@@ -335,7 +340,7 @@
   }
 
   section {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--section-gap);
   }
 
   section:last-child {
@@ -344,12 +349,6 @@
 
   section section, body > article, main > article, section > article, .container > article {
     margin-bottom: var(--spacing);
-  }
-
-  @media (width >= 768px) {
-    section {
-      margin-bottom: calc(var(--spacing-xl) * 1.5);
-    }
   }
 
   .grid {
@@ -536,7 +535,7 @@
   hr {
     height: var(--border-width);
     background-color: var(--border);
-    margin: var(--spacing-lg) 0;
+    margin: var(--spacing) 0;
     border: none;
   }
 
@@ -1290,15 +1289,15 @@
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary):is(.secondary, [type="reset"]) {
-    color: var(--foreground);
-    background-color: var(--accent);
+    color: var(--secondary-foreground);
+    background-color: var(--secondary);
 
     &:hover {
-      background-color: color-mix(in oklch, var(--accent) 80%, var(--foreground) 5%);
+      background-color: color-mix(in oklch, var(--secondary) 80%, var(--secondary-foreground) 5%);
     }
 
     &:active {
-      background-color: color-mix(in oklch, var(--accent) 70%, var(--foreground) 10%);
+      background-color: color-mix(in oklch, var(--secondary) 70%, var(--secondary-foreground) 10%);
     }
   }
 
@@ -2386,8 +2385,8 @@
   }
 
   .badge.secondary {
-    --badge-tint: var(--accent);
-    --badge-on-tint: var(--foreground);
+    --badge-tint: var(--secondary);
+    --badge-on-tint: var(--secondary-foreground);
   }
 
   .badge.destructive {
@@ -3059,6 +3058,14 @@
     font-size: var(--text-4xl);
   }
 
+  .text-5xl {
+    font-size: var(--text-5xl);
+  }
+
+  .text-6xl {
+    font-size: var(--text-6xl);
+  }
+
   .sticky {
     z-index: 40;
     background-color: var(--background);
@@ -3137,6 +3144,62 @@
     width: 100%;
   }
 
+  .max-w-xs {
+    max-width: 20rem;
+  }
+
+  .max-w-sm {
+    max-width: 24rem;
+  }
+
+  .max-w-md {
+    max-width: 28rem;
+  }
+
+  .max-w-lg {
+    max-width: 32rem;
+  }
+
+  .max-w-xl {
+    max-width: 36rem;
+  }
+
+  .max-w-2xl {
+    max-width: 42rem;
+  }
+
+  .max-w-3xl {
+    max-width: 48rem;
+  }
+
+  .max-h-xs {
+    max-height: 12rem;
+  }
+
+  .max-h-sm {
+    max-height: 16rem;
+  }
+
+  .max-h-md {
+    max-height: 20rem;
+  }
+
+  .max-h-lg {
+    max-height: 24rem;
+  }
+
+  .max-h-xl {
+    max-height: 32rem;
+  }
+
+  .max-h-2xl {
+    max-height: 40rem;
+  }
+
+  .max-h-3xl {
+    max-height: 48rem;
+  }
+
   .m-0 {
     margin: 0;
   }
@@ -3165,8 +3228,32 @@
     margin-top: var(--spacing);
   }
 
+  .mt-6 {
+    margin-top: var(--spacing-lg);
+  }
+
+  .mt-8 {
+    margin-top: var(--spacing-xl);
+  }
+
+  .mt-16 {
+    margin-top: calc(var(--spacing) * 4);
+  }
+
+  .mt-24 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+
   .mb-4 {
     margin-bottom: var(--spacing);
+  }
+
+  .mb-6 {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .mb-8 {
+    margin-bottom: var(--spacing-xl);
   }
 
   .my-4 {

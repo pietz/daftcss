@@ -17,7 +17,7 @@ tokens → reset → base → layout → content → forms → components → sl
 |---|---|---|
 | `--spacing` | `1rem` | Base spacing unit, all spacing derives from this |
 | `--radius` | `0.625rem` | Brand radius anchor (= `--radius-lg`) |
-| `--component-height` | `2.25rem` | Buttons, inputs, dropdowns, selects |
+| `--component-height` | `2rem` | Buttons, inputs, dropdowns, selects |
 | `--font-size-base` | `1rem` | Body font size, type scale derives from this |
 | `--line-height` | `1.5` | Body line height |
 | `--transition` | `150ms` | Default transition duration |
@@ -37,6 +37,7 @@ All values use `light-dark()` and respect `color-scheme`.
 | `--primary` | `oklch(0.205 0 0)` | `oklch(0.922 0 0)` |
 | `--muted` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` |
 | `--accent` | derived from `--muted` | derived from `--muted` |
+| `--secondary` | derived from `--muted` | derived from `--muted` |
 | `--destructive` | red 27° | red 22° |
 | `--success` | green 145° | green 145° |
 | `--warning` | amber 70° | amber 80° |
@@ -50,9 +51,11 @@ Foreground pairs (`--primary-foreground`, `--destructive-foreground`, etc.) auto
 
 **Spacing:** `--spacing-xs` (0.25rem), `--spacing-sm` (0.5rem), `--spacing-md` (0.75rem), `--spacing` (1rem), `--spacing-lg` (1.5rem), `--spacing-xl` (2rem)
 
-**Radius:** `--radius-sm` (r−4px), `--radius-md` (r−2px), `--radius-lg` (=r), `--radius-xl` (r+4px), `--radius-full` (9999px)
+**Section gap:** `--section-gap` (= `--spacing-xl`) — vertical margin between top-level `<section>` landmarks. Override at `:root` for landing-style pages (e.g. `clamp(5rem, 10vw, 9rem)`).
 
-**Text:** `--text-xs` (0.75rem), `--text-sm` (0.875rem), `--text-base` (1rem), `--text-lg` (1.125rem), `--text-xl` (1.25rem), `--text-2xl` (1.5rem), `--text-3xl` (1.875rem), `--text-4xl` (2.25rem)
+**Radius:** `--radius-sm` (0.6r), `--radius-md` (0.8r), `--radius-lg` (=r), `--radius-xl` (1.4r), `--radius-full` (9999px)
+
+**Text:** `--text-xs` (0.75rem), `--text-sm` (0.875rem), `--text-base` (1rem), `--text-lg` (1.125rem), `--text-xl` (1.25rem), `--text-2xl` (1.5rem), `--text-3xl` (1.875rem), `--text-4xl` (2.25rem), `--text-5xl` (3rem), `--text-6xl` (3.5rem)
 
 **Weight:** `--font-normal` (400), `--font-medium` (500), `--font-semibold` (600), `--font-bold` (700), `--font-extrabold` (800)
 
@@ -60,21 +63,21 @@ Foreground pairs (`--primary-foreground`, `--destructive-foreground`, etc.) auto
 
 **Shadows:** `--shadow-xs`, `--shadow-sm`, `--shadow-md`, `--shadow-lg`
 
-**Component heights:** `--component-height-sm` (2rem), `--component-height` (2.25rem), `--component-height-lg` (2.5rem)
+**Component heights:** `--component-height-sm` (1.75rem), `--component-height` (2rem), `--component-height-lg` (2.25rem)
 
 ### Tier 2 — Component tokens
 
 | Variable | Default | Notes |
 |---|---|---|
-| `--button-radius` | `--radius-md` | |
-| `--input-radius` | `--radius-md` | |
+| `--button-radius` | `--radius-lg` | |
+| `--input-radius` | `--radius-lg` | |
 | `--card-radius` | `--radius-xl` | |
 | `--modal-radius` | `--radius-lg` | |
 | `--dropdown-radius` | `--radius-md` | |
 | `--tooltip-radius` | `--radius-md` | |
 | `--badge-radius` | `--radius-md` | not a pill |
 | `--progress-radius` | `--radius-full` | |
-| `--button-shadow` | `--shadow-xs` | |
+| `--button-shadow` | `none` | |
 | `--card-shadow` | `--shadow-xs` | |
 | `--dropdown-shadow` | `--shadow-md` | |
 | `--modal-shadow` | `--shadow-lg` | |
@@ -168,6 +171,9 @@ Card with title + subtitle — wrap the heading and lead paragraph in `<hgroup>`
 Nested articles get a muted background. Wrapping an article in `<a>` makes it a clickable card.
 
 ### Modal
+
+Daft's no-JavaScript modal uses the native Popover API.
+
 ```html
 <button popovertarget="my-modal">Open</button>
 <dialog id="my-modal" popover>
@@ -185,7 +191,7 @@ Nested articles get a muted background. Wrapping an article in `<a>` makes it a 
 </dialog>
 ```
 
-Use the native Popover API. ESC and click-outside close automatically.
+ESC and click-outside close automatically.
 
 Bare `<dialog>` (opened via `showModal()`) is also styled as a card — wrap content in `<article>` only when you want the full header/footer/close-button layout.
 
@@ -489,7 +495,7 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 `.muted` (muted-foreground). Also `a.secondary` for muted links.
 
 ### Text size
-`.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl`
+`.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl` `.text-5xl` `.text-6xl`
 
 ### Font weight
 `.font-normal` `.font-medium` `.font-semibold` `.font-bold`
@@ -514,8 +520,12 @@ Daft is NOT a utility framework. This is a small, opinionated set.
 `.stack` — column with default spacing gap (form fields, vertical lists).
 
 ### Width / margin / padding
-`.w-full`, `.m-0`, `.mx-auto`, `.mt-4`, `.mb-4`, `.my-4`, `.p-0`, `.p-4`, `.p-6`
+`.w-full`, `.m-0`, `.mx-auto`, `.mt-4`, `.mt-6`, `.mt-8`, `.mt-16`, `.mt-24`, `.mb-4`, `.mb-6`, `.mb-8`, `.my-4`, `.p-0`, `.p-4`, `.p-6`
 Auto margins (great for pushing things in flex): `.mt-auto`, `.mb-auto`, `.ml-auto`, `.mr-auto`
+
+### Max width / max height
+`.max-w-xs` (20rem), `.max-w-sm` (24rem), `.max-w-md` (28rem), `.max-w-lg` (32rem), `.max-w-xl` (36rem), `.max-w-2xl` (42rem), `.max-w-3xl` (48rem)
+`.max-h-xs` (12rem), `.max-h-sm` (16rem), `.max-h-md` (20rem), `.max-h-lg` (24rem), `.max-h-xl` (32rem), `.max-h-2xl` (40rem), `.max-h-3xl` (48rem)
 
 ### Radius
 `.rounded-none`, `.rounded-sm`, `.rounded` (md), `.rounded-lg`, `.rounded-xl`, `.rounded-full`

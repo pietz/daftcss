@@ -221,6 +221,8 @@ Compact, IDE-style file tree. Folders use native `<details>`/`<summary>` for ope
 
 ### Modal
 
+Daft's no-JavaScript modal uses the native Popover API.
+
 ```html
 <button popovertarget="my-modal">Open Modal</button>
 <dialog id="my-modal" popover>
@@ -387,7 +389,7 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Group | Classes |
 |---|---|
 | Text color | `.muted` |
-| Text size | `.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl` |
+| Text size | `.text-xs` `.text-sm` `.text-base` `.text-lg` `.text-xl` `.text-2xl` `.text-3xl` `.text-4xl` `.text-5xl` `.text-6xl` |
 | Font weight | `.font-normal` `.font-medium` `.font-semibold` `.font-bold` |
 | Text align | `.text-left` `.text-center` `.text-right` |
 | Truncate | `.truncate` |
@@ -397,7 +399,9 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |
 | Gap | `.gap-1` `.gap-2` `.gap-3` `.gap-4` `.gap-6` `.gap-8` |
 | Width | `.w-full` |
-| Margin | `.m-0` `.mx-auto` `.mt-4` `.mb-4` `.my-4` `.mt-auto` `.mb-auto` `.ml-auto` `.mr-auto` |
+| Max width | `.max-w-xs` `.max-w-sm` `.max-w-md` `.max-w-lg` `.max-w-xl` `.max-w-2xl` `.max-w-3xl` |
+| Max height | `.max-h-xs` `.max-h-sm` `.max-h-md` `.max-h-lg` `.max-h-xl` `.max-h-2xl` `.max-h-3xl` |
+| Margin | `.m-0` `.mx-auto` `.mt-4` `.mt-6` `.mt-8` `.mt-16` `.mt-24` `.mb-4` `.mb-6` `.mb-8` `.my-4` `.mt-auto` `.mb-auto` `.ml-auto` `.mr-auto` |
 | Padding | `.p-0` `.p-4` `.p-6` |
 | Overflow | `.overflow-auto` `.overflow-hidden` |
 | Radius | `.rounded-none` `.rounded-sm` `.rounded` `.rounded-lg` `.rounded-xl` `.rounded-full` |

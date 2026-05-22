@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft Slides — Semantic HTML for decks</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.12.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.13.0">
 </head>
 <body class="deck">
 
@@ -63,19 +63,19 @@
     </div>
   </section>
 
-  <!-- 5. Grids + cards — composes Daft primitives -->
+  <!-- 5. Grids + article cards — composes Daft primitives -->
   <section>
     <h2>Layouts use Daft, not new vocabulary.</h2>
     <div class="grid">
-      <article class="card">
+      <article>
         <h3>Semantic</h3>
         <p>A <code>&lt;section&gt;</code> is a slide. A <code>&lt;blockquote&gt;</code> is a pull quote. Markup carries meaning.</p>
       </article>
-      <article class="card">
+      <article>
         <h3>Composable</h3>
-        <p>Daft's <code>.grid</code>, <code>.span-N</code>, <code>.card</code>, <code>.stack</code> work inside slides too.</p>
+        <p>Daft's <code>.grid</code>, <code>.span-N</code>, <code>&lt;article&gt;</code> cards, and <code>.stack</code> work inside slides too.</p>
       </article>
-      <article class="card">
+      <article>
         <h3>Portable</h3>
         <p>One HTML file. Email it, host it, version it in git, diff it in a pull request.</p>
       </article>
@@ -93,7 +93,7 @@
         <p>This slide is pinned to <code>data-theme="light"</code>. Every other slide follows your OS preference.</p>
         <p>All Daft tokens — <code>--primary</code>, <code>--radius</code>, <code>--background</code> — flow through the deck.</p>
       </div>
-      <article class="card">
+      <article>
         <header><strong>Q4 revenue</strong> <span class="badge success">on track</span></header>
         <p>Surfaces, borders, badges — all sourced from Daft's token set.</p>
         <footer>

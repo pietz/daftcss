@@ -25,7 +25,7 @@ main > footer,
 
 /* Section with spacing */
 section {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--section-gap);
 }
 
 section:last-child {
@@ -45,9 +45,3 @@ section > article,
   margin-bottom: var(--spacing);
 }
 
-/* Responsive section spacing */
-@media (min-width: 768px) {
-  section {
-    margin-bottom: calc(var(--spacing-xl) * 1.5);
-  }
-}

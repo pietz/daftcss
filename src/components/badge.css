@@ -25,7 +25,7 @@
 }
 
 /* Variants — retint only. */
-.badge.secondary    { --badge-tint: var(--accent);      --badge-on-tint: var(--foreground); }
+.badge.secondary    { --badge-tint: var(--secondary);   --badge-on-tint: var(--secondary-foreground); }
 .badge.destructive  { --badge-tint: var(--destructive); --badge-on-tint: var(--destructive-foreground); }
 .badge.success      { --badge-tint: var(--success);     --badge-on-tint: var(--success-foreground); }
 .badge.warning      { --badge-tint: var(--warning);     --badge-on-tint: var(--warning-foreground); }

@@ -30,7 +30,7 @@ Add to `<head>`:
 
 **Card** = `<article>` with optional `<header>` and `<footer>`. No class. For title + subtitle, wrap them in `<hgroup>` inside `<header>`; sibling badges/actions float right.
 
-**Modal** = `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card (no JS attribute trade-off either way).
+**Modal** = Daft's no-JavaScript modal uses the native Popover API: `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card.
 
 **Sidebar** = body-level `<aside class="sidebar">`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add `popover` attribute + `<button class="ghost icon sidebar-toggle" popovertarget="sidebar">` for a mobile drawer.
 

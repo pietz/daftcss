@@ -68,15 +68,15 @@ a[role="button"] {
 
 /* Secondary variant — also the default for <input type="reset">. */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary):is(.secondary, [type="reset"]) {
-  color: var(--foreground);
-  background-color: var(--accent);
+  color: var(--secondary-foreground);
+  background-color: var(--secondary);
 
   &:hover {
-    background-color: color-mix(in oklch, var(--accent) 80%, var(--foreground) 5%);
+    background-color: color-mix(in oklch, var(--secondary) 80%, var(--secondary-foreground) 5%);
   }
 
   &:active {
-    background-color: color-mix(in oklch, var(--accent) 70%, var(--foreground) 10%);
+    background-color: color-mix(in oklch, var(--secondary) 70%, var(--secondary-foreground) 10%);
   }
 }
 

@@ -7,106 +7,24 @@
   <title>daft.css — The UI library that's just a stylesheet</title>
   <meta name="description" content="Link one stylesheet. Write semantic HTML. Get a design system with dark mode and theme tokens. No build, no JS.">
 
-  <link rel="stylesheet" href="/dist/daft.css?v=1.12.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.13.0">
+
+  <!-- Syntax highlighting for code examples (HTML only) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-light.min.css" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css" media="(prefers-color-scheme: dark)">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
 
   <style>
+    /* Let Daft's code blocks own the surface; hljs only paints tokens. */
+    pre code.hljs { background: transparent; padding: 0; }
+
     /* ============================================================
        PAGE-LOCAL CSS — marketing-specific patterns only.
        Everything else comes from Daft.
        ============================================================ */
 
-    :root {
-      --page-max: 72rem;
-      --section-gap: clamp(3rem, 6vw, 5rem);
-    }
-    html { scroll-behavior: smooth; }
-    .container { max-width: var(--page-max); }
-
-    /* Section header pattern */
-    .s-head { max-width: 60ch; margin: 0 auto clamp(2rem, 4vw, 3rem); text-align: center; }
-    .s-head.left { margin-inline: 0; text-align: left; max-width: 64ch; }
-    .s-head h2 { margin: 0 0 var(--spacing-sm); text-wrap: balance; }
-    .s-head > p { margin: 0; color: var(--muted-foreground); text-wrap: pretty; }
-
-    section.s { padding: var(--section-gap) 0; margin: 0; }
-
-    /* Hero — centered headline + lede + actions */
-    .hero { padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(3rem, 5vw, 4rem); text-align: center; }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      max-width: 18ch;
-      margin: 0 auto var(--spacing);
-      text-wrap: balance;
-    }
-    .hero > p { max-width: 52ch; margin: 0 auto; color: var(--muted-foreground); }
-    .hero .install-wrap { margin: var(--spacing-xl) auto; display: flex; justify-content: center; }
-    .hero .install-wrap [role="group"] { max-width: min(40rem, 100%); }
-    .hero .actions { display: flex; gap: var(--spacing-sm); justify-content: center; }
-
-    /* Light + Dark proof — inner halves get their own theme island */
-    .mode-pair > div {
-      padding: var(--spacing);
-      background: var(--background);
-      color: var(--foreground);
-    }
-
-    /* Stack all snippets in the same grid cell — container sizes to the tallest,
-       so picking a theme never changes the card height. */
-    .snippet-stack { display: grid; flex: 1; min-width: 0; }
-    .snippet-stack > pre[data-for] {
-      grid-column: 1;
-      grid-row: 1;
-      margin: 0;
-      visibility: hidden;
-    }
-    .snippet-stack > pre[data-for].on { visibility: visible; }
-
-    /* Render box (the area showing the actual button next to the code) */
-    .render-box {
-      padding: var(--spacing-lg);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 6rem;
-    }
-
-    /* Pico iframe preview */
-    .compare-frame {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: white;
-      color: black;
-      color-scheme: light;
-    }
-
-    /* Size chart — name + bar + value rows */
-    .size-row {
-      display: grid;
-      grid-template-columns: 9rem 1fr 5.5rem;
-      align-items: center;
-      gap: var(--spacing-md);
-    }
-    .size-row progress { margin: 0; height: 0.6rem; }
-
-    /* Big-number stat */
-    .stat-num {
-      font-size: var(--text-3xl);
-      font-weight: var(--font-bold);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-    .stat-delta { font-family: var(--font-mono); font-size: var(--text-xs); }
-    .stat-delta.good { color: var(--success); }
-    .stat-delta.bad { color: var(--destructive); }
-
-    /* Task row "done" state */
-    .task-done { color: var(--muted-foreground); text-decoration: line-through; }
+    :root { --section-gap: clamp(5rem, 10vw, 9rem); }
 
     /* ============================================================
        BRAND PALETTES — applied to #components via data-palette.
@@ -145,10 +63,6 @@
       --background: light-dark(oklch(0.93 0.18 100), oklch(0.32 0.22 330));
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      * { transition-duration: 0.01ms !important; }
-    }
   </style>
 </head>
 
@@ -158,7 +72,7 @@
   <nav class="sticky glass">
     <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><a href="/" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.12.3</span></a></li>
+        <li><a href="/" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.13.0</span></a></li>
       </ul>
       <ul>
         <li><a href="/components/" role="button" class="ghost">Components</a></li>
@@ -187,46 +101,44 @@
   <main class="container">
 
     <!-- HERO ========================================================== -->
-    <section class="hero">
-      <div class="flex justify-center gap-2 mb-4" style="flex-wrap: wrap">
+    <section class="text-center mt-24">
+      <div class="cluster justify-center mb-4">
         <span class="badge outline">Semantic HTML</span>
         <span class="badge outline">No build</span>
         <span class="badge outline">No JS</span>
         <span class="badge outline">57 KB</span>
       </div>
-      <h1>The UI library that's just a stylesheet.</h1>
-      <p>Link <code>daft.min.css</code> in your <code>&lt;head&gt;</code>. Write <code>&lt;button&gt;</code>, <code>&lt;dialog&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;article&gt;</code>. Daft styles them as a design system with dark mode and theme tokens you change at the root.</p>
+      <h1 class="text-6xl mx-auto max-w-2xl">The UI library that's<br>just a stylesheet.</h1>
+      <p class="muted mx-auto max-w-xl">Link <code>daft.min.css</code> in your <code>&lt;head&gt;</code>. Write <code>&lt;button&gt;</code>, <code>&lt;dialog&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;article&gt;</code>. Daft styles them as a design system with dark mode and theme tokens you change at the root.</p>
 
-      <div class="install-wrap">
-        <div role="group">
-          <select id="install-method" aria-label="Install method">
-            <option value="cdn" selected>CDN</option>
-            <option value="npm">npm</option>
-            <option value="pnpm">pnpm</option>
-            <option value="yarn">yarn</option>
-          </select>
-          <code id="install-cmd">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code>
-        </div>
+      <div role="group" class="mx-auto max-w-xl mt-8">
+        <select id="install-method" aria-label="Install method">
+          <option value="cdn" selected>CDN</option>
+          <option value="npm">npm</option>
+          <option value="pnpm">pnpm</option>
+          <option value="yarn">yarn</option>
+        </select>
+        <code id="install-cmd">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code>
       </div>
 
-      <div class="actions">
+      <div class="cluster justify-center mt-6">
         <a href="/components/" role="button">See the components</a>
         <a href="https://github.com/pietz/daftcss" role="button" class="outline">GitHub</a>
       </div>
     </section>
 
     <!-- §2 COMPONENTS + THEME ========================================= -->
-    <section class="s" id="components">
-      <div class="s-head">
+    <section id="components">
+      <header class="text-center mx-auto max-w-xl mb-8">
         <p class="label">Components</p>
         <h2>Pick a palette and every card below follows.</h2>
-        <p>Theme tokens cascade through every component on this page. Same markup, new look — no class swap.</p>
-      </div>
+        <p class="muted">Theme tokens cascade through every component on this page. Same markup, new look — no class swap.</p>
+      </header>
 
       <!-- CONTROL BAND — Theme (preview-rich) + Override snippet, balanced 1:1 -->
       <div class="grid mb-6">
         <article class="flex flex-col">
-          <header><strong>Theme</strong></header>
+          <header><strong>Palette preview</strong></header>
           <label>Palette
             <select id="palette">
               <option value="default" selected>Default</option>
@@ -236,25 +148,25 @@
               <option value="brutalist">Brutalist</option>
             </select>
           </label>
-          <div class="mt-auto mode-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden">
-            <div data-theme="light" class="flex flex-col gap-2">
+          <div class="grid mt-auto">
+            <div data-theme="light" class="border rounded p-4 flex flex-col gap-2">
               <small class="muted">LIGHT</small>
-              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+              <div class="cluster">
                 <button class="small">Save</button>
                 <button class="outline small">Cancel</button>
               </div>
-              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+              <div class="cluster">
                 <span class="badge">stable</span>
                 <span class="badge outline">beta</span>
               </div>
             </div>
-            <div data-theme="dark" class="flex flex-col gap-2" style="border-left:1px solid var(--border)">
+            <div data-theme="dark" class="border rounded p-4 flex flex-col gap-2">
               <small class="muted">DARK</small>
-              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+              <div class="cluster">
                 <button class="small">Save</button>
                 <button class="outline small">Cancel</button>
               </div>
-              <div class="flex items-center gap-2" style="flex-wrap:wrap">
+              <div class="cluster">
                 <span class="badge">stable</span>
                 <span class="badge outline">beta</span>
               </div>
@@ -263,21 +175,21 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Override</strong> <span class="badge outline small">paste at <code>:root</code></span></header>
-          <div class="snippet-stack" style="max-height: 14em; overflow: auto">
-<pre data-for="default" class="on">/* Default — shadcn baseline.
-   No override needed. */</pre>
-<pre data-for="forest">[data-palette="forest"] {
+          <header><strong>Pasteable override</strong> <span class="badge outline small">paste at <code>:root</code></span></header>
+          <div>
+<pre data-for="default" class="max-h-sm overflow-auto"><code>/* Default — shadcn baseline.
+   No override needed. */</code></pre>
+<pre data-for="forest" class="max-h-sm overflow-auto hidden"><code>[data-palette="forest"] {
   --primary:    light-dark(
     oklch(.50 .13 150), oklch(.70 .15 150));
   --background: light-dark(
     oklch(.96 .02 140), oklch(.22 .04 150));
-}</pre>
-<pre data-for="rounded">[data-palette="rounded"] {
+}</code></pre>
+<pre data-for="rounded" class="max-h-sm overflow-auto hidden"><code>[data-palette="rounded"] {
   /* One variable. Every corner. */
   --radius: 1rem;
-}</pre>
-<pre data-for="corporate">[data-palette="corporate"] {
+}</code></pre>
+<pre data-for="corporate" class="max-h-sm overflow-auto hidden"><code>[data-palette="corporate"] {
   --primary:    light-dark(
     oklch(.35 .06 250), oklch(.72 .08 250));
   --radius:     0.25rem;
@@ -285,8 +197,8 @@
     oklch(.86 .01 250), oklch(.28 .01 250));
   --background: light-dark(
     oklch(.98 .003 248), oklch(.21 .04 266));
-}</pre>
-<pre data-for="brutalist">[data-palette="brutalist"] {
+}</code></pre>
+<pre data-for="brutalist" class="max-h-sm overflow-auto hidden"><code>[data-palette="brutalist"] {
   --primary:       light-dark(#000, #fff);
   --border:        light-dark(#000, #fff);
   --border-width:  2px;
@@ -294,376 +206,277 @@
   --button-shadow: 3px 3px 0 currentColor;
   --background:    light-dark(
     oklch(.93 .18 100), oklch(.32 .22 330));
-}</pre>
+}</code></pre>
           </div>
         </article>
       </div>
 
-      <!-- ROW A — Sign in | This week (2 stats + table) | Light+Dark -->
+      <!-- ROW A — Installation | Browser support | Theme surface -->
       <div class="grid">
         <article class="flex flex-col">
-          <header>
-            <hgroup>
-              <strong>Sign in to Aurora</strong>
-              <p>Welcome back. Use email or SSO.</p>
-            </hgroup>
-          </header>
-          <label>Email
-            <input type="email" value="kai@example.com">
+          <header class="cluster"><strong>Installation</strong> <span class="badge outline small">CDN</span></header>
+          <label class="mb-4">CDN link
+            <input type="text" readonly value='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css">'>
           </label>
-          <label>Password
-            <input type="password" value="••••••••">
-          </label>
-          <label class="flex items-center gap-2" style="margin-top:var(--spacing-sm)">
-            <input type="checkbox" role="switch" checked> Stay signed in
-          </label>
-          <footer class="mt-auto">
-            <button>Continue</button>
-            <button class="ghost">Use SSO</button>
-          </footer>
+          <div class="grid">
+            <article>
+              <div class="text-center"><strong class="text-3xl">57 KB</strong></div>
+              <div class="flex items-center justify-between">
+                <span class="muted text-sm">CSS</span>
+                <span class="badge outline small">minified</span>
+              </div>
+            </article>
+            <article>
+              <div class="text-center"><strong class="text-3xl">0 KB</strong></div>
+              <div class="flex items-center justify-between">
+                <span class="muted text-sm">Runtime</span>
+                <span class="badge outline small">none</span>
+              </div>
+            </article>
+          </div>
         </article>
 
         <article class="flex flex-col">
-          <header><strong>This week</strong> <span class="badge outline small">live</span></header>
-          <div class="grid">
-            <div>
-              <div class="stat-num">$24.8k</div>
-              <small class="muted">MRR</small>
-              <div class="stat-delta good">↑ 12.4%</div>
-            </div>
-            <div>
-              <div class="stat-num">1,284</div>
-              <small class="muted">Active users</small>
-              <div class="stat-delta good">↑ 3.1%</div>
-            </div>
-          </div>
-          <table class="mt-auto" style="margin-bottom:0">
-            <thead>
-              <tr><th>Source</th><th style="text-align:right">Users</th></tr>
-            </thead>
+          <header>
+            <hgroup>
+              <strong>Modern browser support</strong>
+              <p>Daft spends bytes on finish, not fallbacks.</p>
+            </hgroup>
+          </header>
+          <table>
             <tbody>
-              <tr><td>Organic</td><td style="text-align:right">734</td></tr>
-              <tr><td>Referral</td><td style="text-align:right">312</td></tr>
-              <tr><td>Direct</td><td style="text-align:right">238</td></tr>
+              <tr><td>Chrome</td><td class="text-right"><span class="badge success">123+</span></td></tr>
+              <tr><td>Firefox</td><td class="text-right"><span class="badge success">129+</span></td></tr>
+              <tr><td>Safari</td><td class="text-right"><span class="badge success">18+</span></td></tr>
             </tbody>
           </table>
+          <div role="status" class="mt-auto">
+            <strong>Modern CSS only</strong>
+            <p><code>light-dark()</code>, OKLCH, nesting, Popover, and <code>@starting-style</code>.</p>
+          </div>
         </article>
 
         <article class="flex flex-col">
-          <header><strong>System status</strong> <span class="badge success small">all clear</span></header>
-          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <span>API</span>
-            <span class="badge success">operational</span>
-          </div>
-          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <span>Web app</span>
-            <span class="badge success">operational</span>
-          </div>
-          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <span>Database</span>
-            <span class="badge warning">degraded</span>
-          </div>
-          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <span>CDN</span>
-            <span class="badge success">operational</span>
-          </div>
-          <div class="flex items-center justify-between" style="padding:var(--spacing-sm) 0">
-            <span>Workers</span>
-            <span class="badge success">operational</span>
+          <header>
+            <hgroup>
+              <strong>Theme surface</strong>
+              <p>Start broad, then override only where the product needs precision.</p>
+            </hgroup>
+            <span class="badge success small">tiered</span>
+          </header>
+          <div class="max-h-xs overflow-auto">
+            <details>
+              <summary>Tier 1: core knobs</summary>
+              <p>A small set of variables defines the shape of the system.</p>
+<pre><code>--spacing:         1rem;
+--radius:          0.5rem;
+--font-size-base:  1rem;
+--component-height: 2rem;</code></pre>
+            </details>
+            <details>
+              <summary>Tier 2: derived scales</summary>
+              <p>Every step on every scale recomputes from the core.</p>
+<pre><code>--spacing-xs: calc(var(--spacing) * 0.25);
+--radius-sm:  calc(var(--radius)  * 0.6);
+--text-lg:    calc(var(--font-size-base)
+              * 1.125);</code></pre>
+            </details>
+            <details>
+              <summary>Tier 3: semantic tokens</summary>
+              <p>Colors and component values stay contextual and overrideable.</p>
+<pre><code>--background: light-dark(...);
+--foreground: light-dark(...);
+--primary:    light-dark(...);
+--button-radius: var(--radius-lg);</code></pre>
+            </details>
           </div>
           <footer class="mt-auto">
-            <small class="muted">Last check: 24s ago</small>
+            <span class="muted text-sm">Override at <code>:root</code> or on any subtree.</span>
           </footer>
         </article>
       </div>
 
-      <!-- ROW B — Sprint | Team (2-col avatars) | Project files (tree) -->
+      <!-- ROW B — Size comparison | Syntax switcher -->
       <div class="grid">
         <article class="flex flex-col">
           <header>
             <hgroup>
-              <strong>Sprint 14</strong>
-              <p>Ends Friday. Cut release branch next.</p>
+              <strong>Bundle comparison</strong>
+              <p>Same general category, different shipping model.</p>
             </hgroup>
-            <span class="badge">12 / 18</span>
           </header>
-          <div>
-            <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Ship Postgres migration</span></label>
-            <label class="flex items-center gap-2"><input type="checkbox" checked> <span class="task-done">Wire telemetry to Grafana</span></label>
-            <label class="flex items-center gap-2"><input type="checkbox"> Cut v1.6 release branch</label>
-            <label class="flex items-center gap-2"><input type="checkbox"> Backport hotfix to v1.5</label>
-            <label class="flex items-center gap-2"><input type="checkbox"> Schedule incident review</label>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span>Daft</span>
+              <span class="muted text-sm">57 KB</span>
+            </div>
+            <progress value="57" max="700"></progress>
           </div>
-          <progress value="67" max="100" class="mt-auto"></progress>
+          <div class="mb-4">
+            <div class="flex justify-between">
+              <span>Pico</span>
+              <span class="muted text-sm">83 KB</span>
+            </div>
+            <progress value="83" max="700" class="secondary"></progress>
+          </div>
+          <div>
+            <div class="flex justify-between">
+              <span>daisyUI + Tailwind</span>
+              <span class="muted text-sm">~170 KB</span>
+            </div>
+            <progress value="170" max="700"></progress>
+          </div>
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <span>FrankenstyleKit</span>
+              <span class="muted text-sm">~640 KB</span>
+            </div>
+            <progress value="640" max="700" class="secondary"></progress>
+          </div>
         </article>
 
         <article class="flex flex-col">
           <header>
+            <strong>Same card, different mental model</strong>
+          </header>
+          <fieldset>
+            <div class="cluster">
+              <label><input type="radio" name="syntax-picker" value="daft" checked> Daft</label>
+              <label><input type="radio" name="syntax-picker" value="tailwind"> Tailwind CSS</label>
+              <label><input type="radio" name="syntax-picker" value="franken"> FrankenstyleKit</label>
+            </div>
+          </fieldset>
+<pre data-syntax="daft" class="max-h-md overflow-auto"><code>&lt;article&gt;
+  &lt;header&gt;&lt;strong&gt;Create project&lt;/strong&gt;&lt;/header&gt;
+  &lt;label&gt;Name
+    &lt;input value="Aurora"&gt;
+  &lt;/label&gt;
+  &lt;footer&gt;
+    &lt;button&gt;Save&lt;/button&gt;
+    &lt;button class="outline"&gt;Cancel&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
+<pre data-syntax="tailwind" class="max-h-md overflow-auto hidden"><code>&lt;div class="rounded-lg border bg-card p-6 shadow-sm"&gt;
+  &lt;h3 class="text-lg font-semibold"&gt;Create project&lt;/h3&gt;
+  &lt;label class="mt-4 block text-sm font-medium"&gt;Name
+    &lt;input class="mt-2 h-9 w-full rounded-md border px-3"
+      value="Aurora"&gt;
+  &lt;/label&gt;
+  &lt;div class="mt-6 flex gap-2"&gt;
+    &lt;button class="inline-flex h-9 items-center rounded-md
+      bg-zinc-900 px-4 text-sm font-medium text-white"&gt;Save&lt;/button&gt;
+    &lt;button class="inline-flex h-9 items-center rounded-md
+      border px-4 text-sm font-medium"&gt;Cancel&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre data-syntax="franken" class="max-h-md overflow-auto hidden"><code>&lt;div class="uk-card uk-card-body"&gt;
+  &lt;h3 class="uk-card-title"&gt;Create project&lt;/h3&gt;
+  &lt;label&gt;Name
+    &lt;input class="uk-input" value="Aurora"&gt;
+  &lt;/label&gt;
+  &lt;div class="uk-card-footer"&gt;
+    &lt;button class="uk-button uk-button-primary"&gt;Save&lt;/button&gt;
+    &lt;button class="uk-button uk-button-default"&gt;Cancel&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+
+      <!-- ROW C — Source map | Release log -->
+      <div class="grid">
+        <article class="flex flex-col">
+          <header>
             <hgroup>
-              <strong>Team</strong>
-              <p>8 engineers and designers.</p>
+              <strong>Source map</strong>
+              <p>The library is small enough to inspect.</p>
             </hgroup>
           </header>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-sm) var(--spacing-md)">
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">KS</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Kai Suzuki</strong>
-                <small class="muted">Founder</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">RA</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Rosa Aldana</strong>
-                <small class="muted">Eng lead</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">JT</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Jin Tan</strong>
-                <small class="muted">Design</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">LW</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Lin Wei</strong>
-                <small class="muted">Backend</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">MP</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Maya Patel</strong>
-                <small class="muted">Product</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">SO</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Sam Okafor</strong>
-                <small class="muted">Support</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">YS</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Yui Sato</strong>
-                <small class="muted">QA</small>
-              </div>
-            </div>
-            <div class="flex items-center gap-2" style="min-width:0">
-              <div class="avatar small">TM</div>
-              <div class="flex flex-col" style="line-height:1.15;min-width:0">
-                <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Theo Müller</strong>
-                <small class="muted">DevOps</small>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="flex flex-col">
-          <header><strong>Project files</strong></header>
-          <ul class="tree">
+          <ul class="tree max-h-xs overflow-auto">
             <li>
-              <details open>
-                <summary>src</summary>
+              <details>
+                <summary>base</summary>
                 <ul>
-                  <li>
-                    <details open>
-                      <summary>components</summary>
-                      <ul>
-                        <li><a href="#">button.css</a></li>
-                        <li><a href="#">card.css</a></li>
-                        <li><a href="#">tree.css</a></li>
-                      </ul>
-                    </details>
-                  </li>
-                  <li>
-                    <details>
-                      <summary>base</summary>
-                      <ul>
-                        <li><a href="#">variables.css</a></li>
-                        <li><a href="#">reset.css</a></li>
-                      </ul>
-                    </details>
-                  </li>
-                  <li><a href="#">daft.css</a></li>
+                  <li><a href="#">variables.css</a></li>
+                  <li><a href="#">reset.css</a></li>
+                  <li><a href="#">document.css</a></li>
                 </ul>
               </details>
             </li>
-            <li><a href="#">README.md</a></li>
-            <li><a href="#">package.json</a></li>
+            <li>
+              <details>
+                <summary>components</summary>
+                <ul>
+                  <li><a href="#">button.css</a></li>
+                  <li><a href="#">card.css</a></li>
+                  <li><a href="#">modal.css</a></li>
+                  <li><a href="#">tree.css</a></li>
+                  <li><a href="#">badge.css</a></li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details>
+                <summary>forms</summary>
+                <ul>
+                  <li><a href="#">input.css</a></li>
+                  <li><a href="#">checkbox.css</a></li>
+                  <li><a href="#">range.css</a></li>
+                </ul>
+              </details>
+            </li>
+            <li><a href="#">layout/grid.css</a></li>
+            <li><a href="#">content/typography.css</a></li>
+            <li><a href="#">utilities/helpers.css</a></li>
           </ul>
-        </article>
-      </div>
-
-      <!-- ROW C — Activity feed | Recent deployments (1:2) -->
-      <div class="grid">
-        <article class="flex flex-col">
-          <header><strong>Recent activity</strong></header>
-          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <div class="avatar small">KS</div>
-            <div style="flex:1">
-              <p style="margin:0"><strong>Kai</strong> deployed <code>v1.6.2</code> to production</p>
-              <small class="muted">2 minutes ago</small>
-            </div>
-          </div>
-          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <div class="avatar small">RA</div>
-            <div style="flex:1">
-              <p style="margin:0"><strong>Rosa</strong> opened pull request <a href="#">#284</a></p>
-              <small class="muted">14 minutes ago</small>
-            </div>
-          </div>
-          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0;border-bottom:1px solid var(--border)">
-            <div class="avatar small">JT</div>
-            <div style="flex:1">
-              <p style="margin:0"><strong>Jin</strong> commented on <a href="#">Pricing card</a></p>
-              <small class="muted">1 hour ago</small>
-            </div>
-          </div>
-          <div class="flex items-start gap-3" style="padding:var(--spacing-sm) 0">
-            <div class="avatar small">LW</div>
-            <div style="flex:1">
-              <p style="margin:0"><strong>Lin</strong> closed issue <a href="#">#142</a></p>
-              <small class="muted">3 hours ago</small>
-            </div>
-          </div>
         </article>
 
         <article class="span-2 flex flex-col">
           <header>
             <hgroup>
-              <strong>Recent deployments</strong>
-              <p>Last 5 builds across all branches.</p>
+              <strong>Recent Daft releases</strong>
+              <p>A table replaces the fake deployment feed with real product context.</p>
             </hgroup>
           </header>
           <table>
             <thead>
               <tr>
-                <th>Build</th>
-                <th>Branch</th>
+                <th>Version</th>
+                <th>Focus</th>
                 <th>Status</th>
-                <th>Duration</th>
-                <th>Author</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><code>#482</code></td>
-                <td>main</td>
-                <td><span class="badge success">passed</span></td>
-                <td>2m 14s</td>
-                <td>Kai</td>
+                <td><code>1.13</code></td>
+                <td>Utility scale: max-w, max-h, type, margins</td>
+                <td><span class="badge success">current</span></td>
+                <td>May 2026</td>
               </tr>
               <tr>
-                <td><code>#481</code></td>
-                <td>feat/onboarding</td>
-                <td><span class="badge">queued</span></td>
-                <td>—</td>
-                <td>Rosa</td>
+                <td><code>1.12</code></td>
+                <td>Slides layer and deck primitives</td>
+                <td><span class="badge">stable</span></td>
+                <td>Apr 2026</td>
               </tr>
               <tr>
-                <td><code>#480</code></td>
-                <td>fix/migration</td>
-                <td><span class="badge destructive">failed</span></td>
-                <td>1m 02s</td>
-                <td>Jin</td>
+                <td><code>1.11</code></td>
+                <td>Tree, avatar, badge polish</td>
+                <td><span class="badge">stable</span></td>
+                <td>Mar 2026</td>
               </tr>
               <tr>
-                <td><code>#479</code></td>
-                <td>main</td>
-                <td><span class="badge success">passed</span></td>
-                <td>2m 31s</td>
-                <td>Kai</td>
-              </tr>
-              <tr>
-                <td><code>#478</code></td>
-                <td>main</td>
-                <td><span class="badge success">passed</span></td>
-                <td>2m 18s</td>
-                <td>Lin</td>
+                <td><code>1.10</code></td>
+                <td>Popover modal and dropdown refinements</td>
+                <td><span class="badge">stable</span></td>
+                <td>Feb 2026</td>
               </tr>
             </tbody>
           </table>
         </article>
       </div>
 
-      <!-- ROW D — Notifications | Pricing (fuller) | Settings panel -->
-      <div class="grid">
-        <article class="flex flex-col">
-          <header><strong>Notifications</strong></header>
-          <div role="status">
-            <strong>Build #482 queued</strong>
-            <p>Deploys to staging in 2 minutes.</p>
-          </div>
-          <div role="alert">
-            <strong>Migration failed</strong>
-            <p>Schema check rejected 3 changes. Roll back to retry.</p>
-          </div>
-          <div role="status">
-            <strong>v1.5.2 published</strong>
-            <p>Available on npm and CDN.</p>
-          </div>
-        </article>
-
-        <article class="flex flex-col" style="text-align:center">
-          <header style="text-align:left"><strong>Pro</strong> <span class="badge success">recommended</span></header>
-          <div class="flex items-baseline gap-1" style="justify-content:center">
-            <span class="stat-num" style="font-size: var(--text-3xl)">$12</span>
-            <span class="muted">/ month</span>
-          </div>
-          <small class="muted">Billed annually, or $14 monthly.</small>
-          <ul style="margin:0 auto; padding-left:1.1rem; text-align:left; column-count:2; column-gap:var(--spacing-lg); color:var(--muted-foreground); font-size:var(--text-sm); line-height:1.8">
-            <li>Unlimited projects</li>
-            <li>Priority support</li>
-            <li>Audit log retention</li>
-            <li>SSO &amp; SAML</li>
-            <li>99.9% uptime SLA</li>
-            <li>Custom domains</li>
-          </ul>
-          <footer class="mt-auto" style="display:flex;justify-content:center;gap:var(--spacing-sm)">
-            <button>Upgrade</button>
-            <button class="ghost">Compare plans</button>
-          </footer>
-        </article>
-
-        <article class="flex flex-col">
-          <header>
-            <hgroup>
-              <strong>Notification settings</strong>
-              <p>Pick what reaches your inbox.</p>
-            </hgroup>
-          </header>
-          <label class="flex items-center justify-between" style="margin:0">
-            <span>Email digests</span>
-            <input type="checkbox" role="switch" checked>
-          </label>
-          <label class="flex items-center justify-between" style="margin:0">
-            <span>Push alerts</span>
-            <input type="checkbox" role="switch">
-          </label>
-          <label class="flex items-center justify-between" style="margin:0">
-            <span>Weekly summary</span>
-            <input type="checkbox" role="switch" checked>
-          </label>
-          <label>Quiet hours
-            <input type="range" min="0" max="12" value="8">
-          </label>
-          <label>Digest frequency
-            <select>
-              <option>Daily</option>
-              <option selected>Weekly</option>
-              <option>Monthly</option>
-            </select>
-          </label>
-        </article>
-      </div>
-
-      <!-- ROW E — FAQ accordion, full width -->
+      <!-- ROW D — FAQ accordion, full width -->
       <div class="grid">
         <article>
           <header><strong>Frequently asked</strong></header>
@@ -677,7 +490,7 @@
           </details>
           <details>
             <summary>How do I customize it?</summary>
-            <p>Override CSS variables at <code>:root</code>, or scope them to any element. Ten core tokens cover the whole system — color, radius, spacing, font scale. The Override card at the top of this section is a working example.</p>
+            <p>Override CSS variables at <code>:root</code>, or scope them to any element. A few core tokens cover the whole system — color, radius, spacing, and type. The Override card at the top of this section is a working example.</p>
           </details>
           <details>
             <summary>How is Daft different from Pico.css?</summary>
@@ -686,14 +499,6 @@
           <details>
             <summary>When should I not use Daft?</summary>
             <p>When you need pixel-precise marketing pages or a heavily custom design system. Daft is for products that benefit from sensible, consistent defaults — not for landing pages that have to look like nothing else.</p>
-          </details>
-          <details>
-            <summary>What if I need a component Daft doesn't have?</summary>
-            <p>Write your own using Daft's tokens (<code>--primary</code>, <code>--radius</code>, <code>--spacing</code>, <code>--border</code>). It'll inherit palette and theme changes automatically — your custom component themes itself.</p>
-          </details>
-          <details>
-            <summary>Can coding agents write Daft well?</summary>
-            <p>Yes. Semantic HTML is already in every model's training data — Pico and other class-less frameworks normalized the pattern years ago. Daft also ships an official Claude Code skill, so agents pick up the idioms and class names without you pasting docs into context.</p>
           </details>
           <details>
             <summary>Which browsers are supported?</summary>
@@ -705,12 +510,12 @@
     </section>
 
     <!-- §3 THEME HIERARCHY ============================================ -->
-    <section class="s" id="tokens">
-      <div class="s-head">
+    <section id="tokens">
+      <header class="text-center mx-auto max-w-xl mb-8">
         <p class="label">Theme tokens</p>
         <h2>One variable. Every component.</h2>
-        <p>Daft tokens cascade in three layers. Set a handful at the root and the rest of the system — every spacing step, every radius, every component state — recomputes from them.</p>
-      </div>
+        <p class="muted">Daft tokens cascade in three layers. Set a handful at the root and the rest of the system — every spacing step, every radius, every component state — recomputes from them.</p>
+      </header>
 
       <div class="grid">
         <article class="flex flex-col">
@@ -718,17 +523,17 @@
           <p class="muted text-sm">A small set of variables defines the shape of the system.</p>
 <pre>--spacing:         1rem;
 --radius:          0.5rem;
---font-scale:      1.25;
---component-height: 2.5rem;</pre>
+--font-size-base:  1rem;
+--component-height: 2rem;</pre>
         </article>
 
         <article class="flex flex-col">
           <header><strong>Derived</strong> <span class="badge outline small">via calc()</span></header>
           <p class="muted text-sm">Every step on every scale recomputes from the core.</p>
 <pre>--spacing-xs: calc(var(--spacing) / 4);
---radius-sm:  calc(var(--radius)  / 2);
---text-lg:    calc(var(--text-base)
-              * var(--font-scale));</pre>
+--radius-sm:  calc(var(--radius)  * 0.6);
+--text-lg:    calc(var(--font-size-base)
+              * 1.125);</pre>
         </article>
 
         <article class="flex flex-col">
@@ -743,12 +548,12 @@
     </section>
 
     <!-- §4 FOR CODING AGENTS =========================================== -->
-    <section class="s" id="agents">
-      <div class="s-head">
+    <section id="agents">
+      <header class="text-center mx-auto max-w-xl mb-8">
         <p class="label">For coding agents</p>
         <h2>Cheap to generate, hard to drift on.</h2>
-        <p>Daft is the same framework whether a human or a coding agent writes the HTML. Two side effects of "no classes needed" matter more when the writer is a model.</p>
-      </div>
+        <p class="muted">Daft is the same framework whether a human or a coding agent writes the HTML. Two side effects of "no classes needed" matter more when the writer is a model.</p>
+      </header>
 
       <div class="grid">
         <article class="flex flex-col">
@@ -768,132 +573,26 @@
       </div>
     </section>
 
-    <!-- §5 COMPARISONS ================================================ -->
-    <section class="s" id="fit">
-      <div class="s-head">
-        <p class="label">What we kept from others</p>
-        <h2>We picked the parts we liked.</h2>
-        <p>Three honest comparisons against the libraries Daft borrowed from. Same goals, different trade-offs.</p>
-      </div>
-
-      <!-- 5a. vs Tailwind — utility soup vs semantic -->
-      <div class="s-head left" style="margin-top: var(--section-gap)">
-        <p class="label">vs Tailwind</p>
-        <h2>One render, two ways to write it.</h2>
-        <p>Daft borrows Tailwind's discipline around design tokens, color, and responsive primitives. What changes is the markup. Same button, both styles below.</p>
-      </div>
-
-      <div class="grid" style="align-items:center">
-        <div>
-          <p class="label">Daft</p>
-<pre>&lt;button&gt;
-  Save changes
-&lt;/button&gt;</pre>
-        </div>
-
-        <div class="render-box">
-          <button>Save changes</button>
-        </div>
-
-        <div>
-          <p class="label">Tailwind</p>
-<pre>&lt;button class="inline-flex
-  items-center justify-center
-  rounded-md text-sm font-medium
-  transition-colors
-  disabled:opacity-50
-  bg-primary
-  text-primary-foreground
-  hover:bg-primary/90
-  h-10 px-4 py-2"&gt;
-  Save changes
-&lt;/button&gt;</pre>
-        </div>
-      </div>
-
-      <!-- 5b. vs Pico — semantics -->
-      <div class="s-head left" style="margin-top: var(--section-gap)">
-        <p class="label">vs Pico.css</p>
-        <h2>Same idea, a sharper finish.</h2>
-        <p>Pico opened the door: style plain HTML without classes. Daft keeps that idea and pushes the visual finish toward shadcn-grade defaults — same markup, sharper outcome.</p>
-      </div>
-
-      <div class="grid">
-        <article>
-          <header><strong>Pico.css</strong> <span class="badge outline">83 KB</span></header>
-          <iframe class="compare-frame" title="Pico.css preview" srcdoc='<!doctype html><html><head><meta name="color-scheme" content="light"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"><style>body{padding:1.25rem;margin:0;font-size:14px}article{margin:0}</style></head><body><main><article><header><strong>Aurora pipelines</strong></header><p>Streaming ingest pipeline with backpressure handling.</p><label>Endpoint<input type="text" value="https://api.aurora.dev"></label><footer><button>Deploy</button> <button class="secondary">Preview</button></footer></article></main></body></html>' style="height:340px"></iframe>
-        </article>
-
-        <article>
-          <header><strong>Daft</strong> <span class="badge outline">57 KB</span></header>
-          <article style="margin:0">
-            <header><strong>Aurora pipelines</strong></header>
-            <p>Streaming ingest pipeline with backpressure handling.</p>
-            <label>Endpoint
-              <input type="text" value="https://api.aurora.dev">
-            </label>
-            <footer>
-              <button>Deploy</button>
-              <button class="outline">Preview</button>
-            </footer>
-          </article>
-        </article>
-      </div>
-
-      <!-- 5c. vs daisyUI — size -->
-      <div class="s-head left" style="margin-top: var(--section-gap)">
-        <p class="label">vs daisyUI</p>
-        <h2>Smaller than the plugin you'd add to Tailwind.</h2>
-        <p>daisyUI shares Daft's preference for readable class names over utility soup. The trade-off is the dependency: daisyUI is a Tailwind plugin, so the shipped bundle stacks on top of Tailwind. Daft is the single file you link.</p>
-      </div>
-
-      <article>
-        <div class="flex flex-col gap-3">
-          <div class="size-row">
-            <span class="font-semibold">Daft</span>
-            <progress value="57" max="200"></progress>
-            <span class="muted text-sm text-right">57 KB</span>
-          </div>
-          <div class="size-row">
-            <span class="font-semibold">Pico.css</span>
-            <progress value="83" max="200" class="secondary"></progress>
-            <span class="muted text-sm text-right">83 KB</span>
-          </div>
-          <div class="size-row">
-            <span class="font-semibold">daisyUI</span>
-            <progress value="158" max="200" class="secondary"></progress>
-            <span class="muted text-sm text-right">158 KB</span>
-          </div>
-          <div class="size-row">
-            <span class="font-semibold">daisyUI + Tailwind</span>
-            <progress value="200" max="200" class="destructive"></progress>
-            <span class="muted text-sm text-right">200 KB</span>
-          </div>
-        </div>
-        <p class="muted text-sm mt-4" style="font-style: italic">Minified CSS, full default ruleset (not gzipped). daisyUI is a Tailwind plugin, so the real bundle adds Tailwind's compiled output on top.</p>
-      </article>
-    </section>
-
     <!-- §6 SLIDES ===================================================== -->
-    <section class="s" id="slides-teaser">
-      <div class="s-head">
+    <section id="slides-teaser">
+      <header class="text-center mx-auto max-w-xl mb-8">
         <p class="label">Slides</p>
         <h2>HTML has a presentation mode.</h2>
-        <p>Add <code>class="deck"</code> to <code>&lt;body&gt;</code>. Every <code>&lt;section&gt;</code> becomes a 16:9 slide. Cmd+P prints to PDF. No runtime, no build, no slot in the bundle — it ships with Daft.</p>
+        <p class="muted">Add <code>class="deck"</code> to <code>&lt;body&gt;</code>. Every <code>&lt;section&gt;</code> becomes a 16:9 slide. Cmd+P prints to PDF. No runtime, no build, no slot in the bundle — it ships with Daft.</p>
         <div class="actions" style="justify-content: center; gap: var(--spacing-sm); margin-top: var(--spacing-lg);">
           <a href="/slides/" role="button">Open the deck</a>
         </div>
-      </div>
+      </header>
     </section>
 
   </main>
 
   <!-- FOOTER ======================================================== -->
-  <footer class="border-t mt-auto" style="margin-top: var(--section-gap)">
+  <footer class="border-t mt-auto">
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.12.3</span>
+        <span>v1.13.0</span>
         <span>57 KB</span>
         <span>MIT</span>
         <span>© 2026</span>
@@ -930,9 +629,22 @@
         const v = sel.value;
         if (v === 'default') root.removeAttribute('data-palette');
         else root.setAttribute('data-palette', v);
-        panes.forEach(p => p.classList.toggle('on', p.dataset.for === v));
+        panes.forEach(p => p.classList.toggle('hidden', p.dataset.for !== v));
       });
     })();
+
+    /* Syntax comparison switcher */
+    (function () {
+      const controls = document.querySelectorAll('input[name="syntax-picker"]');
+      const panes = document.querySelectorAll('pre[data-syntax]');
+      if (!controls.length) return;
+      controls.forEach(control => {
+        control.addEventListener('change', () => {
+          panes.forEach(p => p.classList.toggle('hidden', p.dataset.syntax !== control.value));
+        });
+      });
+    })();
+
 
     /* Install picker */
     (function () {

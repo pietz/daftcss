@@ -1,6 +1,6 @@
 /**
  * Modal/Dialog styles
- * Supports both native <dialog> and Popover API for no-JS modals.
+ * Daft's no-JavaScript modal uses the native Popover API.
  *
  * Preferred (no JS): <dialog popover> wrapping <article>.
  *   <button popovertarget="my-modal">Open</button>

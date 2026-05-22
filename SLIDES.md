@@ -1,6 +1,6 @@
 # Daft CSS — Slides
 
-A thin slide layer that turns semantic HTML into a presentation deck. Each `<section>` is one slide. Layouts compose from Daft's existing primitives (`.grid`, `.span-N`, `.card`, `.cluster`, `.stack`, …). No JavaScript. Export to PDF via the browser's print dialog.
+A thin slide layer that turns semantic HTML into a presentation deck. Each `<section>` is one slide. Layouts compose from Daft's existing primitives (`.grid`, `.span-N`, `<article>` cards, `.cluster`, `.stack`, …). No JavaScript. Export to PDF via the browser's print dialog.
 
 ## Quick start
 
@@ -82,14 +82,14 @@ Slides reuse Daft's `.grid` system. Grid children become equal columns; `.span-N
 <!-- 3 tiles -->
 <section>
   <div class="grid">
-    <article class="card">…</article>
-    <article class="card">…</article>
-    <article class="card">…</article>
+    <article>…</article>
+    <article>…</article>
+    <article>…</article>
   </div>
 </section>
 ```
 
-Anything Daft offers — `.stack`, `.cluster`, `.card`, `.glass`, buttons, badges, alerts, tables — works inside a slide. There are no slide-specific equivalents.
+Anything Daft offers — `.stack`, `.cluster`, `<article>` cards, `.glass`, buttons, badges, alerts, tables — works inside a slide. There are no slide-specific equivalents.
 
 ## Theming
 
