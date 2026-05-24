@@ -1926,7 +1926,7 @@
     overflow: visible;
   }
 
-  nav > ul {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
     flex-wrap: wrap;
     align-items: center;
     gap: 0;
@@ -1936,13 +1936,13 @@
     display: flex;
   }
 
-  nav > ul > li {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li {
     padding: var(--spacing-xs) var(--spacing-sm);
     line-height: var(--line-height);
     margin: 0;
   }
 
-  nav > ul > li > :where(a, [role="link"]) {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]) {
     margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--text-sm);
@@ -1951,11 +1951,11 @@
     display: inline-block;
   }
 
-  nav > ul > li > :where(a, [role="link"]):not(:hover) {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]):not(:hover) {
     text-decoration: none;
   }
 
-  nav > ul > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
     margin-block: calc(var(--spacing-xs) * -1);
   }
 
@@ -2025,7 +2025,7 @@
       align-items: stretch;
     }
 
-    nav > ul {
+    :is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
       justify-content: center;
     }
   }

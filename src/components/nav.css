@@ -13,7 +13,7 @@ nav {
   padding-block: var(--spacing-sm);
 }
 
-nav > ul {
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -23,13 +23,13 @@ nav > ul {
   list-style: none;
 }
 
-nav > ul > li {
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li {
   margin: 0;
   padding: var(--spacing-xs) var(--spacing-sm);
   line-height: var(--line-height);
 }
 
-nav > ul > li > :where(a, [role="link"]) {
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]) {
   display: inline-block;
   margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -38,11 +38,11 @@ nav > ul > li > :where(a, [role="link"]) {
   border-radius: var(--radius-sm);
 }
 
-nav > ul > li > :where(a, [role="link"]):not(:hover) {
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]):not(:hover) {
   text-decoration: none;
 }
 
-nav > ul > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
   margin-block: calc(var(--spacing-xs) * -1);
 }
 
@@ -115,7 +115,7 @@ ul[aria-label="Breadcrumb" i] > li:last-child {
     align-items: stretch;
   }
 
-  nav > ul {
+  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
     justify-content: center;
   }
 }
