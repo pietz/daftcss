@@ -490,7 +490,7 @@ Skeleton:
 <div class="stack">
   <article>
     <header>
-      <strong>Version 1.13.1</strong>
+      <strong>Version 1.13.2</strong>
       <span class="badge success">Latest</span>
       <p>May 2026</p>
     </header>

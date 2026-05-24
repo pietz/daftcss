@@ -56,7 +56,7 @@ details:not(.dropdown) > summary:not([role="button"]):hover {
 }
 
 /* Open state */
-details[open] > summary:not([role="button"]) {
+details:not(.dropdown)[open] > summary:not([role="button"]) {
   color: var(--primary);
 }
 

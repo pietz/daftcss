@@ -1640,7 +1640,7 @@
     text-decoration: underline;
   }
 
-  details[open] > summary:not([role="button"]) {
+  details:not(.dropdown)[open] > summary:not([role="button"]) {
     color: var(--primary);
   }
 
