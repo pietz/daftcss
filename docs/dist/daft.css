@@ -1926,7 +1926,7 @@
     overflow: visible;
   }
 
-  nav ul {
+  nav > ul {
     flex-wrap: wrap;
     align-items: center;
     gap: 0;
@@ -1936,13 +1936,13 @@
     display: flex;
   }
 
-  nav ul > li {
+  nav > ul > li {
     padding: var(--spacing-xs) var(--spacing-sm);
     line-height: var(--line-height);
     margin: 0;
   }
 
-  nav li :where(a, [role="link"]) {
+  nav > ul > li > :where(a, [role="link"]) {
     margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--text-sm);
@@ -1951,11 +1951,11 @@
     display: inline-block;
   }
 
-  nav li :where(a, [role="link"]):not(:hover) {
+  nav > ul > li > :where(a, [role="link"]):not(:hover) {
     text-decoration: none;
   }
 
-  nav li :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
+  nav > ul > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
     margin-block: calc(var(--spacing-xs) * -1);
   }
 

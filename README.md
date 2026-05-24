@@ -123,6 +123,14 @@ Then write semantic HTML:
 </html>
 ```
 
+## Blocks
+
+Blocks are copy-pasteable page sections composed from Daft primitives: landing heroes, feature grids, FAQ accordions, pricing cards, app shells, dashboards, settings forms, and docs sections.
+
+Use blocks before writing custom layout CSS. They are the middle layer between individual components and full examples.
+
+See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent reference at [`skills/daftcss/BLOCKS.md`](skills/daftcss/BLOCKS.md).
+
 ## Components
 
 ### Buttons

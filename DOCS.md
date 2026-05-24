@@ -59,6 +59,18 @@ npm install daftcss
 
 ---
 
+## Blocks
+
+Blocks are reusable page sections composed from Daft primitives. Use them before inventing custom page layouts.
+
+- Landing: centered hero, reservation hero, feature grid, how-it-works, FAQ, final CTA, pricing cards
+- Application: top-nav shell, sidebar shell, workspace browser, dashboard stats, settings form, empty state, status panel
+- Content/docs: section header, changelog list, comparison table, code snippet card
+
+See `docs/blocks/` for visual examples and `skills/daftcss/BLOCKS.md` for agent-facing skeletons.
+
+---
+
 ## Theming
 
 ### Color Scheme

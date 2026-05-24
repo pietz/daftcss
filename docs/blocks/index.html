@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Daft CSS — Blocks</title>
+  <link rel="stylesheet" href="/dist/daft.css?v=1.13.1">
+</head>
+
+<body>
+  <nav class="sticky glass">
+    <div class="container-fluid flex items-center justify-between">
+      <ul>
+        <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
+        <li><a href="/"><strong>daft.css</strong></a></li>
+      </ul>
+      <ul>
+        <li><a href="/components/" role="button" class="ghost">Components</a></li>
+        <li><a href="/blocks/" role="button" class="ghost">Blocks</a></li>
+        <li><a href="/slides/" role="button" class="ghost">Slides</a></li>
+        <li>
+          <details class="dropdown">
+            <summary class="ghost">Examples</summary>
+            <ul>
+              <li><a href="/examples/landing/">Landing</a></li>
+              <li><a href="/examples/dashboard/">Dashboard</a></li>
+              <li><a href="/examples/product/">Product</a></li>
+              <li><a href="/examples/demo/">Demo</a></li>
+              <li><a href="/examples/pico-comparison/">Pico comparison</a></li>
+              <li><a href="/examples/">All examples</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
+        <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme">🌓</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <aside id="sidebar" class="sidebar" popover>
+    <nav>
+      <ul>
+        <li class="label">Landing</li>
+        <li><a href="#centered-hero">Centered hero</a></li>
+        <li><a href="#reservation-hero">Reservation hero</a></li>
+        <li><a href="#feature-grid">Feature grid</a></li>
+        <li><a href="#steps">How it works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#final-cta">Final CTA</a></li>
+        <li><a href="#pricing">Pricing cards</a></li>
+      </ul>
+      <ul>
+        <li class="label">Application</li>
+        <li><a href="#top-nav-shell">Top nav shell</a></li>
+        <li><a href="#sidebar-shell">Sidebar shell</a></li>
+        <li><a href="#workspace-browser">Workspace browser</a></li>
+        <li><a href="#stats">Stat cards</a></li>
+        <li><a href="#settings-form">Settings form</a></li>
+        <li><a href="#empty-state">Empty state</a></li>
+        <li><a href="#status-panel">Status panel</a></li>
+      </ul>
+      <ul>
+        <li class="label">Content</li>
+        <li><a href="#docs-header">Docs header</a></li>
+        <li><a href="#changelog">Changelog</a></li>
+        <li><a href="#comparison">Comparison table</a></li>
+        <li><a href="#code-card">Code snippet card</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="container-fluid">
+    <section>
+      <hgroup>
+        <h1>Blocks</h1>
+        <p>Reusable page sections built from Daft primitives. Copy these before inventing custom layout classes.</p>
+      </hgroup>
+      <div role="status">
+        <strong>Composition layer</strong>
+        <p>Blocks sit between individual components and complete examples: semantic HTML, Daft utilities, no bespoke CSS.</p>
+      </div>
+    </section>
+
+    <section id="landing">
+      <h2>Landing / Marketing</h2>
+
+      <section id="centered-hero">
+        <h3>Centered Hero</h3>
+        <div class="grid">
+          <div>
+            <section class="text-center mt-24">
+              <div class="cluster justify-center mb-4">
+                <span class="badge outline">Open files</span>
+                <span class="badge outline">No build</span>
+                <span class="badge outline">No JS</span>
+              </div>
+              <h1 class="text-6xl mx-auto max-w-2xl">Ship a polished interface from plain HTML.</h1>
+              <p class="muted mx-auto max-w-xl">Daft styles semantic elements directly, so prototypes stay readable and production pages stay small.</p>
+              <div class="cluster justify-center mt-8">
+                <a href="#" role="button">Start building</a>
+                <a href="#" role="button" class="outline">View docs</a>
+              </div>
+            </section>
+          </div>
+          <pre><code>&lt;section class="text-center mt-24"&gt;
+  &lt;div class="cluster justify-center mb-4"&gt;
+    &lt;span class="badge outline"&gt;Open files&lt;/span&gt;
+    &lt;span class="badge outline"&gt;No build&lt;/span&gt;
+    &lt;span class="badge outline"&gt;No JS&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;h1 class="text-6xl mx-auto max-w-2xl"&gt;Ship a polished interface from plain HTML.&lt;/h1&gt;
+  &lt;p class="muted mx-auto max-w-xl"&gt;Daft styles semantic elements directly.&lt;/p&gt;
+  &lt;div class="cluster justify-center mt-8"&gt;
+    &lt;a href="#" role="button"&gt;Start building&lt;/a&gt;
+    &lt;a href="#" role="button" class="outline"&gt;View docs&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="reservation-hero">
+        <h3>Reservation Hero</h3>
+        <div class="grid">
+          <div>
+            <section class="text-center mt-16">
+              <span class="badge">Private beta</span>
+              <h1 class="text-5xl mx-auto max-w-2xl">Reserve your workspace name.</h1>
+              <p class="muted mx-auto max-w-xl">Claim a public handle before the hosted version opens next month.</p>
+              <div role="group" class="mx-auto max-w-xl mt-8">
+                <span>daft.dev/</span>
+                <input type="text" placeholder="workspace" aria-label="Workspace name">
+                <button>Reserve</button>
+              </div>
+            </section>
+          </div>
+          <pre><code>&lt;section class="text-center mt-16"&gt;
+  &lt;span class="badge"&gt;Private beta&lt;/span&gt;
+  &lt;h1 class="text-5xl mx-auto max-w-2xl"&gt;Reserve your workspace name.&lt;/h1&gt;
+  &lt;p class="muted mx-auto max-w-xl"&gt;Claim a public handle before launch.&lt;/p&gt;
+  &lt;div role="group" class="mx-auto max-w-xl mt-8"&gt;
+    &lt;span&gt;daft.dev/&lt;/span&gt;
+    &lt;input type="text" placeholder="workspace" aria-label="Workspace name"&gt;
+    &lt;button&gt;Reserve&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="feature-grid">
+        <h3>Feature Grid</h3>
+        <div class="grid">
+          <div>
+            <header class="text-center mx-auto max-w-xl mb-8">
+              <p class="label">Features</p>
+              <h2>Everything is just HTML.</h2>
+              <p class="muted">Use article cards in a grid. Keep each feature concrete.</p>
+            </header>
+            <div class="grid">
+              <article>
+                <span class="badge outline">01</span>
+                <h3>Semantic defaults</h3>
+                <p>Buttons, forms, tables, cards, and dialogs render without component wrappers.</p>
+              </article>
+              <article>
+                <span class="badge outline">02</span>
+                <h3>Token theming</h3>
+                <p>Change root variables for a new product feel without replacing markup.</p>
+              </article>
+              <article>
+                <span class="badge outline">03</span>
+                <h3>Agent friendly</h3>
+                <p>Readable skeletons make generated pages easier to review and maintain.</p>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;header class="text-center mx-auto max-w-xl mb-8"&gt;
+  &lt;p class="label"&gt;Features&lt;/p&gt;
+  &lt;h2&gt;Everything is just HTML.&lt;/h2&gt;
+  &lt;p class="muted"&gt;Use article cards in a grid.&lt;/p&gt;
+&lt;/header&gt;
+&lt;div class="grid"&gt;
+  &lt;article&gt;
+    &lt;span class="badge outline"&gt;01&lt;/span&gt;
+    &lt;h3&gt;Semantic defaults&lt;/h3&gt;
+    &lt;p&gt;Buttons, forms, tables, cards, and dialogs render without wrappers.&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="steps">
+        <h3>How It Works</h3>
+        <div class="grid">
+          <div>
+            <header class="mx-auto max-w-xl text-center mb-8">
+              <p class="label">Workflow</p>
+              <h2>Three steps from blank page to UI.</h2>
+            </header>
+            <div class="grid">
+              <article>
+                <span class="badge">1</span>
+                <h3>Link the CSS</h3>
+                <p>Add one stylesheet to the document head.</p>
+              </article>
+              <article>
+                <span class="badge">2</span>
+                <h3>Write HTML</h3>
+                <p>Use sections, forms, tables, details, dialogs, and articles.</p>
+              </article>
+              <article>
+                <span class="badge">3</span>
+                <h3>Tune tokens</h3>
+                <p>Adjust root variables only when the product needs a different feel.</p>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;header class="mx-auto max-w-xl text-center mb-8"&gt;
+  &lt;p class="label"&gt;Workflow&lt;/p&gt;
+  &lt;h2&gt;Three steps from blank page to UI.&lt;/h2&gt;
+&lt;/header&gt;
+&lt;div class="grid"&gt;
+  &lt;article&gt;
+    &lt;span class="badge"&gt;1&lt;/span&gt;
+    &lt;h3&gt;Link the CSS&lt;/h3&gt;
+    &lt;p&gt;Add one stylesheet to the document head.&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="faq">
+        <h3>FAQ Accordion</h3>
+        <div class="grid">
+          <div class="max-w-2xl mx-auto">
+            <header class="text-center mb-8">
+              <p class="label">FAQ</p>
+              <h2>Questions before you start?</h2>
+            </header>
+            <details open>
+              <summary>Does this require JavaScript?</summary>
+              <p>No. Daft components use native HTML whenever possible.</p>
+            </details>
+            <details>
+              <summary>Can I change the visual style?</summary>
+              <p>Yes. Change root CSS variables for spacing, radius, color, and type scale.</p>
+            </details>
+            <details>
+              <summary>Should I add custom classes?</summary>
+              <p>Use utilities and semantic elements first. Add custom CSS only for product-specific needs.</p>
+            </details>
+          </div>
+          <pre><code>&lt;section class="max-w-2xl mx-auto"&gt;
+  &lt;header class="text-center mb-8"&gt;
+    &lt;p class="label"&gt;FAQ&lt;/p&gt;
+    &lt;h2&gt;Questions before you start?&lt;/h2&gt;
+  &lt;/header&gt;
+  &lt;details open&gt;
+    &lt;summary&gt;Does this require JavaScript?&lt;/summary&gt;
+    &lt;p&gt;No. Daft components use native HTML whenever possible.&lt;/p&gt;
+  &lt;/details&gt;
+  &lt;details&gt;...&lt;/details&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="final-cta">
+        <h3>Final CTA</h3>
+        <div class="grid">
+          <div>
+            <section class="text-center">
+              <article>
+                <h2>Ready to build without a component stack?</h2>
+                <p class="muted mx-auto max-w-xl">Start with semantic HTML and let Daft carry the visual system.</p>
+                <footer class="cluster justify-center">
+                  <a href="#" role="button">Get started</a>
+                  <a href="#" role="button" class="outline">Read docs</a>
+                </footer>
+              </article>
+            </section>
+          </div>
+          <pre><code>&lt;section class="text-center"&gt;
+  &lt;article&gt;
+    &lt;h2&gt;Ready to build without a component stack?&lt;/h2&gt;
+    &lt;p class="muted mx-auto max-w-xl"&gt;Start with semantic HTML.&lt;/p&gt;
+    &lt;footer class="cluster justify-center"&gt;
+      &lt;a href="#" role="button"&gt;Get started&lt;/a&gt;
+      &lt;a href="#" role="button" class="outline"&gt;Read docs&lt;/a&gt;
+    &lt;/footer&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <h3>Simple Pricing Cards</h3>
+        <div class="grid">
+          <div>
+            <header class="text-center mx-auto max-w-xl mb-8">
+              <p class="label">Pricing</p>
+              <h2>Start small, upgrade when needed.</h2>
+            </header>
+            <div class="grid">
+              <article>
+                <header>
+                  <strong>Starter</strong>
+                  <p>For prototypes and small sites.</p>
+                </header>
+                <p class="text-4xl"><strong>$0</strong> <small class="muted">/mo</small></p>
+                <ul>
+                  <li>One project</li>
+                  <li>Community support</li>
+                  <li>CDN install</li>
+                </ul>
+                <footer><a href="#" role="button" class="outline">Start</a></footer>
+              </article>
+              <article>
+                <header>
+                  <strong>Team</strong>
+                  <span class="badge">Popular</span>
+                  <p>For production apps.</p>
+                </header>
+                <p class="text-4xl"><strong>$19</strong> <small class="muted">/mo</small></p>
+                <ul>
+                  <li>Unlimited projects</li>
+                  <li>Private themes</li>
+                  <li>Email support</li>
+                </ul>
+                <footer><a href="#" role="button">Upgrade</a></footer>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;header class="text-center mx-auto max-w-xl mb-8"&gt;
+  &lt;p class="label"&gt;Pricing&lt;/p&gt;
+  &lt;h2&gt;Start small, upgrade when needed.&lt;/h2&gt;
+&lt;/header&gt;
+&lt;div class="grid"&gt;
+  &lt;article&gt;
+    &lt;header&gt;
+      &lt;strong&gt;Starter&lt;/strong&gt;
+      &lt;p&gt;For prototypes and small sites.&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p class="text-4xl"&gt;&lt;strong&gt;$0&lt;/strong&gt; &lt;small class="muted"&gt;/mo&lt;/small&gt;&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;One project&lt;/li&gt;&lt;li&gt;Community support&lt;/li&gt;&lt;/ul&gt;
+    &lt;footer&gt;&lt;a href="#" role="button" class="outline"&gt;Start&lt;/a&gt;&lt;/footer&gt;
+  &lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+    </section>
+
+    <section id="application">
+      <h2>Application</h2>
+
+      <section id="top-nav-shell">
+        <h3>App Shell With Sticky Top Nav</h3>
+        <div class="grid">
+          <div>
+            <nav class="sticky glass">
+              <ul>
+                <li><strong>Workspace</strong></li>
+              </ul>
+              <ul>
+                <li><a href="#" aria-current="page">Projects</a></li>
+                <li><a href="#">Team</a></li>
+                <li><button class="ghost icon" aria-label="Settings">⚙</button></li>
+              </ul>
+            </nav>
+            <section class="mt-8">
+              <hgroup>
+                <h2>Projects</h2>
+                <p>Manage active workspaces and recent activity.</p>
+              </hgroup>
+              <div class="grid">
+                <article><strong>Website</strong><p class="muted">Updated 2 hours ago</p></article>
+                <article><strong>Docs</strong><p class="muted">Updated yesterday</p></article>
+              </div>
+            </section>
+          </div>
+          <pre><code>&lt;nav class="sticky glass"&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;strong&gt;Workspace&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#" aria-current="page"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Team&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button class="ghost icon" aria-label="Settings"&gt;⚙&lt;/button&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;main class="container"&gt;
+  &lt;hgroup&gt;&lt;h1&gt;Projects&lt;/h1&gt;&lt;p&gt;Manage active workspaces.&lt;/p&gt;&lt;/hgroup&gt;
+&lt;/main&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="sidebar-shell">
+        <h3>App Shell With Sidebar</h3>
+        <div class="grid">
+          <div>
+            <div class="grid">
+              <aside class="bg-muted rounded p-4">
+                <nav>
+                  <ul>
+                    <li class="label">Workspace</li>
+                    <li><a href="#" aria-current="page">Overview</a></li>
+                    <li><a href="#">Files</a></li>
+                    <li><a href="#">Settings</a></li>
+                  </ul>
+                </nav>
+              </aside>
+              <section class="span-3">
+                <hgroup>
+                  <h2>Overview</h2>
+                  <p>Sidebar shells work best for dense product areas.</p>
+                </hgroup>
+                <article>
+                  <strong>Current plan</strong>
+                  <p class="muted">Team plan renews on June 1.</p>
+                </article>
+              </section>
+            </div>
+          </div>
+          <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li class="label"&gt;Workspace&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#" aria-current="page"&gt;Overview&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Files&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/aside&gt;
+&lt;header class="container-fluid"&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;button class="ghost icon sidebar-toggle" popovertarget="sidebar"&gt;☰&lt;/button&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+&lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="workspace-browser">
+        <h3>File Tree / Workspace Browser</h3>
+        <div class="grid">
+          <div>
+            <div class="grid">
+              <article>
+                <header>
+                  <strong>Files</strong>
+                  <button class="ghost small">New</button>
+                </header>
+                <ul class="tree">
+                  <li>
+                    <details open>
+                      <summary>docs</summary>
+                      <ul>
+                        <li><a href="#" aria-current="page">index.html</a></li>
+                        <li><a href="#">blocks.html</a></li>
+                      </ul>
+                    </details>
+                  </li>
+                  <li><a href="#">package.json</a></li>
+                </ul>
+              </article>
+              <article class="span-2">
+                <header>
+                  <strong>index.html</strong>
+                  <span class="badge success">Saved</span>
+                </header>
+                <pre><code>&lt;main class="container"&gt;...&lt;/main&gt;</code></pre>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;div class="grid"&gt;
+  &lt;article&gt;
+    &lt;header&gt;
+      &lt;strong&gt;Files&lt;/strong&gt;
+      &lt;button class="ghost small"&gt;New&lt;/button&gt;
+    &lt;/header&gt;
+    &lt;ul class="tree"&gt;
+      &lt;li&gt;
+        &lt;details open&gt;
+          &lt;summary&gt;docs&lt;/summary&gt;
+          &lt;ul&gt;&lt;li&gt;&lt;a href="#" aria-current="page"&gt;index.html&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+        &lt;/details&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/article&gt;
+  &lt;article class="span-2"&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="stats">
+        <h3>Dashboard Stat Cards</h3>
+        <div class="grid">
+          <div>
+            <div class="grid">
+              <article>
+                <small class="muted">Revenue</small>
+                <p class="text-4xl m-0"><strong>$42.8k</strong></p>
+                <span class="badge success">+12%</span>
+              </article>
+              <article>
+                <small class="muted">Trials</small>
+                <p class="text-4xl m-0"><strong>318</strong></p>
+                <span class="badge warning">-4%</span>
+              </article>
+              <article>
+                <small class="muted">Uptime</small>
+                <p class="text-4xl m-0"><strong>99.99%</strong></p>
+                <span class="badge outline">30 days</span>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;div class="grid"&gt;
+  &lt;article&gt;
+    &lt;small class="muted"&gt;Revenue&lt;/small&gt;
+    &lt;p class="text-4xl m-0"&gt;&lt;strong&gt;$42.8k&lt;/strong&gt;&lt;/p&gt;
+    &lt;span class="badge success"&gt;+12%&lt;/span&gt;
+  &lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="settings-form">
+        <h3>Settings Form</h3>
+        <div class="grid">
+          <div>
+            <form class="stack max-w-xl">
+              <hgroup>
+                <h2>Workspace settings</h2>
+                <p>Use labels, fieldsets, and grouped controls.</p>
+              </hgroup>
+              <label>Workspace name <input type="text" value="Acme Studio"></label>
+              <label>Public URL
+                <div role="group">
+                  <span>daft.dev/</span>
+                  <input type="text" value="acme">
+                </div>
+              </label>
+              <label><input type="checkbox" role="switch" checked> Allow public sharing</label>
+              <footer class="cluster justify-end">
+                <button class="outline" type="button">Cancel</button>
+                <button type="submit">Save</button>
+              </footer>
+            </form>
+          </div>
+          <pre><code>&lt;form class="stack max-w-xl"&gt;
+  &lt;hgroup&gt;
+    &lt;h2&gt;Workspace settings&lt;/h2&gt;
+    &lt;p&gt;Use labels, fieldsets, and grouped controls.&lt;/p&gt;
+  &lt;/hgroup&gt;
+  &lt;label&gt;Workspace name &lt;input type="text" value="Acme Studio"&gt;&lt;/label&gt;
+  &lt;label&gt;Public URL
+    &lt;div role="group"&gt;
+      &lt;span&gt;daft.dev/&lt;/span&gt;
+      &lt;input type="text" value="acme"&gt;
+    &lt;/div&gt;
+  &lt;/label&gt;
+  &lt;label&gt;&lt;input type="checkbox" role="switch" checked&gt; Allow public sharing&lt;/label&gt;
+  &lt;footer class="cluster justify-end"&gt;
+    &lt;button class="outline" type="button"&gt;Cancel&lt;/button&gt;
+    &lt;button type="submit"&gt;Save&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="empty-state">
+        <h3>Empty State</h3>
+        <div class="grid">
+          <div>
+            <section class="text-center max-w-md mx-auto">
+              <span class="badge outline">No files</span>
+              <h2>Create your first page.</h2>
+              <p class="muted">Start with a block, then replace the copy with product-specific details.</p>
+              <div class="cluster justify-center">
+                <button>Create page</button>
+                <button class="outline">Import HTML</button>
+              </div>
+            </section>
+          </div>
+          <pre><code>&lt;section class="text-center max-w-md mx-auto"&gt;
+  &lt;span class="badge outline"&gt;No files&lt;/span&gt;
+  &lt;h2&gt;Create your first page.&lt;/h2&gt;
+  &lt;p class="muted"&gt;Start with a block, then replace the copy.&lt;/p&gt;
+  &lt;div class="cluster justify-center"&gt;
+    &lt;button&gt;Create page&lt;/button&gt;
+    &lt;button class="outline"&gt;Import HTML&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="status-panel">
+        <h3>Status / Alert Panel</h3>
+        <div class="grid">
+          <div>
+            <div class="stack">
+              <div role="status">
+                <strong>Deployment queued</strong>
+                <p>The production build will start after the current preview finishes.</p>
+              </div>
+              <div role="alert">
+                <strong>Payment failed</strong>
+                <p>Update your billing method before the next renewal.</p>
+              </div>
+            </div>
+          </div>
+          <pre><code>&lt;div class="stack"&gt;
+  &lt;div role="status"&gt;
+    &lt;strong&gt;Deployment queued&lt;/strong&gt;
+    &lt;p&gt;The production build will start after the current preview finishes.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div role="alert"&gt;
+    &lt;strong&gt;Payment failed&lt;/strong&gt;
+    &lt;p&gt;Update your billing method before the next renewal.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+    </section>
+
+    <section id="content">
+      <h2>Content / Docs</h2>
+
+      <section id="docs-header">
+        <h3>Documentation Section Header</h3>
+        <div class="grid">
+          <div>
+            <header class="mb-8">
+              <p class="label">Guides</p>
+              <h1>Installation</h1>
+              <p class="muted max-w-2xl">Use this pattern at the top of docs pages or major reference sections.</p>
+              <div class="cluster">
+                <span class="badge outline">5 min</span>
+                <span class="badge outline">No build tools</span>
+              </div>
+            </header>
+          </div>
+          <pre><code>&lt;header class="mb-8"&gt;
+  &lt;p class="label"&gt;Guides&lt;/p&gt;
+  &lt;h1&gt;Installation&lt;/h1&gt;
+  &lt;p class="muted max-w-2xl"&gt;Use this pattern at the top of docs pages.&lt;/p&gt;
+  &lt;div class="cluster"&gt;
+    &lt;span class="badge outline"&gt;5 min&lt;/span&gt;
+    &lt;span class="badge outline"&gt;No build tools&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="changelog">
+        <h3>Changelog / Release List</h3>
+        <div class="grid">
+          <div>
+            <div class="stack">
+              <article>
+                <header>
+                  <strong>Version 1.13.1</strong>
+                  <span class="badge success">Latest</span>
+                  <p>May 2026</p>
+                </header>
+                <ul>
+                  <li>Added tree views and sidebar improvements.</li>
+                  <li>Expanded utility coverage for layouts.</li>
+                </ul>
+              </article>
+              <article>
+                <header>
+                  <strong>Version 1.12.0</strong>
+                  <p>April 2026</p>
+                </header>
+                <p>Improved form groups and status semantics.</p>
+              </article>
+            </div>
+          </div>
+          <pre><code>&lt;div class="stack"&gt;
+  &lt;article&gt;
+    &lt;header&gt;
+      &lt;strong&gt;Version 1.13.1&lt;/strong&gt;
+      &lt;span class="badge success"&gt;Latest&lt;/span&gt;
+      &lt;p&gt;May 2026&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Added tree views and sidebar improvements.&lt;/li&gt;
+      &lt;li&gt;Expanded utility coverage for layouts.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/article&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="comparison">
+        <h3>Comparison Table</h3>
+        <div class="grid">
+          <div>
+            <div class="overflow-auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Capability</th>
+                    <th>Daft</th>
+                    <th>Custom CSS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Semantic forms</td>
+                    <td><span class="badge success">Built in</span></td>
+                    <td>Manual selectors</td>
+                  </tr>
+                  <tr>
+                    <td>Dark mode</td>
+                    <td><span class="badge success">Tokens</span></td>
+                    <td>Extra theme layer</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <pre><code>&lt;div class="overflow-auto"&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;&lt;th&gt;Capability&lt;/th&gt;&lt;th&gt;Daft&lt;/th&gt;&lt;th&gt;Custom CSS&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Semantic forms&lt;/td&gt;
+        &lt;td&gt;&lt;span class="badge success"&gt;Built in&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;Manual selectors&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="code-card">
+        <h3>Code Snippet Card</h3>
+        <div class="grid">
+          <div>
+            <article>
+              <header>
+                <strong>Install from CDN</strong>
+                <span class="badge outline">HTML</span>
+              </header>
+              <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code></pre>
+              <footer>
+                <small class="muted">Paste this into the document head.</small>
+              </footer>
+            </article>
+          </div>
+          <pre><code>&lt;article&gt;
+  &lt;header&gt;
+    &lt;strong&gt;Install from CDN&lt;/strong&gt;
+    &lt;span class="badge outline"&gt;HTML&lt;/span&gt;
+  &lt;/header&gt;
+  &lt;pre&gt;&lt;code&gt;&amp;lt;link rel="stylesheet" href="..."&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+  &lt;footer&gt;
+    &lt;small class="muted"&gt;Paste this into the document head.&lt;/small&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const stored = localStorage.getItem('daft-mode');
+      if (stored) root.setAttribute('data-theme', stored);
+
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const current = root.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('daft-mode', next);
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -7,6 +7,16 @@ description: Write UIs with Daft CSS — a semantic-first CSS framework that sty
 
 A small CSS framework that ships shadcn/ui-quality aesthetics on raw HTML. No utility-class soup, no JSX, no JavaScript.
 
+## Page-building workflow
+
+1. **Choose the closest block first.** For full pages, start from [BLOCKS.md](BLOCKS.md) before inventing layout.
+2. **Compose semantic HTML.** Use sections, headers, hgroups, articles, forms, tables, details, dialogs, nav, aside, and footer.
+3. **Use Daft utilities.** Reach for `.container`, `.container-fluid`, `.grid`, `.span-*`, `.cluster`, `.stack`, `.text-center`, `.max-w-*`, `.mt-*`, `.mb-*`, `.badge`, `.muted`, and `role="group"`.
+4. **Customize root tokens if needed.** Change `--spacing`, `--radius`, `--primary`, type scale, and semantic colors at `:root`.
+5. **Write custom CSS only as a last resort.** If a Daft block or utility can do it, do not add bespoke CSS.
+
+For landing pages, start from the landing hero, feature grid, CTA, FAQ, and pricing blocks in [BLOCKS.md](BLOCKS.md).
+
 ## Installing Daft CSS
 
 Add to `<head>`:
@@ -85,13 +95,19 @@ Retune the design with a small set of root CSS variables — examples:
 
 - ❌ `<div class="card">…</div>` → use `<article>`
 - ❌ `<button class="btn btn-primary">…</button>` (Bootstrap-style) → just `<button>`
+- ❌ `.hero-card`, `.feature-card`, `.terminal-window`, `.custom-button` → use Daft blocks and primitives
 - ❌ `<button style="background: blue">` → override a CSS variable
 - ❌ Tailwind classes (`.bg-blue-500`, `.p-4`, etc.) → not supported
+- ❌ Recreating Tailwind/Bootstrap patterns → Daft is semantic HTML plus small utilities
 - ❌ JavaScript modal/dropdown libraries → use `<dialog popover>` / `<details>`
 - ❌ Adding a class to every element → Daft expects bare semantic HTML
-- ❌ Custom CSS for layout that could use `<div class="grid">` or container utilities
+- ❌ Hand-rolled grids → use `<div class="grid">` and `.span-*`
+- ❌ Inline styles → use utilities or root tokens
+- ❌ Decorative screenshots/terminal mockups by default → add them only when the product specifically needs them
+- ❌ Custom CSS for layout that could use `<div class="grid">`, `.cluster`, `.stack`, or container utilities
 
 ## When you need more detail
 
+- [BLOCKS.md](BLOCKS.md) — page-section recipes for landing pages, app shells, dashboards, forms, docs sections, and content blocks.
 - [REFERENCE.md](REFERENCE.md) — full component catalog, complete CSS variable system, utility-class list, cascade layer order.
 - [THEMING.md](THEMING.md) — load this when the user wants to retheme Daft: match a brand, change feel ("sharper", "softer", "denser"), build a custom palette, or set up a branded dark mode. Tier-0 / Tier-2 recipes and anti-patterns.
