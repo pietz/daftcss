@@ -83,8 +83,10 @@ When adding a new component or feature to the library:
 ## Deployment & Release Notes
 
 - Website-only changes deploy through GitHub Pages when pushed to the repository. Do not publish npm or create a GitHub release for docs-only changes.
-- Library releases need both npm and GitHub: bump versions, run `npm run build`, commit, tag, push, publish to npm, then create the GitHub Release.
+- Library releases publish to npm through GitHub Actions trusted publishing. Do not run `npm publish` locally.
 - Keep these version references aligned during a release: `package.json`, `package-lock.json`, `src/daft.css` header, visible docs version labels, and `/dist/daft.css?v=x.y.z` cache-busters in docs links.
+- `package.json` must include `repository.url: "https://github.com/pietz/daftcss"` because npm provenance verifies it against the GitHub Actions source.
+- Release flow: bump versions, run `npm run build`, commit, create/push tag `vx.y.z`, create the GitHub Release, then verify the `Release` workflow published npm. The workflow can also be run manually with `ref=vx.y.z`.
 - Do not commit, tag, push, publish, or create releases unless explicitly asked.
 
 ## Visual Testing with Agent Browser

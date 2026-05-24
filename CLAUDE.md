@@ -92,7 +92,7 @@ When adding a new component or feature to the library:
 ## Deployment
 
 - Website-only changes deploy through GitHub Pages when pushed to the repository. Do not publish npm or create a GitHub release for docs-only changes.
-- Library releases need both npm and GitHub: bump versions, run `npm run build`, commit, tag, push, publish to npm, then create the GitHub Release.
+- Library releases publish to npm through GitHub Actions trusted publishing. Do not run `npm publish` locally.
 - Do not commit, tag, push, publish, or create releases unless explicitly asked.
 
 ## Release & Publishing Process
@@ -107,6 +107,17 @@ Update the version in these places (they must match):
 - `src/daft.css` → header comment `* Daft CSS vx.y.z`
 - `docs/index.html` → footer version span (`v1.x.y`)
 - `docs/**/*.html` → every `<link rel="stylesheet" href="/dist/daft.css?v=x.y.z">` cache-buster query
+
+Keep `package.json` repository metadata present and exact:
+
+```json
+"repository": {
+  "type": "git",
+  "url": "https://github.com/pietz/daftcss"
+}
+```
+
+npm provenance checks this URL against the GitHub Actions source repository.
 
 The cache-buster bump is what guarantees the deployed landing pages pick up the new CSS immediately — without it, browsers (and the GH Pages edge cache) can serve a stale build for hours. Quick one-liner from the repo root:
 
@@ -154,13 +165,28 @@ git push origin vx.y.z
 
 Never commit/push without explicit user request. Never amend a published commit — make a new one.
 
-### 6. Publish to npm
+### 6. Publish to npm through GitHub Actions
+
+Publishing is handled by `.github/workflows/release.yml` using npm Trusted Publishing and provenance. Do not publish from the local CLI.
+
+When a `v*` tag is pushed, the `Release` workflow runs automatically. It checks out the tag, runs `npm ci`, runs `npm run build`, skips cleanly if the package version already exists on npm, and otherwise runs:
 
 ```bash
-npm publish
+npm publish --provenance
 ```
 
-Requires `npm whoami` to show the publish-authorized account.
+For an already-pushed tag, trigger the workflow manually:
+
+```bash
+gh workflow run release.yml -f ref=vx.y.z
+gh run watch --exit-status
+```
+
+Verify npm after the workflow:
+
+```bash
+npm view daftcss version
+```
 
 ### 7. Create the GitHub Release
 
@@ -183,8 +209,9 @@ This is **easy to forget** — the npm publish does not create a GitHub release.
 ### Common mistakes
 
 - Forgetting to bump `src/daft.css` header or `docs/index.html` version after `package.json`
-- Publishing to npm before pushing the git tag (release will reference a commit that's not on the remote)
-- Skipping the GitHub release step — npm-only releases leave the GH page stale and users have no readable changelog
+- Forgetting `package.json.repository.url` — npm provenance will reject trusted publishing
+- Expecting local `npm publish` to work — releases publish from GitHub Actions now
+- Skipping the GitHub release step — npm-only releases leave users without a readable changelog
 - Using `git commit --amend` after the commit was pushed — create a new commit instead
 
 ## Visual Testing with Agent Browser

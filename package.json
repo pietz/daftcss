@@ -3,6 +3,10 @@
   "version": "1.13.2",
   "description": "A semantic-first CSS framework with shadcn/ui-quality aesthetics",
   "main": "dist/daft.css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pietz/daftcss"
+  },
   "files": [
     "dist",
     "src"
