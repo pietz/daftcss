@@ -81,25 +81,16 @@ input[type="range"]:focus-visible {
 }
 
 input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+  box-shadow: var(--focus-ring);
 }
 
 input[type="range"]:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+  box-shadow: var(--focus-ring);
 }
 
 /* Disabled state */
-input[type="range"]:disabled {
-  cursor: not-allowed;
+input[type="range"]:is(:disabled, [aria-disabled="true"]) {
   opacity: var(--disabled-opacity);
-}
-
-input[type="range"]:disabled::-webkit-slider-thumb {
-  cursor: not-allowed;
-}
-
-input[type="range"]:disabled::-moz-range-thumb {
-  cursor: not-allowed;
 }
 
 /* Label with range */

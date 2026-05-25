@@ -80,13 +80,12 @@ input[type="checkbox"]:focus-visible,
 input[type="radio"]:focus-visible {
   outline: none;
   border-color: var(--ring);
-  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+  box-shadow: var(--focus-ring);
 }
 
 /* Disabled state */
-input[type="checkbox"]:disabled,
-input[type="radio"]:disabled {
-  cursor: not-allowed;
+input[type="checkbox"]:is(:disabled, [aria-disabled="true"]),
+input[type="radio"]:is(:disabled, [aria-disabled="true"]) {
   opacity: var(--disabled-opacity);
 }
 
@@ -106,14 +105,9 @@ label:has(> input[type="radio"]) {
   }
 }
 
-/* Disabled label */
-label:has(> input:disabled) {
-  cursor: not-allowed;
-  opacity: var(--disabled-opacity);
-}
-
+/* Disabled label — when wrapping a disabled input or marked aria-disabled. */
+label:has(> input:is(:disabled, [aria-disabled="true"])),
 label[aria-disabled="true"] {
-  cursor: not-allowed;
   opacity: var(--disabled-opacity);
 }
 
@@ -157,5 +151,5 @@ input[type="checkbox"][role="switch"]:checked::before {
 }
 
 input[type="checkbox"][role="switch"]:focus-visible {
-  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+  box-shadow: var(--focus-ring);
 }

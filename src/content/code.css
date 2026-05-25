@@ -25,7 +25,7 @@ pre {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--line-height-lg);
-  background-color: var(--muted);
+  background-color: var(--code-background);
   color: var(--foreground);
   padding: var(--spacing);
   border-radius: var(--radius-lg);
@@ -40,17 +40,6 @@ pre {
     padding: 0;
     border-radius: 0;
     white-space: pre;
-  }
-}
-
-/* Dark mode code blocks get slightly different background */
-[data-theme="dark"] pre {
-  background-color: oklch(0.18 0 0);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) pre {
-    background-color: oklch(0.18 0 0);
   }
 }
 

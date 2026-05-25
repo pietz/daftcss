@@ -43,14 +43,12 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: var(--button-shadow), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--button-shadow), var(--focus-ring);
   }
 
-  &:disabled,
-  &[aria-disabled="true"] {
+  &:is(:disabled, [aria-disabled="true"]) {
     pointer-events: none;
     opacity: var(--disabled-opacity);
-    cursor: not-allowed;
   }
 
   /* Icon sizing */
@@ -94,7 +92,7 @@ a[role="button"] {
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring-destructive);
   }
 }
 

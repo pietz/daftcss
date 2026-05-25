@@ -37,8 +37,10 @@
   border-color: var(--badge-tint);
 }
 
-/* Secondary outline diverges from the tint pattern: text stays neutral and
-   border uses the muted neutral instead of the accent fill color. */
+/* Secondary outline diverges: --secondary equals --muted in the default
+   palette (a near-background neutral), so retinting to it makes the outline
+   disappear. Fall back to foreground text + border-colored stroke. Override
+   --secondary to something distinguishable to reactivate the standard retint. */
 .badge.outline.secondary {
   color: var(--foreground);
   border-color: var(--border);

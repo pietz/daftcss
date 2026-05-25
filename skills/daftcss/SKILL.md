@@ -54,7 +54,7 @@ Add to `<head>`:
 
 **Switch** = `<input type="checkbox" role="switch">`. Just the role.
 
-**Badge** = `<span class="badge">`. Variants: `.secondary`, `.success`, `.warning`, `.destructive`, `.outline`.
+**Badge** = `<span class="badge">`. Variants: `.secondary`, `.success`, `.warning`, `.destructive`, `.outline`. Combine `.outline` with a color (`.outline.success`, `.outline.destructive`) for a tinted outline; `.outline.secondary` stays neutral as a quiet chip (default `--secondary` matches `--muted`, so retinting would be invisible). Sizes: `.small`, `.large`.
 
 **Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
 
@@ -72,7 +72,7 @@ Add to `<head>`:
 
 **Slides** = `<body class="deck">`, then each direct-child `<section>` is a slide. Roles: `.title`, `.quote`, `.full`, `.code`. Column layouts use the same Daft `.grid` + `.span-N` primitive; there is no slide-specific column layout. For "heading + columns", keep the heading outside the grid (slide section is already a flex column). Speaker notes go in `<aside class="notes">` (hidden by default). Export to PDF with the browser's print dialog. See [SLIDES.md](../../SLIDES.md) for the full reference.
 
-**Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Add `aria-invalid="true"` for error state. `<input>` and `<select>` accept `.small` / `.large` size modifiers (same as `<button>`).
+**Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Drive validation via `aria-invalid="true"` / `aria-invalid="false"` — native pseudo-classes (`:user-invalid`, `:invalid`) are not styled, so set `aria-invalid` from your server response or client logic. `<input>` and `<select>` accept `.small` / `.large` size modifiers (same as `<button>`). Extended input types — `color`, `datetime-local`, `month`, `week` — are styled alongside the standard set. Indeterminate checkbox state is styled too; set `el.indeterminate = true` in JS to use it.
 
 ## Status semantics
 

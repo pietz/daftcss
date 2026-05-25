@@ -144,8 +144,14 @@ Wrapping inputs in labels handles spacing automatically. `aria-invalid` switches
 Special inputs:
 - `<input type="search">` — pill-shaped; inside a `role="group"` it also makes the whole cluster pill
 - `<input type="checkbox" role="switch">` — toggle switch (no class needed)
-- `<input type="file">` — styled drop zone
-- `<input type="color">`, `range`, `date`, `time` — all styled
+- `<input type="file">` — styled drop zone with a tinted `::file-selector-button`
+- `<input type="color">` — clickable swatch sitting inside the standard input frame
+- `<input type="range">` — slider, themed track and thumb
+- `<input type="date">`, `time`, `datetime-local`, `month`, `week` — share the calendar-picker indicator treatment (muted, intensifies on hover)
+
+Validation states:
+- `aria-invalid="true|false"` — drives the destructive/primary border and ring; adjacent or following `<small>` adopts the matching color. Set it from your server response or client validation. Native pseudo-classes (`:user-invalid` / `:invalid`) are intentionally not styled — wire `aria-invalid` instead
+- `<input type="checkbox">` indeterminate — primary-filled with a horizontal bar. Set the state in JS (`el.indeterminate = true`) — HTML has no attribute for it. Common use: "select all" header reflecting partial child selection
 
 Sizes — `<input>` and `<select>` mirror the button modifiers:
 ```html
@@ -354,7 +360,18 @@ Sortable column indicator: `<th aria-sort="ascending">` or `"descending"`.
 <span class="badge large">Large</span>
 ```
 
-Combine: `.outline.success`, `.outline.destructive`, etc.
+| Variant | Class | Use |
+|---|---|---|
+| Primary | (none) | Default tinted badge |
+| Secondary | `.secondary` | Muted neutral fill |
+| Success | `.success` | Resolved, active, healthy |
+| Warning | `.warning` | Pending, attention |
+| Destructive | `.destructive` | Failed, blocked, error |
+| Outline | `.outline` | Transparent fill, tinted text + border |
+
+Combine `.outline` with any color (`.outline.success`, `.outline.destructive`, `.outline.warning`) for a tinted outline-only chip. `.outline.secondary` is the one exception: because the default palette sets `--secondary` equal to `--muted`, the badge falls back to `--foreground` text + `--border` stroke for a neutral chip. Override `--secondary` to a distinguishable color to reactivate the standard retint.
+
+Size modifiers: `.small`, `.large` adjust padding only — font size stays `--text-xs` so badges remain inline with text. `--badge-radius` (default `--radius-md`) controls corner radius; set to `--radius-full` for a pill.
 
 ### Groups
 ```html

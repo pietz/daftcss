@@ -190,6 +190,21 @@ Wrap the title and lead paragraph in `<hgroup>` for the shadcn-style title + mut
 </article>
 ```
 
+### Badges
+
+```html
+<span class="badge">Primary</span>
+<span class="badge secondary">Secondary</span>
+<span class="badge success">Active</span>
+<span class="badge warning">Pending</span>
+<span class="badge destructive">Failed</span>
+<span class="badge outline">Outline</span>
+<span class="badge small">12</span>
+<span class="badge large">Featured</span>
+```
+
+Combine `.outline` with a color class for tinted outline badges (`.outline.success`, `.outline.destructive`). `.outline.secondary` is the one exception — text stays neutral and the border uses `--border`, because the default palette sets `--secondary` equal to `--muted`.
+
 ### Accordion
 
 ```html

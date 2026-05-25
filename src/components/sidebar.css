@@ -102,10 +102,6 @@ body > aside.sidebar > nav > ul > li > a:hover {
     width: auto;
   }
 
-  body > :is(header, nav):first-child:has(+ aside.sidebar) {
-    --sidebar-offset-top: 0px;
-  }
-
   body > :is(header, nav):first-child:has(+ aside.sidebar) + aside.sidebar {
     --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
   }
@@ -138,7 +134,7 @@ body > aside.sidebar > nav > ul > li > a:hover {
 
   body > aside.sidebar[popover]::backdrop {
     background-color: var(--modal-overlay);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(var(--blur));
   }
 
   @starting-style {

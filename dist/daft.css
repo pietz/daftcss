@@ -61,12 +61,13 @@
     --card-foreground: var(--foreground);
     --popover-foreground: var(--card-foreground);
     --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
-    --primary-foreground: oklch(98.5% 0 0);
-    --destructive-foreground: oklch(98.5% 0 0);
-    --success-foreground: light-dark(oklch(98.5% 0 0), oklch(14.5% 0 0));
-    --warning-foreground: oklch(14.5% 0 0);
+    --primary-foreground: oklch(from var(--primary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+    --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+    --success-foreground: oklch(from var(--success) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
+    --warning-foreground: oklch(from var(--warning) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --accent: var(--muted);
     --accent-foreground: var(--foreground);
+    --code-background: light-dark(var(--muted), oklch(18% 0 0));
     --secondary: var(--muted);
     --secondary-foreground: var(--foreground);
     --button-radius: var(--radius-lg);
@@ -102,21 +103,16 @@
     --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
     --focus-ring-width: 3px;
     --focus-ring-opacity: 50%;
+    --focus-ring: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    --focus-ring-destructive: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
     --border-width: 1px;
     --outline-width: 2px;
     --outline-offset: 2px;
     --icon-size: 1rem;
+    --spinner-size: var(--icon-size);
+    --spinner-stroke: 2px;
     --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  }
-
-  @supports (color: oklch(from red l c h)) {
-    :root {
-      --primary-foreground: oklch(from var(--primary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
-      --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
-      --success-foreground: oklch(from var(--success) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
-      --warning-foreground: oklch(from var(--warning) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
-    }
   }
 }
 
@@ -193,6 +189,10 @@
   input, textarea, select, button {
     font-family: inherit;
     font-size: inherit;
+  }
+
+  [disabled], [aria-disabled="true"] {
+    cursor: not-allowed;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -677,7 +677,7 @@
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     line-height: var(--line-height-lg);
-    background-color: var(--muted);
+    background-color: var(--code-background);
     color: var(--foreground);
     padding: var(--spacing);
     border-radius: var(--radius-lg);
@@ -691,16 +691,6 @@
       background: none;
       border-radius: 0;
       padding: 0;
-    }
-  }
-
-  [data-theme="dark"] pre {
-    background-color: oklch(18% 0 0);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) pre {
-      background-color: oklch(18% 0 0);
     }
   }
 
@@ -767,12 +757,11 @@
 
     &:focus-visible {
       border-color: var(--ring);
-      box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+      box-shadow: var(--focus-ring);
       outline: none;
     }
 
-    &:disabled {
-      cursor: not-allowed;
+    &:is(:disabled, [aria-disabled="true"]) {
       opacity: var(--disabled-opacity);
       background-color: var(--muted);
       border-color: var(--muted-foreground);
@@ -859,7 +848,7 @@
 
     &:focus-visible {
       border-color: var(--ring);
-      box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+      box-shadow: var(--focus-ring);
       outline: none;
     }
   }
@@ -958,12 +947,8 @@
     margin-bottom: var(--spacing-md);
   }
 
-  fieldset:disabled {
+  fieldset:is(:disabled, [aria-disabled="true"]) {
     opacity: var(--disabled-opacity);
-  }
-
-  fieldset:disabled * {
-    cursor: not-allowed;
   }
 
   input[type="checkbox"], input[type="radio"] {
@@ -1032,12 +1017,11 @@
 
   input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible {
     border-color: var(--ring);
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
     outline: none;
   }
 
-  input[type="checkbox"]:disabled, input[type="radio"]:disabled {
-    cursor: not-allowed;
+  input[type="checkbox"]:is(:disabled, [aria-disabled="true"]), input[type="radio"]:is(:disabled, [aria-disabled="true"]) {
     opacity: var(--disabled-opacity);
   }
 
@@ -1055,8 +1039,7 @@
     }
   }
 
-  label:has( > input:disabled), label[aria-disabled="true"] {
-    cursor: not-allowed;
+  label:has( > input:is(:disabled, [aria-disabled="true"])), label[aria-disabled="true"] {
     opacity: var(--disabled-opacity);
   }
 
@@ -1098,7 +1081,7 @@
   }
 
   input[type="checkbox"][role="switch"]:focus-visible {
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
   }
 
   input[type="range"] {
@@ -1173,24 +1156,15 @@
   }
 
   input[type="range"]:focus-visible::-webkit-slider-thumb {
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
   }
 
   input[type="range"]:focus-visible::-moz-range-thumb {
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
   }
 
-  input[type="range"]:disabled {
-    cursor: not-allowed;
+  input[type="range"]:is(:disabled, [aria-disabled="true"]) {
     opacity: var(--disabled-opacity);
-  }
-
-  input[type="range"]:disabled::-webkit-slider-thumb {
-    cursor: not-allowed;
-  }
-
-  input[type="range"]:disabled::-moz-range-thumb {
-    cursor: not-allowed;
   }
 
   label:has( > input[type="range"]) {
@@ -1207,7 +1181,7 @@
   }
 
   input[aria-invalid="true"]:focus-visible, textarea[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible {
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring-destructive);
     outline: none;
   }
 
@@ -1228,14 +1202,6 @@
   }
 
   input[type="checkbox"][aria-invalid="false"], input[type="radio"][aria-invalid="false"] {
-    border-color: var(--primary);
-  }
-
-  input:user-invalid:not([type="checkbox"]):not([type="radio"]), textarea:user-invalid {
-    border-color: var(--destructive);
-  }
-
-  input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]), textarea:user-valid:not(:placeholder-shown) {
     border-color: var(--primary);
   }
 
@@ -1287,14 +1253,13 @@
     }
 
     &:focus-visible {
-      box-shadow: var(--button-shadow), 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+      box-shadow: var(--button-shadow), var(--focus-ring);
       outline: none;
     }
 
-    &:disabled, &[aria-disabled="true"] {
+    &:is(:disabled, [aria-disabled="true"]) {
       pointer-events: none;
       opacity: var(--disabled-opacity);
-      cursor: not-allowed;
     }
 
     & > svg {
@@ -1334,7 +1299,7 @@
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+      box-shadow: var(--focus-ring-destructive);
     }
   }
 
@@ -1816,7 +1781,7 @@
 
   dialog::backdrop {
     background-color: var(--modal-overlay);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(var(--blur));
   }
 
   dialog:not([open]):not(:popover-open) {
@@ -2145,10 +2110,10 @@
 
   [aria-busy="true"]:empty:before, button[aria-busy="true"]:not(:has(*)):before {
     content: "";
-    width: 1.5rem;
-    height: 1.5rem;
+    width: calc(var(--spinner-size) * 1.5);
+    height: calc(var(--spinner-size) * 1.5);
     margin: var(--spacing) auto;
-    border: 2px solid var(--muted);
+    border: var(--spinner-stroke) solid var(--muted);
     border-top-color: var(--primary);
     border-radius: var(--radius-full);
     animation: .75s linear infinite spin;
@@ -2157,13 +2122,13 @@
 
   [aria-busy="true"]:not(:empty):before {
     content: "";
-    width: 1rem;
-    height: 1rem;
+    width: var(--spinner-size);
+    height: var(--spinner-size);
     margin-right: var(--spacing-sm);
     vertical-align: middle;
+    border: var(--spinner-stroke) solid currentColor;
     border-radius: var(--radius-full);
     opacity: .7;
-    border: 2px solid;
     border-top-color: #0000;
     animation: .75s linear infinite spin;
     display: inline-block;
@@ -2175,10 +2140,10 @@
   }
 
   button[aria-busy="true"]:before {
-    width: 1rem;
-    height: 1rem;
+    width: var(--spinner-size);
+    height: var(--spinner-size);
+    border-width: var(--spinner-stroke);
     margin-right: var(--spacing-sm);
-    border-width: 2px;
   }
 
   button[aria-busy="true"][aria-label]:before {
@@ -2597,10 +2562,6 @@
       width: auto;
     }
 
-    body > :is(header, nav):first-child:has( + aside.sidebar) {
-      --sidebar-offset-top: 0px;
-    }
-
     body > :is(header, nav):first-child:has( + aside.sidebar) + aside.sidebar {
       --sidebar-offset-top: calc(var(--component-height)  + var(--spacing));
     }
@@ -2630,7 +2591,7 @@
 
     body > aside.sidebar[popover]::backdrop {
       background-color: var(--modal-overlay);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(var(--blur));
     }
 
     @starting-style {

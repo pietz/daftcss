@@ -33,11 +33,10 @@ select {
   &:focus-visible {
     outline: none;
     border-color: var(--ring);
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
   }
 
-  &:disabled {
-    cursor: not-allowed;
+  &:is(:disabled, [aria-disabled="true"]) {
     opacity: var(--disabled-opacity);
     background-color: var(--muted);
     border-color: var(--muted-foreground);
@@ -140,7 +139,7 @@ input[type="file"] {
   &:focus-visible {
     outline: none;
     border-color: var(--ring);
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+    box-shadow: var(--focus-ring);
   }
 }
 
@@ -265,10 +264,6 @@ legend {
 }
 
 /* Disabled fieldset */
-fieldset:disabled {
+fieldset:is(:disabled, [aria-disabled="true"]) {
   opacity: var(--disabled-opacity);
-}
-
-fieldset:disabled * {
-  cursor: not-allowed;
 }

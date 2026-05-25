@@ -33,7 +33,7 @@ dialog {
 
 dialog::backdrop {
   background-color: var(--modal-overlay);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(var(--blur));
 }
 
 dialog:not([open]):not(:popover-open) {

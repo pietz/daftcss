@@ -100,7 +100,7 @@
   --component-height-sm: calc(var(--component-height) - 0.25rem);
   --component-height-lg: calc(var(--component-height) + 0.25rem);
 
-  /* Backdrop blur — used by .glass surfaces (nav, etc) */
+  /* Backdrop blur — used by .glass surfaces and modal/sidebar overlays. */
   --blur: 10px;
 
   /* Shadow scale */
@@ -109,18 +109,24 @@
   --shadow-md: 0 4px 6px -1px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 2px 4px -2px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
   --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
 
-  /* Foreground colors (paired with each surface/brand color above) */
+  /* Foreground colors (paired with each surface/brand color above).
+     The brand foregrounds auto-contrast against their tint via relative OKLCH:
+     near-white when the tint is darker than ~L 0.623, near-black otherwise. */
   --card-foreground: var(--foreground);
   --popover-foreground: var(--card-foreground);
   --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
-  --primary-foreground: oklch(0.985 0 0);
-  --destructive-foreground: oklch(0.985 0 0);
-  --success-foreground: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
-  --warning-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+  --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+  --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
+  --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
 
   /* Hover-surface role (derived from --muted; override to retune) */
   --accent: var(--muted);
   --accent-foreground: var(--foreground);
+
+  /* Code block surface — intentionally darker than --muted in dark mode so
+     <pre> reads as a recessed surface, not equal to inline-code chrome. */
+  --code-background: light-dark(var(--muted), oklch(0.18 0 0));
 
   /* Secondary component surface (derived from --muted; override to retune) */
   --secondary: var(--muted);
@@ -188,6 +194,8 @@
   --ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
   --focus-ring-width: 3px;
   --focus-ring-opacity: 50%;
+  --focus-ring: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--ring) var(--focus-ring-opacity), transparent);
+  --focus-ring-destructive: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
 
   /* Borders & outlines */
   --border-width: 1px;
@@ -199,16 +207,9 @@
      ============================================================ */
 
   --icon-size: 1rem;
+  --spinner-size: var(--icon-size);
+  --spinner-stroke: 2px;
   --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
-/* Auto-contrast foreground colors (Chrome 119+, Firefox 128+, Safari 18+) */
-@supports (color: oklch(from red l c h)) {
-  :root {
-    --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-    --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-    --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-    --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-  }
-}

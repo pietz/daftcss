@@ -85,6 +85,26 @@ Daft CSS automatically detects system preference for light or dark mode. Overrid
 <html data-theme="dark">
 ```
 
+### Theme islands
+
+`data-theme` is not limited to `<html>`. Apply it to any element to flip a subtree to the opposite theme. Descendants inherit the local `color-scheme`, and every color token wrapped in `light-dark()` resolves against it — no overrides needed.
+
+```html
+<!-- Dark hero on an otherwise light page -->
+<section data-theme="dark">
+  <h1>Ship faster</h1>
+  <p>Semantic HTML, no utility soup.</p>
+  <button>Get started</button>
+</section>
+
+<!-- Light callout inside a dark page -->
+<aside data-theme="light" class="card">
+  Read the docs
+</aside>
+```
+
+Use it for inverted heroes, alternating landing sections, or a single callout that needs to stand out from the surrounding page.
+
 ### CSS Variables
 
 Customize the design system by overriding root variables:
@@ -111,7 +131,8 @@ Customize the design system by overriding root variables:
 | `--primary` | Primary action color (default: neutral near-black/near-white) |
 | `--secondary` | Secondary button background |
 | `--accent` | Hover surface for ghost buttons, dropdown items, etc. |
-| `--muted` | Subtle/inert background (disabled inputs, code blocks) |
+| `--muted` | Subtle/inert background (disabled inputs, inline `<code>`, `<kbd>`) |
+| `--code-background` | `<pre>` block surface (slightly darker than `--muted` in dark mode) |
 | `--muted-foreground` | Muted text |
 | `--destructive` | Error/danger color |
 | `--destructive-foreground` | Text on destructive backgrounds |
@@ -413,9 +434,13 @@ All standard input types are supported:
 <input type="date">
 <input type="time">
 <input type="datetime-local">
+<input type="month">
+<input type="week">
 <input type="color">
 <input type="file">
 ```
+
+Date, time, datetime-local, month, and week share the same calendar-picker treatment — the native picker indicator is muted at rest and intensifies on hover. `type="color"` renders as a clickable swatch sitting inside the framework's border, radius, and `--input-background` surface, so it stays aligned with adjacent text inputs in a stack or `role="group"`.
 
 ### Sizes
 
@@ -521,6 +546,19 @@ Use `aria-invalid` for validation:
 <small>Username is available!</small>
 ```
 
+An adjacent or following `<small>` automatically picks up the destructive or primary color so helper text matches the state.
+
+### Indeterminate Checkbox
+
+`<input type="checkbox">` picks up an indeterminate style — same primary fill as `:checked`, but with a horizontal bar instead of a check — when its DOM `indeterminate` property is true. This must be set from JavaScript (`el.indeterminate = true`); HTML has no attribute for it. Common use: a "select all" header checkbox that reflects a partial child selection.
+
+```html
+<label><input type="checkbox" id="select-all"> Select all</label>
+<script>
+  document.getElementById('select-all').indeterminate = true;
+</script>
+```
+
 ### Required Fields
 
 Required fields automatically show an asterisk:
@@ -610,6 +648,48 @@ Use `<article>` for cards:
 ```html
 <article aria-busy="true"></article>
 ```
+
+### Badge
+
+Small status indicator. Use `<span class="badge">` inline alongside text, headings, or table cells.
+
+```html
+<span class="badge">New</span>
+```
+
+**Variants:**
+
+```html
+<span class="badge">Primary</span>
+<span class="badge secondary">Secondary</span>
+<span class="badge success">Active</span>
+<span class="badge warning">Pending</span>
+<span class="badge destructive">Failed</span>
+<span class="badge outline">Outline</span>
+```
+
+The `.outline` variant inverts any tint — combine it with a color class for a tinted border + matching text on a transparent background:
+
+```html
+<span class="badge outline success">Resolved</span>
+<span class="badge outline destructive">Critical</span>
+```
+
+`.outline.secondary` is the one exception: because the default palette sets `--secondary` equal to `--muted` (a near-background neutral), retinting would make the outline invisible. The badge falls back to `--foreground` text + `--border` stroke for a neutral chip. Override `--secondary` to a distinguishable color to reactivate the standard retint.
+
+```html
+<span class="badge outline secondary">Draft</span>
+```
+
+**Sizes:**
+
+```html
+<span class="badge small">12</span>
+<span class="badge">Default</span>
+<span class="badge large">Featured</span>
+```
+
+`--badge-radius` controls the corner radius (defaults to `--radius-md` — not a pill). Set it to `--radius-full` for a pill shape.
 
 ### Table
 

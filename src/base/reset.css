@@ -103,6 +103,12 @@ button {
   font-size: inherit;
 }
 
+/* Disabled cue — applies to anything marked disabled or aria-disabled. */
+[disabled],
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 /* Remove animations for people who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

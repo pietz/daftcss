@@ -16,7 +16,7 @@ input[aria-invalid="true"]:focus-visible,
 textarea[aria-invalid="true"]:focus-visible,
 select[aria-invalid="true"]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) var(--focus-ring-opacity), transparent);
+  box-shadow: var(--focus-ring-destructive);
 }
 
 /* Valid state */
@@ -53,17 +53,6 @@ input[type="radio"][aria-invalid="true"] {
 
 input[type="checkbox"][aria-invalid="false"],
 input[type="radio"][aria-invalid="false"] {
-  border-color: var(--primary);
-}
-
-/* Native browser validation (optional enhancement) */
-input:user-invalid:not([type="checkbox"]):not([type="radio"]),
-textarea:user-invalid {
-  border-color: var(--destructive);
-}
-
-input:user-valid:not(:placeholder-shown):not([type="checkbox"]):not([type="radio"]),
-textarea:user-valid:not(:placeholder-shown) {
   border-color: var(--primary);
 }
 
