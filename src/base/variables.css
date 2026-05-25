@@ -154,6 +154,8 @@
   /* Input */
   --input: light-dark(oklch(0.922 0 0), oklch(1 0 0 / 15%));
   --input-height: var(--component-height);
+  --input-height-sm: var(--component-height-sm);
+  --input-height-lg: var(--component-height-lg);
   --input-background: var(--card);
 
   /* Form controls (checkbox, radio, range thumb) */

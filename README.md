@@ -155,6 +155,14 @@ See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent referen
 </form>
 ```
 
+`<input>` and `<select>` accept the same `.small` / `.large` modifiers as `<button>`:
+
+```html
+<input class="small" placeholder="Compact">
+<input class="large" placeholder="Roomy">
+<select class="large"><option>One</option></select>
+```
+
 ### Cards
 
 ```html
@@ -330,7 +338,7 @@ A round container for initials, an image, or an SVG icon.
 
 ### Groups
 
-`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width.
+`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width. Add a `<input type="search">` child and the cluster automatically takes the pill (fully-rounded) aesthetic — same shape as a `role="search"` form.
 
 ```html
 <div role="group">
@@ -341,6 +349,16 @@ A round container for initials, an image, or an SVG icon.
 <div role="group">
   <input type="search" placeholder="Search">
   <button>Go</button>
+</div>
+```
+
+Add `.small` or `.large` to the group and the size cascades to every child — buttons, inputs, and selects all step together:
+
+```html
+<div role="group" class="large">
+  <select><option>npm</option></select>
+  <input placeholder="package">
+  <button>Install</button>
 </div>
 ```
 

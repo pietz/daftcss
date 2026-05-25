@@ -82,7 +82,11 @@ Foreground pairs (`--primary-foreground`, `--destructive-foreground`, etc.) auto
 | `--dropdown-shadow` | `--shadow-md` | |
 | `--modal-shadow` | `--shadow-lg` | |
 | `--button-height` | `--component-height` | |
+| `--button-height-sm` | `--component-height-sm` | |
+| `--button-height-lg` | `--component-height-lg` | |
 | `--input-height` | `--component-height` | |
+| `--input-height-sm` | `--component-height-sm` | |
+| `--input-height-lg` | `--component-height-lg` | |
 | `--control-size` | `1rem` | checkbox, radio, range thumb |
 | `--switch-width` | `2rem` | |
 | `--switch-height` | `1.25rem` | |
@@ -138,10 +142,17 @@ Variants can combine: `.outline.secondary`, `.ghost.destructive`, etc.
 Wrapping inputs in labels handles spacing automatically. `aria-invalid` switches border to destructive/success colors. Required field indicator: a `*` is auto-appended to the label when the input is `required`.
 
 Special inputs:
-- `<input type="search">` — pill-shaped
+- `<input type="search">` — pill-shaped; inside a `role="group"` it also makes the whole cluster pill
 - `<input type="checkbox" role="switch">` — toggle switch (no class needed)
 - `<input type="file">` — styled drop zone
 - `<input type="color">`, `range`, `date`, `time` — all styled
+
+Sizes — `<input>` and `<select>` mirror the button modifiers:
+```html
+<input class="small" placeholder="Compact">
+<input class="large" placeholder="Roomy">
+<select class="large"><option>One</option></select>
+```
 
 ### Card
 ```html
@@ -378,7 +389,7 @@ Combine: `.outline.success`, `.outline.destructive`, etc.
 </div>
 ```
 
-`role="group"` joins adjacent controls into a single pill. Variants: `.vertical`, `.full-width`. When a child is a display element (`<code>`, `<samp>`, `<kbd>`, `<span>`, `<output>`), the group switches to addon mode: one outer border, internal hairlines, last child fills, a leading `<select>` gets a muted addon background.
+`role="group"` joins adjacent controls into a single pill. Variants: `.vertical`, `.full-width`. Sizes: `.small`, `.large` — applied to the group, they cascade to every child (button, input, select). When a child is `<input type="search">`, the cluster takes the fully-rounded pill aesthetic — same as `role="search"`. When a child is a display element (`<code>`, `<samp>`, `<kbd>`, `<span>`, `<output>`), the group switches to addon mode: one outer border, internal hairlines, last child fills, a leading `<select>` gets a muted addon background.
 
 ### Avatar
 ```html

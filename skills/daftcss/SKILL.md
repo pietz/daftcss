@@ -58,7 +58,7 @@ Add to `<head>`:
 
 **Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
 
-**Group** = `<div role="group">` joins adjacent controls into one pill (buttons, inputs, or mixed). Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted addon; a leading `<select>` also gets the muted addon background. Last child fills.
+**Group** = `<div role="group">` joins adjacent controls into one pill (buttons, inputs, or mixed). Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted addon; a leading `<select>` also gets the muted addon background. Last child fills. A group containing `<input type="search">` automatically takes the fully-rounded pill aesthetic — identical to `role="search"`. Add `.small` or `.large` to the group and the size cascades to every child (button, input, select).
 
 **Cluster** = `<div class="cluster">` — wrapping row, center-aligned, small gap. Use for button toolbars, tag rows, header trailing items.
 
@@ -72,7 +72,7 @@ Add to `<head>`:
 
 **Slides** = `<body class="deck">`, then each direct-child `<section>` is a slide. Roles: `.title`, `.quote`, `.full`, `.code`. Column layouts use the same Daft `.grid` + `.span-N` primitive; there is no slide-specific column layout. For "heading + columns", keep the heading outside the grid (slide section is already a flex column). Speaker notes go in `<aside class="notes">` (hidden by default). Export to PDF with the browser's print dialog. See [SLIDES.md](../../SLIDES.md) for the full reference.
 
-**Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Add `aria-invalid="true"` for error state.
+**Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Add `aria-invalid="true"` for error state. `<input>` and `<select>` accept `.small` / `.large` size modifiers (same as `<button>`).
 
 ## Status semantics
 

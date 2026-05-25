@@ -3,57 +3,60 @@
  * Button groups and form input groups using role="group"
  */
 
+/* role="group" and role="search" share the same cluster structure — same
+   corner-zeroing, same border-merging. They differ only in default display
+   (group is inline-flex/content-width; search is flex/full-width) and in
+   the radius cascade (search forces pill via --input-radius/--button-radius
+   further down). */
 [role="group"] {
   display: inline-flex;
   border-radius: var(--radius-md);
 }
 
-[role="group"] > * {
+[role="search"] {
+  display: flex;
+}
+
+:is([role="group"], [role="search"]) > * {
   flex: 1 1 auto;
 }
 
 /* Remove inner border radius */
-[role="group"] > *:not(:first-child):not(:last-child) {
+:is([role="group"], [role="search"]) > *:not(:first-child):not(:last-child) {
   border-radius: 0;
 }
 
-[role="group"] > *:first-child:not(:last-child) {
+:is([role="group"], [role="search"]) > *:first-child:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-[role="group"] > *:last-child:not(:first-child) {
+:is([role="group"], [role="search"]) > *:last-child:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-/* Button groups - merge borders */
-[role="group"] > button:not(:first-child),
-[role="group"] > [type="submit"]:not(:first-child),
-[role="group"] > [type="button"]:not(:first-child),
-[role="group"] > [role="button"]:not(:first-child) {
+/* Merge borders — buttons and inputs overlap their neighbor's border */
+:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select):not(:first-child) {
   margin-left: calc(var(--border-width) * -1);
 }
 
-/* Active button in group - raise above siblings for border visibility */
-[role="group"] > button[aria-current="true"],
-[role="group"] > [role="button"][aria-current="true"] {
+/* Active button raises above siblings so its border stays visible */
+:is([role="group"], [role="search"]) > button[aria-current="true"],
+:is([role="group"], [role="search"]) > [role="button"][aria-current="true"] {
   z-index: 1;
 }
 
-/* Input groups */
-[role="group"] > input,
-[role="group"] > select {
-  flex: 1 1 auto;
+/* Only <input> fills remaining space; <select> sizes to content like buttons,
+   so a <select> + <input> + <button> trio gives the input the slack instead
+   of splitting 50/50 with the select. */
+:is([role="group"], [role="search"]) > select {
+  flex: 0 0 auto;
+  width: auto;
 }
 
-[role="group"] > input:not(:first-child),
-[role="group"] > select:not(:first-child) {
-  margin-left: calc(var(--border-width) * -1);
-}
-
-/* Focus state raises element */
-[role="group"] > *:focus-visible {
+/* Focus raises the element above its siblings */
+:is([role="group"], [role="search"]) > *:focus-visible {
   z-index: 2;
 }
 
@@ -65,29 +68,21 @@ fieldset[role="group"] {
   border: none;
 }
 
-/* Buttons in groups don't flex-grow */
-[role="group"] > :is(button, [type="submit"], [type="reset"], [type="button"]) {
+/* Buttons in clusters don't flex-grow */
+:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="reset"], [type="button"]) {
   flex: 0 0 auto;
   width: auto;
 }
 
-/* Search form group */
-[role="search"] {
-  display: flex;
-}
-
-[role="search"] > input[type="search"] {
-  flex: 1 1 auto;
-}
-
-[role="search"] > input[type="search"]:not(:only-child) {
-  border-radius: var(--radius-full) 0 0 var(--radius-full);
-}
-
-[role="search"] > [type="submit"],
-[role="search"] > button {
-  border-radius: 0 var(--radius-full) var(--radius-full) 0;
-  margin-left: calc(var(--border-width) * -1);
+/* When a search input lives inside any cluster (a [role="group"] container or
+   an explicit [role="search"] container), the pill radius cascades to every
+   sibling button/input via the component-radius variables. This is the only
+   place that knows "search → pill"; everything else just reads its radius
+   from --button-radius / --input-radius. */
+[role="search"],
+[role="group"]:has(> input[type="search"]) {
+  --input-radius: var(--radius-full);
+  --button-radius: var(--radius-full);
 }
 
 /* Full width group */

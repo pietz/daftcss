@@ -86,6 +86,8 @@
     --button-height-lg: var(--component-height-lg);
     --input: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
     --input-height: var(--component-height);
+    --input-height-sm: var(--component-height-sm);
+    --input-height-lg: var(--component-height-lg);
     --input-background: var(--card);
     --control-size: 1rem;
     --switch-width: 2rem;
@@ -781,6 +783,24 @@
     width: 100%;
   }
 
+  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select).small, [role="group"].small > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select) {
+    height: var(--input-height-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select).large, [role="group"].large > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select) {
+    height: var(--input-height-lg);
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+
+  select.small, [role="group"].small > select {
+    line-height: calc(var(--input-height-sm)  - 2 * var(--border-width)  - 2 * var(--spacing-xs));
+  }
+
+  select.large, [role="group"].large > select {
+    line-height: calc(var(--input-height-lg)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
+  }
+
   input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])):read-only, textarea:read-only {
     background-color: var(--muted);
   }
@@ -869,7 +889,7 @@
   }
 
   input[type="search"] {
-    border-radius: var(--radius-full);
+    --input-radius: var(--radius-full);
     padding-left: var(--spacing);
     padding-right: var(--spacing);
 
@@ -1360,15 +1380,15 @@
     }
   }
 
-  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).small {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).small, [role="group"].small > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary) {
     height: var(--button-height-sm);
-    padding: var(--spacing-xs) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
     line-height: calc(var(--button-height-sm)  - 2 * var(--border-width)  - 2 * var(--spacing-xs));
   }
 
-  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).large {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).large, [role="group"].large > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary) {
     height: var(--button-height-lg);
-    padding: var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-sm) var(--spacing-lg);
     line-height: calc(var(--button-height-lg)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
   }
 
@@ -1377,11 +1397,11 @@
     padding: 0;
   }
 
-  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.small {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.small, [role="group"].small > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon {
     width: var(--button-height-sm);
   }
 
-  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.large {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon.large, [role="group"].large > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).icon {
     width: var(--button-height-lg);
   }
 
@@ -2229,41 +2249,42 @@
     display: inline-flex;
   }
 
-  [role="group"] > * {
+  [role="search"] {
+    display: flex;
+  }
+
+  :is([role="group"], [role="search"]) > * {
     flex: auto;
   }
 
-  [role="group"] > :not(:first-child):not(:last-child) {
+  :is([role="group"], [role="search"]) > :not(:first-child):not(:last-child) {
     border-radius: 0;
   }
 
-  [role="group"] > :first-child:not(:last-child) {
+  :is([role="group"], [role="search"]) > :first-child:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  [role="group"] > :last-child:not(:first-child) {
+  :is([role="group"], [role="search"]) > :last-child:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  [role="group"] > button:not(:first-child), [role="group"] > [type="submit"]:not(:first-child), [role="group"] > [type="button"]:not(:first-child), [role="group"] > [role="button"]:not(:first-child) {
+  :is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select):not(:first-child) {
     margin-left: calc(var(--border-width) * -1);
   }
 
-  [role="group"] > button[aria-current="true"], [role="group"] > [role="button"][aria-current="true"] {
+  :is([role="group"], [role="search"]) > button[aria-current="true"], :is([role="group"], [role="search"]) > [role="button"][aria-current="true"] {
     z-index: 1;
   }
 
-  [role="group"] > input, [role="group"] > select {
-    flex: auto;
+  :is([role="group"], [role="search"]) > select {
+    flex: none;
+    width: auto;
   }
 
-  [role="group"] > input:not(:first-child), [role="group"] > select:not(:first-child) {
-    margin-left: calc(var(--border-width) * -1);
-  }
-
-  [role="group"] > :focus-visible {
+  :is([role="group"], [role="search"]) > :focus-visible {
     z-index: 2;
   }
 
@@ -2274,26 +2295,14 @@
     display: flex;
   }
 
-  [role="group"] > :is(button, [type="submit"], [type="reset"], [type="button"]) {
+  :is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="reset"], [type="button"]) {
     flex: none;
     width: auto;
   }
 
-  [role="search"] {
-    display: flex;
-  }
-
-  [role="search"] > input[type="search"] {
-    flex: auto;
-  }
-
-  [role="search"] > input[type="search"]:not(:only-child) {
-    border-radius: var(--radius-full) 0 0 var(--radius-full);
-  }
-
-  [role="search"] > [type="submit"], [role="search"] > button {
-    border-radius: 0 var(--radius-full) var(--radius-full) 0;
-    margin-left: calc(var(--border-width) * -1);
+  [role="search"], [role="group"]:has( > input[type="search"]) {
+    --input-radius: var(--radius-full);
+    --button-radius: var(--radius-full);
   }
 
   [role="group"].full-width {

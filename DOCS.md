@@ -417,6 +417,18 @@ All standard input types are supported:
 <input type="file">
 ```
 
+### Sizes
+
+`<input>` and `<select>` accept the same size modifiers as `<button>`:
+
+```html
+<input class="small" placeholder="Compact">
+<input placeholder="Default">
+<input class="large" placeholder="Roomy">
+
+<select class="large"><option>Choose…</option></select>
+```
+
 ### Select
 
 ```html
@@ -974,6 +986,20 @@ Use `role="group"` for button groups and input groups:
   <input type="search" placeholder="Search...">
   <button type="submit">Search</button>
 </form>
+```
+
+A regular `role="group"` containing an `<input type="search">` produces the same pill cluster — the search input drives the aesthetic, so either container works.
+
+**Sized Group:**
+
+Adding `.small` or `.large` to the group cascades the size to every child:
+
+```html
+<div role="group" class="large">
+  <select><option>npm</option></select>
+  <input placeholder="package">
+  <button>Install</button>
+</div>
 ```
 
 **Vertical Group:**
