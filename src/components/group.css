@@ -19,6 +19,7 @@
 
 :is([role="group"], [role="search"]) > * {
   flex: 1 1 auto;
+  margin-bottom: 0;
 }
 
 /* Remove inner border radius */
@@ -36,8 +37,8 @@
   border-bottom-left-radius: 0;
 }
 
-/* Merge borders — buttons and inputs overlap their neighbor's border */
-:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select):not(:first-child) {
+/* Merge borders — buttons, inputs, and addon segments overlap their neighbor's border */
+:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select, code, samp, kbd, span, output):not(:first-child) {
   margin-left: calc(var(--border-width) * -1);
 }
 
@@ -113,52 +114,36 @@ fieldset[role="group"] {
   margin-top: calc(var(--border-width) * -1);
 }
 
-/* === Addon groups ===
-   When a group contains a display child (code/samp/kbd/span/output) as an
-   inline addon, treat it as a unified pill: one outer border, internal
-   hairlines between siblings, children lose their own border + radius.
-   Last child fills the remaining width; others size to content. */
-
-[role="group"]:has(> :is(code, samp, kbd, span, output)) {
+/* Addon segments — code/samp/kbd/span/output inside a group render as
+   input-shaped, non-editable segments. They take input dimensions and
+   radius so the standard corner-zeroing + border-merge rules above
+   blend them with neighboring inputs/buttons. The muted background
+   signals "prefix/suffix, not editable." */
+:is([role="group"], [role="search"]) > :is(code, samp, kbd, span, output) {
   display: inline-flex;
-  align-items: stretch;
-  max-width: 100%;
-  height: var(--component-height);
-  border: var(--border-width) solid var(--border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background-color: var(--background);
+  align-items: center;
+  flex: 0 0 auto;
+  width: auto;
+  height: var(--input-height);
+  margin: 0;
+  padding: 0 var(--spacing-md);
+  border: var(--border-width) solid var(--input);
+  border-radius: var(--input-radius);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--line-height);
+  white-space: nowrap;
+}
 
-  & > * {
-    flex: 0 0 auto;
-    width: auto;
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    height: auto;
-  }
+[role="group"].small > :is(code, samp, kbd, span, output) {
+  height: var(--input-height-sm);
+  padding: 0 var(--spacing-sm);
+}
 
-  & > * + * {
-    border-left: var(--border-width) solid var(--border);
-  }
-
-  & > :last-child {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  & > :is(code, samp, kbd, span, output) {
-    display: flex;
-    align-items: center;
-    padding: 0 var(--spacing-md);
-    background-color: transparent;
-    color: var(--muted-foreground);
-    white-space: nowrap;
-    overflow-x: auto;
-  }
-
-  & > select:first-child {
-    background-color: var(--muted);
-  }
+[role="group"].large > :is(code, samp, kbd, span, output) {
+  height: var(--input-height-lg);
+  padding: 0 var(--spacing-lg);
 }

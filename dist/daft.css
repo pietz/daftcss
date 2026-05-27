@@ -2228,6 +2228,7 @@
 
   :is([role="group"], [role="search"]) > * {
     flex: auto;
+    margin-bottom: 0;
   }
 
   :is([role="group"], [role="search"]) > :not(:first-child):not(:last-child) {
@@ -2244,7 +2245,7 @@
     border-bottom-left-radius: 0;
   }
 
-  :is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select):not(:first-child) {
+  :is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select, code, samp, kbd, span, output):not(:first-child) {
     margin-left: calc(var(--border-width) * -1);
   }
 
@@ -2304,48 +2305,33 @@
     margin-top: calc(var(--border-width) * -1);
   }
 
-  [role="group"]:has( > :is(code, samp, kbd, span, output)) {
-    max-width: 100%;
-    height: var(--component-height);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-md);
-    background-color: var(--background);
-    align-items: stretch;
+  :is([role="group"], [role="search"]) > :is(code, samp, kbd, span, output) {
+    width: auto;
+    height: var(--input-height);
+    padding: 0 var(--spacing-md);
+    border: var(--border-width) solid var(--input);
+    border-radius: var(--input-radius);
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+    font-family: inherit;
+    font-size: var(--text-base);
+    font-weight: var(--font-normal);
+    line-height: var(--line-height);
+    white-space: nowrap;
+    flex: none;
+    align-items: center;
+    margin: 0;
     display: inline-flex;
-    overflow: hidden;
+  }
 
-    & > * {
-      width: auto;
-      box-shadow: none;
-      border: none;
-      border-radius: 0;
-      flex: none;
-      height: auto;
-      margin: 0;
-    }
+  [role="group"].small > :is(code, samp, kbd, span, output) {
+    height: var(--input-height-sm);
+    padding: 0 var(--spacing-sm);
+  }
 
-    & > * + * {
-      border-left: var(--border-width) solid var(--border);
-    }
-
-    & > :last-child {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-
-    & > :is(code, samp, kbd, span, output) {
-      padding: 0 var(--spacing-md);
-      color: var(--muted-foreground);
-      white-space: nowrap;
-      background-color: #0000;
-      align-items: center;
-      display: flex;
-      overflow-x: auto;
-    }
-
-    & > select:first-child {
-      background-color: var(--muted);
-    }
+  [role="group"].large > :is(code, samp, kbd, span, output) {
+    height: var(--input-height-lg);
+    padding: 0 var(--spacing-lg);
   }
 
   .badge {
