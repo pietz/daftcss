@@ -502,6 +502,14 @@
     }
   }
 
+  a.secondary {
+    color: var(--muted-foreground);
+
+    &:hover {
+      color: var(--foreground);
+    }
+  }
+
   mark {
     background-color: color-mix(in oklch, var(--muted) 40%, transparent);
     color: var(--foreground);
@@ -2924,14 +2932,6 @@
 }
 
 @layer utilities {
-  a.secondary {
-    color: var(--muted-foreground);
-
-    &:hover {
-      color: var(--foreground);
-    }
-  }
-
   .muted {
     color: var(--muted-foreground);
   }

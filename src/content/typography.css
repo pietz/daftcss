@@ -105,6 +105,16 @@ a {
   }
 }
 
+/* Muted link variant. Lives in content (not utilities) so the components
+   layer can override it — e.g. button.css's a[role="button"].secondary. */
+a.secondary {
+  color: var(--muted-foreground);
+
+  &:hover {
+    color: var(--foreground);
+  }
+}
+
 /* Semantic text elements */
 mark {
   background-color: color-mix(in oklch, var(--muted) 40%, transparent);

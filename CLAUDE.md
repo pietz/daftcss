@@ -44,6 +44,8 @@ tokens → reset → base → layout → content → forms → components → sl
 - `src/slides/` - HTML-native presentation deck styles
 - `src/utilities/` - Helper classes
 
+**Utilities must not target bare HTML tags.** A selector like `a.something` or `button.something` in the utilities layer will override component variants of the same class (utilities sits after components in the cascade). If a tag-prefixed rule is needed, place it in `content/` or `base/` so the components layer can override it cleanly.
+
 ### Design Token System
 
 Hierarchical system in `src/base/variables.css`:

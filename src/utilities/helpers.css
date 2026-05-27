@@ -5,15 +5,6 @@
 
 /* ===== COLOR MODIFIERS (text colors) ===== */
 
-/* Secondary color - for links and text */
-a.secondary {
-  color: var(--muted-foreground);
-
-  &:hover {
-    color: var(--foreground);
-  }
-}
-
 /* Muted text */
 .muted {
   color: var(--muted-foreground);
