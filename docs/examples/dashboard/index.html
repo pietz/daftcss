@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Dashboard - Admin Example</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.15.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.16.0">
 </head>
 <body>
   <aside id="sidebar" class="sidebar" popover>
@@ -129,7 +129,8 @@
           <strong>Recent Orders</strong>
           <p>Latest transactions from your store</p>
         </header>
-        <table class="striped">
+        <div class="overflow-auto" tabindex="0" aria-label="Scrollable recent orders">
+          <table class="striped">
           <thead>
             <tr>
               <th>Order ID</th>
@@ -182,7 +183,8 @@
               <td>Jan 16, 2026</td>
             </tr>
           </tbody>
-        </table>
+          </table>
+        </div>
         <footer>
           <a href="#">View all orders &rarr;</a>
         </footer>
@@ -193,7 +195,7 @@
         <header>
           <strong>Quick Actions</strong>
         </header>
-        <div role="group">
+        <div class="cluster">
           <button>Add User</button>
           <button class="secondary">Create Report</button>
           <button class="outline">Export Data</button>

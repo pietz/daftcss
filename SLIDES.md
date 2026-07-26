@@ -28,7 +28,7 @@ A thin slide layer that turns semantic HTML into a presentation deck. Each `<sec
 
 Mark `<body class="deck">` once and every direct-child `<section>` becomes a slide. That's the whole API.
 
-A complete demo lives at [`examples/slides.html`](examples/slides.html).
+A complete demo lives at [`docs/examples/slides/`](docs/examples/slides/).
 
 ## Role modifiers
 

@@ -1,20 +1,16 @@
 /**
- * Overflow utilities
- * Horizontal scrolling for wide content
+ * Overflow utility
+ * Scrolling for content that exceeds its container
  */
 
 .overflow-auto {
-  overflow-x: auto;
+  position: relative;
+  overflow: auto;
 }
 
 /* Ensure tables inside overflow containers display properly */
 .overflow-auto > table {
   margin-bottom: 0;
-}
-
-/* Add fade indicators for scroll containers */
-.overflow-auto {
-  position: relative;
 }
 
 /* Scrollable code blocks already handle overflow */

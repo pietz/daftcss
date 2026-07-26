@@ -62,8 +62,14 @@ iframe {
   max-width: 100%;
 }
 
-/* SVG */
-svg {
+/* SVG
+ * Only tint SVGs that don't carry their own `fill` attribute. A presentation
+ * attribute has specificity 0, so a bare `svg { fill: currentColor }` would
+ * override the author's `<svg fill="none" stroke="currentColor">` and render
+ * every stroke-based icon set (Lucide, Feather, Heroicons outline) as a solid
+ * blob. `:not([fill])` lets the attribute win while unattributed SVGs still
+ * inherit the text color. */
+svg:not([fill]) {
   fill: currentColor;
 }
 

@@ -1,113 +1,62 @@
 ---
 name: daftcss
-description: Write UIs with Daft CSS — a semantic-first CSS framework that styles raw HTML with no required classes and no JavaScript. Use this skill when the user mentions Daft CSS or daftcss, when editing HTML for a project that imports daft.css or daft.min.css, or when the user asks to build a UI with semantic HTML, no-JS components, or shadcn-style aesthetics without JSX.
+description: Build, edit, or evaluate UIs with Daft CSS, a semantic-first CSS framework for raw HTML. Use when the user mentions Daft CSS or daftcss, when a project imports daft.css or daft.min.css, or when Daft is being considered for a UI.
 ---
 
 # Daft CSS
 
-A small CSS framework that ships shadcn/ui-quality aesthetics on raw HTML. No utility-class soup, no JSX, no JavaScript.
+Daft gives raw semantic HTML polished application styling. Native elements are the primary API; optional classes express variants and layout that HTML cannot express.
 
-## Page-building workflow
+## How to work with Daft
 
-1. **Choose the closest block first.** For full pages, start from [BLOCKS.md](BLOCKS.md) before inventing layout.
-2. **Compose semantic HTML.** Use sections, headers, hgroups, articles, forms, tables, details, dialogs, nav, aside, and footer.
-3. **Use Daft utilities.** Reach for `.container`, `.container-fluid`, `.grid`, `.span-*`, `.cluster`, `.stack`, `.text-center`, `.max-w-*`, `.mt-*`, `.mb-*`, `.badge`, `.muted`, and `role="group"`.
-4. **Customize root tokens if needed.** Change `--spacing`, `--radius`, `--primary`, type scale, and semantic colors at `:root`.
-5. **Write custom CSS only as a last resort.** If a Daft block or utility can do it, do not add bespoke CSS.
+1. If starting from scratch, load [quick-start.md](references/quick-start.md).
+2. For a full page or section, load the small [blocks router](references/blocks.md), then only its relevant block group.
+3. Write semantic landmarks and controls before adding classes.
+4. Load only the relevant component references from the catalog below.
+5. Compose with `.container`, `.grid`, `.cluster`, and `.stack` before lower-level utilities.
+6. Retune tokens instead of overriding component selectors. Load [theming.md](references/theming.md) for branded work.
+7. Add application CSS only when the framework API cannot express a real product requirement.
 
-For landing pages, start from the landing hero, feature grid, CTA, FAQ, and pricing blocks in [BLOCKS.md](BLOCKS.md).
+## Core rules
 
-## Installing Daft CSS
+- Use native elements and states: `<button>`, `<article>`, `<dialog>`, `<details>`, `disabled`, `aria-current`, and `aria-invalid`.
+- A true modal requires `<dialog>.showModal()`. `<dialog popover>` is a non-modal, light-dismiss overlay.
+- `aria-disabled` and `aria-busy` communicate state but do not disable keyboard activation. Use native `disabled` when a form control must be unavailable.
+- Cards are `<article>` elements, not `.card` classes.
+- Use CSS variables for design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors.
+- Keep essential content and controls visible. Prefer wrapping or native menus to clipping.
 
-Add to `<head>`:
+## Component catalog
 
-```html
-<link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
-```
+Load the component file when using, modifying, or troubleshooting that component.
 
-## Core principles — do not violate
+| Component | Load | Native/API shape |
+|---|---|---|
+| Buttons | [buttons.md](references/components/buttons.md) | `<button>`, button roles, variants and states |
+| Forms | [forms.md](references/components/forms.md) | Inputs, selects, validation, checkbox, radio, switch, range |
+| Cards | [cards.md](references/components/cards.md) | Semantic `<article>` surfaces |
+| Dialogs | [dialogs.md](references/components/dialogs.md) | Modal dialogs and non-modal dialog popovers |
+| Navigation | [navigation.md](references/components/navigation.md) | Navigation groups and breadcrumbs |
+| Sidebar | [sidebar.md](references/components/sidebar.md) | Desktop rail and mobile Popover drawer |
+| Accordion | [accordion.md](references/components/accordion.md) | Native `<details>` disclosure |
+| Dropdown | [dropdown.md](references/components/dropdown.md) | `<details class="dropdown">` menu surface |
+| Tree | [tree.md](references/components/tree.md) | Nested file or hierarchy navigation |
+| Tooltip | [tooltips.md](references/components/tooltips.md) | Focusable `data-tooltip` visual enhancement |
+| Tables | [tables.md](references/components/tables.md) | Semantic data tables and overflow |
+| Badges | [badges.md](references/components/badges.md) | Compact status and metadata labels |
+| Groups | [groups.md](references/components/groups.md) | Connected buttons, inputs, and addons |
+| Avatar | [avatars.md](references/components/avatars.md) | Initials, image, or SVG identity |
+| Alert and status | [alerts.md](references/components/alerts.md) | Assertive errors and polite notices |
+| Progress and loading | [progress.md](references/components/progress.md) | Determinate progress and busy states |
+| Embedded content | [embedded-content.md](references/components/embedded-content.md) | Images, figures, media, iframes, and SVG |
 
-1. **Use semantic HTML.** `<button>`, `<article>`, `<dialog>`, `<details>`, `<aside>`, `<nav>`, `<form>` are styled by default. Don't wrap them in divs.
-2. **No inline styles, no custom CSS** unless absolutely required. If you reach for `style=""`, stop and look for a Daft utility class or pattern first.
-3. **No JavaScript for components.** Modals use `<dialog popover>`. Accordions use `<details>`. Dropdowns use `<details class="dropdown">`. Tooltips use `data-tooltip`. Mobile menus use the Popover API.
-4. **Customize via CSS variables**, not by overriding selectors. The token hierarchy is root → scales → component. Most apps only ever touch root knobs (`--spacing`, `--radius`, `--primary`).
+## Other references
 
-## Component idioms
-
-**Button variants** — classes on `<button>`:
-- default = primary | `.secondary` | `.outline` | `.ghost` | `.destructive` | `.link`
-- sizes: `.small` | `.large` | `.icon` | `.full-width`
-
-**Card** = `<article>` with optional `<header>` and `<footer>`. No class. For title + subtitle, wrap them in `<hgroup>` inside `<header>`; sibling badges/actions float right.
-
-**Modal** = Daft's no-JavaScript modal uses the native Popover API: `<dialog popover>` with `<article>` inside. Trigger via `<button popovertarget="dialog-id">`. Bare `<dialog>` + `showModal()` also renders as a card.
-
-**Sidebar** = body-level `<aside class="sidebar">`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add `popover` attribute + `<button class="ghost icon sidebar-toggle" popovertarget="sidebar">` for a mobile drawer.
-
-**Accordion** = `<details>` + `<summary>`. No class.
-
-**Dropdown** = `<details class="dropdown">` containing `<summary>` and `<ul>`. The `<summary>` uses button styling and accepts button variants like `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`.
-
-**Tree** = `<ul class="tree">` with nested `<ul>`s. Folders are `<li><details><summary>name</summary><ul>…</ul></details></li>`. Files are `<li><a href="…">name</a></li>`. Mark the current file with `aria-current="page"`. Override `--tree-indent` for tighter/looser indentation.
-
-**Tooltip** = `data-tooltip="text"` attribute on any element. Optional `data-placement="top|bottom|left|right"`.
-
-**Switch** = `<input type="checkbox" role="switch">`. Just the role.
-
-**Badge** = `<span class="badge">`. Variants: `.secondary`, `.success`, `.warning`, `.destructive`, `.outline`. Combine `.outline` with a color (`.outline.success`, `.outline.destructive`) for a tinted outline; `.outline.secondary` stays neutral as a quiet chip (default `--secondary` matches `--muted`, so retinting would be invisible). Sizes: `.small`, `.large`.
-
-**Avatar** = `<span class="avatar">KS</span>` for initials, or wrap an `<img>` / `<svg>`. Sizes: `.small`, `.large`.
-
-**Group** = `<div role="group">` joins adjacent controls into one pill (buttons, inputs, or mixed). Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted addon; a leading `<select>` also gets the muted addon background. Last child fills. A group containing `<input type="search">` automatically takes the fully-rounded pill aesthetic — identical to `role="search"`. Add `.small` or `.large` to the group and the size cascades to every child (button, input, select).
-
-**Cluster** = `<div class="cluster">` — wrapping row, center-aligned, small gap. Use for button toolbars, tag rows, header trailing items.
-
-**Stack** = `<div class="stack">` — column with default gap. Use for vertical groups of fields, cards, list items.
-
-**Alert** = `<div role="alert">` (assertive, destructive tint) or `<div role="status">` (polite, neutral tint). Inner `<strong>` is the title, `<p>` is the body. No class variants.
-
-**Grid** = `<div class="grid">` — direct children become equal columns (3 children → 3 cols). A child with `.span-N` (N = 2, 3, 4) claims more tracks (spans are weights, adding to the total). Stacks to 1 col below 768px. For multi-row layouts use multiple grids.
-
-**Container** = `<main class="container">` (max-width) or `.container-fluid` (full-width with edge padding).
-
-**Slides** = `<body class="deck">`, then each direct-child `<section>` is a slide. Roles: `.title`, `.quote`, `.full`, `.code`. Column layouts use the same Daft `.grid` + `.span-N` primitive; there is no slide-specific column layout. For "heading + columns", keep the heading outside the grid (slide section is already a flex column). Speaker notes go in `<aside class="notes">` (hidden by default). Export to PDF with the browser's print dialog. See [SLIDES.md](../../SLIDES.md) for the full reference.
-
-**Form** = `<label>Field <input></label>`. Wrapping inputs in labels handles spacing automatically. Drive validation via `aria-invalid="true"` / `aria-invalid="false"` — native pseudo-classes (`:user-invalid`, `:invalid`) are not styled, so set `aria-invalid` from your server response or client logic. `<input>` and `<select>` accept `.small` / `.large` size modifiers (same as `<button>`). Extended input types — `color`, `datetime-local`, `month`, `week` — are styled alongside the standard set. Indeterminate checkbox state is styled too; set `el.indeterminate = true` in JS to use it.
-
-## Status semantics
-
-For muted supporting text, use `.muted`. For status meaning, prefer semantic badges, alerts, or progress variants (`.success`, `.warning`, `.destructive`) instead of coloring plain text.
-
-## Theming
-
-Dark mode follows system preference automatically. Override with `<html data-theme="dark">` or per-element `data-theme="light|dark"` for theme islands.
-
-Retune the design with a small set of root CSS variables — examples:
-```css
-:root {
-  --spacing: 1.25rem;        /* spacious everything */
-  --radius: 0.375rem;        /* tighter corners */
-  --primary: oklch(0.5 0.22 295);  /* purple primary */
-}
-```
-
-## Common mistakes to avoid
-
-- ❌ `<div class="card">…</div>` → use `<article>`
-- ❌ `<button class="btn btn-primary">…</button>` (Bootstrap-style) → just `<button>`
-- ❌ `.hero-card`, `.feature-card`, `.terminal-window`, `.custom-button` → use Daft blocks and primitives
-- ❌ `<button style="background: blue">` → override a CSS variable
-- ❌ Tailwind classes (`.bg-blue-500`, `.p-4`, etc.) → not supported
-- ❌ Recreating Tailwind/Bootstrap patterns → Daft is semantic HTML plus small utilities
-- ❌ JavaScript modal/dropdown libraries → use `<dialog popover>` / `<details>`
-- ❌ Adding a class to every element → Daft expects bare semantic HTML
-- ❌ Hand-rolled grids → use `<div class="grid">` and `.span-*`
-- ❌ Inline styles → use utilities or root tokens
-- ❌ Decorative screenshots/terminal mockups by default → add them only when the product specifically needs them
-- ❌ Custom CSS for layout that could use `<div class="grid">`, `.cluster`, `.stack`, or container utilities
-
-## When you need more detail
-
-- [BLOCKS.md](BLOCKS.md) — page-section recipes for landing pages, app shells, dashboards, forms, docs sections, and content blocks.
-- [REFERENCE.md](REFERENCE.md) — full component catalog, complete CSS variable system, utility-class list, cascade layer order.
-- [THEMING.md](THEMING.md) — load this when the user wants to retheme Daft: match a brand, change feel ("sharper", "softer", "denser"), build a custom palette, or set up a branded dark mode. Tier-0 / Tier-2 recipes and anti-patterns.
+- [quick-start.md](references/quick-start.md): installation, minimal document setup, and common semantic shapes.
+- [content.md](references/content.md): typography, prose, lists, quotations, and code.
+- [layout.md](references/layout.md): landmarks, containers, grid, flow primitives, responsiveness, and overflow.
+- [foundations.md](references/foundations.md): cascade layers, token hierarchy, themes, focus, motion, and browser support.
+- [utilities.md](references/utilities.md): the complete limited helper set and when to use it.
+- [theming.md](references/theming.md): brand, density, radius, status colors, dark mode, and worked retheme recipes.
+- [blocks.md](references/blocks.md): page sections, app shells, dashboards, forms, empty states, and content blocks.
+- [slides.md](references/slides.md): HTML-native presentation decks and PDF export.

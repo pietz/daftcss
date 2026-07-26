@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS - Demo</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.15.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.16.0">
 </head>
 <body>
   <header>
@@ -76,10 +76,12 @@
         <!-- Newsletter with inline form -->
         <article>
           <p>Get weekly updates delivered to your inbox.</p>
-          <fieldset role="group">
-            <input type="email" placeholder="Enter your email" aria-label="Email">
-            <button type="submit">Subscribe</button>
-          </fieldset>
+          <form>
+            <fieldset role="group">
+              <input type="email" name="email" placeholder="Enter your email" aria-label="Email">
+              <button type="submit">Subscribe</button>
+            </fieldset>
+          </form>
         </article>
       </div>
 
@@ -135,7 +137,7 @@
 
         <!-- File upload focused -->
         <article>
-          <input type="file" multiple>
+          <label>Upload files <input type="file" multiple></label>
           <small>Supports PDF, DOC, and images up to 10MB</small>
         </article>
       </div>
@@ -153,9 +155,9 @@
         <!-- Login form - form focused -->
         <article>
           <form>
-            <input type="email" placeholder="Email" aria-label="Email">
-            <input type="password" placeholder="Password" aria-label="Password">
-            <label><input type="checkbox"> Remember me</label>
+            <input type="email" name="email" placeholder="Email" aria-label="Email">
+            <input type="password" name="password" placeholder="Password" aria-label="Password">
+            <label><input type="checkbox" name="remember"> Remember me</label>
             <button type="submit">Sign In</button>
           </form>
           <small>Don't have an account? <a href="#">Sign up</a></small>

@@ -60,7 +60,7 @@
     --shadow-lg: 0 10px 15px -3px light-dark(#0000001a, #0006), 0 4px 6px -4px light-dark(#0000001a, #0006);
     --card-foreground: var(--foreground);
     --popover-foreground: var(--card-foreground);
-    --muted-foreground: light-dark(oklch(55.6% 0 0), oklch(70.8% 0 0));
+    --muted-foreground: light-dark(oklch(53% 0 0), oklch(70.8% 0 0));
     --primary-foreground: oklch(from var(--primary) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --success-foreground: oklch(from var(--success) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
@@ -94,6 +94,7 @@
     --switch-width: 2rem;
     --switch-height: 1.25rem;
     --switch-thumb: 1rem;
+    --modal-max-width: 32rem;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
     --aside-width: clamp(14rem, 20vw, 20rem);
@@ -391,15 +392,12 @@
   }
 
   .overflow-auto {
-    overflow-x: auto;
+    position: relative;
+    overflow: auto;
   }
 
   .overflow-auto > table {
     margin-bottom: 0;
-  }
-
-  .overflow-auto {
-    position: relative;
   }
 
   pre.overflow-auto {
@@ -657,7 +655,7 @@
     max-width: 100%;
   }
 
-  svg {
+  svg:not([fill]) {
     fill: currentColor;
   }
 
@@ -742,7 +740,7 @@
 }
 
 @layer forms {
-  input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), textarea, select {
+  input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), textarea, select {
     width: 100%;
     height: var(--input-height);
     padding: var(--spacing-sm) var(--spacing-md);
@@ -780,12 +778,12 @@
     width: 100%;
   }
 
-  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select).small, [role="group"].small > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select) {
+  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select).small, [role="group"].small > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select) {
     height: var(--input-height-sm);
     padding: var(--spacing-xs) var(--spacing-sm);
   }
 
-  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select).large, [role="group"].large > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])), select) {
+  :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select).large, [role="group"].large > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select) {
     height: var(--input-height-lg);
     padding: var(--spacing-sm) var(--spacing-lg);
   }
@@ -798,7 +796,7 @@
     line-height: calc(var(--input-height-lg)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
   }
 
-  input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"])):read-only, textarea:read-only {
+  input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])):read-only, textarea:read-only {
     background-color: var(--muted);
   }
 
@@ -1266,7 +1264,7 @@
     }
 
     &:is(:disabled, [aria-disabled="true"]) {
-      pointer-events: none;
+      cursor: not-allowed;
       opacity: var(--disabled-opacity);
     }
 
@@ -1295,7 +1293,7 @@
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).destructive {
-    color: var(--destructive);
+    color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
     background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
 
     &:hover {
@@ -1798,9 +1796,9 @@
 
   dialog:not(:has( > article)) {
     width: auto;
-    max-width: 32rem;
+    max-width: var(--modal-max-width);
     height: fit-content;
-    max-height: calc(100vh - var(--spacing-xl));
+    max-height: calc(100dvh - var(--spacing-xl));
     padding: var(--spacing-lg);
     color: var(--foreground);
     background-color: var(--card);
@@ -1818,14 +1816,22 @@
     margin: auto;
   }
 
+  dialog[popover]:has( > article) {
+    width: min(var(--modal-max-width), calc(100vw - 2 * var(--spacing)));
+    height: fit-content;
+    max-height: calc(100dvh - 2 * var(--spacing));
+    padding: 0;
+    overflow: visible;
+  }
+
   dialog[popover]:popover-open {
-    display: flex;
+    display: block;
   }
 
   dialog > article {
     width: 100%;
-    max-width: 32rem;
-    max-height: calc(100vh - var(--spacing-xl));
+    max-width: var(--modal-max-width);
+    max-height: calc(100dvh - var(--spacing-xl));
     padding: var(--spacing-lg);
     background-color: var(--card);
     border: var(--border-width) solid var(--border);
@@ -1992,9 +1998,12 @@
   }
 
   ul[aria-label="Breadcrumb" i] a {
+    min-block-size: 24px;
     color: inherit;
     font-weight: var(--font-medium);
+    align-items: center;
     text-decoration: none;
+    display: inline-flex;
   }
 
   ul[aria-label="Breadcrumb" i] a:hover {
@@ -2010,17 +2019,6 @@
   ul[aria-label="Breadcrumb" i] > li:last-child {
     color: var(--foreground);
     font-weight: var(--font-medium);
-  }
-
-  @media (width <= 768px) {
-    nav {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    :is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
-      justify-content: center;
-    }
   }
 
   progress {
@@ -2468,6 +2466,10 @@
     background-color: color-mix(in oklab, var(--destructive) 12%, var(--background));
     border-color: color-mix(in oklab, var(--destructive) 35%, var(--background));
 
+    & > strong {
+      color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
+    }
+
     & > p {
       color: color-mix(in oklab, var(--destructive) 85%, var(--foreground));
     }
@@ -2596,7 +2598,7 @@
   }
 
   @media (width >= 768px) {
-    .sidebar-toggle, li:has( > .sidebar-toggle) {
+    .sidebar-toggle.sidebar-toggle, li:has( > .sidebar-toggle) {
       display: none;
     }
   }
@@ -2631,6 +2633,7 @@
   .tree summary, .tree li > a {
     align-items: center;
     gap: var(--spacing-xs);
+    min-block-size: 24px;
     padding: calc(var(--spacing) * .1875) var(--spacing-xs);
     font-size: var(--text-sm);
     line-height: var(--line-height-sm);
@@ -3227,10 +3230,6 @@
 
   .p-6 {
     padding: var(--spacing-lg);
-  }
-
-  .overflow-auto {
-    overflow: auto;
   }
 
   .overflow-hidden {

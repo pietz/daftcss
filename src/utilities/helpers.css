@@ -291,10 +291,6 @@
 
 /* ===== OVERFLOW & TRUNCATION ===== */
 
-.overflow-auto {
-  overflow: auto;
-}
-
 .overflow-hidden {
   overflow: hidden;
 }

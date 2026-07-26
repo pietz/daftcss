@@ -9,9 +9,13 @@ Daft CSS is a semantic-first CSS framework with shadcn/ui-quality aesthetics. It
 ## Commands
 
 ```bash
-npm run build    # Build daft.css/daft.min.css to dist/ and mirror to docs/dist/
-npm run watch    # Watch src/ and rebuild dist/ only
-npm run dev      # Serve docs/ folder locally (landing + examples)
+npm run build        # Build daft.css/daft.min.css to dist/ and mirror to docs/dist/
+npm run watch        # Watch src/ and update expanded CSS in dist/ and docs/dist/
+npm run dev          # Serve docs/ folder locally (landing + examples)
+npm run check        # Validate generated CSS, docs, and skill links
+npm test             # Run cross-browser regressions and automated accessibility checks
+npm run test:browser # Run regressions in Chromium, Firefox, and WebKit
+npm run test:a11y    # Check all docs pages in light and dark themes
 ```
 
 ## Architecture
@@ -23,7 +27,7 @@ Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/d
 **Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
 - Bundles and minifies only (no transforms)
 - Preserves modern CSS like `light-dark()` as-is
-- Keeps output small (~55KB vs larger transformed builds with polyfills)
+- Keeps output small (~61 KB vs larger transformed builds with polyfills)
 
 If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 
@@ -88,7 +92,7 @@ When adding a new component or feature to the library:
 1. **Create the CSS** in the appropriate `src/` directory
 2. **Import it** in `src/daft.css` with the correct layer
 3. **Update `docs/components/index.html`** with usage examples
-4. **Update docs/reference surfaces** as needed: `README.md`, `DOCS.md`, `skills/daftcss/SKILL.md`, `skills/daftcss/REFERENCE.md`, and relevant `docs/examples/*`
+4. **Update docs/reference surfaces** as needed: `README.md`, `DOCS.md`, `skills/daftcss/SKILL.md`, relevant files under `skills/daftcss/references/`, and relevant `docs/examples/*`
 5. **Run `npm run build`** to verify it compiles and mirror `dist/` to `docs/dist/`
 
 ## Deployment
@@ -149,8 +153,9 @@ Run a quick check on `docs/index.html` or `docs/components/index.html` via `agen
 Whenever the framework gains or loses a class, the following files must reflect it:
 - `README.md` — Components section + Utility table
 - `DOCS.md` — Components or Utilities sections
-- `skills/daftcss/SKILL.md` — Component idioms (one-liners)
-- `skills/daftcss/REFERENCE.md` — Component examples + utility lists
+- `skills/daftcss/SKILL.md` — Compact skill router, core guardrails, and component catalog
+- `skills/daftcss/references/components/` — Component-specific examples, options, tokens, and accessibility guidance
+- `skills/daftcss/references/` — Foundations, layout, utilities, theming, blocks, content, and slides
 
 ### 5. Git commit + tag + push
 
@@ -171,7 +176,7 @@ Never commit/push without explicit user request. Never amend a published commit 
 
 Publishing is handled by `.github/workflows/release.yml` using npm Trusted Publishing and provenance. Do not publish from the local CLI.
 
-When a `v*` tag is pushed, the `Release` workflow runs automatically. It checks out the tag, runs `npm ci`, runs `npm run build`, skips cleanly if the package version already exists on npm, and otherwise runs:
+When a `v*` tag is pushed, the `Release` workflow runs automatically. It checks out the tag, runs `npm ci`, builds and validates the package, skips cleanly if the package version already exists on npm, and otherwise runs:
 
 ```bash
 npm publish --provenance

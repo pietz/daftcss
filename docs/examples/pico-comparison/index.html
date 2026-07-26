@@ -7,7 +7,7 @@
     <title>Pico comparison • Daft CSS</title>
     <meta name="description" content="Daft CSS rendering Pico's example page — same markup, side-by-side comparison.">
 
-    <link rel="stylesheet" href="/dist/daft.css?v=1.15.3">
+    <link rel="stylesheet" href="/dist/daft.css?v=1.16.0">
   </head>
 
   <body>
@@ -128,7 +128,7 @@
         </div>
         <div class="grid">
           <p>
-            <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
+            <abbr title="Abbreviation">Abbr.</abbr>
           </p>
           <p><kbd>Kbd</kbd></p>
           <p><mark>Highlighted</mark></p>
@@ -371,7 +371,7 @@
       <!-- Modal -->
       <section id="modal">
         <h2>Modal</h2>
-        <button class="contrast" popovertarget="modal-example">
+        <button class="contrast" onclick="document.getElementById('modal-example').showModal()">
           Launch demo modal
         </button>
       </section>
@@ -442,7 +442,7 @@
       <section id="loading">
         <h2>Loading</h2>
         <article aria-busy="true"></article>
-        <button aria-busy="true">Please wait…</button>
+        <button disabled aria-busy="true">Please wait…</button>
       </section>
       <!-- ./ Loading -->
     </main>
@@ -458,15 +458,14 @@
     <!-- ./ Footer -->
 
     <!-- Modal example -->
-    <dialog id="modal-example" popover>
+    <dialog id="modal-example" aria-labelledby="modal-example-title">
       <article>
         <header>
           <button
             aria-label="Close"
-            popovertarget="modal-example"
-            popovertargetaction="hide"
+            onclick="document.getElementById('modal-example').close()"
           ></button>
-          <h3>Confirm your action!</h3>
+          <h3 id="modal-example-title">Confirm your action!</h3>
         </header>
         <p>
           Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus
@@ -475,11 +474,10 @@
         <footer>
           <button
             class="secondary"
-            popovertarget="modal-example"
-            popovertargetaction="hide"
+            onclick="document.getElementById('modal-example').close()"
           >
             Cancel</button
-          ><button autofocus popovertarget="modal-example" popovertargetaction="hide">
+          ><button autofocus onclick="document.getElementById('modal-example').close()">
             Confirm
           </button>
         </footer>

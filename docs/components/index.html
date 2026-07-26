@@ -6,16 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Components</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.15.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.16.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-light.min.css" media="(prefers-color-scheme: light)">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css" media="(prefers-color-scheme: dark)">
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js" defer></script>
-  <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css" integrity="sha384-w6Ujm1VWa9HYFqGc89oAPn/DWDi2gUamjNrq9DRvEYm2X3ClItg9Y9xs1ViVo5b5" crossorigin="anonymous" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/styles/atom-one-dark.min.css" integrity="sha384-oaMLBGEzBOJx3UHwac0cVndtX5fxGQIfnAeFZ35RTgqPcYlbprH9o9PUV/F8Le07" crossorigin="anonymous" media="(prefers-color-scheme: dark)">
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/highlight.min.js" integrity="sha384-RH2xi4eIQ/gjtbs9fUXM68sLSi99C7ZWBRX1vDrVv6GQXRibxXLbwO2NGZB74MbU" crossorigin="anonymous" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', () => globalThis.hljs?.highlightAll());</script>
   <style>
-    /* Let Daft's <pre> own the surface; hljs only paints tokens. */
-    pre code.hljs { background: transparent; padding: 0; }
+    /* Let Daft's <pre> own scrolling and the surface; hljs only paints tokens. */
+    pre code.hljs { background: transparent; padding: 0; overflow: visible; }
+    pre :is(.hljs-comment, .hljs-string) { color: var(--muted-foreground); }
+    pre :is(.hljs-name, .hljs-attr, .hljs-selector-tag, .hljs-title, .hljs-variable, .hljs-subst, .hljs-literal) { color: var(--foreground); }
 
     .sidebar-layouts {
       display: grid;
@@ -100,10 +102,11 @@
       }
     }
   </style>
+  <script src="/scroll-focus.js" defer></script>
 </head>
 
 <body>
-  <nav class="sticky glass">
+  <nav class="sticky glass" aria-label="Primary">
     <div class="container-fluid flex items-center justify-between">
       <ul>
         <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
@@ -122,6 +125,7 @@
               <li><a href="/examples/product/">Product</a></li>
               <li><a href="/examples/demo/">Demo</a></li>
               <li><a href="/examples/pico-comparison/">Pico comparison</a></li>
+              <li><a href="/examples/slides/">Slides</a></li>
               <li><a href="/examples/">All examples</a></li>
             </ul>
           </details>
@@ -132,11 +136,12 @@
     </div>
   </nav>
 
-  <aside id="sidebar" class="sidebar" popover>
-    <nav>
+  <aside id="sidebar" class="sidebar" popover aria-label="Component navigation">
+    <nav aria-label="Components">
       <ul>
         <li class="label">Components</li>
         <li><a href="#typography">Typography</a></li>
+        <li><a href="#embedded-content">Embedded Content</a></li>
         <li><a href="#forms">Forms</a></li>
         <li><a href="#buttons">Buttons</a></li>
         <li><a href="#layout">Layout</a></li>
@@ -251,6 +256,35 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 }&lt;/code&gt;&lt;/pre&gt;</code></pre>
         </article>
       </div>
+
+      <h3 id="embedded-content">Embedded Content</h3>
+      <div class="grid">
+        <article>
+          <figure>
+            <svg viewBox="0 0 320 160" fill="none" stroke="currentColor" role="img" aria-labelledby="media-preview-title">
+              <title id="media-preview-title">Abstract landscape placeholder</title>
+              <rect x="1" y="1" width="318" height="158" rx="12"></rect>
+              <circle cx="245" cy="45" r="18"></circle>
+              <path d="M20 135 105 55l55 52 42-36 98 64"></path>
+            </svg>
+            <figcaption>Figures, media, iframes, and SVG scale to their container.</figcaption>
+          </figure>
+          <p class="muted">Provide meaningful <code>alt</code> text for images, captions for prerecorded media, and a descriptive <code>title</code> for iframes.</p>
+        </article>
+        <article>
+          <pre><code>&lt;figure&gt;
+  &lt;img src="chart.png" alt="Revenue increased 18% from January to June"&gt;
+  &lt;figcaption&gt;Monthly revenue, 2026&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;video controls&gt;
+  &lt;source src="demo.mp4" type="video/mp4"&gt;
+  &lt;track kind="captions" src="demo-en.vtt" srclang="en" label="English" default&gt;
+&lt;/video&gt;
+
+&lt;iframe src="report.html" title="Quarterly performance report"&gt;&lt;/iframe&gt;</code></pre>
+        </article>
+      </div>
     </section>
 
     <section id="forms">
@@ -354,31 +388,38 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       <h3>Validation and Input Groups</h3>
       <div class="grid">
         <article>
-          <label>Valid Input <input type="text" value="Correct value" aria-invalid="false"></label>
+          <label for="valid-input-demo">Valid Input</label>
+          <input id="valid-input-demo" type="text" value="Correct value" aria-invalid="false">
           <small>This field is valid.</small>
-          <label>Invalid Input <input type="text" value="Wrong value" aria-invalid="true"></label>
+          <label for="invalid-input-demo">Invalid Input</label>
+          <input id="invalid-input-demo" type="text" value="Wrong value" aria-invalid="true">
           <small>Please fix this error.</small>
           <form role="search">
-            <input type="search" placeholder="Search...">
+            <input type="search" placeholder="Search..." aria-label="Search">
             <button type="submit">Search</button>
           </form>
           <span role="group">
             <span>https://</span>
-            <input type="text" value="daftcss.dev">
+            <input type="text" value="daftcss.dev" aria-label="Domain">
           </span>
         </article>
         <article>
-          <pre><code>&lt;input type="text" value="Correct value" aria-invalid="false"&gt;
-&lt;input type="text" value="Wrong value" aria-invalid="true"&gt;
+          <pre><code>&lt;label for="valid-input"&gt;Valid Input&lt;/label&gt;
+&lt;input id="valid-input" type="text" aria-invalid="false"&gt;
+&lt;small&gt;This field is valid.&lt;/small&gt;
+
+&lt;label for="invalid-input"&gt;Invalid Input&lt;/label&gt;
+&lt;input id="invalid-input" type="text" aria-invalid="true"&gt;
+&lt;small&gt;Please fix this error.&lt;/small&gt;
 
 &lt;form role="search"&gt;
-  &lt;input type="search" placeholder="Search..."&gt;
+  &lt;input type="search" placeholder="Search..." aria-label="Search"&gt;
   &lt;button type="submit"&gt;Search&lt;/button&gt;
 &lt;/form&gt;
 
 &lt;span role="group"&gt;
   &lt;span&gt;https://&lt;/span&gt;
-  &lt;input type="text" value="daftcss.dev"&gt;
+  &lt;input type="text" value="daftcss.dev" aria-label="Domain"&gt;
 &lt;/span&gt;</code></pre>
         </article>
       </div>
@@ -409,7 +450,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
     <section id="buttons">
       <h2>Buttons</h2>
 
-      <h3>Variants, Sizes, Links</h3>
+      <h3>Variants and Sizes</h3>
       <div class="grid">
         <article>
           <p><button>Primary</button> <button class="secondary">Secondary</button> <button
@@ -417,8 +458,6 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <p><button class="outline">Outline</button> <button class="ghost">Ghost</button> <button
               class="link">Link</button></p>
           <p><button class="small">Small</button> <button>Default</button> <button class="large">Large</button></p>
-          <p><a href="#" role="button">Link Button</a> <a href="#" role="button" class="secondary">Secondary Link</a>
-          </p>
         </article>
         <article>
           <pre><code>&lt;button&gt;Primary&lt;/button&gt;
@@ -429,8 +468,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;button class="link"&gt;Link&lt;/button&gt;
 
 &lt;button class="small"&gt;Small&lt;/button&gt;
-&lt;button class="large"&gt;Large&lt;/button&gt;
-&lt;a href="#" role="button"&gt;Link Button&lt;/a&gt;</code></pre>
+&lt;button class="large"&gt;Large&lt;/button&gt;</code></pre>
         </article>
       </div>
 
@@ -479,7 +517,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
               <button class="outline">Right</button>
             </span>
           </p>
-          <p><button disabled>Disabled</button> <button aria-busy="true">Loading</button></p>
+          <p><button disabled>Disabled</button> <button disabled aria-busy="true">Loading</button></p>
         </article>
         <article>
           <pre><code>&lt;span role="group"&gt;
@@ -489,7 +527,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;/span&gt;
 
 &lt;button disabled&gt;Disabled&lt;/button&gt;
-&lt;button aria-busy="true"&gt;Loading&lt;/button&gt;</code></pre>
+&lt;button disabled aria-busy="true"&gt;Loading&lt;/button&gt;</code></pre>
         </article>
       </div>
     </section>
@@ -717,8 +755,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       <h3>Tooltips and Breadcrumbs</h3>
       <div class="grid">
         <article>
-          <p><span data-tooltip="Default tooltip">Hover me</span> | <span data-tooltip="Bottom placement"
-              data-placement="bottom">Bottom</span></p>
+          <p><button class="outline" data-tooltip="Default tooltip">Focus or hover</button>
+            <button class="outline" data-tooltip="Bottom placement" data-placement="bottom">Bottom</button></p>
           <button data-tooltip="Click to submit">Submit</button>
           <ul aria-label="Breadcrumb">
             <li><a href="#">Home</a></li>
@@ -727,8 +765,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           </ul>
         </article>
         <article>
-          <pre><code>&lt;span data-tooltip="Default tooltip"&gt;Hover me&lt;/span&gt;
-&lt;span data-tooltip="Bottom placement" data-placement="bottom"&gt;Bottom&lt;/span&gt;
+          <pre><code>&lt;button class="outline" data-tooltip="Default tooltip"&gt;Focus or hover&lt;/button&gt;
+&lt;button class="outline" data-tooltip="Bottom placement" data-placement="bottom"&gt;Bottom&lt;/button&gt;
 &lt;button data-tooltip="Click to submit"&gt;Submit&lt;/button&gt;
 
 &lt;ul aria-label="Breadcrumb"&gt;
@@ -827,33 +865,29 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
     <section id="overlays">
       <h2>Overlays</h2>
 
-      <h3>Modal Dialog</h3>
+      <h3>Popover Dialog</h3>
       <div class="grid">
         <article>
-          <p>Daft's no-JavaScript modal uses the native Popover API.</p>
-          <button popovertarget="demo-modal">Open Modal</button>
-          <dialog id="demo-modal" popover>
+          <p>This no-JavaScript overlay is light-dismiss and non-modal. The page does not become inert.</p>
+          <button popovertarget="demo-dialog">Open Help</button>
+          <dialog id="demo-dialog" popover aria-label="Help">
             <article>
-              <button aria-label="Close" popovertarget="demo-modal" popovertargetaction="hide"></button>
-              <header><strong>Confirm Action</strong></header>
-              <p>Confirm this action before continuing.</p>
-              <footer>
-                <button class="secondary" popovertarget="demo-modal" popovertargetaction="hide">Cancel</button>
-                <button popovertarget="demo-modal" popovertargetaction="hide">Confirm</button>
-              </footer>
+              <button aria-label="Close" popovertarget="demo-dialog" popovertargetaction="hide"></button>
+              <header><strong>Help</strong></header>
+              <p>Supporting information goes here.</p>
             </article>
           </dialog>
         </article>
         <article>
-          <pre><code>&lt;button popovertarget="demo-modal"&gt;Open Modal&lt;/button&gt;
+          <pre><code>&lt;button popovertarget="demo-dialog"&gt;Open Help&lt;/button&gt;
 
-&lt;dialog id="demo-modal" popover&gt;
+&lt;dialog id="demo-dialog" popover aria-label="Help"&gt;
   &lt;article&gt;
     &lt;button aria-label="Close"
-            popovertarget="demo-modal"
+            popovertarget="demo-dialog"
             popovertargetaction="hide"&gt;&lt;/button&gt;
-    &lt;header&gt;&lt;strong&gt;Confirm Action&lt;/strong&gt;&lt;/header&gt;
-    &lt;p&gt;This dialog uses the native Popover API.&lt;/p&gt;
+    &lt;header&gt;&lt;strong&gt;Help&lt;/strong&gt;&lt;/header&gt;
+    &lt;p&gt;Supporting information goes here.&lt;/p&gt;
   &lt;/article&gt;
 &lt;/dialog&gt;</code></pre>
         </article>

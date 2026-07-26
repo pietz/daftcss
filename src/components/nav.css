@@ -88,6 +88,9 @@ ul[aria-label="Breadcrumb" i] > li:not(:last-child)::after {
 }
 
 ul[aria-label="Breadcrumb" i] a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
   color: inherit;
   font-weight: var(--font-medium);
   text-decoration: none;
@@ -106,16 +109,4 @@ ul[aria-label="Breadcrumb" i] a[aria-current]:not([aria-current="false"]) {
 ul[aria-label="Breadcrumb" i] > li:last-child {
   color: var(--foreground);
   font-weight: var(--font-medium);
-}
-
-/* Mobile-friendly nav (stacks on small screens) */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  :is(nav > ul, nav > :where(.container, .container-fluid) > ul) {
-    justify-content: center;
-  }
 }

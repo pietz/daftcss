@@ -1,15 +1,9 @@
 /**
- * Modal/Dialog styles
- * Daft's no-JavaScript modal uses the native Popover API.
+ * Dialog styles
  *
- * Preferred (no JS): <dialog popover> wrapping <article>.
- *   <button popovertarget="my-modal">Open</button>
- *   <dialog id="my-modal" popover>
- *     <article>Content</article>
- *   </dialog>
- *
- * Bare <dialog> opened via showModal() also renders as a designed card
- * (see fallback rule below). Wrap content in <article> for full layout
+ * <dialog popover> provides a no-JavaScript, non-modal overlay. It does not
+ * make the page inert or contain focus. Use showModal() when interaction must
+ * be modal. Both approaches can wrap content in <article> for the full layout
  * (header/footer/close-button positioning).
  */
 
@@ -49,9 +43,9 @@ dialog:not(:has(> article)) {
   inset: 0;
   margin: auto;
   width: auto;
-  max-width: 32rem;
+  max-width: var(--modal-max-width);
   height: fit-content;
-  max-height: calc(100vh - var(--spacing-xl));
+  max-height: calc(100dvh - var(--spacing-xl));
   padding: var(--spacing-lg);
   color: var(--foreground);
   background-color: var(--card);
@@ -61,21 +55,30 @@ dialog:not(:has(> article)) {
   overflow: auto;
 }
 
-/* Popover-based modal (no JS required) */
+/* Popover dialog (non-modal, no JavaScript required). Keep its hit area
+   around the surface so clicks elsewhere can trigger native light dismiss. */
 dialog[popover] {
   margin: auto;
 }
 
-dialog[popover]:popover-open {
-  display: flex;
+dialog[popover]:has(> article) {
+  width: min(var(--modal-max-width), calc(100vw - 2 * var(--spacing)));
+  height: fit-content;
+  max-height: calc(100dvh - 2 * var(--spacing));
+  padding: 0;
+  overflow: visible;
 }
 
-/* Modal content (article inside dialog) */
+dialog[popover]:popover-open {
+  display: block;
+}
+
+/* Dialog content (article inside dialog) */
 dialog > article {
   position: relative;
   width: 100%;
-  max-width: 32rem;
-  max-height: calc(100vh - var(--spacing-xl));
+  max-width: var(--modal-max-width);
+  max-height: calc(100dvh - var(--spacing-xl));
   margin: 0;
   padding: var(--spacing-lg);
   overflow: auto;
@@ -97,7 +100,7 @@ dialog > article {
   }
 }
 
-/* Modal header */
+/* Dialog header */
 dialog > article > header {
   display: block;
   padding: 0;
@@ -146,7 +149,7 @@ dialog > article > header > button[rel="prev"] {
   }
 }
 
-/* Modal body */
+/* Dialog body */
 dialog > article > p,
 dialog > article > div {
   padding: 0;

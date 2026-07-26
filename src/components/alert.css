@@ -51,6 +51,11 @@
   background-color: color-mix(in oklab, var(--destructive) 12%, var(--background));
   border-color: color-mix(in oklab, var(--destructive) 35%, var(--background));
 
+  & > strong {
+    /* Darken the title against the tinted surface for text contrast. */
+    color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
+  }
+
   & > p {
     color: color-mix(in oklab, var(--destructive) 85%, var(--foreground));
   }

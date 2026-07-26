@@ -47,7 +47,7 @@
   }
 
   &:is(:disabled, [aria-disabled="true"]) {
-    pointer-events: none;
+    cursor: not-allowed;
     opacity: var(--disabled-opacity);
   }
 
@@ -80,7 +80,7 @@ a[role="button"] {
 
 /* Destructive variant — tinted background, colored text */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary).destructive {
-  color: var(--destructive);
+  color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
   background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
 
   &:hover {

@@ -1,6 +1,6 @@
 {
   "name": "daftcss",
-  "version": "1.15.3",
+  "version": "1.16.0",
   "description": "A semantic-first CSS framework with shadcn/ui-quality aesthetics",
   "main": "dist/daft.css",
   "repository": {
@@ -13,8 +13,15 @@
   ],
   "scripts": {
     "build": "lightningcss --bundle src/daft.css -o dist/daft.css && lightningcss --bundle --minify src/daft.css -o dist/daft.min.css && cp dist/daft.css dist/daft.min.css docs/dist/",
-    "watch": "lightningcss --bundle src/daft.css -o dist/daft.css --watch",
-    "dev": "npx serve docs"
+    "check": "npm run check:build && npm run check:docs && npm run check:skill",
+    "check:build": "node scripts/check-build.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
+    "check:skill": "node scripts/check-skill-links.mjs",
+    "test": "npm run test:browser && npm run test:a11y",
+    "test:browser": "playwright test tests/regressions.spec.js",
+    "test:a11y": "playwright test tests/accessibility.spec.js --project=chromium",
+    "watch": "node scripts/watch.mjs",
+    "dev": "node scripts/serve-docs.mjs"
   },
   "keywords": [
     "css",
@@ -25,6 +32,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.0",
     "lightningcss-cli": "^1.28.0"
   }
 }

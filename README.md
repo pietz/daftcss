@@ -8,8 +8,8 @@ Daft CSS is for developers who want:
 
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
-- **Zero JavaScript** for interactive components like modals, accordions, and dropdowns
-- **A tiny footprint** — one ~55 KB minified file
+- **Zero required JavaScript** for native interactions like popovers, accordions, and dropdowns
+- **A tiny footprint** — one ~61 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -21,7 +21,7 @@ Daft follows Pico's semantic syntax: native elements, ARIA states, roles, and sm
 - **A few well-chosen classes, not a utility framework.** A small set of variant classes (`.secondary`, `.outline`, `.ghost`) and layout helpers (`.container`, `.grid`) for the cases native HTML can't express. This is not Tailwind — it's the minimum vocabulary on top of HTML.
 - **shadcn/ui aesthetics, simpler internals.** We borrow shadcn's visual language because it's clean and tunable, but we don't borrow its variable graph. Daft's tokens form a tier system (root → scale → component) where most values derive from a handful of knobs at the top.
 - **Connected by default, overridable when you need it.** Tweak `--spacing` and every component breathes differently. Tweak `--card-radius` to round just cards. The chain is the feature; you only break it when the value genuinely needs to differ.
-- **No JavaScript.** Modals, dropdowns, accordions, tooltips — all CSS and native HTML APIs (`<dialog>`, popover, `<details>`).
+- **No required JavaScript.** Dropdowns, accordions, tooltips, and non-modal overlays use CSS and native HTML APIs. True modal dialogs use the platform's `showModal()` method.
 - **Modern CSS only.** `light-dark()`, OKLCH, nesting, `color-mix()`, Popover, `@starting-style`. No polyfills, no fallbacks. The result is smaller, cleaner, and easier to read than the cross-browser layers older frameworks carry.
 
 ## How is it different?
@@ -32,7 +32,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~55 KB** | 83 KB |
+| Size (minified) | **~61 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -48,7 +48,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~55 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~61 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -129,7 +129,7 @@ Blocks are copy-pasteable page sections composed from Daft primitives: landing h
 
 Use blocks before writing custom layout CSS. They are the middle layer between individual components and full examples.
 
-See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent reference at [`skills/daftcss/BLOCKS.md`](skills/daftcss/BLOCKS.md).
+See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent reference at [`skills/daftcss/references/blocks.md`](skills/daftcss/references/blocks.md).
 
 ## Components
 
@@ -141,7 +141,7 @@ See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent referen
 <button class="outline">Outline</button>
 <button class="ghost">Ghost</button>
 <button class="destructive">Destructive</button>
-<button aria-busy="true">Loading</button>
+<button disabled aria-busy="true">Loading</button>
 ```
 
 ### Forms
@@ -250,26 +250,24 @@ Compact, IDE-style file tree. Folders use native `<details>`/`<summary>` for ope
 </ul>
 ```
 
-### Modal
+### Dialogs
 
-Daft's no-JavaScript modal uses the native Popover API.
+For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover API. This pattern is non-modal: it does not make the rest of the page inert or contain focus.
 
 ```html
-<button popovertarget="my-modal">Open Modal</button>
-<dialog id="my-modal" popover>
+<button popovertarget="help-dialog">Open Help</button>
+<dialog id="help-dialog" popover aria-label="Help">
   <article>
     <header>
-      <button aria-label="Close" popovertarget="my-modal"></button>
-      <strong>Modal Title</strong>
+      <button aria-label="Close" popovertarget="help-dialog"></button>
+      <strong>Help</strong>
     </header>
-    <p>Modal content here.</p>
-    <footer>
-      <button class="secondary" popovertarget="my-modal">Cancel</button>
-      <button>Confirm</button>
-    </footer>
+    <p>Supporting information goes here.</p>
   </article>
 </dialog>
 ```
+
+For a true modal interaction, use a regular `<dialog>` and open it with `showModal()`. Daft styles both patterns.
 
 ### Alerts
 
@@ -379,9 +377,11 @@ Add `.small` or `.large` to the group and the size cascades to every child — b
 
 ### Tooltips
 
+Apply tooltips to focusable controls so keyboard users can reveal them. Tooltip text is a visual enhancement, not a substitute for an accessible name.
+
 ```html
-<span data-tooltip="Tooltip text">Hover me</span>
-<button data-tooltip="Help" data-placement="right">?</button>
+<button data-tooltip="Save changes">Save</button>
+<button aria-label="Help" data-tooltip="Help" data-placement="right">?</button>
 ```
 
 ### Tables
@@ -534,9 +534,13 @@ Requires modern browsers for native support of `light-dark()`, OKLCH colors, CSS
 ## Development
 
 ```bash
-npm run build    # Build daft.css and daft.min.css
-npm run watch    # Watch and rebuild on changes
-npm run dev      # Serve examples locally
+npm run build        # Build daft.css and daft.min.css
+npm run watch        # Watch and rebuild expanded CSS on changes
+npm run dev          # Serve documentation locally
+npm run check        # Validate generated CSS, docs, and skill links
+npm test             # Run cross-browser regressions and automated accessibility checks
+npm run test:browser # Run regressions in Chromium, Firefox, and WebKit
+npm run test:a11y    # Check all docs pages in light and dark themes
 ```
 
 ## License

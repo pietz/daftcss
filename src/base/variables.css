@@ -114,7 +114,7 @@
      near-white when the tint is darker than ~L 0.623, near-black otherwise. */
   --card-foreground: var(--foreground);
   --popover-foreground: var(--card-foreground);
-  --muted-foreground: light-dark(oklch(0.556 0 0), oklch(0.708 0 0));
+  --muted-foreground: light-dark(oklch(0.53 0 0), oklch(0.708 0 0));
   --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
   --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
   --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
@@ -173,6 +173,7 @@
   --switch-thumb: 1rem;
 
   /* Modal */
+  --modal-max-width: 32rem;
   --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
 
   /* Breadcrumb */

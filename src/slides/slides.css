@@ -1,7 +1,7 @@
 /*
  * Daft Slides — prototype
  * Inside <body class="deck">, every direct-child <section> is a slide.
- * Layouts compose from Daft (.grid + .span-N, .stack, .cluster, .card, ...).
+ * Layouts compose from Daft (.grid + .span-N, .stack, .cluster, <article>, ...).
  */
 
 :root {

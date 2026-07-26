@@ -1,0 +1,73 @@
+# Buttons
+
+## Purpose and semantic contract
+
+Use native `<button>` for actions and `<a href>` for navigation. Daft also styles button-type inputs, `[role="button"]`, and dropdown summaries. If a non-button element receives `role="button"`, its behavior must honor the button keyboard contract; do not add the role to an ordinary navigation link merely for appearance.
+
+## Basic example
+
+```html
+<button type="button">Save changes</button>
+<button type="submit">Create account</button>
+```
+
+## Markup requirements
+
+- Set `type="button"` for a non-submit button inside a form.
+- Give an icon-only button an accessible name with `aria-label`.
+- Use `disabled` for a disabled native button. `[aria-disabled="true"]` receives the visual disabled treatment but does not disable native behavior.
+- Prefer a native button over recreating button semantics with `[role="button"]`. If a custom button is unavoidable, implement keyboard activation and state behavior.
+
+```html
+<button class="icon ghost" type="button" aria-label="Settings">
+  <svg aria-hidden="true">…</svg>
+</button>
+```
+
+## Variants and options
+
+- Default: primary.
+- `.secondary`: muted secondary surface. `<input type="reset">` is secondary by default.
+- `.destructive`: tinted destructive action; its focus ring follows the destructive color.
+- `.outline`: bordered background surface.
+- `.ghost`: transparent until hover.
+- `.link`: link-like action, underlined on hover.
+- `.small` and `.large`: compact and roomy heights.
+- `.icon`: square, icon-only sizing. Combine with `.small` or `.large`.
+- `.full-width`: fills the available inline width.
+- `aria-current="true"`: selected/current state, useful in a control group.
+
+Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`.
+
+## Relevant tokens
+
+See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
+
+- `--button-height`, `--button-height-sm`, `--button-height-lg`
+- `--button-radius`, `--button-shadow`
+- `--primary`, `--primary-foreground`, `--secondary`, `--secondary-foreground`
+- `--destructive`, `--foreground`, `--accent`
+- `--focus-ring`, `--focus-ring-destructive`, `--disabled-opacity`, `--icon-size`
+
+## Behavior and accessibility
+
+Buttons have hover and active feedback, and a visible focus ring on `:focus-visible`. Disabled buttons do not accept pointer input and render at `--disabled-opacity`. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while submission is unavailable.
+
+## Composition
+
+Use `<div role="group">` to merge adjacent controls. Apply `.small` or `.large` to the group to size its button children; use `aria-current="true"` on the selected option.
+
+```html
+<div role="group" aria-label="View">
+  <button class="outline" type="button">Day</button>
+  <button class="outline" type="button" aria-current="true">Week</button>
+  <button class="outline" type="button">Month</button>
+</div>
+```
+
+## Common mistakes
+
+- Do not use `.btn`, `.btn-primary`, or a custom button wrapper. Bare `<button>` is primary.
+- Do not use `<a role="button">` for an in-page action.
+- Do not omit an accessible name from an icon-only button.
+- Do not rely on `aria-disabled` to prevent a native button action.

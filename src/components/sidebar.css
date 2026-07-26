@@ -145,7 +145,15 @@ body > aside.sidebar > nav > ul > li > a:hover {
 }
 
 @media (min-width: 768px) {
-  .sidebar-toggle,
+  /* The base button rule is
+   * `:is(button, [type=submit], …, details.dropdown > summary)`, which scores
+   * (0,1,2) because `:is()` adopts the specificity of its most specific
+   * argument. A plain `.sidebar-toggle` is only (0,1,0), so `display:
+   * inline-flex` used to win and the toggle stayed visible on desktop unless it
+   * happened to sit in an `<li>` (where the `:has()` rule below hid the list
+   * item instead). The class is repeated to reach (0,2,0) so the toggle hides
+   * wherever it sits in the markup, without `!important`. */
+  .sidebar-toggle.sidebar-toggle,
   li:has(> .sidebar-toggle) {
     display: none;
   }

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Git ref to publish, for example v1.13.1"
+        description: "Git tag to publish, for example vx.y.z"
         required: true
         type: string
 
@@ -41,6 +41,15 @@ jobs:
       - name: Build package
         run: npm run build
 
+      - name: Validate generated CSS and documentation
+        run: npm run check
+
+      - name: Install supported browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Run browser and accessibility tests
+        run: npm test
+
       - name: Read package version
         id: pkg
         run: |
@@ -51,7 +60,7 @@ jobs:
         run: |
           release_ref="${{ github.event.inputs.ref || github.ref_name }}"
           release_ref="${release_ref#refs/tags/}"
-          if [[ "$release_ref" == v* && "$release_ref" != "v${{ steps.pkg.outputs.version }}" ]]; then
+          if [[ "$release_ref" != "v${{ steps.pkg.outputs.version }}" ]]; then
             echo "Release ref $release_ref does not match package version v${{ steps.pkg.outputs.version }}."
             exit 1
           fi

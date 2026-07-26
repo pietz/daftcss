@@ -9,9 +9,13 @@ Daft CSS is a semantic-first CSS framework with shadcn/ui-quality aesthetics. It
 ## Commands
 
 ```bash
-npm run build    # Build dist/ and mirror to docs/dist/
-npm run watch    # Watch src/ and rebuild dist/ only
-npm run dev      # Serve docs/ locally
+npm run build        # Build dist/ and mirror to docs/dist/
+npm run watch        # Watch src/ and update expanded CSS in dist/ and docs/dist/
+npm run dev          # Serve docs/ locally
+npm run check        # Validate generated CSS, docs, and skill links
+npm test             # Run cross-browser regressions and automated accessibility checks
+npm run test:browser # Run regressions in Chromium, Firefox, and WebKit
+npm run test:a11y    # Check all docs pages in light and dark themes
 ```
 
 ## Architecture
@@ -23,7 +27,7 @@ Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/d
 **Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
 - Bundles and minifies only (no transforms)
 - Preserves modern CSS like `light-dark()` as-is
-- Keeps output small (~56KB vs larger transformed builds with polyfills)
+- Keeps output small (~61 KB vs larger transformed builds with polyfills)
 
 If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 
@@ -77,7 +81,7 @@ When adding a new component or feature to the library:
 1. **Create the CSS** in the appropriate `src/` directory
 2. **Import it** in `src/daft.css` with the correct layer
 3. **Update `docs/components/index.html`** with usage examples
-4. **Update docs/reference surfaces** as needed: `README.md`, `DOCS.md`, `skills/daftcss/SKILL.md`, `skills/daftcss/REFERENCE.md`, and relevant `docs/examples/*`
+4. **Update docs/reference surfaces** as needed: `README.md`, `DOCS.md`, `skills/daftcss/SKILL.md`, relevant files under `skills/daftcss/references/`, and relevant `docs/examples/*`
 5. **Run `npm run build`** to verify it compiles and mirror `dist/` to `docs/dist/`
 
 ## Deployment & Release Notes

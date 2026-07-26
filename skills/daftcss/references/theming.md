@@ -1,6 +1,6 @@
 # Theming Daft CSS
 
-Load this when the user wants to retheme — match a brand, change feel ("sharper", "softer", "denser"), or build a custom palette. The goal is to get the look right by **overriding CSS variables**, never by rewriting selectors.
+Load this when the user wants to retheme — match a brand, change feel ("sharper", "softer", "denser"), or build a custom palette. Prefer **CSS variable overrides** whenever the public token system expresses the change; use application selectors only for requirements outside that API.
 
 ## Mental model
 
@@ -20,7 +20,7 @@ All overrides go in `:root` (or scoped to `[data-theme="dark"]` for dark-mode tw
 
 ### Brand color
 
-Override `--primary`. Foreground text on primary surfaces is auto-contrasted via `oklch(from …)`, so you get readable text for free.
+Override `--primary`. Its foreground token automatically chooses a light or dark neutral via `oklch(from …)`. Verify text contrast after introducing a custom brand color, especially when using transparency.
 
 ```css
 :root {
@@ -126,7 +126,7 @@ Either override per-variable inside the dark-mode block, or use `light-dark()` o
 }
 ```
 
-Foregrounds for these auto-contrast — leave them alone.
+Foregrounds for these choose a light or dark neutral automatically. Override them only when contrast testing shows the computed pair is unsuitable.
 
 ### Sidebar width
 
@@ -148,7 +148,7 @@ Foregrounds for these auto-contrast — leave them alone.
 
 ## Anti-patterns
 
-- ❌ **Selector overrides.** `.button { background: red; }` — fights the cascade. Override `--button-bg` (or `--primary` if every primary surface should change).
+- ❌ **Selector overrides.** `.button { background: red; }` fights the cascade. Override `--primary` in the narrowest appropriate scope, or use a built-in button variant.
 - ❌ **`!important`.** Means you're working against the framework. Find the right variable instead.
 - ❌ **Inline `style=""` for theming.** Use a `<style>` block (or external sheet) with variable overrides.
 - ❌ **Editing `dist/daft.css`.** Always override in your own stylesheet that loads *after* Daft.
@@ -182,7 +182,7 @@ Roughly 10 lines transforms the look:
 }
 ```
 
-Everything cascades: buttons pick up the new radius and shadow, cards inherit the cool gray, inputs use the new font, the focus ring stays semantically correct.
+Buttons pick up the new radius and shadow. Muted, secondary, and code surfaces use the cooler gray; cards retain `--card` until it is overridden. Inputs use the new font. Verify focus and text contrast in both themes.
 
 ---
 

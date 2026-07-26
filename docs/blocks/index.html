@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Blocks</title>
-  <link rel="stylesheet" href="/dist/daft.css?v=1.15.3">
+  <link rel="stylesheet" href="/dist/daft.css?v=1.16.0">
+  <script src="/scroll-focus.js" defer></script>
 </head>
 
 <body>
-  <nav class="sticky glass">
+  <nav class="sticky glass" aria-label="Primary">
     <div class="container-fluid flex items-center justify-between">
       <ul>
         <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
@@ -29,6 +30,7 @@
               <li><a href="/examples/product/">Product</a></li>
               <li><a href="/examples/demo/">Demo</a></li>
               <li><a href="/examples/pico-comparison/">Pico comparison</a></li>
+              <li><a href="/examples/slides/">Slides</a></li>
               <li><a href="/examples/">All examples</a></li>
             </ul>
           </details>
@@ -39,8 +41,8 @@
     </div>
   </nav>
 
-  <aside id="sidebar" class="sidebar" popover>
-    <nav>
+  <aside id="sidebar" class="sidebar" popover aria-label="Block navigation">
+    <nav aria-label="Blocks">
       <ul>
         <li class="label">Landing</li>
         <li><a href="#centered-hero">Centered hero</a></li>
@@ -99,8 +101,8 @@
               <h1 class="text-6xl mx-auto max-w-2xl">Ship a polished interface from plain HTML.</h1>
               <p class="muted mx-auto max-w-xl">Daft styles semantic elements directly, so prototypes stay readable and production pages stay small.</p>
               <div class="cluster justify-center mt-8">
-                <a href="#" role="button">Start building</a>
-                <a href="#" role="button" class="outline">View docs</a>
+                <a href="#">Start building</a>
+                <a href="#">View docs</a>
               </div>
             </section>
           </div>
@@ -113,8 +115,8 @@
   &lt;h1 class="text-6xl mx-auto max-w-2xl"&gt;Ship a polished interface from plain HTML.&lt;/h1&gt;
   &lt;p class="muted mx-auto max-w-xl"&gt;Daft styles semantic elements directly.&lt;/p&gt;
   &lt;div class="cluster justify-center mt-8"&gt;
-    &lt;a href="#" role="button"&gt;Start building&lt;/a&gt;
-    &lt;a href="#" role="button" class="outline"&gt;View docs&lt;/a&gt;
+    &lt;a href="#"&gt;Start building&lt;/a&gt;
+    &lt;a href="#"&gt;View docs&lt;/a&gt;
   &lt;/div&gt;
 &lt;/section&gt;</code></pre>
         </div>
@@ -278,8 +280,8 @@
                 <h2>Ready to build without a component stack?</h2>
                 <p class="muted mx-auto max-w-xl">Start with semantic HTML and let Daft carry the visual system.</p>
                 <footer class="cluster justify-center">
-                  <a href="#" role="button">Get started</a>
-                  <a href="#" role="button" class="outline">Read docs</a>
+                  <a href="#">Get started</a>
+                  <a href="#">Read docs</a>
                 </footer>
               </article>
             </section>
@@ -289,8 +291,8 @@
     &lt;h2&gt;Ready to build without a component stack?&lt;/h2&gt;
     &lt;p class="muted mx-auto max-w-xl"&gt;Start with semantic HTML.&lt;/p&gt;
     &lt;footer class="cluster justify-center"&gt;
-      &lt;a href="#" role="button"&gt;Get started&lt;/a&gt;
-      &lt;a href="#" role="button" class="outline"&gt;Read docs&lt;/a&gt;
+      &lt;a href="#"&gt;Get started&lt;/a&gt;
+      &lt;a href="#"&gt;Read docs&lt;/a&gt;
     &lt;/footer&gt;
   &lt;/article&gt;
 &lt;/section&gt;</code></pre>
@@ -317,7 +319,7 @@
                   <li>Community support</li>
                   <li>CDN install</li>
                 </ul>
-                <footer><a href="#" role="button" class="outline">Start</a></footer>
+                <footer><a href="#">Start</a></footer>
               </article>
               <article>
                 <header>
@@ -331,7 +333,7 @@
                   <li>Private themes</li>
                   <li>Email support</li>
                 </ul>
-                <footer><a href="#" role="button">Upgrade</a></footer>
+                <footer><a href="#">Upgrade</a></footer>
               </article>
             </div>
           </div>
@@ -347,7 +349,7 @@
     &lt;/header&gt;
     &lt;p class="text-4xl"&gt;&lt;strong&gt;$0&lt;/strong&gt; &lt;small class="muted"&gt;/mo&lt;/small&gt;&lt;/p&gt;
     &lt;ul&gt;&lt;li&gt;One project&lt;/li&gt;&lt;li&gt;Community support&lt;/li&gt;&lt;/ul&gt;
-    &lt;footer&gt;&lt;a href="#" role="button" class="outline"&gt;Start&lt;/a&gt;&lt;/footer&gt;
+    &lt;footer&gt;&lt;a href="#"&gt;Start&lt;/a&gt;&lt;/footer&gt;
   &lt;/article&gt;
   &lt;article&gt;...&lt;/article&gt;
 &lt;/div&gt;</code></pre>
@@ -362,7 +364,7 @@
         <h3>App Shell With Sticky Top Nav</h3>
         <div class="grid">
           <div>
-            <nav class="sticky glass">
+            <nav class="sticky glass" aria-label="Application">
               <ul>
                 <li><strong>Workspace</strong></li>
               </ul>
@@ -402,8 +404,8 @@
         <div class="grid">
           <div>
             <div class="grid">
-              <aside class="bg-muted rounded p-4">
-                <nav>
+              <aside class="bg-muted rounded p-4" aria-label="Workspace navigation">
+                <nav aria-label="Workspace">
                   <ul>
                     <li class="label">Workspace</li>
                     <li><a href="#" aria-current="page">Overview</a></li>
@@ -424,8 +426,8 @@
               </section>
             </div>
           </div>
-          <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;
-  &lt;nav&gt;
+          <pre><code>&lt;aside id="sidebar" class="sidebar" popover aria-label="Workspace navigation"&gt;
+  &lt;nav aria-label="Workspace"&gt;
     &lt;ul&gt;
       &lt;li class="label"&gt;Workspace&lt;/li&gt;
       &lt;li&gt;&lt;a href="#" aria-current="page"&gt;Overview&lt;/a&gt;&lt;/li&gt;
@@ -435,8 +437,8 @@
   &lt;/nav&gt;
 &lt;/aside&gt;
 &lt;header class="container-fluid"&gt;
-  &lt;nav&gt;
-    &lt;ul&gt;&lt;li&gt;&lt;button class="ghost icon sidebar-toggle" popovertarget="sidebar"&gt;☰&lt;/button&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;nav aria-label="Application"&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu"&gt;☰&lt;/button&gt;&lt;/li&gt;&lt;/ul&gt;
   &lt;/nav&gt;
 &lt;/header&gt;
 &lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
@@ -538,13 +540,12 @@
                 <h2>Workspace settings</h2>
                 <p>Use labels, fieldsets, and grouped controls.</p>
               </hgroup>
-              <label>Workspace name <input type="text" value="Acme Studio"></label>
-              <label>Public URL
-                <div role="group">
-                  <span>daft.dev/</span>
-                  <input type="text" value="acme">
-                </div>
-              </label>
+              <label>Workspace name <input type="text" name="workspace" value="Acme Studio"></label>
+              <label for="public-url">Public URL</label>
+              <div role="group">
+                <span>daft.dev/</span>
+                <input id="public-url" type="text" name="slug" value="acme">
+              </div>
               <label><input type="checkbox" role="switch" checked> Allow public sharing</label>
               <footer class="cluster justify-end">
                 <button class="outline" type="button">Cancel</button>
@@ -557,13 +558,12 @@
     &lt;h2&gt;Workspace settings&lt;/h2&gt;
     &lt;p&gt;Use labels, fieldsets, and grouped controls.&lt;/p&gt;
   &lt;/hgroup&gt;
-  &lt;label&gt;Workspace name &lt;input type="text" value="Acme Studio"&gt;&lt;/label&gt;
-  &lt;label&gt;Public URL
-    &lt;div role="group"&gt;
-      &lt;span&gt;daft.dev/&lt;/span&gt;
-      &lt;input type="text" value="acme"&gt;
-    &lt;/div&gt;
-  &lt;/label&gt;
+  &lt;label&gt;Workspace name &lt;input type="text" name="workspace" value="Acme Studio"&gt;&lt;/label&gt;
+  &lt;label for="public-url"&gt;Public URL&lt;/label&gt;
+  &lt;div role="group"&gt;
+    &lt;span&gt;daft.dev/&lt;/span&gt;
+    &lt;input id="public-url" type="text" name="slug" value="acme"&gt;
+  &lt;/div&gt;
   &lt;label&gt;&lt;input type="checkbox" role="switch" checked&gt; Allow public sharing&lt;/label&gt;
   &lt;footer class="cluster justify-end"&gt;
     &lt;button class="outline" type="button"&gt;Cancel&lt;/button&gt;
@@ -664,9 +664,9 @@
             <div class="stack">
               <article>
                 <header>
-                  <strong>Version 1.15.0</strong>
+                  <strong>Version x.y.z</strong>
                   <span class="badge success">Latest</span>
-                  <p>May 2026</p>
+                  <p>Release date</p>
                 </header>
                 <ul>
                   <li>Added tree views and sidebar improvements.</li>
@@ -675,8 +675,8 @@
               </article>
               <article>
                 <header>
-                  <strong>Version 1.12.0</strong>
-                  <p>April 2026</p>
+                  <strong>Previous version</strong>
+                  <p>Previous release date</p>
                 </header>
                 <p>Improved form groups and status semantics.</p>
               </article>
@@ -685,9 +685,9 @@
           <pre><code>&lt;div class="stack"&gt;
   &lt;article&gt;
     &lt;header&gt;
-      &lt;strong&gt;Version 1.15.0&lt;/strong&gt;
+      &lt;strong&gt;Version x.y.z&lt;/strong&gt;
       &lt;span class="badge success"&gt;Latest&lt;/span&gt;
-      &lt;p&gt;May 2026&lt;/p&gt;
+      &lt;p&gt;Release date&lt;/p&gt;
     &lt;/header&gt;
     &lt;ul&gt;
       &lt;li&gt;Added tree views and sidebar improvements.&lt;/li&gt;
@@ -703,7 +703,7 @@
         <h3>Comparison Table</h3>
         <div class="grid">
           <div>
-            <div class="overflow-auto">
+            <div class="overflow-auto" tabindex="0" aria-label="Scrollable feature comparison">
               <table>
                 <thead>
                   <tr>
@@ -727,7 +727,7 @@
               </table>
             </div>
           </div>
-          <pre><code>&lt;div class="overflow-auto"&gt;
+          <pre><code>&lt;div class="overflow-auto" tabindex="0" aria-label="Scrollable feature comparison"&gt;
   &lt;table&gt;
     &lt;thead&gt;
       &lt;tr&gt;&lt;th&gt;Capability&lt;/th&gt;&lt;th&gt;Daft&lt;/th&gt;&lt;th&gt;Custom CSS&lt;/th&gt;&lt;/tr&gt;

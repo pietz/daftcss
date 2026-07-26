@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~55 KB minified)
+- Minimal footprint (~61 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
@@ -67,7 +67,7 @@ Blocks are reusable page sections composed from Daft primitives. Use them before
 - Application: top-nav shell, sidebar shell, workspace browser, dashboard stats, settings form, empty state, status panel
 - Content/docs: section header, changelog list, comparison table, code snippet card
 
-See `docs/blocks/` for visual examples and `skills/daftcss/BLOCKS.md` for agent-facing skeletons.
+See `docs/blocks/` for visual examples and `skills/daftcss/references/blocks.md` for agent-facing skeletons.
 
 ---
 
@@ -98,9 +98,9 @@ Daft CSS automatically detects system preference for light or dark mode. Overrid
 </section>
 
 <!-- Light callout inside a dark page -->
-<aside data-theme="light" class="card">
+<article data-theme="light">
   Read the docs
-</aside>
+</article>
 ```
 
 Use it for inverted heroes, alternating landing sections, or a single callout that needs to stand out from the surrounding page.
@@ -155,7 +155,7 @@ Each elevated component has its own shadow token. Set any to `none` to flatten t
 | `--button-shadow` | `none` | Buttons, button-styled accordion summaries |
 | `--card-shadow` | `var(--shadow-xs)` | `<article>` cards |
 | `--dropdown-shadow` | `var(--shadow-md)` | `<details class="dropdown">` menus |
-| `--modal-shadow` | `var(--shadow-lg)` | `<dialog>` modals |
+| `--modal-shadow` | `var(--shadow-lg)` | `<dialog>` surfaces |
 
 ```css
 /* Flatten cards globally */
@@ -344,14 +344,14 @@ All typography is styled automatically. No classes needed.
 
 ## Buttons
 
-Buttons are styled automatically. Use `<button>`, `<input type="submit">`, or `<a role="button">`.
+Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation.
 
 ### Basic Button
 
 ```html
 <button>Primary Button</button>
 <button type="reset">Reset Button</button>
-<a href="#" role="button">Link Button</a>
+<a href="#">Navigation link</a>
 ```
 
 ### Variants
@@ -388,15 +388,20 @@ Buttons are styled automatically. Use `<button>`, `<input type="submit">`, or `<
 
 ### Disabled State
 
+Use the native `disabled` attribute when a form control must not be operable:
+
 ```html
 <button disabled>Disabled</button>
-<button aria-disabled="true">Also Disabled</button>
 ```
+
+`aria-disabled="true"` communicates a state to assistive technology and receives Daft's disabled styling, but it does not prevent keyboard activation or form submission. If a custom control uses it, application code must suppress the control's behavior.
 
 ### Loading State
 
+`aria-busy` reports a loading state but does not disable a control. Combine it with `disabled` when activation must be prevented:
+
 ```html
-<button aria-busy="true">Loading...</button>
+<button disabled aria-busy="true">Loading...</button>
 ```
 
 ---
@@ -841,44 +846,42 @@ Compact, IDE-style file tree. Folders use `<details>`/`<summary>` for native ope
 <ul class="tree" style="--tree-indent: 1.25rem">…</ul>
 ```
 
-### Modal
+### Dialogs
 
-Daft's no-JavaScript modal uses the native Popover API.
+#### Popover dialog
+
+For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover API:
 
 ```html
-<button popovertarget="my-modal">Open Modal</button>
+<button popovertarget="help-dialog">Open Help</button>
 
-<dialog id="my-modal" popover>
+<dialog id="help-dialog" popover aria-label="Help">
   <article>
     <header>
-      <button aria-label="Close" popovertarget="my-modal"></button>
-      <strong>Modal Title</strong>
+      <button aria-label="Close" popovertarget="help-dialog"></button>
+      <strong>Help</strong>
     </header>
-    <p>Modal content here.</p>
-    <footer>
-      <button class="secondary" popovertarget="my-modal">Cancel</button>
-      <button>Confirm</button>
-    </footer>
+    <p>Supporting information goes here.</p>
   </article>
 </dialog>
 ```
 
-The `popover` attribute enables:
-- Click outside to close (light dismiss)
-- Escape key to close
-- Automatic backdrop
-- No JavaScript required
+The Popover API provides light dismiss, Escape-key dismissal, and a backdrop without JavaScript. It is deliberately non-modal: the page does not become inert and focus is not contained. Do not use this pattern for a blocking decision.
 
-**Bare `<dialog>` + `showModal()`** is also styled. The `<dialog>` element itself renders as a card surface when there is no inner `<article>`, so the standard HTML5 path looks designed too. Wrap content in `<article>` only when you need the full header / footer / close-button positioning.
+#### Modal dialog
+
+Use a regular `<dialog>` opened with `showModal()` when the rest of the page must become inert. Daft also styles this platform-native modal path:
 
 ```html
-<dialog id="alert">
+<dialog id="alert-dialog" aria-label="Migration status">
   <p><strong>Heads up</strong></p>
   <p>Migration finished with 3 warnings.</p>
-  <button onclick="alert.close()">OK</button>
+  <button onclick="this.closest('dialog').close()">OK</button>
 </dialog>
-<button onclick="alert.showModal()">Open</button>
+<button onclick="document.getElementById('alert-dialog').showModal()">Open</button>
 ```
+
+A bare `<dialog>` renders as a card surface. Wrap its content in `<article>` when you want the full header, footer, and close-button layout.
 
 ### Navigation
 
@@ -1005,26 +1008,19 @@ The default size tracks `--component-height` so avatars align with buttons and i
 
 ### Tooltip
 
-Use `data-tooltip` attribute:
+Use `data-tooltip` on a focusable control so both pointer and keyboard users can reveal it:
 
 ```html
-<span data-tooltip="This is helpful information">Hover me</span>
+<button data-tooltip="Save changes">Save</button>
 ```
 
-**Placement:**
+Tooltip text rendered by CSS is a visual enhancement, not a reliable accessible name or description. Keep meaningful visible text, or provide an accessible name for an icon-only control:
 
 ```html
-<span data-tooltip="Top" data-placement="top">Top</span>
-<span data-tooltip="Bottom" data-placement="bottom">Bottom</span>
-<span data-tooltip="Left" data-placement="left">Left</span>
-<span data-tooltip="Right" data-placement="right">Right</span>
+<button aria-label="Help" data-tooltip="Help" data-placement="right">?</button>
 ```
 
-**On Buttons:**
-
-```html
-<button data-tooltip="Save your changes">Save</button>
-```
+`data-placement` accepts `top` (default), `bottom`, `left`, or `right`.
 
 ### Group
 
@@ -1115,8 +1111,8 @@ Mix in a `<code>`, `<samp>`, `<kbd>`, `<span>`, or `<output>` child and the grou
 Use `aria-busy="true"` for loading indicators:
 
 ```html
-<!-- Button loading -->
-<button aria-busy="true">Saving...</button>
+<!-- aria-busy reports loading; disabled prevents another activation -->
+<button disabled aria-busy="true">Saving...</button>
 
 <!-- Card loading -->
 <article aria-busy="true"></article>
@@ -1357,7 +1353,7 @@ Daft CSS is built with accessibility in mind:
 - **Semantic HTML**: Uses proper elements for meaning
 - **ARIA attributes**: `aria-busy`, `aria-invalid`, `aria-current`, `role="switch"`, etc.
 - **Focus indicators**: Clear `:focus-visible` styles
-- **Color contrast**: WCAG 2.1 compliant color combinations
+- **Color contrast**: The default palette targets WCAG 2.1 AA text contrast; verify contrast after overriding theme tokens
 - **Screen reader support**: `.sr-only` class for hidden labels
 
 ---
@@ -1369,8 +1365,9 @@ Daft styles these elements directly — no classes needed for basic usage:
 | Feature | Syntax |
 |---------|--------|
 | Card | `<article>` |
-| Button | `<button>`, `<a role="button">` |
-| Modal | `<dialog popover>` |
+| Button | `<button>`, button-type `<input>` |
+| Popover dialog | `<dialog popover>` (non-modal) |
+| Modal dialog | `<dialog>` opened with `showModal()` |
 | Accordion | `<details>` |
 | Dropdown | `<details class="dropdown">` |
 | Switch | `<input type="checkbox" role="switch">` |
@@ -1386,7 +1383,11 @@ Daft styles these elements directly — no classes needed for basic usage:
 ## Build Commands
 
 ```bash
-npm run build   # Build CSS to dist/
-npm run watch   # Watch for changes
-npm run dev     # Local dev server
+npm run build        # Build CSS to dist/ and docs/dist/
+npm run watch        # Watch and rebuild expanded CSS on changes
+npm run dev          # Local documentation server
+npm run check        # Validate generated CSS, docs, and skill links
+npm test             # Run cross-browser regressions and automated accessibility checks
+npm run test:browser # Run regressions in Chromium, Firefox, and WebKit
+npm run test:a11y    # Check all docs pages in light and dark themes
 ```
