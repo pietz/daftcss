@@ -85,6 +85,30 @@ test("image submit controls retain their intrinsic control dimensions", async ({
   expect(styles).toEqual({ borderWidth: "0px", height: "16px", padding: "0px", width: "24px" });
 });
 
+test("aria-pressed buttons share selected visuals with current buttons", async ({ page }) => {
+  await page.goto("/components/");
+
+  const states = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <div role="group">
+        <button id="pressed" class="outline" aria-pressed="true">Pressed</button>
+        <button id="current" class="outline" aria-current="true">Current</button>
+      </div>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        background: style.backgroundColor,
+        border: style.borderTopColor,
+        color: style.color,
+        zIndex: style.zIndex,
+      };
+    };
+    return { current: read("current"), pressed: read("pressed") };
+  });
+
+  expect(states.pressed).toEqual(states.current);
+});
+
 test("aria-disabled buttons keep pointer behavior for application logic", async ({ page }) => {
   await page.goto("/components/");
 

@@ -42,9 +42,8 @@
   margin-left: calc(var(--border-width) * -1);
 }
 
-/* Active button raises above siblings so its border stays visible */
-:is([role="group"], [role="search"]) > button[aria-current="true"],
-:is([role="group"], [role="search"]) > [role="button"][aria-current="true"] {
+/* Selected/current button raises above siblings so its border stays visible */
+:is([role="group"], [role="search"]) > :is(button, [role="button"]):is([aria-current="true"], [aria-pressed="true"]) {
   z-index: 1;
 }
 

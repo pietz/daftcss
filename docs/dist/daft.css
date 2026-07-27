@@ -1357,7 +1357,7 @@
     }
   }
 
-  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary)[aria-current="true"] {
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary):is([aria-current="true"], [aria-pressed="true"]) {
     background-color: var(--primary);
     color: var(--primary-foreground);
     border-color: var(--primary);
@@ -2366,7 +2366,7 @@
     margin-left: calc(var(--border-width) * -1);
   }
 
-  :is([role="group"], [role="search"]) > button[aria-current="true"], :is([role="group"], [role="search"]) > [role="button"][aria-current="true"] {
+  :is([role="group"], [role="search"]) > :is(button, [role="button"]):is([aria-current="true"], [aria-pressed="true"]) {
     z-index: 1;
   }
 

@@ -410,7 +410,7 @@ A round container for initials, an image, or an SVG icon.
 
 ### Groups
 
-`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width. Add a `<input type="search">` child and the cluster automatically takes the pill (fully-rounded) aesthetic — same shape as a `role="search"` form.
+`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. For toggle buttons or segmented controls, mark the selected button with `aria-pressed="true"`; reserve `aria-current` for a genuinely current navigation or item state. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width. Add a `<input type="search">` child and the cluster automatically takes the pill (fully-rounded) aesthetic — same shape as a `role="search"` form.
 
 ```html
 <div role="group">

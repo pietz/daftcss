@@ -131,8 +131,8 @@ a[role="button"] {
   }
 }
 
-/* Active/current variant (e.g., selected item in a group) */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary)[aria-current="true"] {
+/* Selected/current variant (e.g., a toggle or current item in a group) */
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], details.dropdown > summary):is([aria-current="true"], [aria-pressed="true"]) {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);

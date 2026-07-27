@@ -353,7 +353,7 @@ All typography is styled automatically. No classes needed.
 
 ## Buttons
 
-Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation.
+Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation. For toggle buttons and segmented controls, use `aria-pressed="true"` to identify the selected state. Reserve `aria-current` for a genuinely current navigation or item state.
 
 ### Basic Button
 
@@ -1113,7 +1113,7 @@ Use `role="group"` for button groups and input groups:
 
 ```html
 <div role="group">
-  <button class="outline" aria-current="true">Day</button>
+  <button class="outline" aria-pressed="true">Day</button>
   <button class="outline">Week</button>
   <button class="outline">Month</button>
 </div>
@@ -1432,7 +1432,7 @@ See [SLIDES.md](SLIDES.md) for the full reference (role modifiers, weighted grid
 Daft CSS is built with accessibility in mind:
 
 - **Semantic HTML**: Uses proper elements for meaning
-- **ARIA attributes**: `aria-busy`, `aria-invalid`, `aria-current`, `role="switch"`, etc.
+- **ARIA attributes**: `aria-busy`, `aria-invalid`, `aria-current`, `aria-pressed`, `role="switch"`, etc.
 - **Focus indicators**: Clear `:focus-visible` styles
 - **Color contrast**: The default palette targets WCAG 2.1 AA text contrast; verify contrast after overriding theme tokens
 - **Screen reader support**: `.sr-only` class for hidden labels
@@ -1454,6 +1454,7 @@ Daft styles these elements directly — no classes needed for basic usage:
 | Switch | `<input type="checkbox" role="switch">` |
 | Loading | `aria-busy="true"` |
 | Validation | `aria-invalid="true|false"` |
+| Selected toggle | `aria-pressed="true"` |
 | Active nav | `aria-current="page"` |
 | Tooltip | `data-tooltip="text"` |
 | Grid | `.grid` |

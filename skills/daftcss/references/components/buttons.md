@@ -55,7 +55,8 @@ Use native `<button>` for actions and `<a href>` for navigation. Daft also style
 - `.small` and `.large`: compact and roomy heights.
 - `.icon`: square, icon-only sizing. Combine with `.small` or `.large`.
 - `.full-width`: fills the available inline width.
-- `aria-current="true"`: selected/current state, useful in a control group.
+- `aria-pressed="true"`: selected state for a toggle button or segmented control.
+- `aria-current="true"`: current navigation or item state, not a toggle state.
 
 Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`.
 
@@ -77,12 +78,12 @@ Buttons have hover and active feedback, and a visible focus ring on `:focus-visi
 
 ## Composition
 
-Use `<div role="group">` to merge adjacent controls. Apply `.small` or `.large` to the group to size its button children; use `aria-current="true"` on the selected option.
+Use `<div role="group">` to merge adjacent controls. Apply `.small` or `.large` to the group to size its button children. For a toggle or segmented control, use `aria-pressed="true"` on the selected option; reserve `aria-current` for a genuinely current navigation or item state.
 
 ```html
 <div role="group" aria-label="View">
   <button class="outline" type="button">Day</button>
-  <button class="outline" type="button" aria-current="true">Week</button>
+  <button class="outline" type="button" aria-pressed="true">Week</button>
   <button class="outline" type="button">Month</button>
 </div>
 ```

@@ -11,7 +11,7 @@ Daft also shares much of the cluster styling with `[role="search"]`, but that ro
 ```html
 <div role="group" aria-label="Time range">
   <button class="outline">Day</button>
-  <button class="outline" aria-current="true">Week</button>
+  <button class="outline" aria-pressed="true">Week</button>
   <button class="outline">Month</button>
 </div>
 ```
@@ -20,6 +20,7 @@ Daft also shares much of the cluster styling with `[role="search"]`, but that ro
 
 - Put `role="group"` on the container and place segments as direct children.
 - Use native controls where possible. `role="group"` provides grouping semantics, not button or selection behavior.
+- Use `aria-pressed="true"` for a selected toggle or segmented-control button. Keep `aria-current` for a genuinely current navigation or item state.
 - Use `<fieldset role="group">` for a full-width field grouping; retain a `<legend>` when it names the form controls.
 - Use `<form role="search">` for a search form, not `role="group"` merely to obtain the visual treatment.
 
@@ -54,7 +55,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 All direct children of either `[role="group"]` or `[role="search"]` flex and lose their bottom margin. Their adjacent corners are squared, regardless of child element type.
 
-Border overlap is narrower in scope: it applies only to direct `button`, submit/button inputs, `[role="button"]`, `input`, `select`, and `code`, `samp`, `kbd`, `span`, or `output` segments. Direct `<select>` elements size to content; direct buttons do not flex-grow. Focused direct children rise above siblings, as do direct current buttons, so their borders and focus ring remain visible.
+Border overlap is narrower in scope: it applies only to direct `button`, submit/button inputs, `[role="button"]`, `input`, `select`, and `code`, `samp`, `kbd`, `span`, or `output` segments. Direct `<select>` elements size to content; direct buttons do not flex-grow. Focused direct children rise above siblings, as do direct selected/current buttons, so their borders and focus ring remain visible.
 
 A group does not implement selection, roving focus, keyboard navigation, form submission, or state management. Supply those behaviors when the controls need them.
 
