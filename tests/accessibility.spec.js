@@ -35,6 +35,31 @@ for (const path of discoverHtmlRoutes()) {
 }
 
 for (const theme of ["light", "dark"]) {
+  test(`the canonical breadcrumb has a named navigation landmark and no automated WCAG A/AA violations in ${theme} theme`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    await page.goto("/components/");
+    await page.evaluate((value) => {
+      document.documentElement.dataset.theme = value;
+      document.body.innerHTML = `
+        <main>
+          <nav aria-label="breadcrumb">
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#services">Services</a></li>
+              <li>Current</li>
+            </ul>
+          </nav>
+        </main>`;
+    }, theme);
+
+    await expect(page.getByRole("navigation", { name: "breadcrumb" })).toHaveCount(1);
+    await expect(page.getByRole("navigation", { name: "breadcrumb" }).getByText("Current", { exact: true })).toBeVisible();
+    await expect(page.locator('[aria-label="breadcrumb"] [aria-current]')).toHaveCount(0);
+
+    const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+    expect(results.violations, formatViolations(results.violations)).toEqual([]);
+  });
+
   test(`the open mobile top navigation has no automated WCAG A/AA violations in ${theme} theme`, async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.emulateMedia({ colorScheme: theme });

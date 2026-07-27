@@ -1003,11 +1003,13 @@ This pattern is for a single-row sticky top bar, not an arbitrarily placed trigg
 **Breadcrumb:**
 
 ```html
-<ul aria-label="Breadcrumb">
-  <li><a href="/">Home</a></li>
-  <li><a href="/products">Products</a></li>
-  <li>Current Page</li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/products">Products</a></li>
+    <li>Current Page</li>
+  </ul>
+</nav>
 ```
 
 ### Progress

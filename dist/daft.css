@@ -2087,7 +2087,12 @@
     }
   }
 
-  ul[aria-label="Breadcrumb" i] {
+  nav[aria-label="breadcrumb" i] {
+    padding-block: 0;
+    display: block;
+  }
+
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) {
     font-size: var(--text-sm);
     flex-wrap: wrap;
     align-items: center;
@@ -2098,7 +2103,7 @@
     display: flex;
   }
 
-  ul[aria-label="Breadcrumb" i] > li {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li {
     line-height: var(--line-height);
     align-items: center;
     margin: 0;
@@ -2106,17 +2111,17 @@
     display: flex;
   }
 
-  ul[aria-label="Breadcrumb" i] > li:not(:first-child) {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:first-child) {
     margin-inline-start: var(--spacing-sm);
   }
 
-  ul[aria-label="Breadcrumb" i] > li:not(:last-child):after {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:last-child):after {
     content: var(--breadcrumb-divider);
     padding: 0 var(--spacing-sm);
     color: var(--muted-foreground);
   }
 
-  ul[aria-label="Breadcrumb" i] a {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a {
     min-block-size: 24px;
     color: inherit;
     font-weight: var(--font-medium);
@@ -2125,17 +2130,17 @@
     display: inline-flex;
   }
 
-  ul[aria-label="Breadcrumb" i] a:hover {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a:hover {
     text-decoration: underline;
   }
 
-  ul[aria-label="Breadcrumb" i] a[aria-current]:not([aria-current="false"]) {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a[aria-current]:not([aria-current="false"]) {
     color: inherit;
     pointer-events: none;
     text-decoration: none;
   }
 
-  ul[aria-label="Breadcrumb" i] > li:last-child {
+  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:last-child {
     color: var(--foreground);
     font-weight: var(--font-medium);
   }

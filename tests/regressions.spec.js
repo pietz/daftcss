@@ -398,6 +398,93 @@ test("responsive top navigation returns to the desktop bar across a resize", asy
   expect(closedDesktop).toEqual({ open: false, position: "static" });
 });
 
+test("canonical and legacy breadcrumbs retain their trail styling and keyboard focus", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <nav id="canonical" aria-label="BREADCRUMB">
+          <ul id="canonical-list">
+            <li><a id="canonical-home" href="#home">Home</a></li>
+            <li><a id="canonical-services" href="#services">Services</a></li>
+            <li id="canonical-current">Current</li>
+          </ul>
+        </nav>
+        <ul id="legacy" aria-label="Breadcrumb">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li id="legacy-current">Current</li>
+        </ul>
+      </main>`;
+  });
+
+  const breadcrumbs = await page.evaluate(() => {
+    const read = (id) => {
+      const list = document.getElementById(id);
+      const current = list.querySelector("li:last-child");
+      return {
+        display: getComputedStyle(list).display,
+        firstDivider: getComputedStyle(list.firstElementChild, "::after").content,
+        lastDivider: getComputedStyle(current, "::after").content,
+        listStyle: getComputedStyle(list).listStyleType,
+        padding: getComputedStyle(list).paddingLeft,
+        current: {
+          color: getComputedStyle(current).color,
+          fontWeight: getComputedStyle(current).fontWeight,
+        },
+      };
+    };
+    const canonical = document.getElementById("canonical");
+    const canonicalList = canonical.querySelector("ul");
+    const canonicalBreadcrumb = read("canonical-list");
+    const legacyBreadcrumb = read("legacy");
+    const probe = document.createElement("span");
+    probe.style.color = "var(--foreground)";
+    document.body.append(probe);
+    const dividerBeforeOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
+    canonical.style.setProperty("--breadcrumb-divider", '"/"');
+    const dividerAfterOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
+    return {
+      canonical: canonicalBreadcrumb,
+      canonicalWrapper: {
+        display: getComputedStyle(canonical).display,
+        height: canonical.getBoundingClientRect().height,
+        listHeight: canonicalList.getBoundingClientRect().height,
+        paddingBlock: getComputedStyle(canonical).paddingBlock,
+      },
+      dividerAfterOverride,
+      dividerBeforeOverride,
+      foreground: getComputedStyle(probe).color,
+      legacy: legacyBreadcrumb,
+    };
+  });
+
+  expect(breadcrumbs.canonical).toMatchObject({
+    display: "flex",
+    firstDivider: expect.stringContaining("›"),
+    lastDivider: "none",
+    listStyle: "none",
+    padding: "0px",
+  });
+  expect(breadcrumbs.legacy).toEqual(breadcrumbs.canonical);
+  expect(breadcrumbs.dividerBeforeOverride).toContain("›");
+  expect(breadcrumbs.dividerAfterOverride).toContain("/");
+  expect(breadcrumbs.canonical.current).toEqual({
+    color: breadcrumbs.foreground,
+    fontWeight: "500",
+  });
+  expect(breadcrumbs.canonicalWrapper).toMatchObject({ display: "block", paddingBlock: "0px" });
+  expect(breadcrumbs.canonicalWrapper.height).toBeCloseTo(breadcrumbs.canonicalWrapper.listHeight, 5);
+
+  const focusability = await page.locator("#canonical-home").evaluate((link) => link.tabIndex);
+  expect(focusability).toBe(0);
+  await page.locator("#canonical-home").focus();
+  await expect(page.locator("#canonical-home")).toBeFocused();
+  await expect(page.locator("#canonical-home")).toHaveCSS("outline-style", "solid");
+  await expect(page.locator("#canonical-home")).toHaveCSS("outline-width", "2px");
+});
+
 test("canonical Lucide SVGs follow the control icon pattern", async ({ page }) => {
   await page.goto("/components/");
   await page.evaluate(() => {

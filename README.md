@@ -357,6 +357,18 @@ For a sticky top bar, opt into one responsive Popover-backed link list. The list
 
 This is specifically a single-row sticky top-navigation pattern, not arbitrary trigger anchoring. If you customize the bar height, set `--top-nav-height` to its actual height. If a mobile popover is open during a resize to desktop, it is restyled into the desktop position but remains natively open in the top layer until dismissed.
 
+For a location trail, use a named navigation landmark with a plain-text final item:
+
+```html
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Services</a></li>
+    <li>Current</li>
+  </ul>
+</nav>
+```
+
 ### Sidebar
 
 Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add the `popover` attribute and a `.sidebar-toggle` button for a mobile slide-out drawer — no JavaScript.

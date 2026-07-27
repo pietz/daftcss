@@ -173,8 +173,14 @@ nav details.dropdown > ul {
   }
 }
 
-/* Breadcrumb — standalone <ul aria-label="Breadcrumb">, no <nav> wrapper */
-ul[aria-label="Breadcrumb" i] {
+/* Breadcrumb — canonical <nav aria-label="breadcrumb"><ul>; retain bare list support. */
+nav[aria-label="breadcrumb" i] {
+  /* Override the ordinary nav bar layout so a breadcrumb remains a simple trail. */
+  display: block;
+  padding-block: 0;
+}
+
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -185,7 +191,7 @@ ul[aria-label="Breadcrumb" i] {
   font-size: var(--text-sm);
 }
 
-ul[aria-label="Breadcrumb" i] > li {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li {
   display: flex;
   align-items: center;
   margin: 0;
@@ -193,17 +199,17 @@ ul[aria-label="Breadcrumb" i] > li {
   line-height: var(--line-height);
 }
 
-ul[aria-label="Breadcrumb" i] > li:not(:first-child) {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:first-child) {
   margin-inline-start: var(--spacing-sm);
 }
 
-ul[aria-label="Breadcrumb" i] > li:not(:last-child)::after {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:last-child)::after {
   content: var(--breadcrumb-divider);
   padding: 0 var(--spacing-sm);
   color: var(--muted-foreground);
 }
 
-ul[aria-label="Breadcrumb" i] a {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a {
   display: inline-flex;
   align-items: center;
   min-block-size: 24px;
@@ -212,17 +218,17 @@ ul[aria-label="Breadcrumb" i] a {
   text-decoration: none;
 }
 
-ul[aria-label="Breadcrumb" i] a:hover {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a:hover {
   text-decoration: underline;
 }
 
-ul[aria-label="Breadcrumb" i] a[aria-current]:not([aria-current="false"]) {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a[aria-current]:not([aria-current="false"]) {
   color: inherit;
   text-decoration: none;
   pointer-events: none;
 }
 
-ul[aria-label="Breadcrumb" i] > li:last-child {
+:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:last-child {
   color: var(--foreground);
   font-weight: var(--font-medium);
 }
