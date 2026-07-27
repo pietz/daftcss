@@ -239,66 +239,61 @@ test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   expect(gutters.right).toBeGreaterThanOrEqual(16);
 });
 
-test("sidebar links provide compact hover and current-page states", async ({ page }) => {
+test("sidebar links provide adaptive hover and current-page states", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");
 
-  await page.evaluate(() => {
-    document.body.innerHTML = `
-      <aside class="sidebar"><nav><ul>
-        <li><a href="#current" aria-current="page">Current page</a></li>
-        <li><a href="#inactive">Inactive page</a></li>
-        <li><a href="#false" aria-current="false">False current page</a></li>
-      </ul></nav></aside>`;
-  });
+  for (const theme of ["light", "dark"]) {
+    await page.evaluate((value) => {
+      document.documentElement.dataset.theme = value;
+      document.body.innerHTML = `
+        <aside class="sidebar"><nav><ul>
+          <li><a href="#current" aria-current="page">Current page</a></li>
+          <li><a href="#inactive">Inactive page</a></li>
+          <li><a href="#false" aria-current="false">False current page</a></li>
+        </ul></nav></aside>`;
+    }, theme);
 
-  const states = await page.evaluate(() => {
-    const current = document.querySelector('a[href="#current"]');
-    const inactive = document.querySelector('a[href="#inactive"]');
-    const falseCurrent = document.querySelector('a[href="#false"]');
-    const probe = document.createElement("span");
-    probe.style.cssText = "background: var(--accent); color: var(--accent-foreground);";
-    document.body.append(probe);
-    const accent = getComputedStyle(probe);
-    const currentStyle = getComputedStyle(current);
-    const falseCurrentStyle = getComputedStyle(falseCurrent);
-    return {
-      accentBackground: accent.backgroundColor,
-      accentForeground: accent.color,
-      current: {
-        background: currentStyle.backgroundColor,
-        color: currentStyle.color,
-        fontWeight: currentStyle.fontWeight,
-      },
-      falseCurrentBackground: falseCurrentStyle.backgroundColor,
-      geometry: {
-        borderRadius: getComputedStyle(inactive).borderRadius,
-        paddingLeft: getComputedStyle(inactive).paddingLeft,
-        paddingRight: getComputedStyle(inactive).paddingRight,
-        width: inactive.getBoundingClientRect().width,
-      },
-    };
-  });
+    const states = await page.evaluate(() => {
+      const sidebar = document.querySelector(".sidebar");
+      const current = document.querySelector('a[href="#current"]');
+      const inactive = document.querySelector('a[href="#inactive"]');
+      const falseCurrent = document.querySelector('a[href="#false"]');
+      return {
+        sidebarBackground: getComputedStyle(sidebar).backgroundColor,
+        inactiveColor: getComputedStyle(inactive).color,
+        current: {
+          background: getComputedStyle(current).backgroundColor,
+          color: getComputedStyle(current).color,
+          fontWeight: getComputedStyle(current).fontWeight,
+        },
+        falseCurrentBackground: getComputedStyle(falseCurrent).backgroundColor,
+        geometry: {
+          borderRadius: getComputedStyle(inactive).borderRadius,
+          paddingLeft: getComputedStyle(inactive).paddingLeft,
+          paddingRight: getComputedStyle(inactive).paddingRight,
+          width: inactive.getBoundingClientRect().width,
+        },
+      };
+    });
 
-  expect(states.current).toEqual({
-    background: states.accentBackground,
-    color: states.accentForeground,
-    fontWeight: "600",
-  });
-  expect(states.falseCurrentBackground).toBe("rgba(0, 0, 0, 0)");
-  expect(states.geometry).toEqual({ borderRadius: "6px", paddingLeft: "8px", paddingRight: "8px", width: 192 });
+    expect(states.current.background).not.toBe(states.sidebarBackground);
+    expect(states.current.color).toBe(states.inactiveColor);
+    expect(states.current.fontWeight).toBe("600");
+    expect(states.falseCurrentBackground).toBe("rgba(0, 0, 0, 0)");
+    expect(states.geometry).toEqual({ borderRadius: "6px", paddingLeft: "8px", paddingRight: "8px", width: 192 });
 
-  await page.locator('a[href="#inactive"]').hover();
-  await page.waitForTimeout(200);
-  const hover = await page.locator('a[href="#inactive"]').evaluate((element) => {
-    const style = getComputedStyle(element);
-    return { background: style.backgroundColor, color: style.color, textDecoration: style.textDecorationLine };
-  });
-  expect(hover).toEqual({
-    background: states.accentBackground,
-    color: states.accentForeground,
-    textDecoration: "none",
-  });
+    await page.locator('a[href="#inactive"]').hover();
+    await page.waitForTimeout(200);
+    const hover = await page.locator('a[href="#inactive"]').evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { background: style.backgroundColor, color: style.color, textDecoration: style.textDecorationLine };
+    });
+    expect(hover.background).not.toBe(states.sidebarBackground);
+    expect(hover.background).not.toBe(states.current.background);
+    expect(hover.color).toBe(states.inactiveColor);
+    expect(hover.textDecoration).toBe("none");
+  }
 });
 
 test("a bare sidebar toggle is hidden at desktop widths", async ({ page }) => {
