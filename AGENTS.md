@@ -27,7 +27,7 @@ Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/d
 **Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
 - Bundles and minifies only (no transforms)
 - Preserves modern CSS like `light-dark()` as-is
-- Keeps output small (~61 KB vs larger transformed builds with polyfills)
+- Keeps output small (~66 KB vs larger transformed builds with polyfills)
 
 If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 

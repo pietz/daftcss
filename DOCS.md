@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~61 KB minified)
+- Minimal footprint (~66 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
