@@ -374,6 +374,53 @@ test("responsive top navigation returns to the desktop bar across a resize", asy
   expect(closedDesktop).toEqual({ open: false, position: "static" });
 });
 
+test("canonical Lucide SVGs follow the control icon pattern", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty("--icon-size", "19px");
+    document.body.innerHTML = `
+      <button id="icon-only" class="icon ghost" type="button" aria-label="Search" style="color: rgb(12 34 56)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+      </button>
+      <button id="icon-text" type="button" style="color: rgb(65 43 21)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        Search projects
+      </button>`;
+  });
+
+  await expect(page.getByRole("button", { name: "Search", exact: true })).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Search projects", exact: true })).toHaveCount(1);
+
+  const controls = await page.locator("#icon-only, #icon-text").evaluateAll((buttons) => buttons.map((button) => {
+    const svg = button.querySelector("svg");
+    const style = getComputedStyle(svg);
+    return {
+      ariaHidden: svg.getAttribute("aria-hidden"),
+      color: getComputedStyle(button).color,
+      fill: style.fill,
+      height: style.height,
+      intrinsicHeight: svg.getAttribute("height"),
+      intrinsicWidth: svg.getAttribute("width"),
+      stroke: style.stroke,
+      viewBox: svg.getAttribute("viewBox"),
+      width: style.width,
+    };
+  }));
+
+  for (const control of controls) {
+    expect(control).toMatchObject({
+      ariaHidden: "true",
+      fill: "none",
+      height: "19px",
+      intrinsicHeight: "24",
+      intrinsicWidth: "24",
+      viewBox: "0 0 24 24",
+      width: "19px",
+    });
+    expect(control.stroke).toBe(control.color);
+  }
+});
+
 test("SVG defaults do not override an explicit fill attribute", async ({ page }) => {
   await page.goto("/components/");
 
@@ -392,6 +439,33 @@ test("SVG defaults do not override an explicit fill attribute", async ({ page })
 
   expect(fills.outlined).toBe("none");
   expect(fills.solid).not.toBe("none");
+});
+
+test("dialog SVG close controls do not receive a duplicate fallback icon", async ({ page }) => {
+  await page.goto("/components/");
+
+  const closeIcons = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <dialog open aria-label="Icon test"><article>
+        <button id="svg-close" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <button id="empty-close" aria-label="Close"></button>
+      </article></dialog>`;
+    const svgClose = document.getElementById("svg-close");
+    const emptyClose = document.getElementById("empty-close");
+    return {
+      emptyContent: getComputedStyle(emptyClose, "::before").content,
+      emptyMask: getComputedStyle(emptyClose, "::before").maskImage,
+      svgContent: getComputedStyle(svgClose, "::before").content,
+      svgCount: svgClose.querySelectorAll("svg").length,
+    };
+  });
+
+  expect(closeIcons.svgCount).toBe(1);
+  expect(closeIcons.svgContent).toBe("none");
+  expect(closeIcons.emptyContent).toBe('\"\"');
+  expect(closeIcons.emptyMask).toContain("data:image/svg+xml");
 });
 
 test("dialog popovers keep an outside hit area for native light dismiss", async ({ page }) => {

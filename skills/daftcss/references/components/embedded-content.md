@@ -44,7 +44,7 @@ Daft styles native media and embedded-document elements without component classe
 ### Iframe and SVG
 
 - Give every iframe a concise, descriptive `title` that identifies the embedded content or purpose. Do not use its URL or generic text such as "iframe".
-- Use inline `<svg>` for an icon or graphic. Name meaningful SVG with `role="img"` and a `<title>` or `aria-label`; mark decorative SVG `aria-hidden="true"`.
+- Use inline `<svg>` for an icon or graphic. Name meaningful SVG with `role="img"` and a `<title>` or `aria-label`; mark decorative SVG `aria-hidden="true"`. For interface icons, use exact official Lucide paths from lucide.dev or an official package rather than approximations, emoji, or Unicode glyphs; Daft itself has no icon dependency.
 
 ## Variants and options
 

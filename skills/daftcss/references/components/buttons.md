@@ -15,12 +15,32 @@ Use native `<button>` for actions and `<a href>` for navigation. Daft also style
 
 - Set `type="button"` for a non-submit button inside a form.
 - Give an icon-only button an accessible name with `aria-label`.
+- Put `.icon` on the icon-only control, never on its SVG. Place the SVG directly inside the control and mark it `aria-hidden="true"` when the control supplies the name.
+- For icon plus text, use an ordinary button without `.icon`; direct-child SVG sizing and the button gap already apply.
+- Retrieve exact official Lucide paths from [lucide.dev](https://lucide.dev) or an official package. Do not approximate paths or substitute emoji or Unicode glyphs. Daft has no Lucide dependency, though framework users may render official Lucide components as the direct child.
 - Use `disabled` for a disabled native button. `[aria-disabled="true"]` receives the visual disabled treatment but does not disable native behavior.
 - Prefer a native button over recreating button semantics with `[role="button"]`. If a custom button is unavoidable, implement keyboard activation and state behavior.
 
 ```html
-<button class="icon ghost" type="button" aria-label="Settings">
-  <svg aria-hidden="true">…</svg>
+<button class="icon ghost" type="button" aria-label="Search">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="m21 21-4.34-4.34"/>
+    <circle cx="11" cy="11" r="8"/>
+  </svg>
+</button>
+
+<button type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="m21 21-4.34-4.34"/>
+    <circle cx="11" cy="11" r="8"/>
+  </svg>
+  Search
 </button>
 ```
 
@@ -72,4 +92,6 @@ Use `<div role="group">` to merge adjacent controls. Apply `.small` or `.large` 
 - Do not use `.btn`, `.btn-primary`, or a custom button wrapper. Bare `<button>` is primary.
 - Do not use `<a role="button">` for an in-page action.
 - Do not omit an accessible name from an icon-only button.
+- Do not put `.icon` on the SVG or on a button that also has visible text.
+- Do not use approximate icon paths, emoji, random Unicode glyphs, or Lucide-specific classes as a Daft API.
 - Do not rely on `aria-disabled` to prevent a native button action.

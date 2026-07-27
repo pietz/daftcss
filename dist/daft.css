@@ -1907,9 +1907,13 @@
       color: var(--accent-foreground);
     }
 
-    &:before {
-      content: "✕";
-      font-size: var(--text-base);
+    &:not(:has(svg)):before {
+      content: "";
+      width: var(--icon-size);
+      height: var(--icon-size);
+      background-color: currentColor;
+      display: block;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E") center / contain no-repeat;
     }
   }
 

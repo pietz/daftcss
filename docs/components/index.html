@@ -111,13 +111,13 @@
       <ul>
         <li>
           <button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open component navigation">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
           </button>
         </li>
         <li><a href="../"><strong>daft.css</strong></a></li>
       </ul>
       <button class="top-nav-toggle ghost icon" type="button" popovertarget="primary-menu" aria-label="Toggle primary navigation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
       </button>
       <ul id="primary-menu" class="top-nav-menu" popover>
         <li><a href="../components/" role="button" class="ghost">Components</a></li>
@@ -138,7 +138,7 @@
           </details>
         </li>
         <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
-        <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme">🌓</button></li>
+        <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg></button></li>
       </ul>
     </div>
   </nav>
@@ -479,18 +479,20 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
       </div>
 
-      <h3>Icon Buttons</h3>
+      <h3>Icons and Icon Buttons</h3>
+      <p>Daft sizes direct-child SVGs and makes only controls with <code>.icon</code> square. Use <code>.icon</code> for icon-only controls, not for SVGs or controls that also contain text.</p>
       <div class="grid">
         <article>
           <p>
-            <button class="icon" aria-label="Close">×</button>
-            <button class="icon ghost" aria-label="Settings">⚙</button>
-            <button class="icon outline" aria-label="Search">🔍</button>
-            <button class="icon ghost rounded-full" aria-label="More">⋯</button>
+            <button class="icon" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+            <button class="icon ghost" aria-label="Settings"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="icon outline" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></button>
+            <button class="icon ghost rounded-full" aria-label="More"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+            <button class="outline"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>Search</button>
           </p>
           <p>
             <details class="dropdown">
-              <summary class="icon ghost" aria-label="Menu">⋯</summary>
+              <summary class="icon ghost" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></summary>
               <ul>
                 <li><a href="#">Edit</a></li>
                 <li><a href="#">Duplicate</a></li>
@@ -500,15 +502,18 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           </p>
         </article>
         <article>
-          <pre><code>&lt;button class="icon" aria-label="Close"&gt;×&lt;/button&gt;
-&lt;button class="icon ghost" aria-label="Settings"&gt;⚙&lt;/button&gt;
-&lt;button class="icon outline" aria-label="Search"&gt;🔍&lt;/button&gt;
-&lt;button class="icon ghost rounded-full" aria-label="More"&gt;⋯&lt;/button&gt;
+          <pre><code>&lt;button class="icon" aria-label="Close"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M18 6 6 18&quot;/&gt;&lt;path d=&quot;m6 6 12 12&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;button class="icon ghost" aria-label="Settings"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;button class="icon outline" aria-label="Search"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;m21 21-4.34-4.34&quot;/&gt;&lt;circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;button class="icon ghost rounded-full" aria-label="More"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;circle cx=&quot;19&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;circle cx=&quot;5&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;button class="outline"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;m21 21-4.34-4.34&quot;/&gt;&lt;circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;/&gt;&lt;/svg&gt;Search&lt;/button&gt;
 
 &lt;details class="dropdown"&gt;
-  &lt;summary class="icon ghost" aria-label="Menu"&gt;⋯&lt;/summary&gt;
+  &lt;summary class="icon ghost" aria-label="Menu"&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;circle cx=&quot;19&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;circle cx=&quot;5&quot; cy=&quot;12&quot; r=&quot;1&quot;/&gt;&lt;/svg&gt;&lt;/summary&gt;
   &lt;ul&gt;
     &lt;li&gt;&lt;a href="#"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Duplicate&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Delete&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/details&gt;</code></pre>
         </article>
@@ -704,10 +709,13 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;button class="top-nav-toggle ghost icon"
           popovertarget="primary-menu"
           aria-label="Toggle primary navigation"&gt;
-    &lt;svg viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" aria-hidden="true"&gt;
-      &lt;path d="M4 7h16M4 12h16M4 17h16"/&gt;
+    &lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true"&gt;
+      &lt;path d="M4 5h16"/&gt;
+      &lt;path d="M4 12h16"/&gt;
+      &lt;path d="M4 19h16"/&gt;
     &lt;/svg&gt;
   &lt;/button&gt;
   &lt;ul id="primary-menu" class="top-nav-menu" popover&gt;
@@ -924,7 +932,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <button popovertarget="demo-dialog">Open Help</button>
           <dialog id="demo-dialog" popover aria-label="Help">
             <article>
-              <button aria-label="Close" popovertarget="demo-dialog" popovertargetaction="hide"></button>
+              <button aria-label="Close" popovertarget="demo-dialog" popovertargetaction="hide"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
               <header><strong>Help</strong></header>
               <p>Supporting information goes here.</p>
             </article>
@@ -937,7 +945,15 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;article&gt;
     &lt;button aria-label="Close"
             popovertarget="demo-dialog"
-            popovertargetaction="hide"&gt;&lt;/button&gt;
+            popovertargetaction="hide"&gt;
+      &lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true"&gt;
+        &lt;path d="M18 6 6 18"/&gt;
+        &lt;path d="m6 6 12 12"/&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
     &lt;header&gt;&lt;strong&gt;Help&lt;/strong&gt;&lt;/header&gt;
     &lt;p&gt;Supporting information goes here.&lt;/p&gt;
   &lt;/article&gt;

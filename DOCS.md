@@ -243,7 +243,7 @@ Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar.
 <header class="container-fluid">
   <button class="ghost icon sidebar-toggle"
           popovertarget="sidebar"
-          aria-label="Open menu">☰</button>
+          aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
   <strong>Admin</strong>
 </header>
 
@@ -382,12 +382,39 @@ Buttons are styled automatically. Use `<button>` or a button-type `<input>` for 
 <button class="large">Large</button>
 ```
 
-### Icon Button
+### Icons and Icon Buttons
+
+Daft provides an icon pattern, not an icon library. `.icon` belongs on an icon-only control and makes that control square. Give the control an accessible name with `aria-label`, then place an official SVG directly inside it with `aria-hidden="true"` when the control supplies the name.
 
 ```html
-<button class="icon" aria-label="Menu">☰</button>
-<button class="icon small" aria-label="Close">×</button>
+<button class="icon" type="button" aria-label="Menu">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="M4 5h16"/>
+    <path d="M4 12h16"/>
+    <path d="M4 19h16"/>
+  </svg>
+</button>
 ```
+
+For icon plus text, use an ordinary control without `.icon`. Direct-child SVGs inherit `currentColor`, size to `--icon-size`, and use the control's existing gap.
+
+```html
+<button type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="m21 21-4.34-4.34"/>
+    <circle cx="11" cy="11" r="8"/>
+  </svg>
+  Search
+</button>
+```
+
+Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.dev) or an official Lucide package. Do not approximate icons or substitute emoji or Unicode glyphs. Daft has no Lucide dependency; framework users may render official Lucide components as direct children of controls.
 
 ### Full Width
 
@@ -867,7 +894,15 @@ For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover 
 <dialog id="help-dialog" popover aria-label="Help">
   <article>
     <header>
-      <button aria-label="Close" popovertarget="help-dialog"></button>
+      <button aria-label="Close" popovertarget="help-dialog">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
       <strong>Help</strong>
     </header>
     <p>Supporting information goes here.</p>
@@ -918,9 +953,13 @@ Opt in with one Popover-backed link list. Below 768px, the icon-only trigger ope
   <ul><li><a href="/"><strong>Brand</strong></a></li></ul>
   <button class="top-nav-toggle ghost icon" type="button"
           popovertarget="primary-menu" aria-label="Toggle primary navigation">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" aria-hidden="true">
-      <path d="M4 7h16M4 12h16M4 17h16"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M4 5h16"/>
+      <path d="M4 12h16"/>
+      <path d="M4 19h16"/>
     </svg>
   </button>
   <ul id="primary-menu" class="top-nav-menu" popover>

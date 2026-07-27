@@ -144,6 +144,32 @@ See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent referen
 <button disabled aria-busy="true">Loading</button>
 ```
 
+Daft provides an icon pattern, not an icon library. Put `.icon` on an icon-only square control, give the control an accessible name, and place an official inline SVG directly inside it. For icon plus text, use an ordinary control without `.icon`; the same direct-child SVG sizing and flex gap apply.
+
+```html
+<button class="icon ghost" type="button" aria-label="Search">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="m21 21-4.34-4.34"/>
+    <circle cx="11" cy="11" r="8"/>
+  </svg>
+</button>
+<button type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+       viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="m21 21-4.34-4.34"/>
+    <circle cx="11" cy="11" r="8"/>
+  </svg>
+  Search
+</button>
+```
+
+Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.dev) or an official Lucide package. Do not approximate paths or substitute emoji or Unicode glyphs. Daft has no Lucide dependency; framework users may render official Lucide components as the direct SVG child.
+
 ### Forms
 
 ```html
@@ -259,7 +285,15 @@ For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover 
 <dialog id="help-dialog" popover aria-label="Help">
   <article>
     <header>
-      <button aria-label="Close" popovertarget="help-dialog"></button>
+      <button aria-label="Close" popovertarget="help-dialog">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
       <strong>Help</strong>
     </header>
     <p>Supporting information goes here.</p>
@@ -305,9 +339,13 @@ For a sticky top bar, opt into one responsive Popover-backed link list. The list
   <ul><li><a href="/"><strong>Brand</strong></a></li></ul>
   <button class="top-nav-toggle ghost icon" type="button"
           popovertarget="primary-menu" aria-label="Toggle primary navigation">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" aria-hidden="true">
-      <path d="M4 7h16M4 12h16M4 17h16"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M4 5h16"/>
+      <path d="M4 12h16"/>
+      <path d="M4 19h16"/>
     </svg>
   </button>
   <ul id="primary-menu" class="top-nav-menu" popover>
@@ -341,7 +379,7 @@ Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the
         <li>
           <button class="ghost icon sidebar-toggle"
                   popovertarget="sidebar"
-                  aria-label="Open menu">☰</button>
+                  aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
         </li>
         <li><strong>Admin</strong></li>
       </ul>

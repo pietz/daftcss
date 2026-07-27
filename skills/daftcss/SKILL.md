@@ -24,6 +24,8 @@ Daft gives raw semantic HTML polished application styling. Native elements are t
 - Use documented Daft components and layout primitives before inventing framework APIs.
 - Use CSS variables for system-wide design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors.
 - Keep project-specific composition in CSS loaded after Daft.
+- Treat icons as inline content, not a Daft icon API. Use exact official Lucide paths from lucide.dev or an official package, never approximations, emoji, or Unicode substitutes. Daft has no Lucide dependency, though framework users may render official Lucide components.
+- Put `.icon` only on icon-only square controls. Put the SVG directly inside the control, give an icon-only control an `aria-label`, and mark its decorative SVG `aria-hidden="true"`. For icon plus text, use an ordinary control without `.icon`.
 
 ## Component catalog
 

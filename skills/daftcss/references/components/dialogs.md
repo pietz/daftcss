@@ -19,7 +19,15 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 <dialog id="help-dialog" popover aria-labelledby="help-title">
   <article>
     <button aria-label="Close" popovertarget="help-dialog"
-            popovertargetaction="hide"></button>
+            popovertargetaction="hide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
     <header><strong id="help-title">Help</strong></header>
     <p>Supporting information.</p>
   </article>
@@ -36,7 +44,15 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 <dialog id="confirm-dialog" aria-labelledby="confirm-title">
   <article>
     <header>
-      <button aria-label="Close" onclick="this.closest('dialog').close()"></button>
+      <button aria-label="Close" onclick="this.closest('dialog').close()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
       <h2 id="confirm-title">Delete account?</h2>
     </header>
     <p>This action cannot be undone.</p>
@@ -54,6 +70,7 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 - Keep the dialog name in the dialog itself. Use `aria-labelledby` for a visible heading, otherwise `aria-label`.
 - Wrap content in `<article>` for the full card layout, including its styled header, footer, and close-button placement. The article is optional: a dialog without one is styled as a compact card surface.
 - A dialog close button is only visually recognized by `aria-label="Close"` (or `rel="prev"`). Supply the actual close behavior: `popovertargetaction="hide"` for a popover, or `close()` / `method="dialog"` for a modal.
+- Put the official Lucide X SVG directly inside the close button and mark it `aria-hidden="true"`; the button's `aria-label` supplies the accessible name. Daft retains a generated X only as a backward-compatible fallback for an empty close button.
 
 ## Variants and options
 
@@ -84,6 +101,6 @@ Use a `<footer>` in the article for right-aligned action buttons. For a modal fo
 
 - Do not add `popover` when the interaction must be modal. It is non-modal even though it uses `<dialog>`.
 - Do not call `showModal()` on a dialog that also has `popover`.
-- Do not omit the dialog's accessible name or rely on the close icon's generated `✕` as its name.
+- Do not omit the dialog's accessible name or rely on the empty-button close fallback as its name.
 - Do not assume the styled close button closes anything by itself.
 - Do not use a JavaScript dialog library when native `<dialog>` and the Popover API meet the interaction requirement.

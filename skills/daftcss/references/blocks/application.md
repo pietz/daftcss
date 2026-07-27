@@ -18,15 +18,19 @@ Skeleton:
   <ul><li><strong>Workspace</strong></li></ul>
   <button class="top-nav-toggle ghost icon" type="button"
           popovertarget="workspace-menu" aria-label="Toggle primary navigation">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" aria-hidden="true">
-      <path d="M4 7h16M4 12h16M4 17h16"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M4 5h16"/>
+      <path d="M4 12h16"/>
+      <path d="M4 19h16"/>
     </svg>
   </button>
   <ul id="workspace-menu" class="top-nav-menu" popover>
     <li><a href="#" aria-current="page">Projects</a></li>
     <li><a href="#">Team</a></li>
-    <li><button class="ghost icon" aria-label="Settings">⚙</button></li>
+    <li><button class="ghost icon" aria-label="Settings"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg></button></li>
   </ul>
 </nav>
 <main class="container">
@@ -68,7 +72,7 @@ Skeleton:
 <header class="container-fluid">
   <nav aria-label="Application">
     <ul>
-      <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
+      <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button></li>
       <li><strong>Workspace</strong></li>
     </ul>
   </nav>
