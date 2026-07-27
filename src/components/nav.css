@@ -57,6 +57,122 @@ nav details.dropdown > ul {
   right: 0;
 }
 
+/**
+ * Responsive sticky top navigation (opt in)
+ *
+ * The same popover list stays in normal nav layout on desktop and becomes a
+ * fixed, light-dismissible panel below the top bar on mobile. This deliberately
+ * uses the known sticky bar height instead of CSS Anchor Positioning so it works
+ * across Daft's full browser baseline.
+ */
+.top-nav {
+  min-height: var(--top-nav-height);
+}
+
+@media (max-width: 767.98px) {
+  .top-nav-menu[popover] {
+    display: none;
+  }
+
+  .top-nav-menu[popover]:popover-open {
+    display: flex;
+    position: fixed;
+    inset: calc(var(--top-nav-height) + var(--spacing-sm)) var(--spacing) auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: auto;
+    max-height: calc(100dvh - var(--top-nav-height) - var(--spacing-lg));
+    margin: 0;
+    padding: var(--spacing-sm);
+    color: var(--popover-foreground);
+    background-color: var(--popover);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--dropdown-radius);
+    box-shadow: var(--dropdown-shadow);
+    overflow-y: auto;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--transition-default),
+                transform var(--transition-default),
+                overlay var(--transition-default) allow-discrete,
+                display var(--transition-default) allow-discrete;
+  }
+
+  .top-nav-menu[popover]::backdrop {
+    background-color: transparent;
+  }
+
+  .top-nav-menu[popover] > li {
+    width: 100%;
+    padding: 0;
+  }
+
+  .top-nav-menu[popover] > li > :where(a, [role="link"], button, [role="button"], details.dropdown),
+  .top-nav-menu[popover] > li > details.dropdown > summary {
+    width: 100%;
+  }
+
+  .top-nav-menu[popover] > li > :where(a, [role="link"]) {
+    display: flex;
+    margin: 0;
+    padding: var(--spacing-sm);
+  }
+
+  .top-nav-menu[popover] > li > :where(button, [role="button"]) {
+    justify-content: flex-start;
+    margin: 0;
+  }
+
+  .top-nav-menu[popover] > li > details.dropdown > ul {
+    position: static;
+    width: 100%;
+    margin-top: var(--spacing-xs);
+    background-color: color-mix(in oklch, var(--accent) 55%, transparent);
+    border: none;
+    box-shadow: none;
+  }
+
+  @starting-style {
+    .top-nav-menu[popover]:popover-open {
+      opacity: 0;
+      transform: translateY(calc(var(--spacing-sm) * -1));
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .top-nav-menu[popover] {
+    display: flex;
+    position: static;
+    inset: auto;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  /* If a mobile popover remains natively open while the viewport grows, keep
+     it visually aligned with the desktop menu until Escape or light dismiss
+     clears the browser-managed open state. */
+  .top-nav-menu[popover]:popover-open {
+    position: fixed;
+    inset: var(--spacing-sm) var(--spacing) auto auto;
+  }
+
+  .top-nav-toggle.top-nav-toggle,
+  li:has(> .top-nav-toggle) {
+    display: none;
+  }
+}
+
 /* Breadcrumb — standalone <ul aria-label="Breadcrumb">, no <nav> wrapper */
 ul[aria-label="Breadcrumb" i] {
   display: flex;

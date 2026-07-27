@@ -42,7 +42,7 @@
 ## Variants and options
 
 - **Full-height rail:** put the sidebar before the top `header` or `nav`. It begins at the viewport top; following body-level `header`, `nav`, `main`, and `footer` shift right.
-- **Top nav over content:** put a direct top `header` or `nav` first and the sidebar immediately after it. Daft offsets the rail by `calc(var(--component-height) + var(--spacing))`, which matches the default single-row top navigation. For a taller or wrapped header, override `--sidebar-offset-top` on `body` to its actual height; `main` and `footer` still shift right.
+- **Top nav over content:** put a direct top `header` or `nav` first and the sidebar immediately after it. Daft uses `--top-nav-height` for an element with `.top-nav`; other headers use `calc(var(--component-height) + var(--spacing))`. For a taller or wrapped custom header, override `--sidebar-offset-top` on the sidebar to its actual height; `main` and `footer` still shift right.
 - `.sidebar-toggle` is hidden at widths of 768px and above, including when it is directly inside an `li`.
 - The mobile drawer is at most `min(--aside-width, 85vw)` wide and uses the popover backdrop.
 
@@ -50,7 +50,7 @@
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-`--aside-width`, `--sidebar-offset-top`, `--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--font-medium`, `--muted`, `--modal-overlay`, `--blur`, `--transition-slow`, and `--ease-default`.
+`--aside-width`, `--sidebar-offset-top`, `--top-nav-height`, `--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--font-medium`, `--muted`, `--modal-overlay`, `--blur`, `--transition-slow`, and `--ease-default`.
 
 ## Behavior and accessibility
 

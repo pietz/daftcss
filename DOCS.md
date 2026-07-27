@@ -896,6 +896,8 @@ A bare `<dialog>` renders as a card surface. Wrap its content in `<article>` whe
 
 **Horizontal Nav:**
 
+Ordinary navigation remains horizontal and wraps safely on narrow screens.
+
 ```html
 <nav>
   <strong>Brand</strong>
@@ -906,6 +908,29 @@ A bare `<dialog>` renders as a card surface. Wrap its content in `<article>` whe
   </ul>
 </nav>
 ```
+
+**Responsive Sticky Top Nav:**
+
+Opt in with one Popover-backed link list. Below 768px, the icon-only trigger opens that same list as a panel beneath the sticky bar. The browser supplies light dismiss and Escape behavior without JavaScript.
+
+```html
+<nav class="top-nav sticky glass" aria-label="Primary">
+  <ul><li><a href="/"><strong>Brand</strong></a></li></ul>
+  <button class="top-nav-toggle ghost icon" type="button"
+          popovertarget="primary-menu" aria-label="Toggle primary navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </svg>
+  </button>
+  <ul id="primary-menu" class="top-nav-menu" popover>
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/team">Team</a></li>
+  </ul>
+</nav>
+```
+
+This pattern is for a single-row sticky top bar, not an arbitrarily placed trigger. Set `--top-nav-height` when customizing the bar height. If an open mobile menu crosses the desktop breakpoint, CSS places it with the desktop links, but CSS cannot clear the native top-layer state; dismiss it with Escape or light dismiss.
 
 **Nav with Buttons:**
 

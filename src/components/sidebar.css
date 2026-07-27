@@ -114,6 +114,10 @@ body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"
     --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
   }
 
+  body > :is(header, nav).top-nav:first-child:has(+ aside.sidebar) + aside.sidebar {
+    --sidebar-offset-top: var(--top-nav-height);
+  }
+
   body > :is(header, nav):first-child:has(+ aside.sidebar) ~ main,
   body > :is(header, nav):first-child:has(+ aside.sidebar) ~ footer {
     margin-left: var(--aside-width);

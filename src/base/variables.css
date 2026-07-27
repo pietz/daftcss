@@ -183,6 +183,9 @@
   /* Breadcrumb */
   --breadcrumb-divider: "›";
 
+  /* Responsive top navigation */
+  --top-nav-height: calc(var(--component-height) + var(--spacing) + 2 * var(--spacing-xs) + var(--border-width));
+
   /* Sidebar */
   --aside-width: clamp(14rem, 20vw, 20rem);
 

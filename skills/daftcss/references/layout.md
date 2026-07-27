@@ -113,11 +113,12 @@ Use `.overflow-hidden` only when clipped content is decorative or available else
 ## Responsive behavior
 
 - Grids become one column below 768px.
-- Navigation items wrap rather than hiding or clipping controls.
+- Ordinary navigation items wrap rather than hiding or clipping controls.
+- Opt-in sticky `.top-nav-menu` lists switch to their Popover panel behavior below 768px.
 - Sidebars switch to their Popover-based drawer behavior below 768px.
 - `.hidden-mobile` hides below 768px; `.hidden-desktop` hides at 768px and above.
 
-Do not hide essential actions solely to preserve a one-row layout. Use wrapping or an explicit native menu interaction.
+Do not hide essential actions solely to preserve a one-row layout. Use ordinary wrapping or the documented native [responsive top-navigation pattern](components/navigation.md).
 
 ## Related references
 

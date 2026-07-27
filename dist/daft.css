@@ -99,6 +99,7 @@
     --modal-max-width: 32rem;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
+    --top-nav-height: calc(var(--component-height)  + var(--spacing)  + 2 * var(--spacing-xs)  + var(--border-width));
     --aside-width: clamp(14rem, 20vw, 20rem);
     --hover-opacity: 90%;
     --active-opacity: 85%;
@@ -1983,6 +1984,105 @@
     right: 0;
   }
 
+  .top-nav {
+    min-height: var(--top-nav-height);
+  }
+
+  @media (width <= 767.98px) {
+    .top-nav-menu[popover] {
+      display: none;
+    }
+
+    .top-nav-menu[popover]:popover-open {
+      inset: calc(var(--top-nav-height)  + var(--spacing-sm)) var(--spacing) auto;
+      width: auto;
+      max-height: calc(100dvh - var(--top-nav-height)  - var(--spacing-lg));
+      padding: var(--spacing-sm);
+      color: var(--popover-foreground);
+      background-color: var(--popover);
+      border: var(--border-width) solid var(--border);
+      border-radius: var(--dropdown-radius);
+      box-shadow: var(--dropdown-shadow);
+      opacity: 1;
+      transition: opacity var(--transition-default), transform var(--transition-default), overlay var(--transition-default) allow-discrete, display var(--transition-default) allow-discrete;
+      flex-flow: column;
+      align-items: stretch;
+      margin: 0;
+      display: flex;
+      position: fixed;
+      overflow-y: auto;
+      transform: translateY(0);
+    }
+
+    .top-nav-menu[popover]::backdrop {
+      background-color: #0000;
+    }
+
+    .top-nav-menu[popover] > li {
+      width: 100%;
+      padding: 0;
+    }
+
+    .top-nav-menu[popover] > li > :where(a, [role="link"], button, [role="button"], details.dropdown), .top-nav-menu[popover] > li > details.dropdown > summary {
+      width: 100%;
+    }
+
+    .top-nav-menu[popover] > li > :where(a, [role="link"]) {
+      padding: var(--spacing-sm);
+      margin: 0;
+      display: flex;
+    }
+
+    .top-nav-menu[popover] > li > :where(button, [role="button"]) {
+      justify-content: flex-start;
+      margin: 0;
+    }
+
+    .top-nav-menu[popover] > li > details.dropdown > ul {
+      width: 100%;
+      margin-top: var(--spacing-xs);
+      background-color: color-mix(in oklch, var(--accent) 55%, transparent);
+      box-shadow: none;
+      border: none;
+      position: static;
+    }
+
+    @starting-style {
+      .top-nav-menu[popover]:popover-open {
+        opacity: 0;
+        transform: translateY(calc(var(--spacing-sm) * -1));
+      }
+    }
+  }
+
+  @media (width >= 768px) {
+    .top-nav-menu[popover] {
+      width: auto;
+      max-width: none;
+      max-height: none;
+      color: inherit;
+      box-shadow: none;
+      background-color: #0000;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      position: static;
+      inset: auto;
+      overflow: visible;
+    }
+
+    .top-nav-menu[popover]:popover-open {
+      inset: var(--spacing-sm) var(--spacing) auto auto;
+      position: fixed;
+    }
+
+    .top-nav-toggle.top-nav-toggle, li:has( > .top-nav-toggle) {
+      display: none;
+    }
+  }
+
   ul[aria-label="Breadcrumb" i] {
     font-size: var(--text-sm);
     flex-wrap: wrap;
@@ -2586,6 +2686,10 @@
 
     body > :is(header, nav):first-child:has( + aside.sidebar) + aside.sidebar {
       --sidebar-offset-top: calc(var(--component-height)  + var(--spacing));
+    }
+
+    body > :is(header, nav).top-nav:first-child:has( + aside.sidebar) + aside.sidebar {
+      --sidebar-offset-top: var(--top-nav-height);
     }
 
     body > :is(header, nav):first-child:has( + aside.sidebar) ~ main, body > :is(header, nav):first-child:has( + aside.sidebar) ~ footer {

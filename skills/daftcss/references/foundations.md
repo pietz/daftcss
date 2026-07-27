@@ -89,6 +89,7 @@ Use these when one component should diverge without disconnecting the rest of th
 | Floating surfaces | `--dropdown-radius`, `--dropdown-shadow`, `--tooltip-radius` |
 | Small controls | `--badge-radius`, `--progress-radius`, `--control-size` |
 | Switches | `--switch-width`, `--switch-height`, `--switch-thumb` |
+| Responsive top navigation | `--top-nav-height` |
 | Sidebar | `--aside-width` |
 
 Consult the relevant entry in the [component catalog](../SKILL.md#component-catalog) before overriding a component token.

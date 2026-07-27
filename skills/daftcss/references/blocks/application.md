@@ -7,15 +7,23 @@ Load this reference for product shells, workspace navigation, dashboards, settin
 Use for simple apps, admin pages, and tools without deep navigation.
 
 Rules:
-- Use `<nav class="sticky glass">`.
-- Put primary links in a `<ul>`.
+- Use `<nav class="top-nav sticky glass">`.
+- Use one `.top-nav-menu[popover]` link list for desktop and mobile.
+- Point an accessible, icon-only `.top-nav-toggle` at that list.
 - Put page content in `<main class="container">` or `.container-fluid`.
 
 Skeleton:
 ```html
-<nav class="sticky glass">
+<nav class="top-nav sticky glass" aria-label="Primary">
   <ul><li><strong>Workspace</strong></li></ul>
-  <ul>
+  <button class="top-nav-toggle ghost icon" type="button"
+          popovertarget="workspace-menu" aria-label="Toggle primary navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </svg>
+  </button>
+  <ul id="workspace-menu" class="top-nav-menu" popover>
     <li><a href="#" aria-current="page">Projects</a></li>
     <li><a href="#">Team</a></li>
     <li><button class="ghost icon" aria-label="Settings">⚙</button></li>
@@ -31,6 +39,8 @@ Skeleton:
 
 Mistakes:
 - Do not build custom nav flex CSS.
+- Do not duplicate links for separate desktop and mobile menus.
+- Do not use this viewport-positioned pattern away from the sticky top bar.
 - Do not use buttons for navigation links.
 
 ## Sidebar App Shell

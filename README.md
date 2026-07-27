@@ -285,11 +285,11 @@ For a true modal interaction, use a regular `<dialog>` and open it with `showMod
 
 ### Navigation
 
+Ordinary navigation wraps safely on narrow screens:
+
 ```html
 <nav>
-  <ul>
-    <li><strong>Brand</strong></li>
-  </ul>
+  <ul><li><strong>Brand</strong></li></ul>
   <ul>
     <li><a href="#">About</a></li>
     <li><a href="#" aria-current="page">Docs</a></li>
@@ -297,6 +297,27 @@ For a true modal interaction, use a regular `<dialog>` and open it with `showMod
   </ul>
 </nav>
 ```
+
+For a sticky top bar, opt into one responsive Popover-backed link list. The list stays horizontal on desktop and opens as a panel below 768px, with native light dismiss and Escape and no JavaScript:
+
+```html
+<nav class="top-nav sticky glass" aria-label="Primary">
+  <ul><li><a href="/"><strong>Brand</strong></a></li></ul>
+  <button class="top-nav-toggle ghost icon" type="button"
+          popovertarget="primary-menu" aria-label="Toggle primary navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </svg>
+  </button>
+  <ul id="primary-menu" class="top-nav-menu" popover>
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/team">Team</a></li>
+  </ul>
+</nav>
+```
+
+This is specifically a single-row sticky top-navigation pattern, not arbitrary trigger anchoring. If you customize the bar height, set `--top-nav-height` to its actual height. If a mobile popover is open during a resize to desktop, it is restyled into the desktop position but remains natively open in the top layer until dismissed.
 
 ### Sidebar
 

@@ -33,3 +33,16 @@ for (const path of discoverHtmlRoutes()) {
     });
   }
 }
+
+for (const theme of ["light", "dark"]) {
+  test(`the open mobile top navigation has no automated WCAG A/AA violations in ${theme} theme`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.emulateMedia({ colorScheme: theme });
+    await page.goto("/");
+    await page.evaluate((value) => { document.documentElement.dataset.theme = value; }, theme);
+    await page.getByRole("button", { name: "Toggle primary navigation" }).click();
+
+    const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+    expect(results.violations, formatViolations(results.violations)).toEqual([]);
+  });
+}

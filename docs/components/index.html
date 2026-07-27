@@ -106,13 +106,20 @@
 </head>
 
 <body>
-  <nav class="sticky glass" aria-label="Primary">
+  <nav class="top-nav sticky glass" aria-label="Primary">
     <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu">☰</button></li>
+        <li>
+          <button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open component navigation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+          </button>
+        </li>
         <li><a href="../"><strong>daft.css</strong></a></li>
       </ul>
-      <ul>
+      <button class="top-nav-toggle ghost icon" type="button" popovertarget="primary-menu" aria-label="Toggle primary navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <ul id="primary-menu" class="top-nav-menu" popover>
         <li><a href="../components/" role="button" class="ghost">Components</a></li>
         <li><a href="../blocks/" role="button" class="ghost">Blocks</a></li>
         <li><a href="../slides/" role="button" class="ghost">Slides</a></li>
@@ -679,6 +686,37 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
     <section id="navigation">
       <h2>Navigation</h2>
+
+      <h3>Responsive Top Navigation</h3>
+      <div class="grid">
+        <article>
+          <p>Ordinary navs keep wrapping by default. For a sticky top bar, opt into one
+            <code>.top-nav-menu[popover]</code> link list: it stays horizontal on desktop and opens beneath the bar below
+            768px. The page header above is the live example.</p>
+          <p>Native popover behavior supplies light dismiss and Escape without JavaScript. Set
+            <code>--top-nav-height</code> if the sticky bar is taller than Daft's default single row.</p>
+          <p><small class="muted">If an open mobile menu is resized to desktop, CSS aligns it with the desktop bar, but
+              it remains in the browser's top layer until dismissed.</small></p>
+        </article>
+        <article>
+          <pre><code>&lt;nav class="top-nav sticky glass" aria-label="Primary"&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;strong&gt;Workspace&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;button class="top-nav-toggle ghost icon"
+          popovertarget="primary-menu"
+          aria-label="Toggle primary navigation"&gt;
+    &lt;svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" aria-hidden="true"&gt;
+      &lt;path d="M4 7h16M4 12h16M4 17h16"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;ul id="primary-menu" class="top-nav-menu" popover&gt;
+    &lt;li&gt;&lt;a href="/projects"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/team"&gt;Team&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+        </article>
+      </div>
 
       <h3>Accordions and Dropdowns</h3>
       <div class="grid">

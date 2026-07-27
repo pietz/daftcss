@@ -249,6 +249,88 @@ test("a bare sidebar toggle is hidden at desktop widths", async ({ page }) => {
   expect(display).toBe("none");
 });
 
+test("responsive top navigation uses one native popover list on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+
+  const nav = page.locator(".top-nav");
+  const menu = nav.locator(".top-nav-menu");
+  const toggle = nav.getByRole("button", { name: "Toggle primary navigation" });
+
+  await expect(nav.locator(".top-nav-menu")).toHaveCount(1);
+  await expect(menu).toBeHidden();
+  await expect(toggle).toBeVisible();
+  await expect(toggle.locator("svg[aria-hidden=true]")).toHaveCount(1);
+  expect((await toggle.textContent()).trim()).toBe("");
+
+  await toggle.click();
+  await expect(menu).toBeVisible();
+  expect(await menu.evaluate((element) => element.matches(":popover-open"))).toBe(true);
+  await expect.poll(() => page.evaluate(() => {
+    const navBox = document.querySelector(".top-nav").getBoundingClientRect();
+    const menuBox = document.querySelector(".top-nav-menu").getBoundingClientRect();
+    return menuBox.top - navBox.bottom;
+  })).toBeGreaterThanOrEqual(0);
+
+  const geometry = await page.evaluate(() => {
+    const navBox = document.querySelector(".top-nav").getBoundingClientRect();
+    const menuBox = document.querySelector(".top-nav-menu").getBoundingClientRect();
+    return {
+      documentWidth: document.documentElement.scrollWidth,
+      menuBottom: menuBox.bottom,
+      menuLeft: menuBox.left,
+      menuRight: menuBox.right,
+      menuTop: menuBox.top,
+      navBottom: navBox.bottom,
+      viewportHeight: innerHeight,
+      viewportWidth: innerWidth,
+    };
+  });
+  expect(geometry.menuTop).toBeGreaterThanOrEqual(geometry.navBottom);
+  expect(geometry.menuLeft).toBeGreaterThan(0);
+  expect(geometry.menuRight).toBeLessThan(geometry.viewportWidth);
+  expect(geometry.menuBottom).toBeLessThanOrEqual(geometry.viewportHeight);
+  expect(geometry.documentWidth).toBeLessThanOrEqual(geometry.viewportWidth);
+  await expect(menu.getByRole("button", { name: "Components" })).toBeVisible();
+  await expect(menu.getByRole("button", { name: "GitHub" })).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeHidden();
+
+  await toggle.click();
+  await page.mouse.click(370, 400);
+  await expect(menu).toBeHidden();
+});
+
+test("responsive top navigation returns to the desktop bar across a resize", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+
+  const menu = page.locator(".top-nav-menu");
+  const toggle = page.getByRole("button", { name: "Toggle primary navigation" });
+  await toggle.click();
+  await expect(menu).toBeVisible();
+
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await expect(toggle).toBeHidden();
+  await expect(menu).toBeVisible();
+  const openDesktop = await menu.evaluate((element) => ({
+    display: getComputedStyle(element).display,
+    open: element.matches(":popover-open"),
+    position: getComputedStyle(element).position,
+    top: element.getBoundingClientRect().top,
+  }));
+  expect(openDesktop).toEqual({ display: "flex", open: true, position: "fixed", top: 8 });
+
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeVisible();
+  const closedDesktop = await menu.evaluate((element) => ({
+    open: element.matches(":popover-open"),
+    position: getComputedStyle(element).position,
+  }));
+  expect(closedDesktop).toEqual({ open: false, position: "static" });
+});
+
 test("SVG defaults do not override an explicit fill attribute", async ({ page }) => {
   await page.goto("/components/");
 
