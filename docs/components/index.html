@@ -165,8 +165,8 @@
     <section>
       <hgroup>
         <h1>Components</h1>
-        <p>Full reference for the semantic HTML Daft styles. Each row pairs the rendered component with the markup that
-          produces it.</p>
+        <p>Full reference for the semantic HTML Daft styles. Each row pairs the rendered component with essential,
+          production-safe markup.</p>
       </hgroup>
     </section>
 
@@ -348,7 +348,11 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
 &lt;label&gt;Date &lt;input type="date"&gt;&lt;/label&gt;
 &lt;label&gt;File &lt;input type="file"&gt;&lt;/label&gt;
-&lt;label&gt;City &lt;input type="text" list="cities"&gt;&lt;/label&gt;</code></pre>
+&lt;label&gt;City &lt;input type="text" list="cities" placeholder="Search cities..." autocomplete="off"&gt;&lt;/label&gt;
+&lt;datalist id="cities"&gt;
+  &lt;option value="Berlin"&gt;
+  &lt;option value="Paris"&gt;
+&lt;/datalist&gt;</code></pre>
         </article>
       </div>
 
@@ -385,8 +389,18 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <label>Volume <input type="range" value="70"></label>
         </article>
         <article>
-          <pre><code>&lt;label&gt;&lt;input type="checkbox" checked&gt; Receive newsletter&lt;/label&gt;
-&lt;label&gt;&lt;input type="radio" name="plan" checked&gt; Basic&lt;/label&gt;
+          <pre><code>&lt;fieldset&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;label&gt;&lt;input type="checkbox" checked&gt; Receive newsletter&lt;/label&gt;
+  &lt;label&gt;&lt;input type="checkbox"&gt; Enable notifications&lt;/label&gt;
+&lt;/fieldset&gt;
+
+&lt;fieldset&gt;
+  &lt;legend&gt;Plan&lt;/legend&gt;
+  &lt;label&gt;&lt;input type="radio" name="plan" checked&gt; Basic&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="plan"&gt; Pro&lt;/label&gt;
+&lt;/fieldset&gt;
+
 &lt;label&gt;&lt;input type="checkbox" role="switch"&gt; Dark mode&lt;/label&gt;
 &lt;label&gt;Volume &lt;input type="range" value="70"&gt;&lt;/label&gt;</code></pre>
         </article>
@@ -629,9 +643,14 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <span class="diagram-sidebar">sidebar</span>
             <span class="diagram-main">main</span>
           </div>
-          <pre><code>&lt;nav class="sticky glass"&gt;...&lt;/nav&gt;
-&lt;aside id="sidebar" class="sidebar" popover&gt;...&lt;/aside&gt;
-&lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
+          <pre><code>&lt;nav class="sticky glass" aria-label="Primary"&gt;
+  &lt;a href="/"&gt;Home&lt;/a&gt;
+&lt;/nav&gt;
+&lt;aside id="sidebar" class="sidebar" popover&gt;
+  &lt;nav aria-label="Sidebar"&gt;&lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/nav&gt;
+&lt;/aside&gt;
+&lt;button class="sidebar-toggle" popovertarget="sidebar" aria-label="Open sidebar"&gt;Menu&lt;/button&gt;
+&lt;main class="container-fluid"&gt;&lt;h1&gt;Dashboard&lt;/h1&gt;&lt;/main&gt;</code></pre>
         </article>
         <article class="sidebar-layout">
           <h4>Nav inside the content area</h4>
@@ -640,11 +659,14 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <span class="diagram-nav">nav</span>
             <span class="diagram-main">main</span>
           </div>
-          <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;...&lt;/aside&gt;
+          <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;
+  &lt;nav aria-label="Sidebar"&gt;&lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/nav&gt;
+&lt;/aside&gt;
 &lt;header class="container-fluid"&gt;
-  &lt;nav&gt;...&lt;/nav&gt;
+  &lt;nav aria-label="Primary"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/nav&gt;
 &lt;/header&gt;
-&lt;main class="container-fluid"&gt;...&lt;/main&gt;</code></pre>
+&lt;button class="sidebar-toggle" popovertarget="sidebar" aria-label="Open sidebar"&gt;Menu&lt;/button&gt;
+&lt;main class="container-fluid"&gt;&lt;h1&gt;Dashboard&lt;/h1&gt;&lt;/main&gt;</code></pre>
         </article>
       </div>
     </section>
@@ -863,8 +885,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;p&gt;We are updating your workspace.&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;progress class="success" value="80" max="100"&gt;&lt;/progress&gt;
-&lt;progress&gt;&lt;/progress&gt;</code></pre>
+&lt;label&gt;Success &lt;progress class="success" value="80" max="100"&gt;&lt;/progress&gt;&lt;/label&gt;
+&lt;label&gt;Indeterminate &lt;progress&gt;&lt;/progress&gt;&lt;/label&gt;</code></pre>
         </article>
       </div>
     </section>
@@ -897,6 +919,12 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             </tbody>
           </table>
           <table class="striped">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td>Widget A</td>
@@ -911,13 +939,18 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
         <article>
           <pre><code>&lt;table&gt;
-  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Role&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Role&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
   &lt;tbody&gt;
-    &lt;tr&gt;&lt;td&gt;Ada Lovelace&lt;/td&gt;&lt;td&gt;Engineer&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Ada Lovelace&lt;/td&gt;&lt;td&gt;Engineer&lt;/td&gt;&lt;td&gt;Active&lt;/td&gt;&lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;table class="striped"&gt;...&lt;/table&gt;</code></pre>
+&lt;table class="striped"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Product&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;Widget A&lt;/td&gt;&lt;td&gt;$19.99&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
         </article>
       </div>
     </section>
