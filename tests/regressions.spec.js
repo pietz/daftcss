@@ -172,6 +172,68 @@ test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   expect(gutters.right).toBeGreaterThanOrEqual(16);
 });
 
+test("sidebar links provide compact hover and current-page states", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <aside class="sidebar"><nav><ul>
+        <li><a href="#current" aria-current="page">Current page</a></li>
+        <li><a href="#inactive">Inactive page</a></li>
+        <li><a href="#false" aria-current="false">False current page</a></li>
+      </ul></nav></aside>`;
+  });
+
+  const states = await page.evaluate(() => {
+    const current = document.querySelector('a[href="#current"]');
+    const inactive = document.querySelector('a[href="#inactive"]');
+    const falseCurrent = document.querySelector('a[href="#false"]');
+    const probe = document.createElement("span");
+    probe.style.cssText = "background: var(--accent); color: var(--accent-foreground);";
+    document.body.append(probe);
+    const accent = getComputedStyle(probe);
+    const currentStyle = getComputedStyle(current);
+    const falseCurrentStyle = getComputedStyle(falseCurrent);
+    return {
+      accentBackground: accent.backgroundColor,
+      accentForeground: accent.color,
+      current: {
+        background: currentStyle.backgroundColor,
+        color: currentStyle.color,
+        fontWeight: currentStyle.fontWeight,
+      },
+      falseCurrentBackground: falseCurrentStyle.backgroundColor,
+      geometry: {
+        borderRadius: getComputedStyle(inactive).borderRadius,
+        paddingLeft: getComputedStyle(inactive).paddingLeft,
+        paddingRight: getComputedStyle(inactive).paddingRight,
+        width: inactive.getBoundingClientRect().width,
+      },
+    };
+  });
+
+  expect(states.current).toEqual({
+    background: states.accentBackground,
+    color: states.accentForeground,
+    fontWeight: "600",
+  });
+  expect(states.falseCurrentBackground).toBe("rgba(0, 0, 0, 0)");
+  expect(states.geometry).toEqual({ borderRadius: "6px", paddingLeft: "8px", paddingRight: "8px", width: 192 });
+
+  await page.locator('a[href="#inactive"]').hover();
+  await page.waitForTimeout(200);
+  const hover = await page.locator('a[href="#inactive"]').evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, color: style.color, textDecoration: style.textDecorationLine };
+  });
+  expect(hover).toEqual({
+    background: states.accentBackground,
+    color: states.accentForeground,
+    textDecoration: "none",
+  });
+});
+
 test("a bare sidebar toggle is hidden at desktop widths", async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.goto("/components/");

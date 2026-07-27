@@ -2542,23 +2542,30 @@
     align-items: center;
     gap: var(--spacing-sm);
     width: 100%;
-    padding: var(--spacing-xs) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: inherit;
+    border-radius: var(--radius-sm);
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: color var(--transition-default);
+    transition: background-color var(--transition-default), color var(--transition-default);
     background-color: #0000;
-    border-radius: 0;
     text-decoration: none;
     display: flex;
     overflow: hidden;
   }
 
   body > aside.sidebar > nav > ul > li > a:hover {
-    color: inherit;
-    text-decoration: underline;
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    text-decoration: none;
+  }
+
+  body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"]) {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    font-weight: var(--font-semibold);
   }
 
   @media (width >= 768px) {
