@@ -21,9 +21,6 @@
     pre :is(.hljs-comment, .hljs-string) { color: var(--muted-foreground); }
     pre :is(.hljs-name, .hljs-attr, .hljs-selector-tag, .hljs-title, .hljs-variable, .hljs-subst, .hljs-literal) { color: var(--foreground); }
 
-    /* Allow the long install command to shrink and scroll on narrow screens. */
-    #install-cmd { min-width: 0; flex: 1 1 auto; overflow-x: auto; }
-
     /* ============================================================
        PAGE-LOCAL CSS — marketing-specific patterns only.
        Everything else comes from Daft.
@@ -128,15 +125,9 @@
       <h1 class="text-6xl mx-auto max-w-2xl">The UI library that's<br>just a stylesheet.</h1>
       <p class="muted mx-auto max-w-xl">Link <code>daft.min.css</code> in your <code>&lt;head&gt;</code>. Write <code>&lt;button&gt;</code>, <code>&lt;dialog&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;article&gt;</code>. Daft styles them as a design system with dark mode and theme tokens you change at the root.</p>
 
-      <div role="group" class="full-width mx-auto max-w-xl mt-8">
-        <select id="install-method" aria-label="Install method">
-          <option value="cdn" selected>CDN</option>
-          <option value="npm">npm</option>
-          <option value="pnpm">pnpm</option>
-          <option value="yarn">yarn</option>
-        </select>
-        <code id="install-cmd" tabindex="0">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code>
-      </div>
+      <input class="mx-auto max-w-xl mt-8" type="text" readonly spellcheck="false"
+             aria-label="CDN stylesheet link"
+             value='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css">'>
 
       <div class="cluster justify-center mt-6">
         <a href="./components/" role="button">See the components</a>
@@ -695,21 +686,6 @@
       });
     })();
 
-
-    /* Install picker */
-    (function () {
-      const sel = document.getElementById('install-method');
-      const cmd = document.getElementById('install-cmd');
-      const map = {
-        cdn:  '&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;',
-        npm:  'npm install daftcss',
-        pnpm: 'pnpm add daftcss',
-        yarn: 'yarn add daftcss',
-      };
-      sel.addEventListener('change', () => {
-        cmd.innerHTML = map[sel.value];
-      });
-    })();
   </script>
 
 </body>
