@@ -54,7 +54,7 @@ All default colors use `light-dark()` and follow the active `color-scheme`.
 |---|---|
 | `--background`, `--foreground` | Page surface and text |
 | `--card`, `--card-foreground` | Article/card surfaces |
-| `--popover`, `--popover-foreground` | Floating surfaces |
+| `--popover`, `--popover-foreground` | Floating surfaces (`--popover` defaults to `--card`; override independently) |
 | `--primary`, `--primary-foreground` | Primary actions and emphasis |
 | `--secondary`, `--secondary-foreground` | Secondary controls |
 | `--muted`, `--muted-foreground` | Quiet surfaces and supporting text |

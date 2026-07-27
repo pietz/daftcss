@@ -152,6 +152,49 @@ test("card spacing follows root scale and card-level token overrides", async ({ 
   });
 });
 
+test("popover surfaces follow cards by default and retain an independent override", async ({ page }) => {
+  await page.goto("/components/");
+
+  const colors = await page.evaluate(() => {
+    const root = document.documentElement;
+    const createSurfaces = () => {
+      const card = document.createElement("article");
+      card.textContent = "Card";
+      const dropdown = document.createElement("details");
+      dropdown.className = "dropdown";
+      dropdown.open = true;
+      dropdown.innerHTML = "<summary>Menu</summary><ul><li>Option</li></ul>";
+      document.body.append(card, dropdown);
+      return { card, dropdown: dropdown.querySelector("ul") };
+    };
+    const read = (surfaces) => ({
+      card: getComputedStyle(surfaces.card).backgroundColor,
+      popover: getComputedStyle(surfaces.dropdown).backgroundColor,
+    });
+
+    const defaults = {};
+    for (const theme of ["light", "dark"]) {
+      root.dataset.theme = theme;
+      const surfaces = createSurfaces();
+      defaults[theme] = read(surfaces);
+      surfaces.card.remove();
+      surfaces.dropdown.closest("details").remove();
+    }
+
+    root.style.setProperty("--card", "rgb(1 2 3)");
+    const surfaces = createSurfaces();
+    const followsCard = read(surfaces);
+    root.style.setProperty("--popover", "rgb(4 5 6)");
+    const overridden = read(surfaces);
+    return { defaults, followsCard, overridden };
+  });
+
+  expect(colors.defaults.light.popover).toBe(colors.defaults.light.card);
+  expect(colors.defaults.dark.popover).toBe(colors.defaults.dark.card);
+  expect(colors.followsCard).toEqual({ card: "rgb(1, 2, 3)", popover: "rgb(1, 2, 3)" });
+  expect(colors.overridden).toEqual({ card: "rgb(1, 2, 3)", popover: "rgb(4, 5, 6)" });
+});
+
 test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");

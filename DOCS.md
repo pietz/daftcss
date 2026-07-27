@@ -142,7 +142,7 @@ Customize the design system by overriding root variables:
 | `--warning-foreground` | Text on warning backgrounds |
 | `--border` | Border color |
 | `--card` | Card background |
-| `--popover` | Dropdown / popover background |
+| `--popover` | Dropdown / popover background (defaults to `--card`; override independently) |
 
 `--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune ghost-hover, secondary-button, and disabled surfaces independently.
 
