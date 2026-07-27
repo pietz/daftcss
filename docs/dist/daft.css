@@ -795,11 +795,18 @@
     padding: var(--spacing-sm) var(--spacing-lg);
   }
 
-  select.small, [role="group"].small > select {
+  :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+    padding-block: var(--spacing-xs);
+    line-height: calc(var(--input-height)  - 2 * var(--border-width)  - 2 * var(--spacing-xs));
+  }
+
+  :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]).small, [role="group"].small > :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+    padding-block: var(--spacing-xs);
     line-height: calc(var(--input-height-sm)  - 2 * var(--border-width)  - 2 * var(--spacing-xs));
   }
 
-  select.large, [role="group"].large > select {
+  :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]).large, [role="group"].large > :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+    padding-block: var(--spacing-sm);
     line-height: calc(var(--input-height-lg)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
   }
 
@@ -815,7 +822,6 @@
   }
 
   select {
-    line-height: calc(var(--input-height)  - 2 * var(--border-width)  - 2 * var(--spacing-sm));
     padding-right: var(--spacing-xl);
     background-image: var(--icon-select-chevron);
     background-repeat: no-repeat;

@@ -73,14 +73,32 @@ form:not([role="search"]) :is(.cluster, footer) :is(button, [type="submit"], [ty
   padding: var(--spacing-sm) var(--spacing-lg);
 }
 
-/* Sized <select> needs its line-height recalculated so the chevron-aligned text stays centered. */
-select.small,
-[role="group"].small > select {
+/* Controls whose value is positioned by line-height rather than by the browser's
+   own vertical centring: <select> (chevron-aligned text) and the date/time family,
+   which renders its value through a shadow-DOM editor that respects line-height.
+
+   The line-height fills the content box, and that is precisely what centres the
+   text — so the block padding must stay small enough that the result still clears
+   the font size, or the line box cannot hold descenders. At --spacing-sm the
+   default height computes to 14px against a 16px font, clipping every "g" and "y";
+   --spacing-xs computes to 22px. .small was already correct because it uses the
+   smaller padding token, and .large because it buys 4px of extra height at the
+   same padding — which is why only the default size was ever visibly broken.
+   Keep each rule's padding and its calc on the same token, or they drift apart. */
+:is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+  padding-block: var(--spacing-xs);
+  line-height: calc(var(--input-height) - 2 * var(--border-width) - 2 * var(--spacing-xs));
+}
+
+:is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]).small,
+[role="group"].small > :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+  padding-block: var(--spacing-xs);
   line-height: calc(var(--input-height-sm) - 2 * var(--border-width) - 2 * var(--spacing-xs));
 }
 
-select.large,
-[role="group"].large > select {
+:is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]).large,
+[role="group"].large > :is(select, input[type="date"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="time"]) {
+  padding-block: var(--spacing-sm);
   line-height: calc(var(--input-height-lg) - 2 * var(--border-width) - 2 * var(--spacing-sm));
 }
 
@@ -100,8 +118,6 @@ textarea {
 
 /* Select specific */
 select {
-  /* Line-height calculated to fill available space: height - borders - padding */
-  line-height: calc(var(--input-height) - 2 * var(--border-width) - 2 * var(--spacing-sm));
   padding-right: var(--spacing-xl);
   background-image: var(--icon-select-chevron);
   background-repeat: no-repeat;

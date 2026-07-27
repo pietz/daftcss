@@ -413,3 +413,40 @@ test(".grow lets a truncating cell shrink instead of forcing a cluster to wrap",
   // Without .grow the same markup wraps, so the row is measurably taller.
   expect(rows.grownHeight).toBeLessThan(rows.plainHeight);
 });
+
+test("line-height positioned controls keep a line box that can hold their glyphs", async ({ page }) => {
+  await page.goto("/components/");
+
+  const controls = await page.evaluate(() => {
+    const types = ["date", "datetime-local", "month", "week", "time"];
+    const sizes = ["", "small", "large"];
+    const markup = [];
+    for (const size of sizes) {
+      markup.push(`<select class="${size}"><option>Oregon gjpqy</option></select>`);
+      for (const type of types) markup.push(`<input type="${type}" class="${size}">`);
+    }
+    document.body.innerHTML = `<main class="container">${markup.join("")}</main>`;
+
+    const expectedHeight = { "": 32, large: 36, small: 28 };
+    return [...document.querySelectorAll("select, input")].map((element) => {
+      const style = getComputedStyle(element);
+      const size = element.className || "";
+      return {
+        fontSize: parseFloat(style.fontSize),
+        height: Math.round(element.getBoundingClientRect().height),
+        expectedHeight: expectedHeight[size],
+        label: `${element.tagName.toLowerCase()}${element.type ? `[${element.type}]` : ""}.${size || "default"}`,
+        lineHeight: parseFloat(style.lineHeight),
+      };
+    });
+  });
+
+  expect(controls.length).toBeGreaterThan(0);
+  for (const control of controls) {
+    // A line box smaller than the font size cannot render descenders (g, y, p).
+    expect(control.lineHeight, `${control.label} line-height vs font-size`)
+      .toBeGreaterThanOrEqual(control.fontSize);
+    // The fix must not change control heights.
+    expect(control.height, `${control.label} height`).toBe(control.expectedHeight);
+  }
+});
