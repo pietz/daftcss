@@ -43,9 +43,20 @@ select {
   }
 }
 
-/* Form buttons span full width — except in search forms, which stay inline. */
-form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+/* Form buttons span full width — except in search forms, which stay inline.
+   .icon and .link are shape variants whose whole purpose is to not be a block:
+   an icon button must stay square, and a link button is inline text. */
+form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon, .link) {
   width: 100%;
+}
+
+/* Action rows opt out: a .cluster or <footer> exists precisely to lay buttons
+   out horizontally, so honour that intent instead of stretching them. Mirrors
+   the [role="group"] carve-out in components/group.css. The trailing :not(.icon)
+   is what outranks the rule above — icon buttons were never stretched, so
+   excluding them here is both correct and load-bearing for specificity. */
+form:not([role="search"]) :is(.cluster, footer) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+  width: auto;
 }
 
 /* Size modifiers — parallel to .small/.large on buttons.

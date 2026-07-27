@@ -41,6 +41,7 @@ Rules:
 - Use body-level `<aside class="sidebar">`.
 - Add `popover` and a `.sidebar-toggle` button for mobile.
 - Put the sidebar before or after the top header depending on desired desktop placement.
+- Use `.container-fluid` for the shifted header and main canvas so they retain responsive gutters beside the rail.
 
 Skeleton:
 ```html
@@ -67,6 +68,7 @@ Skeleton:
 
 Mistakes:
 - Do not put `.sidebar` inside `<main>`.
+- Do not use `.container` for the shifted application canvas; its viewport breakpoints do not account for the rail.
 - Do not create a custom drawer with JavaScript.
 
 ## Workspace Browser

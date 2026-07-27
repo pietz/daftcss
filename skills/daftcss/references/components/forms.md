@@ -63,6 +63,27 @@ Disabled controls and disabled fieldsets use reduced opacity. A label around a d
 
 Use `[role="group"]` to join adjacent controls, with `.vertical` or `.full-width` when needed. Direct `code`, `samp`, `kbd`, `span`, or `output` children become muted non-editable addon segments.
 
+### Button width inside forms
+
+A button placed directly in a form fills the form's width, which suits a single stacked submit action. Three cases opt out, so you do not have to fight the default:
+
+- An action row: wrap buttons in `<footer>` or `.cluster` and they size to their content and share a row.
+- `.icon` buttons, which stay square.
+- `.link` buttons, which are inline text.
+
+```html
+<form class="stack max-w-xl">
+  <label for="name">Name</label>
+  <input id="name" name="name">
+  <footer class="cluster justify-end">
+    <button class="outline" type="button">Cancel</button>
+    <button type="submit">Save</button>
+  </footer>
+</form>
+```
+
+Search forms (`[role="search"]`) keep every button inline.
+
 ```html
 <div role="group">
   <span>https://</span>

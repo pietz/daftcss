@@ -124,6 +124,26 @@ test("the modal width token controls bare and article dialog surfaces", async ({
   expect(widths).toEqual({ article: "320px", bare: "320px" });
 });
 
+test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+
+  const gutters = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <aside class="sidebar"><nav><ul><li><a href="#">Overview</a></li></ul></nav></aside>
+      <main class="container-fluid"><article>Application content</article></main>`;
+    const sidebar = document.querySelector(".sidebar").getBoundingClientRect();
+    const article = document.querySelector("article").getBoundingClientRect();
+    return {
+      left: article.left - sidebar.right,
+      right: innerWidth - article.right,
+    };
+  });
+
+  expect(gutters.left).toBeGreaterThanOrEqual(16);
+  expect(gutters.right).toBeGreaterThanOrEqual(16);
+});
+
 test("a bare sidebar toggle is hidden at desktop widths", async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.goto("/components/");
@@ -197,4 +217,199 @@ test("theme attributes switch semantic colors", async ({ page }) => {
   });
 
   expect(colors.dark).not.toBe(colors.light);
+});
+
+/* Regressions found by building four realistic pages against the framework
+   with zero custom CSS (see examples/agent-evals/FINDINGS.md). Each of these
+   shipped as a silent defect that the rest of the suite could not see. */
+
+test("form action rows keep buttons inline instead of stretching them", async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 700 });
+  await page.goto("/components/");
+
+  const widths = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main class="container">
+        <form>
+          <label for="field">Name</label>
+          <input id="field" name="field">
+          <button id="bare" type="submit">Stretches by design</button>
+          <button id="inline" class="link small" type="button">Read the full agreement</button>
+          <footer class="cluster justify-end">
+            <button id="cancel" class="secondary" type="button">Cancel</button>
+            <button id="save" type="submit">Save changes</button>
+          </footer>
+        </form>
+      </main>`;
+    const width = (id) => document.getElementById(id).getBoundingClientRect().width;
+    return {
+      bare: width("bare"),
+      cancel: width("cancel"),
+      form: document.querySelector("form").getBoundingClientRect().width,
+      inline: width("inline"),
+      save: width("save"),
+      sameRow: document.getElementById("cancel").getBoundingClientRect().top
+        === document.getElementById("save").getBoundingClientRect().top,
+    };
+  });
+
+  // A bare form button still spans the form, preserving the documented default.
+  expect(widths.bare).toBeCloseTo(widths.form, 0);
+  // Buttons in a .cluster/<footer> action row size to content and share a row.
+  expect(widths.cancel).toBeLessThan(widths.form / 2);
+  expect(widths.save).toBeLessThan(widths.form / 2);
+  expect(widths.sameRow).toBe(true);
+  // A .link button is inline text and must never be stretched into a block.
+  expect(widths.inline).toBeLessThan(widths.form / 2);
+});
+
+test('role="list" opts out of marker and indent styling', async ({ page }) => {
+  await page.goto("/components/");
+
+  const lists = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main class="container">
+        <ul id="semantic" role="list"><li>Order 88213</li></ul>
+        <ul id="prose"><li>Order 88213</li></ul>
+        <ol id="semantic-ol" role="list"><li>Step one</li></ol>
+        <ol id="prose-ol"><li>Step one</li></ol>
+      </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { marker: style.listStyleType, padding: style.paddingLeft };
+    };
+    return {
+      prose: read("prose"),
+      proseOl: read("prose-ol"),
+      semantic: read("semantic"),
+      semanticOl: read("semantic-ol"),
+    };
+  });
+
+  expect(lists.semantic).toEqual({ marker: "none", padding: "0px" });
+  expect(lists.semanticOl).toEqual({ marker: "none", padding: "0px" });
+  // Prose lists are untouched.
+  expect(lists.prose.marker).toBe("disc");
+  expect(lists.proseOl.marker).toBe("decimal");
+  expect(parseFloat(lists.prose.padding)).toBeGreaterThan(0);
+});
+
+test("outline status badges meet AA contrast on light surfaces", async ({ page }) => {
+  await page.goto("/components/");
+
+  const ratios = await page.evaluate(() => {
+    document.documentElement.dataset.theme = "light";
+    document.body.innerHTML = `
+      <main class="container">
+        <article><article id="surface">
+          <span class="badge outline destructive" id="destructive">Failed</span>
+          <span class="badge outline success" id="success">Paid</span>
+          <span class="badge outline warning" id="warning">Pending</span>
+          <span class="badge outline" id="primary">Draft</span>
+        </article></article>
+      </main>`;
+
+    const toRgb = (color) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#000";
+      context.fillRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      return context.getImageData(0, 0, 1, 1).data;
+    };
+    const luminance = (rgb) => {
+      const channel = (value) => {
+        const ratio = value / 255;
+        return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+    };
+    const contrast = (foreground, background) => {
+      const first = luminance(toRgb(foreground));
+      const second = luminance(toRgb(background));
+      const lighter = Math.max(first, second);
+      const darker = Math.min(first, second);
+      return (lighter + 0.05) / (darker + 0.05);
+    };
+
+    const surface = getComputedStyle(document.getElementById("surface")).backgroundColor;
+    const measure = (id) => contrast(getComputedStyle(document.getElementById(id)).color, surface);
+    return {
+      destructive: measure("destructive"),
+      primary: measure("primary"),
+      success: measure("success"),
+      warning: measure("warning"),
+    };
+  });
+
+  // Badge text is --text-xs, so WCAG AA normal-text applies.
+  for (const [variant, ratio] of Object.entries(ratios)) {
+    expect(ratio, `${variant} outline badge contrast`).toBeGreaterThanOrEqual(4.5);
+  }
+});
+
+test("a solid secondary badge stays visible on muted surfaces", async ({ page }) => {
+  await page.goto("/components/");
+
+  const badge = await page.evaluate(() => {
+    document.documentElement.dataset.theme = "light";
+    document.body.innerHTML = `
+      <main class="container">
+        <article><article id="surface">
+          <span class="badge secondary" id="badge">Bug</span>
+        </article></article>
+      </main>`;
+    const style = getComputedStyle(document.getElementById("badge"));
+    return {
+      background: style.backgroundColor,
+      borderColor: style.borderTopColor,
+      borderWidth: parseFloat(style.borderTopWidth),
+      surface: getComputedStyle(document.getElementById("surface")).backgroundColor,
+    };
+  });
+
+  // The fill deliberately matches --muted, so the stroke is what delineates it.
+  expect(badge.background).toBe(badge.surface);
+  expect(badge.borderWidth).toBeGreaterThan(0);
+  expect(badge.borderColor).not.toBe(badge.surface);
+});
+
+test(".grow lets a truncating cell shrink instead of forcing a cluster to wrap", async ({ page }) => {
+  await page.setViewportSize({ width: 700, height: 600 });
+  await page.goto("/components/");
+
+  const rows = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main class="container">
+        <article>
+          <div class="cluster" id="plain">
+            <span class="avatar small">MJ</span>
+            <span class="truncate">Customer cannot complete checkout after the latest billing migration and is asking for an urgent callback today</span>
+            <span class="badge">Open</span>
+          </div>
+          <div class="cluster" id="grown">
+            <span class="avatar small" id="avatar">MJ</span>
+            <span class="truncate grow" id="subject">Customer cannot complete checkout after the latest billing migration and is asking for an urgent callback today</span>
+            <span class="badge" id="badge">Open</span>
+          </div>
+        </article>
+      </main>`;
+    const box = (id) => document.getElementById(id).getBoundingClientRect();
+    const middle = (id) => Math.round(box(id).top + box(id).height / 2);
+    const subject = document.getElementById("subject");
+    return {
+      grownHeight: box("grown").height,
+      plainHeight: box("plain").height,
+      sameRow: middle("avatar") === middle("subject") && middle("subject") === middle("badge"),
+      truncated: subject.scrollWidth > subject.clientWidth,
+    };
+  });
+
+  // All three cells share one row and the subject clips rather than wrapping.
+  expect(rows.sameRow).toBe(true);
+  expect(rows.truncated).toBe(true);
+  // Without .grow the same markup wraps, so the row is measurably taller.
+  expect(rows.grownHeight).toBeLessThan(rows.plainHeight);
 });

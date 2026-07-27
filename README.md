@@ -438,6 +438,7 @@ For when semantic HTML alone isn't enough. Daft ships a tiny utility escape hatc
 | Display | `.flex` `.flex-col` |
 | Layout primitives | `.cluster` `.stack` |
 | Flex align | `.items-center` `.justify-center` `.justify-between` `.justify-end` |
+| Flex slack | `.grow` |
 | Gap | `.gap-1` `.gap-2` `.gap-3` `.gap-4` `.gap-6` `.gap-8` |
 | Width | `.w-full` |
 | Max width | `.max-w-xs` `.max-w-sm` `.max-w-md` `.max-w-lg` `.max-w-xl` `.max-w-2xl` `.max-w-3xl` |

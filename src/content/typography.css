@@ -175,17 +175,25 @@ blockquote {
   }
 }
 
-/* Lists */
+/* Lists.
+   role="list" opts out of marker and indent styling — the reset layer zeroes
+   both, and this layer must not put them back. Without the :not(), these rules
+   win on layer order alone (content follows reset) and silently defeat the
+   reset, leaving role="list" with no effect at all. Vertical rhythm still
+   applies, since the reset only clears markers and padding. */
 ul, ol {
   margin-bottom: var(--spacing);
+}
+
+ul:not([role="list"]), ol:not([role="list"]) {
   padding-left: calc(var(--spacing) * 1.25);
 }
 
-ul {
+ul:not([role="list"]) {
   list-style-type: disc;
 }
 
-ol {
+ol:not([role="list"]) {
   list-style-type: decimal;
 }
 

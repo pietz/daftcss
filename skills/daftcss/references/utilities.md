@@ -40,9 +40,22 @@ Do not use visibility utilities to conceal content that remains necessary to und
 - Alignment: `.items-center`
 - Distribution: `.justify-center`, `.justify-between`, `.justify-end`
 - Gaps: `.gap-1`, `.gap-2`, `.gap-3`, `.gap-4`, `.gap-6`, `.gap-8`
+- Slack: `.grow`
 - Purpose-built flow: `.cluster`, `.stack`
 
 Prefer `.cluster` for a wrapping row and `.stack` for a vertical sequence.
+
+`.grow` marks the one cell in a row that absorbs leftover space. Flex items size from their content, so a long child forces the row to wrap rather than shrink. A list row of avatar + subject + badge needs `.grow` on the subject, otherwise each cell lands on its own line:
+
+```html
+<div class="cluster">
+  <span class="avatar small">MJ</span>
+  <span class="truncate grow">Customer cannot export invoices to QuickBooks</span>
+  <span class="badge">Open</span>
+</div>
+```
+
+Pair it with `.truncate` for a single-line row, or use it alone to let one cell take the remaining width.
 
 ## Width and height
 

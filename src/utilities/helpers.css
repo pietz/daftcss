@@ -148,6 +148,15 @@
   flex-direction: column;
 }
 
+/* Marks the cell that absorbs a row's slack. Flex items size from their content
+   by default, so a long child forces an early wrap instead of shrinking — a
+   .truncate subject between an avatar and a badge lands on its own line. Zero
+   flex-basis makes this child yield its content width to the row. */
+.grow {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 /* Composite layout primitives — read as intent, compose Daft's flex atoms. */
 .cluster {
   display: flex;

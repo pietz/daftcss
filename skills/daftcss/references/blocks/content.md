@@ -70,7 +70,7 @@ Rules:
 
 Skeleton:
 ```html
-<div class="overflow-auto" tabindex="0" aria-label="Scrollable feature comparison">
+<div class="overflow-auto" role="region" tabindex="0" aria-label="Scrollable feature comparison">
   <table>
     <thead>
       <tr><th>Capability</th><th>Daft</th><th>Custom CSS</th></tr>

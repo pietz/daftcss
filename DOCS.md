@@ -1201,6 +1201,14 @@ Add the `.sticky` class for sticky positioning:
 
 <div class="w-full">Full width</div>
 
+<!-- .grow marks the cell that absorbs a row's leftover space.
+     Without it, a long child wraps the row instead of shrinking. -->
+<div class="cluster">
+  <span class="avatar small">MJ</span>
+  <span class="truncate grow">Customer cannot export invoices to QuickBooks</span>
+  <span class="badge">Open</span>
+</div>
+
 <!-- Max width scale (centered columns, narrow text blocks) -->
 <div class="max-w-xs">20rem</div>
 <div class="max-w-sm">24rem</div>

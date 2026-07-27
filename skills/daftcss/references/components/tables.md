@@ -68,7 +68,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 Wrap a wide table in `.overflow-auto` for scrolling, or place it directly in a `<figure>`; `figure:has(> table)` scrolls horizontally. In either wrapper, the table's bottom margin is removed.
 
 ```html
-<div class="overflow-auto" tabindex="0" aria-label="Scrollable project status table">
+<div class="overflow-auto" role="region" tabindex="0" aria-label="Scrollable project status table">
   <table class="striped">…</table>
 </div>
 ```

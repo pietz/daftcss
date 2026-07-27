@@ -39,6 +39,8 @@ Use native `<button>` for actions and `<a href>` for navigation. Daft also style
 
 Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`.
 
+Inside a `<form>`, a button fills the form's width by default. Wrap buttons in `<footer>` or `.cluster` for a content-sized action row; `.icon` and `.link` buttons are never stretched. See [forms.md](forms.md#button-width-inside-forms).
+
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.

@@ -567,14 +567,17 @@
 
   ul, ol {
     margin-bottom: var(--spacing);
+  }
+
+  ul:not([role="list"]), ol:not([role="list"]) {
     padding-left: calc(var(--spacing) * 1.25);
   }
 
-  ul {
+  ul:not([role="list"]) {
     list-style-type: disc;
   }
 
-  ol {
+  ol:not([role="list"]) {
     list-style-type: decimal;
   }
 
@@ -774,8 +777,12 @@
     }
   }
 
-  form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+  form:not([role="search"]) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon, .link) {
     width: 100%;
+  }
+
+  form:not([role="search"]) :is(.cluster, footer) :is(button, [type="submit"], [type="reset"], [type="button"]):not(.icon) {
+    width: auto;
   }
 
   :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select).small, [role="group"].small > :is(input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"])), select) {
@@ -2355,6 +2362,10 @@
     --badge-on-tint: var(--secondary-foreground);
   }
 
+  .badge.secondary:not(.outline) {
+    border-color: var(--border);
+  }
+
   .badge.destructive {
     --badge-tint: var(--destructive);
     --badge-on-tint: var(--destructive-foreground);
@@ -2371,7 +2382,7 @@
   }
 
   .badge.outline {
-    color: var(--badge-tint);
+    color: light-dark(oklch(from var(--badge-tint) min(l, .5) c h), var(--badge-tint));
     border-color: var(--badge-tint);
     background-color: #0000;
   }
@@ -3044,6 +3055,11 @@
 
   .flex-col {
     flex-direction: column;
+  }
+
+  .grow {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .cluster {

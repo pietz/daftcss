@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Components</title>
-  <link rel="stylesheet" href="../dist/daft.css?v=1.16.0">
+  <link rel="stylesheet" href="../dist/daft.css?v=1.17.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css" integrity="sha384-w6Ujm1VWa9HYFqGc89oAPn/DWDi2gUamjNrq9DRvEYm2X3ClItg9Y9xs1ViVo5b5" crossorigin="anonymous" media="(prefers-color-scheme: light)">
@@ -573,6 +573,11 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <input type="email" placeholder="Email">
             <button>Submit</button>
           </div>
+          <div class="cluster" style="margin-top: var(--spacing)">
+            <span class="avatar small">ML</span>
+            <span class="truncate grow">Can't export invoices to QuickBooks since last week's update</span>
+            <span class="badge">Open</span>
+          </div>
         </article>
         <article>
           <pre><code>&lt;!-- Wrapping horizontal row, centered, gap --&gt;
@@ -587,6 +592,15 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;input type="text" placeholder="Name"&gt;
   &lt;input type="email" placeholder="Email"&gt;
   &lt;button&gt;Submit&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- .grow marks the cell that absorbs the row's
+     slack, so the subject truncates instead of
+     wrapping the row --&gt;
+&lt;div class="cluster"&gt;
+  &lt;span class="avatar small"&gt;ML&lt;/span&gt;
+  &lt;span class="truncate grow"&gt;Can't export invoices…&lt;/span&gt;
+  &lt;span class="badge"&gt;Open&lt;/span&gt;
 &lt;/div&gt;</code></pre>
         </article>
       </div>

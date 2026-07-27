@@ -37,6 +37,7 @@
 - Give a mobile drawer an `id`, the `popover` attribute, and an invoker with `popovertarget` set to that id. A bare `popover` is an auto popover.
 - Put sidebar navigation in `<nav><ul><li>…</li></ul></nav>`. Links must be direct children of their list items.
 - Use `.label` as a direct child of the sidebar nav, or on a list item. A `strong` inside a list item also acts as a section label.
+- Use `.container-fluid` on direct shifted headers and main content. It retains responsive horizontal gutters beside the fixed rail. A breakpoint-sized `.container` uses full-viewport breakpoints and loses its automatic left margin when the rail shifts it, so it can touch the sidebar.
 
 ## Variants and options
 
@@ -68,3 +69,4 @@ Use the sidebar with body-level `header`, `nav`, `main`, and `footer` siblings. 
 - Do not omit `popover` and expect a mobile toggle to reveal the sidebar.
 - Do not replace the native popover drawer with a custom JavaScript drawer for this pattern.
 - Do not use an unlabeled icon-only `.sidebar-toggle`.
+- Do not use `.container` as the direct shifted application canvas; use `.container-fluid` so both edges retain horizontal breathing room.
