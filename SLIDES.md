@@ -39,7 +39,7 @@ Add one class to a `<section>` to change its role:
 | *(none)*    | Default. Top-aligned single column.                  |
 | `title`     | Cover / opener. Centered, larger heading.            |
 | `quote`     | Centered pull quote with optional `<cite>`.          |
-| `full`      | Edge-to-edge image / video / figure.                 |
+| `full`      | Edge-to-edge direct image or video.                  |
 | `code`      | Code-focused. Larger `<pre>` font.                   |
 
 Plus one positional modifier that composes with any role:
@@ -106,8 +106,8 @@ PDF export captures whichever theme is active at print time — toggle your OS a
 
 ### Adjust type scale
 
-Slide typography uses container-query units, so headings and body copy scale with
-the slide canvas. `h1` through `h6` all have slide-specific sizes; use the
+Slide typography scales from the fitted slide canvas, so resizing the browser does
+not change its proportions. `h1` through `h6` all have slide-specific sizes; use the
 heading level that matches the visual hierarchy you want. In an `hgroup`, the
 paragraph acts as a subtitle and is sized like `h4`.
 
@@ -146,11 +146,14 @@ ratio from them, and PDF export uses the same values as inch dimensions.
 | `--slide-width`       | `16`                 | Slide width proportion / print inches. |
 | `--slide-height`      | `9`                  | Slide height proportion / print inches. |
 | `--slide-aspect`      | `calc(var(--slide-width) / var(--slide-height))` | Derived slide aspect ratio. |
-| `--slide-padding`     | `5cqi`               | Inner padding (scales with slide).   |
-| `--slide-text`        | `2.2cqi`             | Base body text size.                 |
-| `--slide-text-scale`  | `1`                  | User multiplier for all text.        |
+| `--slide-padding`     | automatic            | Optional fixed-length override for inner padding. |
+| `--slide-padding-scale` | `1`                | Proportional multiplier for automatic slide padding. |
+| `--slide-text`        | automatic            | Optional fixed-length override for base body text. |
+| `--slide-text-scale`  | `1`                  | Proportional multiplier for all text. |
 | `--slide-bg`          | `var(--background)`  | Slide background.                    |
 | `--slide-gap`         | `2rem`               | Gap between stacked slides on screen.|
+
+Use `--slide-padding-scale` and `--slide-text-scale` when dimensions should remain proportional as the slide fits the window. Use `--slide-padding` or `--slide-text` only for an intentional fixed-length override such as `2rem`.
 
 ## PDF export
 

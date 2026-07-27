@@ -82,6 +82,8 @@
     --card-shadow: var(--shadow-xs);
     --dropdown-shadow: var(--shadow-md);
     --modal-shadow: var(--shadow-lg);
+    --card-padding: var(--spacing-lg);
+    --card-gap: var(--spacing);
     --button-height: var(--component-height);
     --button-height-sm: var(--component-height-sm);
     --button-height-lg: var(--component-height-lg);
@@ -1488,7 +1490,7 @@
   }
 
   article {
-    padding: var(--spacing-lg);
+    padding: var(--card-padding);
     background-color: var(--card);
     color: var(--card-foreground);
     border: var(--border-width) solid var(--border);
@@ -1502,7 +1504,7 @@
   }
 
   article > header {
-    margin-bottom: var(--spacing);
+    margin-bottom: var(--card-gap);
     padding: 0;
 
     &:last-child {
@@ -1552,7 +1554,7 @@
   }
 
   article > footer {
-    margin-top: var(--spacing);
+    margin-top: var(--card-gap);
     align-items: center;
     gap: var(--spacing-sm);
     padding: 0;
@@ -2714,8 +2716,7 @@
     --slide-width: 16;
     --slide-height: 9;
     --slide-aspect: calc(var(--slide-width) / var(--slide-height));
-    --slide-padding: 5cqi;
-    --slide-text: 2.2cqi;
+    --slide-padding-scale: 1;
     --slide-text-scale: 1;
     --slide-bg: var(--background);
     --slide-gap: 2rem;
@@ -2731,13 +2732,16 @@
     display: flex;
 
     & > section {
-      width: min(calc(100vw - 2 * var(--slide-gap)), calc((100vh - 2 * var(--slide-gap)) * var(--slide-aspect)));
+      --_slide-fitted-width: min(calc(100vw - 2 * var(--slide-gap)), calc((100vh - 2 * var(--slide-gap)) * var(--slide-aspect)));
+      --_slide-padding: calc(var(--_slide-fitted-width) / 22 * var(--slide-padding-scale));
+      --_slide-text: calc((var(--_slide-fitted-width)  - 2 * var(--slide-padding, var(--_slide-padding))) * .022);
+      width: var(--_slide-fitted-width);
       aspect-ratio: var(--slide-aspect);
       background: var(--slide-bg);
       color: var(--foreground);
       border-radius: var(--radius);
-      padding: var(--slide-padding);
-      font-size: calc(var(--slide-text) * var(--slide-text-scale));
+      padding: var(--slide-padding, var(--_slide-padding));
+      font-size: calc(var(--slide-text, var(--_slide-text)) * var(--slide-text-scale));
       flex-direction: column;
       justify-content: flex-start;
       gap: 1.5em;
@@ -2787,7 +2791,7 @@
       }
 
       & :is(p, li) {
-        font-size: calc(var(--slide-text) * var(--slide-text-scale));
+        font-size: calc(var(--slide-text, var(--_slide-text)) * var(--slide-text-scale));
         margin: 0;
       }
 
@@ -2838,7 +2842,7 @@
         }
 
         & cite {
-          font-size: calc(var(--slide-text) * var(--slide-text-scale));
+          font-size: calc(var(--slide-text, var(--_slide-text)) * var(--slide-text-scale));
           opacity: .7;
           margin-top: .6em;
           font-style: normal;
@@ -2864,7 +2868,7 @@
       }
 
       &.grid, & > .grid {
-        gap: calc(var(--slide-padding) / 2);
+        gap: calc(var(--slide-padding, var(--_slide-padding)) / 2);
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         align-items: stretch;
         width: 100%;
@@ -2921,7 +2925,8 @@
       padding: 0;
 
       & > section {
-        width: calc(var(--slide-width) * 1in);
+        --_slide-fitted-width: calc(var(--slide-width) * 1in);
+        width: var(--_slide-fitted-width);
         height: calc(var(--slide-height) * 1in);
         max-width: none;
         box-shadow: none;

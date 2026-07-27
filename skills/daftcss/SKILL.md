@@ -1,6 +1,6 @@
 ---
 name: daftcss
-description: Build, edit, or evaluate UIs with Daft CSS, a semantic-first CSS framework for raw HTML. Use when the user mentions Daft CSS or daftcss, when a project imports daft.css or daft.min.css, or when Daft is being considered for a UI.
+description: Build, edit, or evaluate UIs and HTML presentation decks with Daft CSS, a semantic-first CSS framework for raw HTML. Use when the user mentions Daft CSS or daftcss, when a project imports daft.css or daft.min.css, or when Daft is being considered for a UI or deck.
 ---
 
 # Daft CSS
@@ -9,22 +9,21 @@ Daft gives raw semantic HTML polished application styling. Native elements are t
 
 ## How to work with Daft
 
-1. If starting from scratch, load [quick-start.md](references/quick-start.md).
-2. For a full page or section, load the small [blocks router](references/blocks.md), then only its relevant block group.
-3. Write semantic landmarks and controls before adding classes.
-4. Load only the relevant component references from the catalog below.
-5. Compose with `.container`, `.grid`, `.cluster`, and `.stack` before lower-level utilities.
-6. Retune tokens instead of overriding component selectors. Load [theming.md](references/theming.md) for branded work.
-7. Add application CSS only when the framework API cannot express a real product requirement.
+1. For `<body class="deck">`, presentation, or PDF-deck work, load [slides.md](references/slides.md) first.
+2. If starting an ordinary page from scratch, load [quick-start.md](references/quick-start.md).
+3. When the request calls for a conventional application, marketing, or documentation section, load the small [blocks router](references/blocks.md), then only its relevant block group.
+4. Write semantic landmarks and controls before adding classes.
+5. Load only the relevant component references from the catalog below.
+6. Compose with `.container`, `.grid`, `.cluster`, and `.stack` before lower-level utilities.
+7. Retune tokens before overriding component selectors. Load [theming.md](references/theming.md) for branded work.
+8. Add scoped project CSS when the framework API cannot express the intended product or visual design.
 
 ## Core rules
 
-- Use native elements and states: `<button>`, `<article>`, `<dialog>`, `<details>`, `disabled`, `aria-current`, and `aria-invalid`.
-- A true modal requires `<dialog>.showModal()`. `<dialog popover>` is a non-modal, light-dismiss overlay.
-- `aria-disabled` and `aria-busy` communicate state but do not disable keyboard activation. Use native `disabled` when a form control must be unavailable.
-- Cards are `<article>` elements, not `.card` classes.
-- Use CSS variables for design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors.
-- Keep essential content and controls visible. Prefer wrapping or native menus to clipping.
+- Use native elements and states before optional classes.
+- Use documented Daft components and layout primitives before inventing framework APIs.
+- Use CSS variables for system-wide design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors.
+- Keep project-specific composition in CSS loaded after Daft.
 
 ## Component catalog
 

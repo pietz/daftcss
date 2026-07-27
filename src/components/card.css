@@ -4,7 +4,7 @@
  */
 
 article {
-  padding: var(--spacing-lg);
+  padding: var(--card-padding);
   background-color: var(--card);
   color: var(--card-foreground);
   border: var(--border-width) solid var(--border);
@@ -20,7 +20,7 @@ article:last-child {
 /* Card header */
 article > header {
   padding: 0;
-  margin-bottom: var(--spacing);
+  margin-bottom: var(--card-gap);
 
   &:last-child {
     margin-bottom: 0;
@@ -83,7 +83,7 @@ article > header > hgroup > p {
 /* Card footer */
 article > footer {
   padding: 0;
-  margin-top: var(--spacing);
+  margin-top: var(--card-gap);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);

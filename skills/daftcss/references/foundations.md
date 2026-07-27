@@ -84,7 +84,8 @@ Use these when one component should diverge without disconnecting the rest of th
 |---|---|
 | Buttons | `--button-radius`, `--button-shadow`, `--button-height`, `--button-height-sm`, `--button-height-lg` |
 | Inputs | `--input-radius`, `--input-height`, `--input-height-sm`, `--input-height-lg` |
-| Cards/dialogs | `--card-radius`, `--card-shadow`, `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay` |
+| Cards | `--card-radius`, `--card-shadow`, `--card-padding`, `--card-gap` |
+| Dialogs | `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay` |
 | Floating surfaces | `--dropdown-radius`, `--dropdown-shadow`, `--tooltip-radius` |
 | Small controls | `--badge-radius`, `--progress-radius`, `--control-size` |
 | Switches | `--switch-width`, `--switch-height`, `--switch-thumb` |

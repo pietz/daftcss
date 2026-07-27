@@ -152,6 +152,10 @@
   --dropdown-shadow: var(--shadow-md);
   --modal-shadow: var(--shadow-lg);
 
+  /* Card */
+  --card-padding: var(--spacing-lg);
+  --card-gap: var(--spacing);
+
   /* Button */
   --button-height: var(--component-height);
   --button-height-sm: var(--component-height-sm);

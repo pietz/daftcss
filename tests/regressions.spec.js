@@ -124,6 +124,34 @@ test("the modal width token controls bare and article dialog surfaces", async ({
   expect(widths).toEqual({ article: "320px", bare: "320px" });
 });
 
+test("card spacing follows root scale and card-level token overrides", async ({ page }) => {
+  await page.goto("/components/");
+
+  const spacing = await page.evaluate(() => {
+    const root = document.documentElement;
+    root.style.setProperty("--spacing", "20px");
+    const article = document.createElement("article");
+    article.innerHTML = "<header><strong>Title</strong></header><p>Body</p><footer>Metadata</footer>";
+    document.body.append(article);
+
+    const read = () => ({
+      footerGap: getComputedStyle(article.lastElementChild).marginTop,
+      headerGap: getComputedStyle(article.firstElementChild).marginBottom,
+      padding: getComputedStyle(article).padding,
+    });
+    const fromRootScale = read();
+
+    article.style.setProperty("--card-padding", "20px");
+    article.style.setProperty("--card-gap", "12px");
+    return { fromCardTokens: read(), fromRootScale };
+  });
+
+  expect(spacing).toEqual({
+    fromCardTokens: { footerGap: "12px", headerGap: "12px", padding: "20px" },
+    fromRootScale: { footerGap: "20px", headerGap: "20px", padding: "30px" },
+  });
+});
+
 test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");
@@ -217,6 +245,114 @@ test("theme attributes switch semantic colors", async ({ page }) => {
   });
 
   expect(colors.dark).not.toBe(colors.light);
+});
+
+test("slide spacing and type stay proportional to the fitted canvas", async ({ page }) => {
+  await page.goto("/slides/");
+
+  for (const viewport of [
+    { width: 1600, height: 900 },
+    { width: 375, height: 812 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const metrics = await page.locator("body.deck > section").nth(1).evaluate((slide) => {
+      const paragraph = slide.querySelector("p");
+      const rect = slide.getBoundingClientRect();
+      const style = getComputedStyle(slide);
+      const padding = Number.parseFloat(style.paddingInlineStart);
+      return {
+        contentWidth: rect.width - 2 * padding,
+        fontSize: Number.parseFloat(style.fontSize),
+        padding,
+        paragraphSize: Number.parseFloat(getComputedStyle(paragraph).fontSize),
+        slideWidth: rect.width,
+      };
+    });
+
+    expect(metrics.padding).toBeCloseTo(metrics.contentWidth * 0.05, 1);
+    expect(metrics.fontSize).toBeCloseTo(metrics.contentWidth * 0.022, 1);
+    expect(metrics.paragraphSize).toBeCloseTo(metrics.contentWidth * 0.022, 1);
+    expect(metrics.slideWidth).toBeLessThanOrEqual(viewport.width);
+  }
+});
+
+test("slide sizing supports fixed overrides and proportional scale tokens", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/slides/");
+
+  const slide = page.locator("body.deck > section").first();
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty("--slide-padding", "40px");
+    document.body.style.setProperty("--slide-text", "18px");
+  });
+  await expect(slide).toHaveCSS("padding", "40px");
+  await expect(slide).toHaveCSS("font-size", "18px");
+
+  await slide.evaluate((element) => {
+    element.style.setProperty("--slide-padding", "24px");
+    element.style.setProperty("--slide-text", "16px");
+  });
+  await expect(slide).toHaveCSS("padding", "24px");
+  await expect(slide).toHaveCSS("font-size", "16px");
+
+  await page.evaluate(() => {
+    document.documentElement.style.removeProperty("--slide-padding");
+    document.body.style.removeProperty("--slide-text");
+    document.body.style.setProperty("--slide-padding-scale", "0.5");
+    document.body.style.setProperty("--slide-text-scale", "0.75");
+    const firstSlide = document.querySelector("body.deck > section");
+    firstSlide.style.removeProperty("--slide-padding");
+    firstSlide.style.removeProperty("--slide-text");
+  });
+
+  const ratios = [];
+  for (const viewport of [
+    { width: 1280, height: 720 },
+    { width: 1600, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    ratios.push(await slide.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      const padding = Number.parseFloat(style.paddingInlineStart);
+      return {
+        padding: padding / rect.width,
+        text: Number.parseFloat(style.fontSize) / (rect.width - 2 * padding),
+      };
+    }));
+  }
+
+  expect(ratios[0].padding).toBeCloseTo(ratios[1].padding, 4);
+  expect(ratios[0].text).toBeCloseTo(0.022 * 0.75, 4);
+  expect(ratios[1].text).toBeCloseTo(0.022 * 0.75, 4);
+});
+
+test("custom slide ratios retain proportional screen and print sizing", async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 900 });
+  await page.goto("/slides/");
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty("--slide-width", "4");
+    document.documentElement.style.setProperty("--slide-height", "3");
+  });
+
+  const slide = page.locator("body.deck > section").nth(1);
+  const screen = await slide.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const padding = Number.parseFloat(getComputedStyle(element).paddingInlineStart);
+    return { contentWidth: rect.width - 2 * padding, height: rect.height, padding, width: rect.width };
+  });
+  expect(screen.width / screen.height).toBeCloseTo(4 / 3, 2);
+  expect(screen.padding).toBeCloseTo(screen.contentWidth * 0.05, 1);
+
+  await page.emulateMedia({ media: "print" });
+  const print = await slide.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const padding = Number.parseFloat(getComputedStyle(element).paddingInlineStart);
+    return { contentWidth: rect.width - 2 * padding, height: rect.height, padding, width: rect.width };
+  });
+  expect(print.width).toBeCloseTo(4 * 96, 0);
+  expect(print.height).toBeCloseTo(3 * 96, 0);
+  expect(print.padding).toBeCloseTo(print.contentWidth * 0.05, 1);
 });
 
 /* Regressions found by building four realistic pages against the framework

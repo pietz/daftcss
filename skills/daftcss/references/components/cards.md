@@ -56,6 +56,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 - `--card`, `--card-foreground`, `--border`
 - `--card-radius`, `--card-shadow`
+- `--card-padding`, `--card-gap`
 - `--spacing`, `--spacing-sm`, `--spacing-lg`
 - `--text-lg`, `--text-sm`, `--line-height-sm`, `--muted-foreground`
 

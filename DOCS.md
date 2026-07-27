@@ -169,6 +169,15 @@ Each elevated component has its own shadow token. Set any to `none` to flatten t
 }
 ```
 
+**Card Spacing:**
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--card-padding` | `var(--spacing-lg)` | Space between a card edge and its content |
+| `--card-gap` | `var(--spacing)` | Separation from a card header or footer to its body |
+
+Override them together for compact cards, or independently when outer padding and internal section rhythm should differ.
+
 ---
 
 ## Layout

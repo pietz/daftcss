@@ -2,6 +2,12 @@
 
 Load this reference when creating or editing an HTML-native presentation deck with Daft.
 
+## Authoring approach
+
+Plan the story and dominant visual evidence for each slide before choosing markup. Vary composition according to the content rather than cycling through a fixed set of layouts.
+
+Daft supplies the semantic substrate, proportional slide type, ordinary components, tokens, and print behavior. Start with those foundations, then add intentional deck-specific CSS when the design calls for it. A presentation is not limited to Daft's built-in role classes.
+
 ## Basic deck
 
 `<body class="deck">` turns each direct-child `<section>` into a slide:
@@ -28,14 +34,14 @@ Slides inherit the normal Daft token system and compose with the normal `.grid`,
 
 ## Slide roles
 
-Use at most one primary role class per slide:
+The role classes are optional presentation effects, not a required taxonomy:
 
 - `.title`: centered title-slide composition
 - `.quote`: large pull quote
 - `.full`: edge-to-edge direct image or video
 - `.code`: enlarged code presentation
 
-Use `.center` as an independent positional modifier when ordinary slide content should center vertically.
+Start with an ordinary semantic `<section>`. Add a role only when its behavior matches the content. Use `.center` independently when ordinary slide content should center vertically.
 
 ## Grid composition
 
@@ -51,7 +57,15 @@ Keep a slide heading outside its grid because the slide itself is already a flex
 </section>
 ```
 
-`.span-2`, `.span-3`, and `.span-4` are weights, not fixed columns. Avoid slide-specific layout classes when regular Daft layout primitives work.
+`.span-2`, `.span-3`, and `.span-4` are weights, not fixed columns. Use regular Daft layout primitives when they express the composition clearly; use scoped deck CSS when they do not.
+
+## Custom deck styling
+
+Set deck-wide character with tokens first, then put bespoke composition in a stylesheet loaded after Daft and scoped to `.deck` or a named deck class. Custom CSS is a normal part of art-directed deck work, not a framework failure.
+
+Prefer a small set of recurring semantic selectors over per-slide utility chains or a new slide DSL. Normal flow and grid suit most content; positioning is valid for intentional overlays, annotations, and spatial diagrams. Inline SVG is appropriate for custom charts and diagrams when the surrounding HTML or an accessible name carries their meaning.
+
+Do not invent Daft classes that the library does not provide. A deck-local class is application CSS, not a new framework API.
 
 ## Media
 
@@ -61,7 +75,7 @@ Keep a slide heading outside its grid because the slide itself is already a flex
 </section>
 ```
 
-A direct `<img>` or `<video>` in a full slide fills the slide and crops with `object-fit: cover`. A `<figure>` is not currently made cover-sized by `.full`; use a direct media child for this role. Provide meaningful alternative text unless the same information is fully expressed in adjacent slide content.
+A direct `<img>` or `<video>` in a full slide fills the slide and crops with `object-fit: cover`. Although a direct `<figure>` receives the full-slide frame, its child media is not automatically made full-bleed. Use a direct media child, or add deck CSS for a captioned full-bleed figure. Provide meaningful alternative text unless the same information is fully expressed in adjacent slide content.
 
 ## Speaker notes
 
@@ -81,13 +95,14 @@ A direct `<img>` or `<video>` in a full slide fills the slide and crops with `ob
 | `--slide-width` | `16` | Print width ratio |
 | `--slide-height` | `9` | Print height ratio |
 | `--slide-aspect` | calculated | Screen aspect ratio |
-| `--slide-padding` | `5cqi` | Internal slide spacing |
-| `--slide-text` | `2.2cqi` | Base slide text |
-| `--slide-text-scale` | `1` | Per-deck or per-slide type multiplier |
+| `--slide-padding` | automatic | Optional fixed-length override for internal spacing |
+| `--slide-padding-scale` | `1` | Per-deck or per-slide multiplier for proportional padding |
+| `--slide-text` | automatic | Optional fixed-length override for base text |
+| `--slide-text-scale` | `1` | Per-deck or per-slide multiplier for proportional type |
 | `--slide-bg` | `var(--background)` | Slide surface |
 | `--slide-gap` | `2rem` | Gap between slides in browser view |
 
-Override tokens on `:root`, `.deck`, or an individual slide rather than rebuilding the proportional typography.
+Override tokens on `:root`, `.deck`, or an individual slide rather than rebuilding the proportional typography. Use `--slide-padding-scale` and `--slide-text-scale` to retain fitted-slide proportions; reserve `--slide-padding` and `--slide-text` for intentional fixed-length overrides.
 
 ## Themes
 
@@ -98,14 +113,24 @@ The deck follows system preference. Pin the whole deck or create a theme island:
 <section data-theme="light">...</section>
 ```
 
+## Visual review
+
+Before delivery:
+
+1. Render every slide at the target aspect ratio.
+2. Check clipping, overflow, contrast, and unintended type shrinking.
+3. Check that hierarchy and composition serve the content rather than repeating mechanically.
+4. Compare against the accepted visual direction or reference and iterate.
+5. Verify print output as well as the browser view.
+
 ## PDF export
 
-Use the browser print dialog and save as PDF. Daft's `@page` rule sets the configured aspect ratio and removes browser-view gaps and shadows. Disable browser headers and footers.
+Use the browser print dialog and save as PDF. Daft's `@page` rule sets the configured aspect ratio and removes browser-view gaps and shadows. Disable browser headers and footers, enable background graphics, and use the deck's page size.
 
 ## Common mistakes
 
 - Do not use a nonexistent `.card` class; cards remain semantic `<article>` elements.
 - Do not put the heading inside the grid unless it should occupy a grid track.
-- Do not hand-position text with absolute coordinates.
+- Do not invent a layout taxonomy when ordinary HTML and scoped CSS express the design.
 - Do not use tiny document-scale text; let the container-relative slide scale work.
 - Do not treat hidden speaker notes as an implemented presenter view.
