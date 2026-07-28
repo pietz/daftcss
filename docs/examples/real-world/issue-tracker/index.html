@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Northstar Issues</title>
+    <link rel="stylesheet" href="../../../dist/daft.css">
+    <style>
+      :root {
+        --primary: light-dark(oklch(0.52 0.19 263), oklch(0.72 0.15 263));
+        --success: light-dark(oklch(0.53 0.14 151), oklch(0.73 0.13 151));
+        --warning: light-dark(oklch(0.67 0.15 74), oklch(0.82 0.13 79));
+        --muted: light-dark(oklch(0.97 0.008 264), oklch(0.25 0.018 264));
+        --border: light-dark(oklch(0.91 0.012 264), oklch(0.96 0.012 264 / 14%));
+        --radius: 0.5rem;
+        --spacing: 0.875rem;
+        --component-height: 2.125rem;
+        --aside-width: clamp(14rem, 18vw, 17rem);
+        --badge-radius: var(--radius-full);
+        --card-shadow: none;
+        --button-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <aside id="workspace-sidebar" class="sidebar" popover aria-label="Workspace navigation">
+      <nav aria-label="Northstar workspace">
+        <ul>
+          <li><strong>Northstar</strong></li>
+          <li><a href="#page-title">Overview</a></li>
+          <li><a href="#issues" aria-current="page">Issues <span class="badge outline secondary small">24</span></a></li>
+          <li><a href="#page-title">Roadmap</a></li>
+          <li><a href="#page-title">Cycles</a></li>
+        </ul>
+        <ul>
+          <li class="label">Projects</li>
+          <li><a href="#page-title">Website refresh</a></li>
+          <li><a href="#page-title">Mobile app</a></li>
+          <li><a href="#page-title">Public API</a></li>
+        </ul>
+        <ul>
+          <li class="label">Saved views</li>
+          <li><a href="#page-title">Assigned to me <span class="badge outline secondary small">6</span></a></li>
+          <li><a href="#page-title">Needs triage <span class="badge warning small">4</span></a></li>
+          <li><a href="#page-title">Blocked <span class="badge destructive small">2</span></a></li>
+        </ul>
+      </nav>
+      <footer>
+        <details>
+          <summary>Workspace help</summary>
+          <p class="text-sm muted">Use search to match issue keys, titles, or descriptions. Press Tab to reach the scrollable issue table.</p>
+          <a href="#page-title">View keyboard shortcuts</a>
+        </details>
+      </footer>
+    </aside>
+
+    <header class="container-fluid">
+      <nav aria-label="Application">
+        <ul>
+          <li>
+            <button class="ghost icon sidebar-toggle" type="button" popovertarget="workspace-sidebar" aria-label="Open workspace navigation" data-tooltip="Open navigation" data-placement="bottom">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+            </button>
+          </li>
+          <li><strong>Northstar</strong></li>
+        </ul>
+        <ul>
+          <li><span class="badge outline success">All systems operational</span></li>
+          <li><span class="avatar small" role="img" aria-label="Maya Chen">MC</span></li>
+          <li><a href="#page-title">Maya Chen</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container-fluid" id="issues">
+      <nav aria-label="breadcrumb">
+        <ul>
+          <li><a href="#page-title">Northstar</a></li>
+          <li><a href="#page-title">Website refresh</a></li>
+          <li>Issues</li>
+        </ul>
+      </nav>
+
+      <section aria-labelledby="page-title">
+        <header class="cluster justify-between">
+          <hgroup>
+            <h1 id="page-title">Website refresh</h1>
+            <p>Track delivery for the public-site launch on 28 June.</p>
+          </hgroup>
+          <div class="cluster">
+            <details class="dropdown">
+              <summary class="outline">Project actions</summary>
+              <ul dir="rtl">
+                <li class="label">Website refresh</li>
+                <li><a href="#saved-views-title">Project settings</a></li>
+                <li><a href="#saved-views-title">Export issues</a></li>
+                <li role="separator"></li>
+                <li><a href="#saved-views-title">Archive project</a></li>
+              </ul>
+            </details>
+            <button type="button" popovertarget="new-issue-dialog">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              New issue
+            </button>
+          </div>
+        </header>
+
+        <div class="grid">
+          <article>
+            <small class="muted">Open issues</small>
+            <p class="text-3xl m-0"><strong>24</strong></p>
+            <span class="badge outline secondary">8 in progress</span>
+          </article>
+          <article>
+            <small class="muted">Completed this cycle</small>
+            <p class="text-3xl m-0"><strong>18</strong></p>
+            <span class="badge success">+5 this week</span>
+          </article>
+          <article>
+            <small class="muted">Needs attention</small>
+            <p class="text-3xl m-0"><strong>6</strong></p>
+            <span class="badge warning">4 untriaged</span>
+          </article>
+          <article>
+            <small class="muted">Cycle 12</small>
+            <p class="text-3xl m-0"><strong>72%</strong></p>
+            <label class="text-sm">26 of 36 points<progress class="success" value="26" max="36">26 of 36 points</progress></label>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="issue-list-title">
+        <header class="cluster justify-between">
+          <hgroup>
+            <h2 id="issue-list-title">Issues</h2>
+            <p>24 open issues, ordered by last activity.</p>
+          </hgroup>
+          <div role="group" class="small" aria-label="Issue view">
+            <button class="outline" type="button" aria-pressed="true">List</button>
+            <button class="outline" type="button">Board</button>
+          </div>
+        </header>
+
+        <form role="search" aria-label="Search issues">
+          <input type="search" name="query" aria-label="Search issues" placeholder="Search by key, title, or description">
+          <button type="submit">Search</button>
+        </form>
+
+        <div class="cluster justify-between">
+          <div class="cluster">
+            <label>Status
+              <select name="status">
+                <option>Any status</option>
+                <option>Backlog</option>
+                <option>In progress</option>
+                <option>In review</option>
+                <option>Blocked</option>
+              </select>
+            </label>
+            <label>Priority
+              <select name="priority">
+                <option>Any priority</option>
+                <option>Urgent</option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+            </label>
+            <label>Assignee
+              <select name="assignee">
+                <option>Anyone</option>
+                <option>Maya Chen</option>
+                <option>Jon Bell</option>
+                <option>Priya Shah</option>
+                <option>Unassigned</option>
+              </select>
+            </label>
+          </div>
+          <button class="ghost small" type="button">Clear filters</button>
+        </div>
+
+        <div role="alert">
+          <strong>GitHub sync needs attention</strong>
+          <p>Three linked pull requests could not be refreshed. <a href="#saved-views-title">Review the sync log</a> or retry from project settings.</p>
+        </div>
+
+        <div class="overflow-auto" role="region" tabindex="0" aria-label="Scrollable issue list">
+          <table class="striped">
+            <thead>
+              <tr>
+                <th scope="col">Issue</th>
+                <th scope="col">Status</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Assignee</th>
+                <th scope="col">Estimate</th>
+                <th scope="col">Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="web-247">
+                <th scope="row"><a href="#web-247">WEB-247</a><br><span class="font-normal truncate">Checkout CTA overlaps consent banner on small screens</span></th>
+                <td><span class="badge destructive">Blocked</span></td>
+                <td><span class="badge warning">Urgent</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Maya Chen">MC</span><span>Maya Chen</span></span></td>
+                <td>3 pts</td><td><time datetime="2026-06-12T09:42:00Z">12 min ago</time></td>
+              </tr>
+              <tr id="web-241">
+                <th scope="row"><a href="#web-241">WEB-241</a><br><span class="font-normal truncate">Finalize migration redirects for legacy campaign URLs</span></th>
+                <td><span class="badge">In progress</span></td>
+                <td><span class="badge warning outline">High</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Jon Bell">JB</span><span>Jon Bell</span></span></td>
+                <td>5 pts</td><td><time datetime="2026-06-12T08:15:00Z">2 hours ago</time></td>
+              </tr>
+              <tr id="web-238">
+                <th scope="row"><a href="#web-238">WEB-238</a><br><span class="font-normal truncate">Add organization schema to customer story pages</span></th>
+                <td><span class="badge outline">In review</span></td>
+                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Priya Shah">PS</span><span>Priya Shah</span></span></td>
+                <td>2 pts</td><td><time datetime="2026-06-11">Yesterday</time></td>
+              </tr>
+              <tr id="web-233">
+                <th scope="row"><a href="#web-233">WEB-233</a><br><span class="font-normal truncate">Replace homepage video with responsive source set</span></th>
+                <td><span class="badge">In progress</span></td>
+                <td><span class="badge warning outline">High</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Elena Rossi">ER</span><span>Elena Rossi</span></span></td>
+                <td>3 pts</td><td><time datetime="2026-06-11">Yesterday</time></td>
+              </tr>
+              <tr id="web-229">
+                <th scope="row"><a href="#web-229">WEB-229</a><br><span class="font-normal truncate">Audit focus order in pricing comparison table</span></th>
+                <td><span class="badge secondary">Backlog</span></td>
+                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="muted">Unassigned</span></td>
+                <td>2 pts</td><td><time datetime="2026-06-10">2 days ago</time></td>
+              </tr>
+              <tr id="web-224">
+                <th scope="row"><a href="#web-224">WEB-224</a><br><span class="font-normal truncate">Localize footer navigation for French and German</span></th>
+                <td><span class="badge secondary">Backlog</span></td>
+                <td><span class="badge outline secondary">Low</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Noah Williams">NW</span><span>Noah Williams</span></span></td>
+                <td>5 pts</td><td><time datetime="2026-06-09">3 days ago</time></td>
+              </tr>
+              <tr id="web-219">
+                <th scope="row"><a href="#web-219">WEB-219</a><br><span class="font-normal truncate">Document analytics events for lead-generation forms</span></th>
+                <td><span class="badge outline">In review</span></td>
+                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Maya Chen">MC</span><span>Maya Chen</span></span></td>
+                <td>3 pts</td><td><time datetime="2026-06-08">4 days ago</time></td>
+              </tr>
+              <tr id="web-212">
+                <th scope="row"><a href="#web-212">WEB-212</a><br><span class="font-normal truncate">Reduce cumulative layout shift on case-study pages</span></th>
+                <td><span class="badge success">Done</span></td>
+                <td><span class="badge warning outline">High</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Jon Bell">JB</span><span>Jon Bell</span></span></td>
+                <td>5 pts</td><td><time datetime="2026-06-07">5 days ago</time></td>
+              </tr>
+              <tr id="web-207">
+                <th scope="row"><a href="#web-207">WEB-207</a><br><span class="font-normal truncate">Define empty state for filtered customer stories</span></th>
+                <td><span class="badge secondary">Backlog</span></td>
+                <td><span class="badge outline secondary">Low</span></td>
+                <td><span class="muted">Unassigned</span></td>
+                <td>1 pt</td><td><time datetime="2026-06-06">6 days ago</time></td>
+              </tr>
+              <tr id="web-198">
+                <th scope="row"><a href="#web-198">WEB-198</a><br><span class="font-normal truncate">Verify cookie preferences persist across subdomains</span></th>
+                <td><span class="badge destructive">Blocked</span></td>
+                <td><span class="badge warning">Urgent</span></td>
+                <td><span class="cluster"><span class="avatar small" role="img" aria-label="Priya Shah">PS</span><span>Priya Shah</span></span></td>
+                <td>3 pts</td><td><time datetime="2026-06-05">1 week ago</time></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr><th scope="row">Visible issues</th><td colspan="5">10 of 24 open issues</td></tr>
+            </tfoot>
+            <caption>Website refresh issues ordered by most recent activity.</caption>
+          </table>
+        </div>
+
+        <footer class="cluster justify-between">
+          <p class="text-sm muted">Showing 1–10 of 24</p>
+          <nav aria-label="Issue pages">
+            <div role="group">
+              <span aria-disabled="true">Previous</span>
+              <span aria-current="page">1</span>
+              <a class="button outline" href="#issues">2</a>
+              <a class="button outline" href="#issues">3</a>
+              <a class="button outline" href="#issues">Next</a>
+            </div>
+          </nav>
+        </footer>
+      </section>
+
+      <section aria-labelledby="saved-views-title">
+        <details>
+          <summary id="saved-views-title">Saved views and filter help</summary>
+          <div class="grid">
+            <article>
+              <header><strong>No project views saved yet</strong></header>
+              <p class="muted">Save a useful combination of status, priority, and assignee filters so the whole project can reuse it.</p>
+              <footer><button class="outline" type="button">Save current view</button></footer>
+            </article>
+            <article>
+              <header><strong>How issue search works</strong></header>
+              <p>Search matches issue keys, titles, and descriptions. Filters combine with search and with each other.</p>
+              <footer><a href="#saved-views-title">Read search syntax</a></footer>
+            </article>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <dialog id="new-issue-dialog" popover aria-labelledby="new-issue-title">
+      <article>
+        <button class="ghost icon" type="button" aria-label="Close" popovertarget="new-issue-dialog" popovertargetaction="hide">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <header>
+          <hgroup>
+            <h2 id="new-issue-title">Create issue</h2>
+            <p>Website refresh · WEB</p>
+          </hgroup>
+        </header>
+        <form class="stack">
+          <label for="new-issue-title-input">Title</label>
+          <input id="new-issue-title-input" type="text" name="title" required autocomplete="off" placeholder="What needs to be done?">
+          <label>Description
+            <textarea name="description" rows="4" placeholder="Add context, acceptance criteria, or links"></textarea>
+          </label>
+          <div class="grid">
+            <label>Status
+              <select name="new-status"><option>Backlog</option><option>In progress</option></select>
+            </label>
+            <label>Priority
+              <select name="new-priority"><option>No priority</option><option>Urgent</option><option>High</option><option>Medium</option><option>Low</option></select>
+            </label>
+          </div>
+          <label>Assignee
+            <select name="new-assignee"><option>Unassigned</option><option>Maya Chen</option><option>Jon Bell</option><option>Priya Shah</option><option>Elena Rossi</option></select>
+          </label>
+          <fieldset>
+            <legend>Labels</legend>
+            <label><input type="checkbox" name="label" value="accessibility"> Accessibility</label>
+            <label><input type="checkbox" name="label" value="frontend"> Frontend</label>
+            <label><input type="checkbox" name="label" value="content"> Content</label>
+          </fieldset>
+          <footer class="cluster justify-end">
+            <button class="outline" type="button" popovertarget="new-issue-dialog" popovertargetaction="hide">Cancel</button>
+            <button type="submit">Create issue</button>
+          </footer>
+        </form>
+      </article>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Northline Coffee Supply, specialty coffee and durable brewing tools selected for thoughtful daily rituals.">
+  <title>Northline Coffee Supply</title>
+  <link rel="stylesheet" href="../../../dist/daft.css">
+  <style>
+    :root {
+      --primary: light-dark(oklch(0.48 0.13 42), oklch(0.72 0.13 52));
+      --secondary: light-dark(oklch(0.94 0.025 72), oklch(0.25 0.025 55));
+      --muted: light-dark(oklch(0.97 0.016 80), oklch(0.2 0.018 55));
+      --accent: light-dark(oklch(0.91 0.045 73), oklch(0.31 0.04 56));
+      --border: light-dark(oklch(0.86 0.025 72), oklch(1 0 0 / 16%));
+      --radius: 0.75rem;
+      --spacing: 1.125rem;
+      --component-height: 2.5rem;
+      --card-shadow: var(--shadow-sm);
+      --button-shadow: none;
+      --badge-radius: var(--radius-full);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="top-nav sticky glass container-fluid" aria-label="Primary navigation">
+      <ul>
+        <li><a href="#top"><strong>Northline</strong></a></li>
+      </ul>
+      <button class="top-nav-toggle ghost icon" type="button" popovertarget="primary-menu" aria-label="Toggle primary navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 5h16"/>
+          <path d="M4 12h16"/>
+          <path d="M4 19h16"/>
+        </svg>
+      </button>
+      <ul id="primary-menu" class="top-nav-menu" popover>
+        <li><a href="#collection" aria-current="page">Shop</a></li>
+        <li>
+          <details class="dropdown">
+            <summary class="ghost">Collections</summary>
+            <ul>
+              <li class="label">Brew your way</li>
+              <li><a href="#collection">Whole bean</a></li>
+              <li><a href="#collection">Pour-over tools</a></li>
+              <li><a href="#collection">Espresso at home</a></li>
+              <li role="separator"></li>
+              <li><a href="#journal">Field notes</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="#journal">Our sourcing</a></li>
+        <li><a href="#faq">Help</a></li>
+        <li>
+          <form role="search" action="#collection" method="get">
+            <input type="search" name="q" placeholder="Search coffee and gear" aria-label="Search coffee and brewing gear">
+            <button class="outline" type="submit">Search</button>
+          </form>
+        </li>
+        <li><button class="outline" type="button" popovertarget="cart-dialog">Cart <span class="badge">2</span></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top" class="container">
+    <div role="status">
+      <strong>Free tracked shipping over $60</strong>
+      <p>Order by noon for same-day roasting and dispatch. Easy returns within 30 days.</p>
+    </div>
+
+    <nav aria-label="breadcrumb">
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li>Shop coffee and gear</li>
+      </ul>
+    </nav>
+
+    <section class="grid mt-8" aria-labelledby="hero-title">
+      <article class="span-2">
+        <header>
+          <hgroup>
+            <p class="label">Seasonal release · Colombia</p>
+            <h1 id="hero-title">A brighter first cup.</h1>
+            <p>La Pradera is a honey-processed coffee with notes of apricot, cocoa nib, and panela. Roasted every Tuesday in small batches.</p>
+          </hgroup>
+          <span class="badge warning">Limited lot</span>
+        </header>
+        <p class="text-3xl"><strong>From $22</strong> <small class="muted">/ 12 oz</small></p>
+        <footer>
+          <a class="button" href="#la-pradera">Shop the release</a>
+          <a href="#journal">Meet the producer</a>
+        </footer>
+      </article>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Hand pouring freshly brewed coffee into a ceramic cup">
+        <figcaption>La Pradera, roasted for filter brewing.</figcaption>
+      </figure>
+    </section>
+
+    <section id="collection" aria-labelledby="collection-title">
+      <header class="cluster justify-between mb-8">
+        <hgroup>
+          <p class="label">The counter</p>
+          <h2 id="collection-title">Coffee and tools for better mornings</h2>
+          <p>Small-lot coffee and dependable equipment, tested at our Portland brew bar.</p>
+        </hgroup>
+        <label>Sort products
+          <select id="sort" name="sort" form="filters">
+            <option value="featured">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+          </select>
+        </label>
+      </header>
+
+      <div class="grid">
+        <aside>
+          <article>
+            <header>
+              <hgroup>
+                <h3>Filter the shelf</h3>
+                <p>6 products</p>
+              </hgroup>
+              <span class="badge outline secondary">2 active</span>
+            </header>
+            <form id="filters" class="stack" action="#collection" method="get">
+              <fieldset>
+                <legend>Category</legend>
+                <label><input type="checkbox" name="coffee" value="yes" checked> Coffee</label>
+                <label><input type="checkbox" name="brewers" value="yes"> Brewers</label>
+                <label><input type="checkbox" name="grinders" value="yes"> Grinders</label>
+                <label><input type="checkbox" name="serveware" value="yes"> Serveware</label>
+              </fieldset>
+              <fieldset>
+                <legend>Roast profile</legend>
+                <label><input type="radio" name="roast" value="all" checked> Any roast</label>
+                <label><input type="radio" name="roast" value="light"> Light</label>
+                <label><input type="radio" name="roast" value="medium"> Medium</label>
+                <label><input type="radio" name="roast" value="dark"> Dark</label>
+              </fieldset>
+              <label for="budget">Maximum price</label>
+              <input id="budget" type="range" name="max-price" min="20" max="200" value="80" step="10">
+              <small>Showing products up to $80.</small>
+              <label><input type="checkbox" name="in-stock" value="yes" role="switch" checked> Show in-stock only</label>
+              <button type="submit">Apply filters</button>
+              <button type="reset" class="secondary">Clear all</button>
+            </form>
+          </article>
+        </aside>
+
+        <div class="span-3 stack">
+          <div class="grid">
+            <article id="la-pradera">
+              <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Open bag of La Pradera whole-bean coffee beside a scoop">
+              <header>
+                <hgroup>
+                  <h3>La Pradera</h3>
+                  <p>Apricot · cocoa nib · panela</p>
+                </hgroup>
+                <span class="badge warning">Seasonal</span>
+              </header>
+              <p><span class="badge outline">Light roast</span> <span class="badge outline secondary">Colombia</span></p>
+              <p class="text-xl"><strong>$22</strong> <small class="muted">12 oz</small></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#la-pradera">Details</a>
+              </footer>
+            </article>
+
+            <article>
+              <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Fresh roasted coffee beans cooling in a metal tray">
+              <header>
+                <hgroup>
+                  <h3>Night Ferry</h3>
+                  <p>Dark chocolate · plum · toasted almond</p>
+                </hgroup>
+                <span class="badge success">Bestseller</span>
+              </header>
+              <p><span class="badge outline">Medium roast</span> <span class="badge outline secondary">Blend</span></p>
+              <p class="text-xl"><strong>$18</strong> <small class="muted">12 oz</small></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#collection">Details</a>
+              </footer>
+            </article>
+
+            <article>
+              <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="A clear glass server filled with hand-brewed coffee">
+              <header>
+                <hgroup>
+                  <h3>Ridge Glass Server</h3>
+                  <p>Heatproof glass · 600 ml</p>
+                </hgroup>
+                <span class="badge secondary">New</span>
+              </header>
+              <p><span class="badge outline secondary">Borosilicate</span></p>
+              <p class="text-xl"><strong>$34</strong></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#collection">Details</a>
+              </footer>
+            </article>
+          </div>
+
+          <article>
+            <header>
+              <hgroup>
+                <p class="label">Build a ritual</p>
+                <h3>Everything you need for a clean, sweet pour-over.</h3>
+                <p>Pair the Cedar dripper with our hand grinder and filters. Save 15% when you buy the set.</p>
+              </hgroup>
+              <span class="badge">Bundle &amp; save</span>
+            </header>
+            <footer>
+              <a href="#brew-kit">Shop the brew kit · $118</a>
+              <small class="muted">Individually $139</small>
+            </footer>
+          </article>
+
+          <div class="grid">
+            <article id="brew-kit">
+              <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Matte ceramic pour-over dripper above a coffee cup">
+              <header>
+                <hgroup>
+                  <h3>Cedar Dripper</h3>
+                  <p>Glazed stoneware · size 02</p>
+                </hgroup>
+                <span class="badge secondary">Staff pick</span>
+              </header>
+              <p><span class="badge outline secondary">Dishwasher safe</span></p>
+              <p class="text-xl"><strong>$42</strong></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#brew-kit">Details</a>
+              </footer>
+            </article>
+
+            <article>
+              <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Compact hand coffee grinder on a wooden café counter">
+              <header>
+                <hgroup>
+                  <h3>Arc Hand Grinder</h3>
+                  <p>Steel burrs · 40 settings</p>
+                </hgroup>
+                <span class="badge success">In stock</span>
+              </header>
+              <p><span class="badge outline secondary">Lifetime burr warranty</span></p>
+              <p class="text-xl"><strong>$79</strong></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#collection">Details</a>
+              </footer>
+            </article>
+
+            <article>
+              <img src="https://images.unsplash.com/photo-1494314671902-399b18174975?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="White paper coffee filters arranged beside a brewer">
+              <header>
+                <hgroup>
+                  <h3>Abaca Filters</h3>
+                  <p>Fast flow · pack of 100</p>
+                </hgroup>
+                <span class="badge destructive">Only 8 left</span>
+              </header>
+              <p><span class="badge outline secondary">Compostable</span></p>
+              <p class="text-xl"><strong>$11</strong></p>
+              <footer>
+                <button type="button" popovertarget="cart-dialog">Add to cart</button>
+                <a href="#collection">Details</a>
+              </footer>
+            </article>
+          </div>
+
+          <nav aria-label="Product pages">
+            <ul>
+              <li><a href="#collection" aria-current="page">1</a></li>
+              <li><a href="#collection">2</a></li>
+              <li><a href="#collection">3</a></li>
+              <li><a href="#collection">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="grid" aria-labelledby="journal-title">
+      <figure class="span-2">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Coffee farmer inspecting ripe red coffee cherries on a branch">
+        <figcaption>Harvest at Finca La Pradera, Huila, Colombia.</figcaption>
+      </figure>
+      <article>
+        <header>
+          <hgroup>
+            <p class="label">Field notes · Issue 08</p>
+            <h2 id="journal-title">Coffee with a clear provenance</h2>
+            <p>Producer Catalina Herrera separates every day lot, then dries the coffee slowly on raised beds. We pay $5.20 per pound at origin, 2.6× the commodity price.</p>
+          </hgroup>
+        </header>
+        <blockquote>
+          “Longer drying gives us more clarity in the cup and more control over our season.”
+          <footer>Catalina Herrera, producer</footer>
+        </blockquote>
+        <footer><a href="#journal">Read the sourcing report</a></footer>
+      </article>
+    </section>
+
+    <section id="faq" class="max-w-2xl mx-auto" aria-labelledby="faq-title">
+      <header class="text-center mb-8">
+        <p class="label">Good to know</p>
+        <h2 id="faq-title">Questions before you order?</h2>
+        <p class="muted">Freshness, grind size, subscriptions, and returns.</p>
+      </header>
+      <details open>
+        <summary>When will my coffee be roasted?</summary>
+        <p>We roast Monday through Thursday and ship within one business day. Every bag is marked with its roast date, never a best-before date.</p>
+      </details>
+      <details>
+        <summary>Can you grind coffee for my brewer?</summary>
+        <p>Yes. Choose whole bean, espresso, AeroPress, filter, or French press on the product page. For the freshest cup, we still recommend grinding just before brewing.</p>
+      </details>
+      <details>
+        <summary>How do subscriptions work?</summary>
+        <p>Choose one or two bags every two or four weeks. You can change the coffee, skip a shipment, or cancel before the next roast date.</p>
+      </details>
+      <details>
+        <summary>What is your return policy?</summary>
+        <p>Unused equipment can be returned within 30 days. If a coffee is not right for you, tell us what you tasted and we will help choose a replacement.</p>
+      </details>
+    </section>
+
+    <section class="text-center" aria-labelledby="newsletter-title">
+      <article>
+        <header>
+          <hgroup>
+            <p class="label">From the roast room</p>
+            <h2 id="newsletter-title">Get first pour on new coffees.</h2>
+            <p class="muted mx-auto max-w-xl">A twice-monthly note with fresh releases, practical brew guides, and no filler. New subscribers receive $10 off a first order over $40.</p>
+          </hgroup>
+        </header>
+        <form class="max-w-xl mx-auto" action="#newsletter-title" method="get">
+          <label for="newsletter-email">Email address</label>
+          <div role="group" class="full-width">
+            <input id="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit">Join the list</button>
+          </div>
+          <label><input type="checkbox" name="consent" required> I agree to receive Northline’s email newsletter.</label>
+          <small>Unsubscribe any time. Read our <a href="#newsletter-title">privacy policy</a>.</small>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="cart-dialog" popover aria-labelledby="cart-title">
+    <article>
+      <button class="ghost icon" type="button" aria-label="Close" popovertarget="cart-dialog" popovertargetaction="hide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+      <header>
+        <hgroup>
+          <h2 id="cart-title">Your cart</h2>
+          <p>2 items · $56.00</p>
+        </hgroup>
+        <span class="badge success">Ships free</span>
+      </header>
+      <div class="stack">
+        <div class="cluster justify-between">
+          <span><strong>La Pradera</strong><br><small class="muted">12 oz · whole bean · Qty 1</small></span>
+          <strong>$22</strong>
+        </div>
+        <div class="cluster justify-between">
+          <span><strong>Ridge Glass Server</strong><br><small class="muted">600 ml · Qty 1</small></span>
+          <strong>$34</strong>
+        </div>
+      </div>
+      <p><small>Shipping</small><br><strong>Free</strong></p>
+      <footer>
+        <button class="outline" type="button" popovertarget="cart-dialog" popovertargetaction="hide">Keep shopping</button>
+        <a class="button" href="#cart-dialog">Checkout · $56</a>
+      </footer>
+    </article>
+  </dialog>
+
+  <footer class="container-fluid">
+    <div class="grid">
+      <div>
+        <strong>Northline Coffee Supply</strong>
+        <p class="muted"><small>Seasonal coffee and durable tools for the daily ritual. Roasted in Portland, Oregon.</small></p>
+      </div>
+      <nav aria-label="Shop links">
+        <ul>
+          <li><strong>Shop</strong></li>
+          <li><a href="#collection">Coffee</a></li>
+          <li><a href="#collection">Equipment</a></li>
+          <li><a href="#collection">Subscriptions</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Help links">
+        <ul>
+          <li><strong>Help</strong></li>
+          <li><a href="#faq">Shipping</a></li>
+          <li><a href="#faq">Returns</a></li>
+          <li><a href="#faq">Brew guides</a></li>
+        </ul>
+      </nav>
+      <div>
+        <strong>Visit the brew bar</strong>
+        <address>821 SE Alder Street<br>Portland, OR 97214</address>
+        <p><small>Mon–Fri 7–3 · Sat–Sun 8–4</small></p>
+      </div>
+    </div>
+    <hr>
+    <div class="cluster justify-between">
+      <small>© 2026 Northline Coffee Supply</small>
+      <small><a href="#top">Accessibility</a> · <a href="#top">Privacy</a> · <a href="#top">Terms</a></small>
+    </div>
+  </footer>
+</body>
+</html>

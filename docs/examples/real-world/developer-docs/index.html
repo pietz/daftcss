@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="RelayGrid developer documentation for creating webhook subscriptions.">
+    <title>Create a subscription | RelayGrid Docs</title>
+    <link rel="stylesheet" href="../../../dist/daft.css">
+    <style>
+      :root {
+        --primary: light-dark(oklch(0.5 0.2 265), oklch(0.72 0.16 265));
+        --muted: light-dark(oklch(0.97 0.012 260), oklch(0.24 0.025 260));
+        --border: light-dark(oklch(0.9 0.015 260), oklch(1 0 0 / 13%));
+        --code-background: light-dark(oklch(0.96 0.018 260), oklch(0.16 0.025 260));
+        --ring: light-dark(oklch(0.62 0.19 265), oklch(0.72 0.16 265));
+        --radius: 0.5rem;
+        --spacing: 0.9rem;
+        --component-height: 2.25rem;
+        --aside-width: clamp(15rem, 20vw, 18rem);
+        --card-shadow: none;
+        --badge-radius: var(--radius-full);
+      }
+    </style>
+  </head>
+  <body>
+    <aside id="docs-sidebar" class="sidebar" popover aria-label="Documentation navigation">
+      <nav aria-label="Documentation sections">
+        <p class="label">RelayGrid docs</p>
+        <ul class="tree">
+          <li><a href="#overview">Overview</a></li>
+          <li>
+            <details open>
+              <summary>Get started</summary>
+              <ul>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#first-request">First request</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details open>
+              <summary>Event API</summary>
+              <ul>
+                <li><a href="#create-subscription" aria-current="page">Create a subscription</a></li>
+                <li><a href="#parameters">Request parameters</a></li>
+                <li><a href="#response">Response schema</a></li>
+                <li><a href="#errors">Errors</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>Guides</summary>
+              <ul>
+                <li><a href="#signatures">Verify signatures</a></li>
+                <li><a href="#retries">Handle retries</a></li>
+                <li><a href="#delivery-flow">Test locally</a></li>
+              </ul>
+            </details>
+          </li>
+          <li><a href="#release-notes">Changelog</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <header class="container-fluid sticky glass">
+      <nav aria-label="Product">
+        <ul>
+          <li>
+            <button class="ghost icon sidebar-toggle" type="button" popovertarget="docs-sidebar" aria-label="Open documentation menu" data-tooltip="Open documentation menu" data-placement="bottom">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 5h16"/>
+                <path d="M4 12h16"/>
+                <path d="M4 19h16"/>
+              </svg>
+            </button>
+          </li>
+          <li><a href="#overview"><strong>RelayGrid</strong></a></li>
+          <li><span class="badge outline">Docs</span></li>
+        </ul>
+        <ul>
+          <li>
+            <form role="search" action="#search-results">
+              <label class="sr-only" for="docs-search">Search documentation</label>
+              <input id="docs-search" type="search" name="q" placeholder="Search docs" autocomplete="off">
+              <button class="outline hidden-mobile" type="submit">Search</button>
+            </form>
+          </li>
+          <li class="hidden-mobile">
+            <label class="sr-only" for="api-version">API version</label>
+            <select id="api-version" aria-label="API version">
+              <option selected>v2026-04</option>
+              <option>v2025-11</option>
+            </select>
+          </li>
+          <li class="hidden-mobile"><a href="#status" data-tooltip="All systems operational" data-placement="left">Status</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container-fluid" id="overview">
+      <div class="max-w-3xl mx-auto">
+        <nav aria-label="breadcrumb">
+          <ul>
+            <li><a href="#overview">Docs</a></li>
+            <li><a href="#create-subscription">Event API</a></li>
+            <li>Create a subscription</li>
+          </ul>
+        </nav>
+
+        <header class="mb-8" id="create-subscription">
+          <p class="label">Event API</p>
+          <h1>Create a subscription</h1>
+          <p class="muted max-w-2xl">Register an HTTPS endpoint to receive a filtered, signed stream of events from your RelayGrid workspace.</p>
+          <div class="cluster">
+            <span class="badge success">POST</span>
+            <span class="badge outline">/v1/subscriptions</span>
+            <span class="badge outline secondary">API 2026-04</span>
+          </div>
+        </header>
+
+        <div role="status" id="status">
+          <strong>Versioned for predictable integrations</strong>
+          <p>Send <code>RelayGrid-Version: 2026-04</code> with every request. Existing versions remain available for 18 months after deprecation.</p>
+        </div>
+
+        <section id="authentication">
+          <h2>Before you begin</h2>
+          <p>Create a restricted service token with the <code>subscriptions:write</code> scope. Tokens are workspace-specific and should only be sent over HTTPS.</p>
+          <article>
+            <header>
+              <strong>Authorization header</strong>
+              <span class="badge outline">HTTP</span>
+            </header>
+            <pre tabindex="0"><code>Authorization: Bearer rg_live_••••••••••••
+RelayGrid-Version: 2026-04
+Content-Type: application/json</code></pre>
+            <footer><small class="muted">Keep live tokens in your server-side secret store, never in browser code.</small></footer>
+          </article>
+        </section>
+
+        <section id="first-request">
+          <h2>Send the request</h2>
+          <p>The endpoint must acknowledge deliveries with any <code>2xx</code> response within five seconds. RelayGrid signs every request and retries transient failures with exponential backoff.</p>
+
+          <article>
+            <header>
+              <strong>Create an order event subscription</strong>
+              <span class="badge outline">cURL</span>
+            </header>
+            <pre tabindex="0"><code>curl https://api.relaygrid.dev/v1/subscriptions \
+  --request POST \
+  --header "Authorization: Bearer $RELAYGRID_TOKEN" \
+  --header "RelayGrid-Version: 2026-04" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "endpoint": "https://hooks.acme.test/relaygrid",
+    "events": ["order.created", "order.fulfilled"],
+    "description": "Production order pipeline"
+  }'</code></pre>
+            <footer><small class="muted">Base URL: <code>https://api.relaygrid.dev</code></small></footer>
+          </article>
+
+          <figure id="delivery-flow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 720 180" role="img" aria-labelledby="delivery-flow-title delivery-flow-desc">
+              <title id="delivery-flow-title">Subscription delivery flow</title>
+              <desc id="delivery-flow-desc">RelayGrid filters workspace events, signs them, and delivers them to your HTTPS endpoint, which acknowledges receipt.</desc>
+              <rect x="20" y="55" width="160" height="70" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="100" y="85" text-anchor="middle" fill="currentColor" font-size="16">Workspace events</text>
+              <text x="100" y="108" text-anchor="middle" fill="currentColor" font-size="13">order.created</text>
+              <path d="M180 90h80" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="m250 82 10 8-10 8" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="260" y="55" width="200" height="70" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="360" y="85" text-anchor="middle" fill="currentColor" font-size="16">RelayGrid delivery</text>
+              <text x="360" y="108" text-anchor="middle" fill="currentColor" font-size="13">Filter · sign · retry</text>
+              <path d="M460 90h80" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="m530 82 10 8-10 8" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="540" y="55" width="160" height="70" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="620" y="85" text-anchor="middle" fill="currentColor" font-size="16">Your endpoint</text>
+              <text x="620" y="108" text-anchor="middle" fill="currentColor" font-size="13">HTTP 204</text>
+            </svg>
+            <figcaption>Each matching event is signed immediately before delivery.</figcaption>
+          </figure>
+        </section>
+
+        <section id="parameters">
+          <h2>Request parameters</h2>
+          <p>Pass a JSON object in the request body. Unknown properties are rejected so configuration mistakes surface early.</p>
+          <div class="overflow-auto" role="region" tabindex="0" aria-label="Scrollable request parameters table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Property</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Required</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><code>endpoint</code></th>
+                  <td>string · URI</td>
+                  <td><span class="badge success small">Required</span></td>
+                  <td>Public HTTPS URL that receives event deliveries.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><code>events</code></th>
+                  <td>string[]</td>
+                  <td><span class="badge success small">Required</span></td>
+                  <td>One to 25 event types. Wildcards are not accepted.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><code>description</code></th>
+                  <td>string</td>
+                  <td><span class="badge outline secondary small">Optional</span></td>
+                  <td>Human-readable label, up to 120 characters.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><code>metadata</code></th>
+                  <td>object</td>
+                  <td><span class="badge outline secondary small">Optional</span></td>
+                  <td>Up to 10 key-value pairs returned with the resource.</td>
+                </tr>
+              </tbody>
+              <caption>JSON body accepted by <code>POST /v1/subscriptions</code>.</caption>
+            </table>
+          </div>
+        </section>
+
+        <section id="response">
+          <h2>Response</h2>
+          <p>A successful request returns <code>201 Created</code> with the subscription in <code>pending</code> state. RelayGrid sends a verification event before activating delivery.</p>
+          <article>
+            <header>
+              <strong>201 Created</strong>
+              <span class="badge success">JSON</span>
+            </header>
+            <pre tabindex="0"><code>{
+  "id": "sub_01JY7Q9ATDJ5K8N4FV3M2R6XBC",
+  "object": "subscription",
+  "status": "pending",
+  "endpoint": "https://hooks.acme.test/relaygrid",
+  "events": ["order.created", "order.fulfilled"],
+  "created_at": "2026-04-18T14:32:08Z"
+}</code></pre>
+          </article>
+
+          <h3>Response fields</h3>
+          <dl>
+            <dt><code>id</code></dt>
+            <dd>Stable, sortable subscription identifier.</dd>
+            <dt><code>status</code></dt>
+            <dd>One of <code>pending</code>, <code>active</code>, <code>paused</code>, or <code>disabled</code>.</dd>
+            <dt><code>created_at</code></dt>
+            <dd>Creation time in ISO 8601 UTC format.</dd>
+          </dl>
+        </section>
+
+        <section id="errors">
+          <h2>Errors and retries</h2>
+          <p>Errors use a consistent envelope with a stable code, a human-readable message, and a request ID for support.</p>
+          <div role="alert">
+            <strong>Never retry authentication failures automatically</strong>
+            <p>A <code>401</code> indicates an absent, expired, or revoked token. Rotate the credential before trying again.</p>
+          </div>
+
+          <details open>
+            <summary>400 · Invalid request</summary>
+            <p>The JSON is malformed, includes an unknown property, or fails field validation. Inspect <code>error.fields</code> before sending a corrected request.</p>
+          </details>
+          <details>
+            <summary>409 · Endpoint already registered</summary>
+            <p>An active subscription already uses the same endpoint and event set. Reuse or update the existing subscription.</p>
+          </details>
+          <details id="retries">
+            <summary>429 · Rate limit exceeded</summary>
+            <p>Wait for the number of seconds in <code>Retry-After</code>. Create requests are limited to 60 per minute per workspace.</p>
+          </details>
+        </section>
+
+        <section id="signatures">
+          <h2>Verify delivery signatures</h2>
+          <p>Compute an HMAC-SHA256 digest over the exact request body and compare it with <code>RelayGrid-Signature</code> using a constant-time operation. Reject timestamps older than five minutes.</p>
+          <blockquote>
+            <p>Read the raw body before parsing JSON. Re-serializing the payload changes its bytes and invalidates the signature.</p>
+            <footer><cite>RelayGrid security guidance</cite></footer>
+          </blockquote>
+        </section>
+
+        <section id="feedback">
+          <article>
+            <header><strong>Was this page helpful?</strong></header>
+            <p class="muted">Your answer helps us prioritize documentation improvements.</p>
+            <form action="#feedback-sent" method="get">
+              <div role="group" aria-label="Documentation feedback">
+                <button class="outline" type="submit" name="helpful" value="yes">Yes, it helped</button>
+                <button class="outline" type="submit" name="helpful" value="no">Not yet</button>
+              </div>
+            </form>
+          </article>
+        </section>
+
+        <nav aria-label="Documentation pagination">
+          <ul>
+            <li><a href="#authentication">← Authentication</a></li>
+          </ul>
+          <ul>
+            <li><a href="#signatures">Verify signatures →</a></li>
+          </ul>
+        </nav>
+      </div>
+    </main>
+
+    <footer class="container-fluid">
+      <div class="max-w-3xl mx-auto cluster justify-between">
+        <small id="release-notes" class="muted">RelayGrid API documentation · Updated April 18, 2026</small>
+        <div id="support" class="cluster">
+          <a href="#release-notes">Changelog</a>
+          <a href="mailto:developers@relaygrid.dev">Support</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

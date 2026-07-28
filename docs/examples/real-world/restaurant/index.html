@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Juniper & Ash is a seasonal neighborhood restaurant in Portland, Oregon, serving wood-fired Pacific Northwest cooking.">
+    <title>Juniper &amp; Ash | Seasonal dining in Portland</title>
+    <link rel="stylesheet" href="../../../dist/daft.css">
+    <style>
+      :root {
+        --font-sans: Georgia, "Times New Roman", serif;
+        --font-size-base: 1.0625rem;
+        --spacing: 1.125rem;
+        --radius: 0.625rem;
+        --component-height: 2.75rem;
+        --primary: light-dark(oklch(0.43 0.1 52), oklch(0.78 0.12 75));
+        --secondary: light-dark(oklch(0.94 0.025 88), oklch(0.29 0.025 65));
+        --muted: light-dark(oklch(0.965 0.018 88), oklch(0.235 0.018 65));
+        --background: light-dark(oklch(0.985 0.012 88), oklch(0.16 0.014 55));
+        --foreground: light-dark(oklch(0.22 0.025 48), oklch(0.94 0.018 88));
+        --card: light-dark(oklch(0.998 0.006 88), oklch(0.205 0.018 55));
+        --border: light-dark(oklch(0.84 0.03 76), oklch(0.42 0.025 65));
+        --success: light-dark(oklch(0.48 0.11 145), oklch(0.72 0.12 145));
+        --warning: light-dark(oklch(0.63 0.13 72), oklch(0.8 0.12 80));
+        --badge-radius: var(--radius-full);
+        --button-shadow: none;
+        --card-shadow: var(--shadow-sm);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#top"><strong>Juniper &amp; Ash</strong></a></li>
+        </ul>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#story">Our story</a></li>
+          <li><a href="#visit">Visit</a></li>
+          <li><a href="#guest-info">Guest information</a></li>
+          <li><a href="#reserve">Reserve a table</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="top" class="container">
+      <section class="text-center mt-24" aria-labelledby="hero-title">
+        <div class="cluster justify-center mb-4">
+          <span class="badge outline success">Dinner nightly</span>
+          <span class="badge outline secondary">Portland, Oregon</span>
+        </div>
+        <h1 id="hero-title" class="text-6xl mx-auto max-w-2xl">The Northwest, gathered around the fire.</h1>
+        <p class="muted mx-auto max-w-xl">Season-led plates, Oregon wines, and the warmth of a neighborhood dining room in Portland’s Eastside.</p>
+        <div class="cluster justify-center mt-8">
+          <a class="button" href="#reserve">Book your table</a>
+          <a href="#menu">Explore the menu</a>
+        </div>
+      </section>
+
+      <figure>
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=1800&amp;q=85" alt="A server placing a carefully plated dinner on a candlelit restaurant table">
+        <figcaption>Dinner arrives at a candlelit table in our dining room.</figcaption>
+      </figure>
+
+      <section id="menu" aria-labelledby="menu-title">
+        <header class="text-center mx-auto max-w-xl mb-8">
+          <p class="label">Tonight’s table</p>
+          <h2 id="menu-title">A menu shaped by the market</h2>
+          <p class="muted">Our à la carte menu changes often. These are a few plates we are serving this week.</p>
+        </header>
+        <div class="grid">
+          <article>
+            <header>
+              <hgroup>
+                <h3>To begin</h3>
+                <p>Small plates for the table</p>
+              </hgroup>
+              <span class="badge outline secondary">5 dishes</span>
+            </header>
+            <dl>
+              <dt><strong>Wood-fired sourdough</strong> <span class="muted">$8</span></dt>
+              <dd>Cultured butter, smoked sea salt</dd>
+              <dt><strong>Chicory &amp; pear</strong> <span class="muted">$16</span></dt>
+              <dd>Hazelnut, Rogue blue, cider vinaigrette <span class="badge small success">Vegetarian</span></dd>
+              <dt><strong>Albacore crudo</strong> <span class="muted">$19</span></dt>
+              <dd>Asian pear, spruce tip, fermented chile</dd>
+            </dl>
+          </article>
+          <article>
+            <header>
+              <hgroup>
+                <h3>From the hearth</h3>
+                <p>Vegetables, fish, and pasture</p>
+              </hgroup>
+              <span class="badge">Chef’s picks</span>
+            </header>
+            <dl>
+              <dt><strong>Roasted delicata squash</strong> <span class="muted">$24</span></dt>
+              <dd>Farro, chanterelle, pumpkin seed mole <span class="badge small success">Vegan</span></dd>
+              <dt><strong>Columbia River steelhead</strong> <span class="muted">$34</span></dt>
+              <dd>Leek, clam, fingerling potato, dill</dd>
+              <dt><strong>Cedar-braised short rib</strong> <span class="muted">$39</span></dt>
+              <dd>Celery root, charred onion, huckleberry jus</dd>
+            </dl>
+          </article>
+          <article>
+            <header>
+              <hgroup>
+                <h3>Something sweet</h3>
+                <p>Made here each afternoon</p>
+              </hgroup>
+              <span class="badge outline warning">Save room</span>
+            </header>
+            <dl>
+              <dt><strong>Apple &amp; rye</strong> <span class="muted">$13</span></dt>
+              <dd>Brown butter, bay leaf ice cream</dd>
+              <dt><strong>Dark chocolate crémeux</strong> <span class="muted">$14</span></dt>
+              <dd>Douglas fir, malt, cocoa nib</dd>
+              <dt><strong>Oregon cheese</strong> <span class="muted">$17</span></dt>
+              <dd>Three selections, quince, seeded cracker</dd>
+            </dl>
+          </article>
+        </div>
+        <p class="text-center muted"><small>Please tell your server about allergies. A 20% service charge supports equitable wages for our whole team.</small></p>
+      </section>
+
+      <section id="story" aria-labelledby="story-title">
+        <div class="grid">
+          <div class="span-2">
+            <p class="label">Our story</p>
+            <h2 id="story-title">Rooted here, open to the season</h2>
+            <p>Chef-owners Mara Chen and Eli Brooks opened Juniper &amp; Ash in 2019 after a decade spent cooking across the Pacific Northwest. Their idea was simple: build a generous restaurant around close relationships with growers, fishers, and makers.</p>
+            <p>The hearth is the center of our kitchen. Alder and oak bring smoke, patience, and a little unpredictability to produce from the Willamette Valley, seafood from the Oregon coast, and meat raised on nearby pasture.</p>
+            <blockquote>
+              “The best meals feel both considered and completely at ease.”
+              <footer>— Mara Chen, chef and co-owner</footer>
+            </blockquote>
+          </div>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="A chef arranging fresh vegetables at a restaurant kitchen counter">
+            <figcaption>Morning prep begins with the day’s farm delivery.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="reserve" aria-labelledby="reserve-title">
+        <div class="grid">
+          <div>
+            <p class="label">Reservations</p>
+            <h2 id="reserve-title">Join us for dinner</h2>
+            <p>Reservations are released 30 days ahead. For parties of seven or more, email <a href="mailto:gather@juniperandash.example">gather@juniperandash.example</a>.</p>
+            <div role="status">
+              <strong>Tables available this week</strong>
+              <p>Early seatings remain on Wednesday and Thursday. The bar is always held for walk-ins.</p>
+            </div>
+            <ul>
+              <li>Most tables are reserved for 2 hours.</li>
+              <li>A credit card is required to hold your booking.</li>
+              <li>Cancel up to 24 hours ahead without charge.</li>
+            </ul>
+          </div>
+          <article>
+            <header>
+              <hgroup>
+                <h3>Find a table</h3>
+                <p>Choose your party, date, and preferred time.</p>
+              </hgroup>
+            </header>
+            <form action="#reservation-confirmation" method="get" class="stack">
+              <label for="party-size">Party size
+                <select id="party-size" name="party" required>
+                  <option value="">Select party size</option>
+                  <option value="1">1 guest</option>
+                  <option value="2">2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                  <option value="5">5 guests</option>
+                  <option value="6">6 guests</option>
+                </select>
+              </label>
+              <div class="grid">
+                <label for="reservation-date">Date
+                  <input id="reservation-date" name="date" type="date" min="2026-01-01" required>
+                </label>
+                <label for="reservation-time">Preferred time
+                  <input id="reservation-time" name="time" type="time" min="17:00" max="21:30" step="900" required>
+                </label>
+              </div>
+              <label for="guest-name">Name
+                <input id="guest-name" name="name" type="text" autocomplete="name" required>
+              </label>
+              <label for="guest-email">Email
+                <input id="guest-email" name="email" type="email" autocomplete="email" required>
+              </label>
+              <label for="guest-phone">Mobile phone
+                <input id="guest-phone" name="phone" type="tel" autocomplete="tel" required>
+              </label>
+              <fieldset>
+                <legend>Seating preference</legend>
+                <label><input type="radio" name="seating" value="dining-room" checked> Dining room</label>
+                <label><input type="radio" name="seating" value="bar"> Bar</label>
+                <label><input type="radio" name="seating" value="either"> First available</label>
+              </fieldset>
+              <label for="occasion">Special occasion or accessibility needs <small>(optional)</small>
+                <textarea id="occasion" name="notes" rows="3" placeholder="Tell us how we can make your visit comfortable."></textarea>
+              </label>
+              <label><input type="checkbox" name="updates" role="switch"> Send occasional menu and event updates</label>
+              <footer class="cluster justify-end">
+                <button type="reset" class="outline">Clear</button>
+                <button type="submit">Search availability</button>
+              </footer>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section id="visit" aria-labelledby="visit-title">
+        <header class="text-center mx-auto max-w-xl mb-8">
+          <p class="label">Visit</p>
+          <h2 id="visit-title">Come as you are</h2>
+          <p class="muted">We are in the Buckman neighborhood, two blocks from the 12 and 19 bus lines.</p>
+        </header>
+        <div class="grid">
+          <article>
+            <header><h3>Hours</h3></header>
+            <dl>
+              <dt><strong>Monday–Thursday</strong></dt>
+              <dd>5:00–10:00 pm</dd>
+              <dt><strong>Friday–Saturday</strong></dt>
+              <dd>5:00–11:00 pm</dd>
+              <dt><strong>Sunday</strong></dt>
+              <dd>5:00–9:00 pm</dd>
+            </dl>
+            <footer><span class="badge outline success">Kitchen open tonight</span></footer>
+          </article>
+          <article>
+            <header><h3>Location</h3></header>
+            <address>
+              827 SE Ash Street<br>
+              Portland, OR 97214
+            </address>
+            <p>Street parking is available. The entrance and dining room are step-free.</p>
+            <footer>
+              <a href="https://www.openstreetmap.org/search?query=827%20SE%20Ash%20Street%20Portland%20OR" target="_blank" rel="noreferrer">Open map <span class="muted">(new tab)</span></a>
+            </footer>
+          </article>
+          <article>
+            <header><h3>Contact</h3></header>
+            <p><strong>Call</strong><br><a href="tel:+15035550148">(503) 555-0148</a></p>
+            <p><strong>Email</strong><br><a href="mailto:hello@juniperandash.example">hello@juniperandash.example</a></p>
+            <p class="muted"><small>Phone lines open daily at 2:00 pm. We reply to email within two business days.</small></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="guest-info" class="max-w-2xl mx-auto" aria-labelledby="guest-info-title">
+        <header class="text-center mb-8">
+          <p class="label">Guest information</p>
+          <h2 id="guest-info-title">Before you arrive</h2>
+        </header>
+        <details open>
+          <summary>Can you accommodate allergies and dietary needs?</summary>
+          <p>Yes, with advance notice. We regularly accommodate vegetarian, vegan, and gluten-free diets. Because our kitchen handles nuts, dairy, shellfish, and gluten, we cannot guarantee an allergen-free environment.</p>
+        </details>
+        <details>
+          <summary>Is the restaurant accessible?</summary>
+          <p>Our entrance, dining room, bar, and all-gender restroom are step-free. Tables can accommodate wheelchairs, and service animals are welcome. Add your needs to the reservation or call us so we can prepare.</p>
+        </details>
+        <details>
+          <summary>What is the dress code?</summary>
+          <p>There is none. Guests arrive in everything from hiking boots to date-night best. Wear what makes you comfortable.</p>
+        </details>
+        <details>
+          <summary>May I bring children?</summary>
+          <p>Absolutely. High chairs are available, and we can prepare a simple plate for younger diners. Please include children and infants in your party size.</p>
+        </details>
+        <details>
+          <summary>What is your cancellation policy?</summary>
+          <p>Cancel or change your table at least 24 hours ahead. Late cancellations and no-shows may be charged $25 per guest. If illness or travel disruption changes your plans, please call us.</p>
+        </details>
+      </section>
+
+      <section class="text-center" aria-labelledby="closing-title">
+        <article>
+          <span class="badge outline secondary">Gift cards available</span>
+          <h2 id="closing-title">Share a night at Juniper &amp; Ash</h2>
+          <p class="muted mx-auto max-w-xl">Digital gift cards arrive instantly and never expire. For a handwritten card, stop by after 2:00 pm.</p>
+          <footer class="cluster justify-center">
+            <a href="mailto:hello@juniperandash.example?subject=Gift%20card">Request a gift card</a>
+            <a href="#reserve">Reserve dinner</a>
+          </footer>
+        </article>
+      </section>
+    </main>
+
+    <footer class="container">
+      <nav aria-label="Footer navigation">
+        <ul>
+          <li><strong>Juniper &amp; Ash</strong></li>
+          <li><small>Seasonal cooking in Portland, Oregon.</small></li>
+        </ul>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+          <li><a href="mailto:hello@juniperandash.example">Contact</a></li>
+        </ul>
+      </nav>
+      <p class="muted text-center"><small>© 2026 Juniper &amp; Ash. This fictional restaurant is a Daft CSS demonstration.</small></p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Northstar Operations</title>
+    <link rel="stylesheet" href="../../../dist/daft.css">
+    <style>
+      :root {
+        --primary: light-dark(oklch(0.52 0.19 258), oklch(0.72 0.15 252));
+        --success: light-dark(oklch(0.53 0.15 154), oklch(0.72 0.14 151));
+        --warning: light-dark(oklch(0.66 0.16 73), oklch(0.8 0.14 80));
+        --muted: light-dark(oklch(0.97 0.008 255), oklch(0.25 0.018 255));
+        --border: light-dark(oklch(0.91 0.012 255), oklch(1 0 0 / 12%));
+        --radius: 0.625rem;
+        --spacing: 0.875rem;
+        --component-height: 2.25rem;
+        --aside-width: clamp(14rem, 18vw, 17rem);
+        --badge-radius: var(--radius-full);
+        --button-shadow: none;
+        --card-shadow: var(--shadow-sm);
+      }
+    </style>
+  </head>
+  <body>
+    <aside id="workspace-sidebar" class="sidebar" popover aria-label="Workspace navigation">
+      <nav aria-label="Northstar workspace">
+        <ul>
+          <li><strong>Northstar</strong></li>
+          <li><small class="muted">Production workspace</small></li>
+        </ul>
+        <ul>
+          <li class="label">Operate</li>
+          <li><a href="#overview" aria-current="page">Overview</a></li>
+          <li><a href="#services">Services <span class="badge outline secondary small">12</span></a></li>
+          <li><a href="#deployments">Deployments</a></li>
+          <li><a href="#incidents">Incidents <span class="badge warning small">1</span></a></li>
+        </ul>
+        <ul>
+          <li class="label">Manage</li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#">Audit log</a></li>
+          <li><a href="#settings">Settings</a></li>
+        </ul>
+        <ul>
+          <li class="label">Usage this month</li>
+          <li>
+            <label>
+              7.4M of 10M events
+              <progress class="secondary" value="74" max="100">74%</progress>
+            </label>
+          </li>
+          <li><small class="muted">Resets in 12 days</small></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <header class="container-fluid">
+      <nav aria-label="Application toolbar">
+        <ul>
+          <li>
+            <button class="ghost icon sidebar-toggle" type="button" popovertarget="workspace-sidebar" aria-label="Open workspace navigation" data-tooltip="Open navigation" data-placement="bottom">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path>
+              </svg>
+            </button>
+          </li>
+          <li><strong>Operations</strong></li>
+          <li><span class="badge outline success">All systems operational</span></li>
+        </ul>
+        <ul>
+          <li>
+            <form role="search">
+              <input class="small" type="search" name="query" aria-label="Search services, deployments, and incidents" placeholder="Search operations">
+              <button class="outline small hidden-mobile" type="submit">Search</button>
+            </form>
+          </li>
+          <li>
+            <button class="ghost icon" type="button" aria-label="Notifications, 2 unread" data-tooltip="2 unread notifications" data-placement="bottom">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>
+              </svg>
+            </button>
+          </li>
+          <li><span class="avatar small" role="img" aria-label="Maya Chen">MC</span></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="overview" class="container-fluid">
+      <nav aria-label="breadcrumb">
+        <ul>
+          <li><a href="#">Northstar</a></li>
+          <li>Operations</li>
+        </ul>
+      </nav>
+
+      <section>
+        <header class="cluster justify-between">
+          <hgroup>
+            <h1>Good morning, Maya.</h1>
+            <p>Here is what needs attention across production today.</p>
+          </hgroup>
+          <div class="cluster">
+            <button class="outline" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M16 8h5V3"></path>
+              </svg>
+              Refresh
+            </button>
+            <button type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"></path><path d="M12 5v14"></path>
+              </svg>
+              New deployment
+            </button>
+            <details class="dropdown">
+              <summary class="ghost">More</summary>
+              <ul dir="rtl">
+                <li class="label">Workspace</li>
+                <li><a href="#">Export report</a></li>
+                <li><a href="#">Schedule maintenance</a></li>
+                <li role="separator"></li>
+                <li><a href="#settings">Workspace settings</a></li>
+              </ul>
+            </details>
+          </div>
+        </header>
+
+        <div role="status">
+          <strong>Database maintenance scheduled</strong>
+          <p>Primary database maintenance begins Friday at 02:00 UTC. No customer downtime is expected.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="snapshot-heading">
+        <header class="cluster justify-between">
+          <h2 id="snapshot-heading">Production snapshot</h2>
+          <small class="muted">Updated 42 seconds ago</small>
+        </header>
+        <div class="grid">
+          <article>
+            <small class="muted">Monthly recurring revenue</small>
+            <p class="text-3xl m-0"><strong>$284.6k</strong></p>
+            <span class="badge success">↑ 8.2% this month</span>
+          </article>
+          <article>
+            <small class="muted">Active organizations</small>
+            <p class="text-3xl m-0"><strong>1,842</strong></p>
+            <span class="badge outline success">+37 this week</span>
+          </article>
+          <article>
+            <small class="muted">API success rate</small>
+            <p class="text-3xl m-0"><strong>99.982%</strong></p>
+            <span class="badge success">Within SLO</span>
+          </article>
+          <article>
+            <small class="muted">Open incidents</small>
+            <p class="text-3xl m-0"><strong>1</strong></p>
+            <span class="badge warning">Investigating</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="services" aria-labelledby="health-heading">
+        <header class="cluster justify-between">
+          <hgroup>
+            <h2 id="health-heading">Service health</h2>
+            <p>Live saturation and reliability for customer-facing systems.</p>
+          </hgroup>
+          <div role="group" class="small" aria-label="Health time range">
+            <button class="outline" type="button">1h</button>
+            <button class="outline" type="button" aria-pressed="true">24h</button>
+            <button class="outline" type="button">7d</button>
+          </div>
+        </header>
+        <div class="grid">
+          <article>
+            <header>
+              <hgroup><h3>API gateway</h3><p>us-east-1 · 18 instances</p></hgroup>
+              <span class="badge success">Healthy</span>
+            </header>
+            <label>
+              Request capacity · 61%
+              <progress class="success" value="61" max="100">61%</progress>
+            </label>
+            <footer><small class="muted">p95 latency 184 ms · 2.1k req/s</small></footer>
+          </article>
+          <article>
+            <header>
+              <hgroup><h3>Event pipeline</h3><p>eu-west-1 · 9 consumers</p></hgroup>
+              <span class="badge warning">Elevated</span>
+            </header>
+            <label>
+              Queue saturation · 78%
+              <progress class="warning" value="78" max="100">78%</progress>
+            </label>
+            <footer><small class="muted">14.2k queued · 3m estimated drain</small></footer>
+          </article>
+          <article>
+            <header>
+              <hgroup><h3>Primary database</h3><p>us-east-1 · multi-AZ</p></hgroup>
+              <span class="badge success">Healthy</span>
+            </header>
+            <label>
+              Connection pool · 43%
+              <progress class="success" value="43" max="100">43%</progress>
+            </label>
+            <footer><small class="muted">17 ms query p95 · 0 replicas lagging</small></footer>
+          </article>
+        </div>
+      </section>
+
+      <div class="grid">
+        <section id="deployments" class="span-2" aria-labelledby="deployments-heading">
+          <header class="cluster justify-between">
+            <hgroup>
+              <h2 id="deployments-heading">Recent deployments</h2>
+              <p>Production changes from the last 24 hours.</p>
+            </hgroup>
+            <a href="#deployments">View all</a>
+          </header>
+          <div class="overflow-auto" role="region" tabindex="0" aria-label="Recent production deployments">
+            <table class="striped">
+              <thead>
+                <tr>
+                  <th scope="col">Service</th>
+                  <th scope="col">Version</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Started</th>
+                  <th scope="col">Duration</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Billing API</th>
+                  <td><code>v4.18.2</code></td>
+                  <td><span class="badge success">Succeeded</span></td>
+                  <td><span class="cluster"><span class="avatar small" aria-hidden="true">IP</span> Iris Park</span></td>
+                  <td>09:42</td>
+                  <td>4m 12s</td>
+                </tr>
+                <tr>
+                  <th scope="row">Web application</th>
+                  <td><code>v8.31.0</code></td>
+                  <td><span class="badge success">Succeeded</span></td>
+                  <td><span class="cluster"><span class="avatar small" aria-hidden="true">NW</span> Noah Williams</span></td>
+                  <td>08:16</td>
+                  <td>6m 48s</td>
+                </tr>
+                <tr>
+                  <th scope="row">Event worker</th>
+                  <td><code>v2.9.7</code></td>
+                  <td><span class="badge warning">Rolling out</span></td>
+                  <td><span class="cluster"><span class="avatar small" aria-hidden="true">MC</span> Maya Chen</span></td>
+                  <td>07:58</td>
+                  <td>12m elapsed</td>
+                </tr>
+                <tr>
+                  <th scope="row">Identity service</th>
+                  <td><code>v3.12.1</code></td>
+                  <td><span class="badge destructive">Rolled back</span></td>
+                  <td><span class="cluster"><span class="avatar small" aria-hidden="true">LM</span> Leo Martins</span></td>
+                  <td>Yesterday</td>
+                  <td>3m 03s</td>
+                </tr>
+              </tbody>
+              <caption>Deployment activity is retained for 90 days.</caption>
+            </table>
+          </div>
+        </section>
+
+        <section id="incidents" aria-labelledby="attention-heading">
+          <header>
+            <hgroup>
+              <h2 id="attention-heading">Needs attention</h2>
+              <p>Active incidents and approvals.</p>
+            </hgroup>
+          </header>
+          <div class="stack">
+            <article>
+              <header>
+                <hgroup><h3>Delayed webhook delivery</h3><p>INC-248 · Started 34 minutes ago</p></hgroup>
+                <span class="badge warning">SEV-2</span>
+              </header>
+              <p>Elevated retry volume for EU tenants. Customer impact is limited to delayed events.</p>
+              <footer>
+                <button class="small" type="button">Open incident</button>
+                <button class="ghost small" type="button">Mute updates</button>
+              </footer>
+            </article>
+            <article>
+              <header>
+                <hgroup><h3>Production access request</h3><p>Requested by Priya Rao · 18 min ago</p></hgroup>
+                <span class="badge outline secondary">Approval</span>
+              </header>
+              <p>Temporary read-only database access for ticket CS-1924.</p>
+              <footer>
+                <button class="small" type="button">Review</button>
+                <button class="outline small" type="button">Decline</button>
+              </footer>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section id="team" class="span-2" aria-labelledby="activity-heading">
+          <header>
+            <hgroup>
+              <h2 id="activity-heading">Team activity</h2>
+              <p>Operational changes from your workspace.</p>
+            </hgroup>
+          </header>
+          <article>
+            <div class="stack">
+              <div class="cluster">
+                <span class="avatar" aria-hidden="true">IP</span>
+                <span class="grow"><strong>Iris Park</strong> promoted <code>billing-api v4.18.2</code> to production<br><small class="muted">8 minutes ago · DEP-8821</small></span>
+                <span class="badge success">Succeeded</span>
+              </div>
+              <div class="cluster">
+                <span class="avatar" aria-hidden="true">NW</span>
+                <span class="grow"><strong>Noah Williams</strong> acknowledged a latency monitor alert<br><small class="muted">26 minutes ago · MON-114</small></span>
+                <span class="badge outline secondary">Acknowledged</span>
+              </div>
+              <div class="cluster">
+                <span class="avatar" aria-hidden="true">PR</span>
+                <span class="grow"><strong>Priya Rao</strong> requested temporary production access<br><small class="muted">34 minutes ago · expires in 2 hours</small></span>
+                <span class="badge warning">Pending</span>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section id="settings" aria-labelledby="controls-heading">
+          <header>
+            <hgroup>
+              <h2 id="controls-heading">On-call controls</h2>
+              <p>Personalize routine operational signals.</p>
+            </hgroup>
+          </header>
+          <article>
+            <form class="stack">
+              <label>
+                Escalation policy
+                <select name="policy">
+                  <option>Platform primary</option>
+                  <option>Platform secondary</option>
+                  <option>Executive escalation</option>
+                </select>
+              </label>
+              <label><input type="checkbox" role="switch" name="push" checked> Push notifications</label>
+              <label><input type="checkbox" role="switch" name="digest" checked> Daily operations digest</label>
+              <label><input type="checkbox" role="switch" name="maintenance"> Maintenance reminders</label>
+              <footer class="cluster justify-end">
+                <button class="outline" type="reset">Reset</button>
+                <button type="submit">Save preferences</button>
+              </footer>
+            </form>
+          </article>
+        </section>
+      </div>
+
+      <section aria-labelledby="runbook-heading">
+        <header>
+          <hgroup>
+            <h2 id="runbook-heading">Operator runbook</h2>
+            <p>Quick answers for common production workflows.</p>
+          </hgroup>
+        </header>
+        <details>
+          <summary>What should I check before approving a production deployment?</summary>
+          <p>Confirm the staging checks passed, review the change window, verify an owner is present, and make sure rollback instructions are attached.</p>
+        </details>
+        <details>
+          <summary>How do I escalate a customer-impacting incident?</summary>
+          <p>Open the incident, set the severity, assign an incident commander, then page the matching escalation policy. Customer communications begin automatically for SEV-1 and SEV-2 incidents.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="container-fluid">
+      <div class="cluster justify-between">
+        <small class="muted">Northstar Operations · Data refreshed at 10:14 UTC</small>
+        <div class="cluster">
+          <a href="#">System status</a>
+          <a href="#">Support</a>
+          <span class="badge outline secondary">API v2025-03</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

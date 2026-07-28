@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Field Notes 2026 is a two-day conference for people designing and building thoughtful technology.">
+    <title>Field Notes 2026 · Technology &amp; Design Conference</title>
+    <link rel="stylesheet" href="../../../dist/daft.css">
+    <style>
+      :root {
+        --primary: light-dark(oklch(0.45 0.17 255), oklch(0.74 0.15 245));
+        --success: light-dark(oklch(0.54 0.15 155), oklch(0.75 0.14 155));
+        --warning: light-dark(oklch(0.68 0.16 75), oklch(0.82 0.14 80));
+        --radius: 0.75rem;
+        --spacing: 1.125rem;
+        --component-height: 2.625rem;
+        --badge-radius: var(--radius-full);
+        --button-radius: var(--radius-full);
+        --card-shadow: var(--shadow-sm);
+        --button-shadow: none;
+        --top-nav-height: 4.5rem;
+        --muted: light-dark(oklch(0.97 0.012 245), oklch(0.24 0.018 250));
+        --muted-foreground: light-dark(oklch(0.4 0.018 250), oklch(0.74 0.015 250));
+        --border: light-dark(oklch(0.88 0.018 245), oklch(1 0 0 / 14%));
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <nav class="top-nav sticky glass" aria-label="Primary navigation">
+        <ul>
+          <li><a href="#top"><strong>Field Notes / 26</strong></a></li>
+        </ul>
+        <button class="top-nav-toggle ghost icon" type="button" popovertarget="primary-menu" aria-label="Toggle primary navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 5h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 19h16"></path>
+          </svg>
+        </button>
+        <ul id="primary-menu" class="top-nav-menu" popover>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#speakers">Speakers</a></li>
+          <li><a href="#tickets">Tickets</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="top" class="container">
+      <section class="text-center mt-24" aria-labelledby="hero-title">
+        <div class="cluster justify-center mb-4">
+          <span class="badge outline">18–19 June 2026</span>
+          <span class="badge outline secondary">Rotterdam, NL</span>
+          <span class="badge outline success">In person</span>
+        </div>
+        <h1 id="hero-title" class="text-6xl mx-auto max-w-3xl">Make technology feel more human.</h1>
+        <p class="muted text-xl mx-auto max-w-2xl">Two focused days for designers, engineers, and product leaders who care about the systems behind better digital experiences.</p>
+        <div class="cluster justify-center mt-8">
+          <a class="button" href="#tickets">Choose a ticket</a>
+          <a href="#schedule">Explore the program</a>
+        </div>
+        <p class="text-sm muted mt-6">At Theater Rotterdam · Doors open Thursday at 08:15</p>
+      </section>
+
+      <section class="mt-24" aria-labelledby="premise-title">
+        <header class="text-center mx-auto max-w-xl mb-8">
+          <p class="label">The premise</p>
+          <h2 id="premise-title">Useful ideas, honestly shared.</h2>
+          <p class="muted">No trend forecasts or sales pitches. Just field-tested approaches from people doing the work.</p>
+        </header>
+        <div class="grid">
+          <article>
+            <span class="badge outline">Practice</span>
+            <h3>Work you can use</h3>
+            <p>Detailed case studies on design systems, responsible AI, research, and engineering decisions.</p>
+          </article>
+          <article>
+            <span class="badge outline">People</span>
+            <h3>Real conversation</h3>
+            <p>Small-group studios and long breaks make room for useful exchanges, not rushed networking.</p>
+          </article>
+          <article>
+            <span class="badge outline">Perspective</span>
+            <h3>Beyond the interface</h3>
+            <p>Look at the organizational choices, incentives, and infrastructure that shape every product.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="schedule" class="mt-24" aria-labelledby="schedule-title">
+        <header class="flex items-center justify-between gap-4 mb-8">
+          <hgroup>
+            <p class="label">Thursday · 18 June</p>
+            <h2 id="schedule-title">Day one schedule</h2>
+            <p>One main stage, one hands-on studio, and generous time between sessions.</p>
+          </hgroup>
+          <span class="badge warning">Program preview</span>
+        </header>
+        <div class="overflow-auto" role="region" tabindex="0" aria-label="Day one conference schedule">
+          <table class="striped">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Main stage</th>
+                <th scope="col">Studio</th>
+                <th scope="col">Format</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">08:15</th>
+                <td>Doors, coffee &amp; breakfast</td>
+                <td>Registration desk</td>
+                <td><span class="badge secondary">Arrival</span></td>
+              </tr>
+              <tr>
+                <th scope="row">09:30</th>
+                <td><strong>Opening:</strong> The systems we make</td>
+                <td>Closed for setup</td>
+                <td><span class="badge">Talk</span></td>
+              </tr>
+              <tr>
+                <th scope="row">10:15</th>
+                <td>Leila Mora · Designing for repair</td>
+                <td>Reserved seating</td>
+                <td><span class="badge">Talk</span></td>
+              </tr>
+              <tr>
+                <th scope="row">11:30</th>
+                <td>Owen Park · AI without the theater</td>
+                <td>Inclusive critique with Nia Okafor</td>
+                <td><span class="badge outline">Talk + studio</span></td>
+              </tr>
+              <tr>
+                <th scope="row">13:45</th>
+                <td>Samira Bell · The cost of coherence</td>
+                <td>Prototyping with constraints</td>
+                <td><span class="badge outline">Talk + studio</span></td>
+              </tr>
+              <tr>
+                <th scope="row">15:30</th>
+                <td>Live teardown: a civic service</td>
+                <td>Research operations clinic</td>
+                <td><span class="badge success">Participatory</span></td>
+              </tr>
+              <tr>
+                <th scope="row">17:00</th>
+                <td>Closing notes</td>
+                <td>Studio wrap-up</td>
+                <td><span class="badge secondary">Closing</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">Friday features longer studios, a community lunch, and the closing conversation at 16:15.</td>
+              </tr>
+            </tfoot>
+            <caption>Times are local (CEST). The final session list will be published in April.</caption>
+          </table>
+        </div>
+      </section>
+
+      <section id="speakers" class="mt-24" aria-labelledby="speakers-title">
+        <header class="text-center mx-auto max-w-xl mb-8">
+          <p class="label">Speakers</p>
+          <h2 id="speakers-title">People with work worth unpacking.</h2>
+          <p class="muted">A cross-disciplinary group sharing decisions, mistakes, and methods in full detail.</p>
+        </header>
+        <div class="grid">
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Leila Mora">LM</span>
+                <hgroup>
+                  <h3>Leila Mora</h3>
+                  <p>VP Design, Common Thread</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">Systems</span>
+            </header>
+            <p>Leila leads product and service design for tools used by public-interest organizations in 14 countries.</p>
+            <footer><small class="muted">Talk · Designing for repair</small></footer>
+          </article>
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Owen Park">OP</span>
+                <hgroup>
+                  <h3>Owen Park</h3>
+                  <p>Principal Engineer, Parcel</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">AI</span>
+            </header>
+            <p>Owen builds assistive machine-learning systems and writes about evaluating them in production.</p>
+            <footer><small class="muted">Talk · AI without the theater</small></footer>
+          </article>
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Samira Bell">SB</span>
+                <hgroup>
+                  <h3>Samira Bell</h3>
+                  <p>Design Systems Lead, Northstar</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">Scale</span>
+            </header>
+            <p>Samira helps distributed teams evolve shared systems without flattening the products they serve.</p>
+            <footer><small class="muted">Talk · The cost of coherence</small></footer>
+          </article>
+        </div>
+        <div class="grid mt-6">
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Nia Okafor">NO</span>
+                <hgroup>
+                  <h3>Nia Okafor</h3>
+                  <p>Independent Design Director</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">Teams</span>
+            </header>
+            <p>Nia advises early product teams on building rigorous, inclusive critique into everyday practice.</p>
+            <footer><small class="muted">Studio · Inclusive critique</small></footer>
+          </article>
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Jonas van Dijk">JD</span>
+                <hgroup>
+                  <h3>Jonas van Dijk</h3>
+                  <p>Service Owner, Gemeente Delft</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">Civic tech</span>
+            </header>
+            <p>Jonas works across policy, operations, and software to make local services easier to navigate.</p>
+            <footer><small class="muted">Live teardown · A civic service</small></footer>
+          </article>
+          <article>
+            <header>
+              <div class="cluster">
+                <span class="avatar large" role="img" aria-label="Mara Chen">MC</span>
+                <hgroup>
+                  <h3>Mara Chen</h3>
+                  <p>Research Operations, Almanac</p>
+                </hgroup>
+              </div>
+              <span class="badge outline">Research</span>
+            </header>
+            <p>Mara creates sustainable research programs for teams working across languages and time zones.</p>
+            <footer><small class="muted">Studio · Research operations clinic</small></footer>
+          </article>
+        </div>
+      </section>
+
+      <section id="tickets" class="mt-24" aria-labelledby="tickets-title">
+        <header class="text-center mx-auto max-w-xl mb-8">
+          <p class="label">Tickets</p>
+          <h2 id="tickets-title">Pick the pace that suits you.</h2>
+          <p class="muted">Every pass includes both conference days, lunch, refreshments, and the Thursday evening gathering.</p>
+        </header>
+        <div class="grid">
+          <article>
+            <header>
+              <hgroup>
+                <h3>Conference</h3>
+                <p>The complete two-day program.</p>
+              </hgroup>
+              <span class="badge secondary">Standard</span>
+            </header>
+            <p class="text-4xl"><strong>€395</strong> <small class="muted">ex. VAT</small></p>
+            <ul>
+              <li>Main-stage talks and live sessions</li>
+              <li>Thursday evening gathering</li>
+              <li>Digital session notes</li>
+            </ul>
+            <footer><a href="#register">Select conference pass</a></footer>
+          </article>
+          <article>
+            <header>
+              <hgroup>
+                <h3>Conference + Studio</h3>
+                <p>Add one 90-minute working session.</p>
+              </hgroup>
+              <span class="badge success">Most popular</span>
+            </header>
+            <p class="text-4xl"><strong>€495</strong> <small class="muted">ex. VAT</small></p>
+            <ul>
+              <li>Everything in Conference</li>
+              <li>One reserved studio session</li>
+              <li>Small group of up to 24</li>
+            </ul>
+            <footer><a href="#register">Select studio pass</a></footer>
+          </article>
+          <article>
+            <header>
+              <hgroup>
+                <h3>Team</h3>
+                <p>Bring four people for a shared experience.</p>
+              </hgroup>
+              <span class="badge warning">Save €385</span>
+            </header>
+            <p class="text-4xl"><strong>€1,595</strong> <small class="muted">ex. VAT</small></p>
+            <ul>
+              <li>Four Conference + Studio passes</li>
+              <li>Reserved team lunch table</li>
+              <li>One consolidated invoice</li>
+            </ul>
+            <footer><a href="#register">Select team pass</a></footer>
+          </article>
+        </div>
+        <article class="mt-6">
+          <header>
+            <strong>Early allocation</strong>
+            <span class="badge warning">78% claimed</span>
+          </header>
+          <p class="muted">Current prices are available while the first 180 passes last.</p>
+          <label>Early allocation availability
+            <progress class="warning" value="78" max="100">78%</progress>
+          </label>
+        </article>
+      </section>
+
+      <section id="faq" class="max-w-2xl mx-auto mt-24" aria-labelledby="faq-title">
+        <header class="text-center mb-8">
+          <p class="label">FAQ</p>
+          <h2 id="faq-title">Useful details before you book.</h2>
+        </header>
+        <details open>
+          <summary>Who is Field Notes for?</summary>
+          <p>It is made for product designers, engineers, researchers, writers, and leaders who shape digital products. Talks assume professional experience but not a specific discipline or seniority.</p>
+        </details>
+        <details id="accessibility">
+          <summary>How accessible is the venue?</summary>
+          <p>Theater Rotterdam has step-free access, accessible toilets, induction loops, and reserved wheelchair spaces. Live captioning is provided on the main stage. Tell us about other requirements in the registration form.</p>
+        </details>
+        <details>
+          <summary>Can I transfer or cancel a ticket?</summary>
+          <p>You can transfer a pass at no cost until 12 June. Cancellations made by 18 May receive a full refund; after that date, you may transfer the pass or receive access to session recordings.</p>
+        </details>
+        <details>
+          <summary>Are travel and accommodation included?</summary>
+          <p>No. The venue is a seven-minute walk from Rotterdam Centraal. Registered attendees receive partner hotel rates and a practical city guide.</p>
+        </details>
+        <details>
+          <summary>Will sessions be recorded?</summary>
+          <p>Main-stage talks will be recorded and shared with attendees. Studios and audience discussions remain off camera so participants can work openly.</p>
+        </details>
+      </section>
+
+      <section id="register" class="mt-24" aria-labelledby="register-title">
+        <article>
+          <header class="text-center">
+            <hgroup>
+              <p class="label">Registration</p>
+              <h2 id="register-title">Save your place at Field Notes.</h2>
+              <p>Choose a pass and share the details we need to reserve it. We will email a secure payment link.</p>
+            </hgroup>
+          </header>
+          <form class="stack max-w-2xl mx-auto" action="/register" method="post">
+            <div class="grid">
+              <label for="given-name">First name
+                <input id="given-name" name="given-name" autocomplete="given-name" required>
+              </label>
+              <label for="family-name">Last name
+                <input id="family-name" name="family-name" autocomplete="family-name" required>
+              </label>
+            </div>
+            <label for="email">Work email
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </label>
+            <div class="grid">
+              <label for="organization">Organization
+                <input id="organization" name="organization" autocomplete="organization">
+              </label>
+              <label for="ticket">Ticket choice
+                <select id="ticket" name="ticket" required>
+                  <option value="">Choose a pass</option>
+                  <option value="conference">Conference · €395</option>
+                  <option value="studio">Conference + Studio · €495</option>
+                  <option value="team">Team · €1,595</option>
+                </select>
+              </label>
+            </div>
+            <fieldset>
+              <legend>Preferences</legend>
+              <label><input type="checkbox" name="studio-interest" value="yes"> I want to choose a studio session</label>
+              <label><input type="checkbox" name="updates" value="yes" checked> Send me practical event updates</label>
+            </fieldset>
+            <label for="access-needs">Access or dietary requirements <small class="muted">Optional</small>
+              <textarea id="access-needs" name="access-needs" rows="3" placeholder="Tell us what would help you participate comfortably."></textarea>
+            </label>
+            <label><input type="checkbox" name="terms" required> I agree to the <a href="#ticket-terms">ticket terms</a> and understand the cancellation policy.</label>
+            <footer class="cluster justify-between">
+              <small class="muted">No payment is taken on this page.</small>
+              <button type="submit">Reserve my ticket</button>
+            </footer>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <footer class="container mt-16">
+      <nav aria-label="Footer navigation">
+        <ul>
+          <li><strong>Field Notes / 26</strong></li>
+          <li><small>Rotterdam · 18–19 June 2026</small></li>
+        </ul>
+        <ul>
+          <li><a href="mailto:hello@fieldnotesconf.example">Contact</a></li>
+          <li><a href="#accessibility">Accessibility</a></li>
+          <li><a href="#ticket-terms">Ticket terms</a></li>
+        </ul>
+      </nav>
+      <details id="ticket-terms">
+        <summary>Ticket terms</summary>
+        <p>Prices exclude VAT. Passes may be transferred until 12 June 2026. Full refunds are available through 18 May 2026; after that date, registration may be transferred to another attendee.</p>
+      </details>
+      <p class="text-sm muted">A deliberately small conference for people making technology with care.</p>
+    </footer>
+  </body>
+</html>
