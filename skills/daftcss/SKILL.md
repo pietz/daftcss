@@ -36,7 +36,7 @@ Load the component file when using, modifying, or troubleshooting that component
 |---|---|---|
 | Buttons | [buttons.md](references/components/buttons.md) | `<button>`, button roles, variants and states |
 | Forms | [forms.md](references/components/forms.md) | Inputs, selects, validation, checkbox, radio, switch, range |
-| Cards | [cards.md](references/components/cards.md) | Semantic `<article>` surfaces |
+| Cards | [cards.md](references/components/cards.md) | Semantic `<article>` surfaces and the `article.plain` document opt-out |
 | Dialogs | [dialogs.md](references/components/dialogs.md) | Modal dialogs and non-modal dialog popovers |
 | Navigation | [navigation.md](references/components/navigation.md) | Navigation groups and breadcrumbs |
 | Sidebar | [sidebar.md](references/components/sidebar.md) | Desktop rail and mobile Popover drawer |

@@ -18,6 +18,7 @@ Daft styles headings, paragraphs, links, emphasis, small text, abbreviations, ma
 
 - Heading size and weight follow the shared type scale.
 - `<hgroup>` pairs a heading with muted supporting text.
+- Use `<article class="plain">` for a semantic narrative article that should follow this normal document typography and flow instead of Daft's automatic card presentation.
 - `.muted` is available for supporting text that has no stronger semantic state.
 - Links use underlines and visible keyboard focus by default.
 - `.label` creates a small section label for dropdown groups, sidebars, and eyebrows.

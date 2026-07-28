@@ -2,7 +2,7 @@
 
 ## Purpose and semantic contract
 
-Use `<article>` for a self-contained, independently meaningful unit such as a post, result, product, or dashboard item. Daft styles every article as a card. Do not use a generic `div.card`.
+Use `<article>` for a self-contained, independently meaningful unit such as a post, result, product, or dashboard item. Daft styles articles as cards by default. Add `.plain` to an article when it should remain a normal document article without card presentation. Do not use a generic `div.card`.
 
 ## Basic example
 
@@ -37,7 +37,19 @@ With an `hgroup`, the header lays out its direct children across the row, so pla
 
 ## Variants and options
 
+- `<article class="plain">` keeps article semantics while opting out of the card surface, padding, compact header and footer choreography, nested-card treatment, linked-card behavior, and card-specific loading height. Its headings, paragraphs, header, and footer follow normal document flow. `.plain` is not a global reset and has no Daft meaning on other elements.
 - A nested `<article>` becomes a muted, borderless, shadowless sub-card.
+
+```html
+<article class="plain">
+  <header>
+    <h2>A long-form report</h2>
+    <p>Published 20 May 2025</p>
+  </header>
+  <p>Ordinary document content follows.</p>
+  <footer>Filed under Research</footer>
+</article>
+```
 - `article[aria-busy="true"]` reserves at least 8rem of height and renders Daft's loading spinner.
 - Wrap an article in an anchor when the entire self-contained card navigates. Do not put other interactive controls inside that linked card.
 
@@ -66,12 +78,12 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Composition
 
-- A direct card child of `.grid` has no bottom margin, so grid cells align.
+- A direct card child of `.grid` has no bottom margin, so grid cells align. A plain article can also be a grid item, but remains unsurfaced.
 - Use a footer with its default flex row and small gap for related actions.
 
 ## Common mistakes
 
 - Do not use `<div class="card">`; use `<article>`.
 - Do not nest interactive controls inside a card wrapped by an anchor. Avoid nested interactive elements.
-- Do not use an article solely as a spacing wrapper. Reserve it for a self-contained content unit.
+- Do not use an article solely as a spacing wrapper. Reserve it for a self-contained content unit; use `article.plain` for narrative articles that should not look like UI cards.
 - Do not recreate the header layout with arbitrary wrappers when `<header>`, `<hgroup>`, and `<footer>` express it.

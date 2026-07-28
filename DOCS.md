@@ -645,7 +645,7 @@ Required fields automatically show a decorative asterisk. Wrapping labels place 
 
 ### Card
 
-Use `<article>` for cards:
+Use `<article>` for cards. When a semantic article should remain ordinary document content instead, add `.plain`; this opts that article out of the card surface, padding, compact typography, header/footer layout, and other card-only presentation. The class has no Daft meaning on non-article elements.
 
 ```html
 <article>
@@ -672,6 +672,16 @@ Use `<article>` for cards:
     <span class="badge">12 / 18</span>
   </header>
   …
+</article>
+```
+
+**Plain document article:**
+
+```html
+<article class="plain">
+  <header><h2>Field report</h2><p>Published 20 May 2025</p></header>
+  <p>Long-form narrative content follows normal document flow.</p>
+  <footer>Filed under Research</footer>
 </article>
 ```
 
@@ -1452,6 +1462,7 @@ Daft styles these elements directly — no classes needed for basic usage:
 | Feature | Syntax |
 |---------|--------|
 | Card | `<article>` |
+| Plain document article | `<article class="plain">` |
 | Button | `<button>`, button-type `<input>` |
 | Popover dialog | `<dialog popover>` (non-modal) |
 | Modal dialog | `<dialog>` opened with `showModal()` |

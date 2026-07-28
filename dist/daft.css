@@ -1495,7 +1495,7 @@
     opacity: 1;
   }
 
-  article {
+  article:not(:where(.plain)) {
     padding: var(--card-padding);
     background-color: var(--card);
     color: var(--card-foreground);
@@ -1505,11 +1505,11 @@
     margin-bottom: var(--spacing);
   }
 
-  article:last-child {
+  article:not(:where(.plain)):last-child {
     margin-bottom: 0;
   }
 
-  article > header {
+  article:not(:where(.plain)) > header {
     margin-bottom: var(--card-gap);
     padding: 0;
 
@@ -1518,48 +1518,48 @@
     }
   }
 
-  article > header > strong, article > header > h1, article > header > h2, article > header > h3, article > header > h4, article > header > h5, article > header > h6 {
+  article:not(:where(.plain)) > header > strong, article:not(:where(.plain)) > header > h1, article:not(:where(.plain)) > header > h2, article:not(:where(.plain)) > header > h3, article:not(:where(.plain)) > header > h4, article:not(:where(.plain)) > header > h5, article:not(:where(.plain)) > header > h6 {
     margin-bottom: var(--spacing-xs);
     font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     line-height: var(--line-height-sm);
   }
 
-  article > header > small, article > header > p {
+  article:not(:where(.plain)) > header > small, article:not(:where(.plain)) > header > p {
     color: var(--muted-foreground);
     font-size: var(--text-sm);
     margin-bottom: 0;
   }
 
-  article > header:has( > hgroup) {
+  article:not(:where(.plain)) > header:has( > hgroup) {
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--spacing-sm);
     display: flex;
   }
 
-  article > header > hgroup {
+  article:not(:where(.plain)) > header > hgroup {
     flex-direction: column;
     min-width: 0;
     margin: 0;
     display: flex;
   }
 
-  article > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
+  article:not(:where(.plain)) > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
     font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     line-height: var(--line-height-sm);
     margin: 0;
   }
 
-  article > header > hgroup > p {
+  article:not(:where(.plain)) > header > hgroup > p {
     font-size: var(--text-sm);
     line-height: var(--line-height);
     color: var(--muted-foreground);
     margin: 0;
   }
 
-  article > footer {
+  article:not(:where(.plain)) > footer {
     margin-top: var(--card-gap);
     align-items: center;
     gap: var(--spacing-sm);
@@ -1571,24 +1571,24 @@
     }
   }
 
-  article article {
+  article article:not(:where(.plain)) {
     background-color: var(--muted);
     box-shadow: none;
     border: none;
   }
 
-  .grid > article {
+  .grid > article:not(:where(.plain)) {
     margin-bottom: 0;
   }
 
-  a:has( > article) {
+  a:has( > article:not(:where(.plain))) {
     color: inherit;
     border-radius: var(--card-radius);
     transition: box-shadow var(--transition-default);
     text-decoration: none;
     display: block;
 
-    &:hover > article {
+    &:hover > article:not(:where(.plain)) {
       border-color: color-mix(in oklch, var(--border) 80%, var(--foreground));
     }
 
@@ -1598,7 +1598,7 @@
     }
   }
 
-  article[aria-busy="true"] {
+  article:not(:where(.plain))[aria-busy="true"] {
     min-height: 8rem;
   }
 

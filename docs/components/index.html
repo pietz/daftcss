@@ -691,7 +691,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
     <section id="surfaces">
       <h2>Surfaces</h2>
 
-      <h3>Cards, Badges, Avatars</h3>
+      <h3>Cards, Plain Articles, Badges, Avatars</h3>
       <div class="grid">
         <article>
           <article>
@@ -699,6 +699,11 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
               <p>Cards can be nested</p>
             </header>
             <p>Content inside a card.</p>
+          </article>
+          <article class="plain">
+            <header><h4>Plain document article</h4><p>Normal article typography and flow</p></header>
+            <p>No card surface, padding, or compact card layout is applied.</p>
+            <footer><small>Semantic article, ordinary presentation</small></footer>
           </article>
           <p><span class="badge">Primary</span> <span class="badge secondary">Secondary</span> <span
               class="badge success">Success</span> <span class="badge warning">Warning</span> <span
@@ -714,6 +719,11 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <pre><code>&lt;article&gt;
   &lt;header&gt;&lt;strong&gt;Nested Card&lt;/strong&gt;&lt;/header&gt;
   &lt;p&gt;Content inside a card.&lt;/p&gt;
+&lt;/article&gt;
+
+&lt;article class="plain"&gt;
+  &lt;header&gt;&lt;h4&gt;Plain document article&lt;/h4&gt;&lt;/header&gt;
+  &lt;p&gt;Normal document typography and flow.&lt;/p&gt;
 &lt;/article&gt;
 
 &lt;span class="badge"&gt;Primary&lt;/span&gt;

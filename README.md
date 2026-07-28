@@ -207,6 +207,8 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 
 Wrap an appropriately leveled heading and lead paragraph in `<hgroup>` for the shadcn-style title + muted description pair. An `hgroup` requires a real `<h1>`–`<h6>`; do not substitute `<strong>`. A sibling element (badge, action) floats right automatically.
 
+Use `<article class="plain">` for a semantic article that should follow normal document flow without Daft's card background, border, radius, shadow, padding, or compact card header/footer layout. Ordinary `<article>` elements remain automatic cards.
+
 ```html
 <article>
   <header>

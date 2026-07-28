@@ -529,6 +529,179 @@ test("card spacing follows root scale and card-level token overrides", async ({ 
   });
 });
 
+test("article.plain opts out of card surfaces and compact content flow without changing ordinary articles", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main id="canvas" style="--card: rgb(240 230 220); --card-foreground: rgb(20 30 40); --card-padding: 24px; --card-gap: 18px; --card-radius: 10px; --card-shadow: 4px 5px 0 rgb(90 80 70); --border: rgb(60 70 80); --border-width: 2px">
+        <section id="reference">
+          <header><hgroup><h2>Document heading</h2><p>Document description</p></hgroup><span>Metadata</span></header>
+          <p>Document paragraph</p>
+          <footer>Document footer</footer>
+        </section>
+        <article id="plain" class="plain">
+          <header><hgroup><h2>Plain heading</h2><p>Plain description</p></hgroup><span>Metadata</span></header>
+          <p>Plain paragraph</p>
+          <footer>Plain footer</footer>
+        </article>
+        <article id="card">
+          <header><hgroup><h2>Card heading</h2><p>Card description</p></hgroup><span>Metadata</span></header>
+          <p>Card paragraph</p>
+          <footer>Card footer</footer>
+        </article>
+      </main>`;
+
+    const style = (selector) => getComputedStyle(document.querySelector(selector));
+    const surface = (selector) => {
+      const value = style(selector);
+      return {
+        background: value.backgroundColor,
+        borderRadius: value.borderRadius,
+        borderWidth: value.borderTopWidth,
+        boxShadow: value.boxShadow,
+        color: value.color,
+        marginBottom: value.marginBottom,
+        padding: value.padding,
+      };
+    };
+    const type = (selector) => {
+      const value = style(selector);
+      return {
+        color: value.color,
+        fontSize: value.fontSize,
+        fontWeight: value.fontWeight,
+        letterSpacing: value.letterSpacing,
+        lineHeight: value.lineHeight,
+        marginBottom: value.marginBottom,
+        marginTop: value.marginTop,
+      };
+    };
+    const flow = (root) => ({
+      footer: {
+        display: style(`${root} > footer`).display,
+        marginTop: style(`${root} > footer`).marginTop,
+      },
+      header: {
+        display: style(`${root} > header`).display,
+        marginBottom: style(`${root} > header`).marginBottom,
+      },
+      hgroup: {
+        display: style(`${root} > header > hgroup`).display,
+        marginBottom: style(`${root} > header > hgroup`).marginBottom,
+      },
+    });
+
+    return {
+      card: {
+        flow: flow("#card"),
+        heading: type("#card h2"),
+        paragraph: type("#card > p"),
+        surface: surface("#card"),
+      },
+      plain: {
+        flow: flow("#plain"),
+        heading: type("#plain h2"),
+        paragraph: type("#plain > p"),
+        surface: surface("#plain"),
+      },
+      reference: {
+        flow: flow("#reference"),
+        heading: type("#reference h2"),
+        paragraph: type("#reference > p"),
+      },
+    };
+  });
+
+  expect(result.card.surface).toMatchObject({
+    background: "rgb(240, 230, 220)",
+    borderRadius: "10px",
+    borderWidth: "2px",
+    color: "rgb(20, 30, 40)",
+    padding: "24px",
+  });
+  expect(result.card.surface.boxShadow).not.toBe("none");
+  expect(result.card.flow).toMatchObject({
+    footer: { display: "flex", marginTop: "18px" },
+    header: { display: "flex", marginBottom: "18px" },
+    hgroup: { display: "flex", marginBottom: "0px" },
+  });
+
+  expect(result.plain.surface).toMatchObject({
+    background: "rgba(0, 0, 0, 0)",
+    borderRadius: "0px",
+    borderWidth: "0px",
+    boxShadow: "none",
+    padding: "0px",
+  });
+  expect(result.plain.surface.color).not.toBe(result.card.surface.color);
+  expect(result.plain.surface.marginBottom).toBe("16px");
+  expect(result.plain.heading).toEqual(result.reference.heading);
+  expect(result.plain.paragraph).toEqual(result.reference.paragraph);
+  expect(result.plain.flow).toEqual(result.reference.flow);
+  expect(result.card.heading.fontSize).not.toBe(result.plain.heading.fontSize);
+});
+
+test("article.plain does not acquire nested, grid, linked-card, hover, or loading-card presentation", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="--card: rgb(240 230 220); --muted: rgb(210 220 230); --border: rgb(60 70 80); --border-width: 2px; --card-radius: 10px">
+        <article id="outer">
+          <article id="nested-card">Nested card</article>
+          <article id="nested-plain" class="plain">Nested plain article</article>
+        </article>
+        <article id="plain-parent" class="plain"><article id="card-in-plain">Card in plain article</article></article>
+        <div class="grid"><article id="grid-card">Grid card</article><article id="grid-plain" class="plain">Grid plain article</article></div>
+        <a id="card-link" href="#card"><article id="linked-card">Linked card</article></a>
+        <a id="plain-link" href="#plain"><article id="linked-plain" class="plain">Linked plain article</article></a>
+        <article id="busy-card" aria-busy="true"></article>
+        <article id="busy-plain" class="plain" aria-busy="true"></article>
+      </main>`;
+  });
+
+  const read = async () => page.evaluate(() => {
+    const style = (id) => getComputedStyle(document.getElementById(id));
+    const surface = (id) => ({
+      background: style(id).backgroundColor,
+      borderWidth: style(id).borderTopWidth,
+      boxShadow: style(id).boxShadow,
+    });
+    return {
+      busy: { card: style("busy-card").minHeight, plain: style("busy-plain").minHeight },
+      grid: { cardMargin: style("grid-card").marginBottom, plain: surface("grid-plain") },
+      links: {
+        card: { display: style("card-link").display, textDecoration: style("card-link").textDecorationLine },
+        plain: { display: style("plain-link").display, textDecoration: style("plain-link").textDecorationLine },
+      },
+      linkedCardBorder: style("linked-card").borderTopColor,
+      linkedPlain: surface("linked-plain"),
+      nested: {
+        card: surface("nested-card"),
+        cardInPlain: surface("card-in-plain"),
+        plain: surface("nested-plain"),
+      },
+    };
+  });
+
+  const beforeHover = await read();
+  await page.locator("#card-link").hover();
+  const cardHoverBorder = await page.locator("#linked-card").evaluate((element) => getComputedStyle(element).borderTopColor);
+  await page.locator("#plain-link").hover();
+  const plainHover = await read();
+
+  expect(beforeHover.nested.card).toEqual({ background: "rgb(210, 220, 230)", borderWidth: "0px", boxShadow: "none" });
+  expect(beforeHover.nested.cardInPlain).toEqual(beforeHover.nested.card);
+  expect(beforeHover.nested.plain).toEqual({ background: "rgba(0, 0, 0, 0)", borderWidth: "0px", boxShadow: "none" });
+  expect(beforeHover.grid.cardMargin).toBe("0px");
+  expect(beforeHover.grid.plain).toEqual(beforeHover.nested.plain);
+  expect(beforeHover.links.card).toEqual({ display: "block", textDecoration: "none" });
+  expect(beforeHover.links.plain).toEqual({ display: "inline", textDecoration: "underline" });
+  expect(cardHoverBorder).not.toBe(beforeHover.linkedCardBorder);
+  expect(plainHover.linkedPlain).toEqual(beforeHover.linkedPlain);
+  expect(beforeHover.busy).toEqual({ card: "128px", plain: "0px" });
+});
+
 test("popover surfaces follow cards by default and retain an independent override", async ({ page }) => {
   await page.goto("/components/");
 

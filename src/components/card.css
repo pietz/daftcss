@@ -3,7 +3,7 @@
  * Uses semantic <article> element
  */
 
-article {
+article:not(:where(.plain)) {
   padding: var(--card-padding);
   background-color: var(--card);
   color: var(--card-foreground);
@@ -13,12 +13,12 @@ article {
   margin-bottom: var(--spacing);
 }
 
-article:last-child {
+article:not(:where(.plain)):last-child {
   margin-bottom: 0;
 }
 
 /* Card header */
-article > header {
+article:not(:where(.plain)) > header {
   padding: 0;
   margin-bottom: var(--card-gap);
 
@@ -28,21 +28,21 @@ article > header {
 }
 
 /* Card header with title styling */
-article > header > strong,
-article > header > h1,
-article > header > h2,
-article > header > h3,
-article > header > h4,
-article > header > h5,
-article > header > h6 {
+article:not(:where(.plain)) > header > strong,
+article:not(:where(.plain)) > header > h1,
+article:not(:where(.plain)) > header > h2,
+article:not(:where(.plain)) > header > h3,
+article:not(:where(.plain)) > header > h4,
+article:not(:where(.plain)) > header > h5,
+article:not(:where(.plain)) > header > h6 {
   margin-bottom: var(--spacing-xs);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   line-height: var(--line-height-sm);
 }
 
-article > header > small,
-article > header > p {
+article:not(:where(.plain)) > header > small,
+article:not(:where(.plain)) > header > p {
   color: var(--muted-foreground);
   font-size: var(--text-sm);
   margin-bottom: 0;
@@ -53,28 +53,28 @@ article > header > p {
    in <hgroup> for the "title + subtitle" look. When a header uses
    hgroup, it becomes flex so badges or actions align to the right;
    headers without hgroup keep their default block layout. */
-article > header:has(> hgroup) {
+article:not(:where(.plain)) > header:has(> hgroup) {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--spacing-sm);
 }
 
-article > header > hgroup {
+article:not(:where(.plain)) > header > hgroup {
   display: flex;
   flex-direction: column;
   margin: 0;
   min-width: 0;
 }
 
-article > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
+article:not(:where(.plain)) > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   line-height: var(--line-height-sm);
 }
 
-article > header > hgroup > p {
+article:not(:where(.plain)) > header > hgroup > p {
   margin: 0;
   font-size: var(--text-sm);
   line-height: var(--line-height);
@@ -82,7 +82,7 @@ article > header > hgroup > p {
 }
 
 /* Card footer */
-article > footer {
+article:not(:where(.plain)) > footer {
   padding: 0;
   margin-top: var(--card-gap);
   display: flex;
@@ -95,26 +95,26 @@ article > footer {
 }
 
 /* Nested articles have different styling */
-article article {
+article article:not(:where(.plain)) {
   background-color: var(--muted);
   border: none;
   box-shadow: none;
 }
 
 /* Card inside grid */
-.grid > article {
+.grid > article:not(:where(.plain)) {
   margin-bottom: 0;
 }
 
 /* Clickable card (when wrapped in anchor) */
-a:has(> article) {
+a:has(> article:not(:where(.plain))) {
   display: block;
   text-decoration: none;
   color: inherit;
   border-radius: var(--card-radius);
   transition: box-shadow var(--transition-default);
 
-  &:hover > article {
+  &:hover > article:not(:where(.plain)) {
     border-color: color-mix(in oklch, var(--border) 80%, var(--foreground));
   }
 
@@ -125,6 +125,6 @@ a:has(> article) {
 }
 
 /* Card with loading state */
-article[aria-busy="true"] {
+article:not(:where(.plain))[aria-busy="true"] {
   min-height: 8rem;
 }

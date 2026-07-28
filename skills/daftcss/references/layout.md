@@ -39,6 +39,8 @@ Daft applies document spacing and section rhythm to semantic landmarks. Use `<se
 </div>
 ```
 
+Articles remain cards in a grid by default. Use `article.plain` when a semantic article should participate in the grid without a card surface or card-specific internal layout.
+
 Use `.span-2`, `.span-3`, or `.span-4` on a direct child to give it a weighted share:
 
 ```html
