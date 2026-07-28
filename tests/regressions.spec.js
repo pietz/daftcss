@@ -166,6 +166,58 @@ test("ordinary accordion boundaries form single dividers without affecting detai
   expect(result.buttonSummary.background).not.toBe("rgba(0, 0, 0, 0)");
 });
 
+test("ordinary accordion summaries use compact centered rhythm without changing specialized disclosures", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="width: 320px">
+        <details id="ordinary"><summary id="ordinary-summary"><span>Alignment probe Hgx</span></summary></details>
+        <details><summary id="button-summary" role="button">Button summary</summary></details>
+        <details class="dropdown"><summary id="dropdown-summary">Dropdown summary</summary></details>
+        <ul class="tree"><li><details><summary id="tree-summary">Tree summary</summary></details></li></ul>
+        <nav><details><summary id="nav-summary">Navigation summary</summary></details></nav>
+      </main>`;
+
+    const readPadding = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { bottom: style.paddingBottom, top: style.paddingTop };
+    };
+    const summary = document.getElementById("ordinary-summary");
+    const title = summary.querySelector("span");
+    const summaryBox = summary.getBoundingClientRect();
+    const titleBox = title.getBoundingClientRect();
+    const chevron = getComputedStyle(summary, "::after");
+
+    return {
+      alignment: {
+        alignItems: getComputedStyle(summary).alignItems,
+        chevronHeight: chevron.height,
+        chevronMaskPosition: chevron.maskPosition,
+        rowCenter: (summaryBox.top + summaryBox.bottom) / 2,
+        textCenter: (titleBox.top + titleBox.bottom) / 2,
+      },
+      button: readPadding("button-summary"),
+      dropdown: readPadding("dropdown-summary"),
+      nav: readPadding("nav-summary"),
+      ordinary: readPadding("ordinary-summary"),
+      tree: readPadding("tree-summary"),
+    };
+  });
+
+  expect(result.ordinary).toEqual({ bottom: "8px", top: "8px" });
+  expect(result.button).toEqual({ bottom: "8px", top: "8px" });
+  expect(result.dropdown).toEqual({ bottom: "8px", top: "8px" });
+  expect(result.tree).toEqual({ bottom: "3px", top: "3px" });
+  expect(result.nav).toEqual({ bottom: "16px", top: "16px" });
+  expect(result.alignment).toMatchObject({
+    alignItems: "center",
+    chevronHeight: "16px",
+    chevronMaskPosition: "50% 50%",
+  });
+  expect(result.alignment.textCenter).toBeCloseTo(result.alignment.rowCenter, 5);
+});
+
 test("image submit controls retain their intrinsic control dimensions", async ({ page }) => {
   await page.goto("/components/");
 

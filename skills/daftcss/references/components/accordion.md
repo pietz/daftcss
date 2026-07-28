@@ -27,7 +27,7 @@ Use native `<details>` and `<summary>` for a disclosure or accordion item. Daft 
 
 ## Variants and options
 
-- A plain summary has an underline on hover, a chevron, and primary-colored text while open.
+- An ordinary accordion summary has compact `--spacing-sm` block padding, an underline on hover, a chevron, and primary-colored text while open.
 - `summary[role="button"]` is the button-styled summary variant. Apply button classes such as `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, or `.large` when needed.
 - A details element containing a button-styled summary keeps its distinct borderless treatment and uses `--spacing` below the item.
 - The open chevron rotates 180 degrees.

@@ -1652,6 +1652,10 @@
     }
   }
 
+  details:not(.dropdown, .tree details, nav details, :has( > summary[role="button"])) > summary {
+    padding-block: var(--spacing-sm);
+  }
+
   details:not(.dropdown) > summary:not([role="button"]):hover {
     text-underline-offset: 4px;
     text-decoration: underline;
