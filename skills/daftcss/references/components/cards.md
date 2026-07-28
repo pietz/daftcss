@@ -18,13 +18,13 @@ Use `<article>` for a self-contained, independently meaningful unit such as a po
 
 - Use direct-child `<header>` for the card heading and optional supporting text.
 - Use direct-child `<footer>` for actions or metadata that follows the body.
-- For a title and subtitle, put the heading and `<p>` in `<hgroup>` inside the header.
+- For a title and subtitle, put an appropriately leveled `<h1>`–`<h6>` and `<p>` in `<hgroup>` inside the header. An `hgroup` must contain a real heading; do not substitute `<strong>`.
 
 ```html
 <article>
   <header>
     <hgroup>
-      <strong>Sprint 14</strong>
+      <h3>Sprint 14</h3>
       <p>Ends Friday. Cut the release branch next.</p>
     </hgroup>
     <span class="badge">12 / 18</span>

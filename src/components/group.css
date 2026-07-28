@@ -38,12 +38,12 @@
 }
 
 /* Merge borders — buttons, inputs, and addon segments overlap their neighbor's border */
-:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], input, select, code, samp, kbd, span, output):not(:first-child) {
+:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="button"], [role="button"], a.button, input, select, code, samp, kbd, span, output):not(:first-child) {
   margin-left: calc(var(--border-width) * -1);
 }
 
 /* Selected/current button raises above siblings so its border stays visible */
-:is([role="group"], [role="search"]) > :is(button, [role="button"]):is([aria-current="true"], [aria-pressed="true"]) {
+:is([role="group"], [role="search"]) > :is(button, [role="button"], a.button):is([aria-current="true"], [aria-pressed="true"]) {
   z-index: 1;
 }
 
@@ -68,8 +68,8 @@ fieldset[role="group"] {
   border: none;
 }
 
-/* Buttons in clusters don't flex-grow */
-:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="reset"], [type="button"]) {
+/* Buttons and button-looking links in clusters don't flex-grow */
+:is([role="group"], [role="search"]) > :is(button, [type="submit"], [type="reset"], [type="button"], a.button) {
   flex: 0 0 auto;
   width: auto;
 }

@@ -142,7 +142,11 @@ See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent referen
 <button class="ghost">Ghost</button>
 <button class="destructive">Destructive</button>
 <button disabled aria-busy="true">Loading</button>
+<a class="button" href="/checkout">Checkout</a>
+<a class="button secondary" href="#schedule">Explore the program</a>
 ```
+
+Use `.button` only for prominent navigational links that need button appearance. It preserves native anchor semantics; do not add `role="button"` for styling. Variant and size classes work when combined with `.button`. Links have no native disabled state, so Daft does not define a disabled `.button` anchor.
 
 Daft provides an icon pattern, not an icon library. Put `.icon` on an icon-only square control, give the control an accessible name, and place an official inline SVG directly inside it. For icon plus text, use an ordinary control without `.icon`; the same direct-child SVG sizing and flex gap apply.
 
@@ -201,13 +205,13 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 </article>
 ```
 
-Wrap the title and lead paragraph in `<hgroup>` for the shadcn-style title + muted description pair. A sibling element (badge, action) floats right automatically.
+Wrap an appropriately leveled heading and lead paragraph in `<hgroup>` for the shadcn-style title + muted description pair. An `hgroup` requires a real `<h1>`–`<h6>`; do not substitute `<strong>`. A sibling element (badge, action) floats right automatically.
 
 ```html
 <article>
   <header>
     <hgroup>
-      <strong>Sprint 14</strong>
+      <h3>Sprint 14</h3>
       <p>Ends Friday. Cut release branch next.</p>
     </hgroup>
     <span class="badge">12 / 18</span>

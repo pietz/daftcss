@@ -3,12 +3,13 @@ import { dirname, isAbsolute, join, normalize, relative, resolve, sep } from "no
 
 const docsRoot = resolve("docs");
 const htmlFiles = [];
+const skillMarkdownFiles = [];
 
-function walk(directory) {
+function walk(directory, extension, files) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) walk(path);
-    else if (entry.name.endsWith(".html")) htmlFiles.push(path);
+    if (entry.isDirectory()) walk(path, extension, files);
+    else if (entry.name.endsWith(extension)) files.push(path);
   }
 }
 
@@ -31,9 +32,34 @@ function resolveLocalTarget(file, reference) {
   return { target };
 }
 
-walk(docsRoot);
+walk(docsRoot, ".html", htmlFiles);
+walk(resolve("skills/daftcss"), ".md", skillMarkdownFiles);
 const errors = [];
 const idCache = new Map();
+
+function checkHgroupHeadings(file) {
+  const source = readFileSync(file, "utf8").replace(/`[^`\n]+`/g, "");
+  const voidElements = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
+
+  for (const group of source.matchAll(/<hgroup\b[^>]*>([\s\S]*?)<\/hgroup>/gi)) {
+    let depth = 0;
+    for (const tag of group[1].matchAll(/<\/?([a-z][\w-]*)\b[^>]*>/gi)) {
+      const name = tag[1].toLowerCase();
+      const closing = tag[0].startsWith("</");
+      if (!closing && depth === 0 && name === "strong") {
+        const contentOffset = group.index + group[0].indexOf(group[1]);
+        const line = source.slice(0, contentOffset + tag.index).split("\n").length;
+        errors.push(`${file}:${line}: hgroup must use an h1-h6, not a direct strong child`);
+      }
+      if (closing) depth = Math.max(0, depth - 1);
+      else if (!voidElements.has(name) && !tag[0].endsWith("/>")) depth += 1;
+    }
+  }
+}
+
+for (const file of [...htmlFiles, ...skillMarkdownFiles, resolve("README.md"), resolve("DOCS.md")]) {
+  checkHgroupHeadings(file);
+}
 
 function idsFor(file) {
   if (!idCache.has(file)) {
@@ -83,4 +109,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Checked links, duplicate IDs, and remote asset integrity in ${htmlFiles.length} HTML files.`);
+console.log(`Checked links, duplicate IDs, remote asset integrity, and hgroup headings in ${htmlFiles.length} HTML files and ${skillMarkdownFiles.length + 2} Markdown files.`);

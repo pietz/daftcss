@@ -120,9 +120,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
       </button>
       <ul id="primary-menu" class="top-nav-menu" popover>
-        <li><a href="../components/" role="button" class="ghost">Components</a></li>
-        <li><a href="../blocks/" role="button" class="ghost">Blocks</a></li>
-        <li><a href="../slides/" role="button" class="ghost">Slides</a></li>
+        <li><a href="../components/" class="button ghost">Components</a></li>
+        <li><a href="../blocks/" class="button ghost">Blocks</a></li>
+        <li><a href="../slides/" class="button ghost">Slides</a></li>
         <li>
           <details class="dropdown">
             <summary class="ghost">Examples</summary>
@@ -137,7 +137,7 @@
             </ul>
           </details>
         </li>
-        <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
+        <li><a href="https://github.com/pietz/daftcss" class="button ghost">GitHub</a></li>
         <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg></button></li>
       </ul>
     </div>
@@ -448,8 +448,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       <h3>Validation and Indeterminate</h3>
       <div class="grid">
         <article>
-          <label>Email <input type="email" aria-invalid="true" value="not-an-email"></label>
-          <small>Set <code>aria-invalid="true"</code> from server response or client validation.</small>
+          <label>Email address that may wrap on a narrow screen <input type="email" required aria-invalid="true" value="not-an-email"></label>
+          <small>Set <code>aria-invalid="true"</code> from server response or client validation. The required marker stays beside the label text.</small>
           <label><input type="checkbox" id="select-all-demo"> Select all</label>
           <script>
             document.getElementById('select-all-demo').indeterminate = true;
@@ -457,7 +457,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
         <article>
           <pre><code>&lt;!-- Validation — drive aria-invalid from your code --&gt;
-&lt;label&gt;Email &lt;input type="email" aria-invalid="true"&gt;&lt;/label&gt;
+&lt;label&gt;Email &lt;input type="email" required aria-invalid="true"&gt;&lt;/label&gt;
 
 &lt;!-- Indeterminate checkbox — must be set in JS --&gt;
 &lt;label&gt;&lt;input type="checkbox" id="select-all"&gt; Select all&lt;/label&gt;
@@ -490,6 +490,23 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
 &lt;button class="small"&gt;Small&lt;/button&gt;
 &lt;button class="large"&gt;Large&lt;/button&gt;</code></pre>
+        </article>
+      </div>
+
+      <h3>Button-looking navigation links</h3>
+      <p>Add <code>.button</code> to prominent navigation links without changing their native link semantics. Variant and size classes compose normally; a variant class alone does not style an anchor as a button.</p>
+      <div class="grid">
+        <article>
+          <p class="cluster">
+            <a class="button" href="#surfaces">Checkout</a>
+            <a class="button secondary" href="#layout">Explore the program</a>
+            <a class="button outline small" href="#forms">Review form guidance</a>
+          </p>
+        </article>
+        <article>
+          <pre><code>&lt;a class="button" href="/checkout"&gt;Checkout&lt;/a&gt;
+&lt;a class="button secondary" href="#schedule"&gt;Explore the program&lt;/a&gt;
+&lt;a class="button outline small" href="/forms"&gt;Review form guidance&lt;/a&gt;</code></pre>
         </article>
       </div>
 

@@ -49,7 +49,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 Set validation from application or server logic with `aria-invalid="true"` or `aria-invalid="false"`. Invalid text controls receive a destructive border and ring; valid ones receive a primary border. Following sibling `<small>` help text adopts the matching color.
 
-Daft intentionally does not style native `:invalid` or `:user-invalid`; do not expect browser constraint validation alone to change the presentation. Set `aria-invalid` and provide clear error text. A required control causes its associated label to gain a decorative `*`; the `required` attribute still supplies the semantic requirement.
+Daft intentionally does not style native `:invalid` or `:user-invalid`; do not expect browser constraint validation alone to change the presentation. Set `aria-invalid` and provide clear error text. A required control causes its associated label to gain a decorative `*`; the `required` attribute still supplies the semantic requirement. Every wrapping-label marker appears first so it stays clear of full-width controls, multiline checkbox/radio text, and nested help text. A separate label immediately before its control keeps a suffix marker.
 
 Set a partial-selection checkbox only in JavaScript:
 

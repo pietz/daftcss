@@ -55,7 +55,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 All direct children of either `[role="group"]` or `[role="search"]` flex and lose their bottom margin. Their adjacent corners are squared, regardless of child element type.
 
-Border overlap is narrower in scope: it applies only to direct `button`, submit/button inputs, `[role="button"]`, `input`, `select`, and `code`, `samp`, `kbd`, `span`, or `output` segments. Direct `<select>` elements size to content; direct buttons do not flex-grow. Focused direct children rise above siblings, as do direct selected/current buttons, so their borders and focus ring remain visible.
+Border overlap is narrower in scope: it applies only to direct `button`, submit/button inputs, `[role="button"]`, `a.button`, `input`, `select`, and `code`, `samp`, `kbd`, `span`, or `output` segments. Direct `<select>` elements size to content; direct buttons and `a.button` links do not flex-grow. Focused direct children rise above siblings, as do direct selected/current buttons, so their borders and focus ring remain visible.
 
 A group does not implement selection, roving focus, keyboard navigation, form submission, or state management. Supply those behaviors when the controls need them.
 

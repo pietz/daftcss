@@ -2,13 +2,15 @@
 
 ## Purpose and semantic contract
 
-Use native `<button>` for actions and `<a href>` for navigation. Daft also styles button-type inputs, `[role="button"]`, and dropdown summaries. If a non-button element receives `role="button"`, its behavior must honor the button keyboard contract; do not add the role to an ordinary navigation link merely for appearance.
+Use native `<button>` for actions and `<a href>` for navigation. Add `.button` to a navigation link only when it should have button appearance; this preserves native link semantics. Daft also styles button-type inputs, `[role="button"]`, and dropdown summaries. If a non-button element receives `role="button"`, its behavior must honor the button keyboard contract; do not add the role to an ordinary navigation link merely for appearance.
 
 ## Basic example
 
 ```html
 <button type="button">Save changes</button>
 <button type="submit">Create account</button>
+<a class="button" href="/checkout">Checkout</a>
+<a class="button secondary" href="#schedule">Explore the program</a>
 ```
 
 ## Markup requirements
@@ -20,6 +22,7 @@ Use native `<button>` for actions and `<a href>` for navigation. Daft also style
 - Retrieve exact official Lucide paths from [lucide.dev](https://lucide.dev) or an official package. Do not approximate paths or substitute emoji or Unicode glyphs. Daft has no Lucide dependency, though framework users may render official Lucide components as the direct child.
 - Use `disabled` for a disabled native button. `[aria-disabled="true"]` receives the visual disabled treatment but does not disable native behavior.
 - Prefer a native button over recreating button semantics with `[role="button"]`. If a custom button is unavoidable, implement keyboard activation and state behavior.
+- Use `<a class="button" href="…">` for a prominent navigational CTA. Do not add `role="button"`; the destination, open-in-new-tab behavior, context menu, and link accessibility semantics remain native.
 
 ```html
 <button class="icon ghost" type="button" aria-label="Search">
@@ -58,7 +61,7 @@ Use native `<button>` for actions and `<a href>` for navigation. Daft also style
 - `aria-pressed="true"`: selected state for a toggle button or segmented control.
 - `aria-current="true"`: current navigation or item state, not a toggle state.
 
-Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`.
+Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`. On anchors, include `.button` explicitly, such as `class="button outline"`; a variant class alone never turns a link into a button.
 
 Inside a `<form>`, a button fills the form's width by default. Wrap buttons in `<footer>` or `.cluster` for a content-sized action row; `.icon` and `.link` buttons are never stretched. See [forms.md](forms.md#button-width-inside-forms).
 
@@ -74,7 +77,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Behavior and accessibility
 
-Buttons have hover and active feedback, and a visible focus ring on `:focus-visible`. Disabled buttons do not accept pointer input and render at `--disabled-opacity`. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while submission is unavailable.
+Buttons and `.button` links have hover and active feedback and a visible focus ring on `:focus-visible`. Disabled native buttons do not accept pointer input and render at `--disabled-opacity`. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; render non-interactive text or omit the unavailable link instead. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while a native button submission is unavailable.
 
 ## Composition
 
@@ -91,7 +94,8 @@ Use `<div role="group">` to merge adjacent controls. Apply `.small` or `.large` 
 ## Common mistakes
 
 - Do not use `.btn`, `.btn-primary`, or a custom button wrapper. Bare `<button>` is primary.
-- Do not use `<a role="button">` for an in-page action.
+- Do not use `<a role="button">` merely to get button appearance; use `<a class="button">` for navigation and `<button>` for actions.
+- Do not put `disabled` on an anchor or assume `aria-disabled` suppresses link navigation.
 - Do not omit an accessible name from an icon-only button.
 - Do not put `.icon` on the SVG or on a button that also has visible text.
 - Do not use approximate icon paths, emoji, random Unicode glyphs, or Lucide-specific classes as a Daft API.

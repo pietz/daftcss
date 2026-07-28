@@ -89,9 +89,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
       </button>
       <ul id="primary-menu" class="top-nav-menu" popover>
-        <li><a href="./components/" role="button" class="ghost">Components</a></li>
-        <li><a href="./blocks/" role="button" class="ghost">Blocks</a></li>
-        <li><a href="./slides/" role="button" class="ghost">Slides</a></li>
+        <li><a href="./components/" class="button ghost">Components</a></li>
+        <li><a href="./blocks/" class="button ghost">Blocks</a></li>
+        <li><a href="./slides/" class="button ghost">Slides</a></li>
         <li>
           <details class="dropdown">
             <summary class="ghost">Examples</summary>
@@ -106,7 +106,7 @@
             </ul>
           </details>
         </li>
-        <li><a href="https://github.com/pietz/daftcss" role="button" class="ghost">GitHub</a></li>
+        <li><a href="https://github.com/pietz/daftcss" class="button ghost">GitHub</a></li>
         <li><button id="theme-toggle" class="ghost icon" type="button" aria-label="Toggle theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg></button></li>
       </ul>
     </div>
@@ -130,8 +130,8 @@
              value='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css">'>
 
       <div class="cluster justify-center mt-6">
-        <a href="./components/" role="button">See the components</a>
-        <a href="https://github.com/pietz/daftcss" role="button" class="outline">GitHub</a>
+        <a href="./components/" class="button">See the components</a>
+        <a href="https://github.com/pietz/daftcss" class="button outline">GitHub</a>
       </div>
     </section>
 
@@ -258,7 +258,7 @@
         <article class="flex flex-col">
           <header>
             <hgroup>
-              <strong>Modern browser support</strong>
+              <h2>Modern browser support</h2>
               <p>Daft spends bytes on finish, not fallbacks.</p>
             </hgroup>
           </header>
@@ -278,7 +278,7 @@
         <article class="flex flex-col">
           <header>
             <hgroup>
-              <strong>Theme surface</strong>
+              <h2>Theme surface</h2>
               <p>Start broad, then override only where the product needs precision.</p>
             </hgroup>
             <span class="badge success small">tiered</span>
@@ -320,7 +320,7 @@
         <article class="flex flex-col">
           <header>
             <hgroup>
-              <strong>Bundle comparison</strong>
+              <h2>Bundle comparison</h2>
               <p>Minified CSS, not gzipped.</p>
             </hgroup>
           </header>
@@ -427,7 +427,7 @@
         <article class="flex flex-col">
           <header>
             <hgroup>
-              <strong>Source map</strong>
+              <h2>Source map</h2>
               <p>The library is small enough to inspect.</p>
             </hgroup>
           </header>
@@ -473,7 +473,7 @@
         <article class="span-2 flex flex-col">
           <header>
             <hgroup>
-              <strong>Recent Daft releases</strong>
+              <h2>Recent Daft releases</h2>
               <p>A table replaces the fake deployment feed with real product context.</p>
             </hgroup>
           </header>
@@ -620,7 +620,7 @@
         <h2>HTML has a presentation mode.</h2>
         <p class="muted">Add <code>class="deck"</code> to <code>&lt;body&gt;</code>. Every <code>&lt;section&gt;</code> becomes a 16:9 slide. Cmd+P prints to PDF. No runtime, no build, no slot in the bundle — it ships with Daft.</p>
         <div class="actions" style="justify-content: center; gap: var(--spacing-sm); margin-top: var(--spacing-lg);">
-          <a href="./slides/" role="button">Open the deck</a>
+          <a href="./slides/" class="button">Open the deck</a>
         </div>
       </header>
     </section>

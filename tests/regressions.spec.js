@@ -127,6 +127,205 @@ test("aria-disabled buttons keep pointer behavior for application logic", async 
   expect(result).toEqual({ activations: 1, cursor: "not-allowed", pointerEvents: "auto" });
 });
 
+test("button-looking anchors retain link semantics and button composition", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    const variants = ["secondary", "destructive", "outline", "ghost", "link"];
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <main class="container">
+        <div role="group" class="large">
+          <a id="group-link" class="button secondary" href="#destination" aria-current="true">Explore the program</a>
+          <button id="group-button" class="secondary" type="button" aria-current="true">Action</button>
+        </div>
+        <div id="variants">
+          ${variants.map((variant) => `<a id="a-${variant}" class="button ${variant}" href="#${variant}">${variant}</a><button id="b-${variant}" class="${variant}" type="button">${variant}</button>`).join("")}
+        </div>
+        <a id="small-link" class="button small" href="#small">Small</a>
+        <button id="small-button" class="small" type="button">Small</button>
+        <a id="icon-link" class="button icon" href="#icon" aria-label="Open details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></a>
+        <div style="width: 240px"><a id="full-link" class="button full-width" href="#full">Full width</a></div>
+        <a id="ordinary" class="secondary outline large full-width icon" href="#ordinary">Ordinary link</a>
+        <a id="unavailable" class="button" href="#still-a-link" aria-disabled="true">Still a link</a>
+        <a id="custom-shadow" class="button" href="#custom-shadow" style="--button-shadow: 4px 4px 0 rgb(255 0 255)">Custom shadow</a>
+      </main>`;
+  });
+
+  await expect(page.getByRole("link", { name: "Explore the program" })).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Explore the program" })).toHaveCount(0);
+
+  const styles = await page.evaluate(() => {
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return {
+        background: style.backgroundColor,
+        borderColor: style.borderTopColor,
+        borderRadius: style.borderRadius,
+        color: style.color,
+        cursor: style.cursor,
+        display: style.display,
+        height: style.height,
+        opacity: style.opacity,
+        padding: style.padding,
+        width: style.width,
+        zIndex: style.zIndex,
+      };
+    };
+    return {
+      full: read("full-link"),
+      groupButton: read("group-button"),
+      groupLink: read("group-link"),
+      icon: read("icon-link"),
+      ordinary: read("ordinary"),
+      smallButton: read("small-button"),
+      smallLink: read("small-link"),
+      unavailable: read("unavailable"),
+      variants: Object.fromEntries(["secondary", "destructive", "outline", "ghost", "link"].map((variant) => [
+        variant,
+        { anchor: read(`a-${variant}`), button: read(`b-${variant}`) },
+      ])),
+    };
+  });
+
+  expect(styles.groupLink).toMatchObject({
+    background: styles.groupButton.background,
+    color: styles.groupButton.color,
+    display: "flex",
+    height: styles.groupButton.height,
+    padding: styles.groupButton.padding,
+    zIndex: styles.groupButton.zIndex,
+  });
+  expect(styles.groupLink.borderRadius).not.toBe(styles.groupButton.borderRadius);
+  for (const { anchor, button } of Object.values(styles.variants)) {
+    expect(anchor).toMatchObject({
+      background: button.background,
+      borderColor: button.borderColor,
+      color: button.color,
+      height: button.height,
+      padding: button.padding,
+    });
+  }
+  expect(styles.smallLink.height).toBe(styles.smallButton.height);
+  expect(styles.smallLink.padding).toBe(styles.smallButton.padding);
+  expect(styles.icon.width).toBe(styles.icon.height);
+  expect(styles.full.width).toBe("240px");
+  expect(styles.ordinary).toMatchObject({ background: "rgba(0, 0, 0, 0)", display: "inline", height: "auto" });
+  expect(styles.unavailable).toMatchObject({ cursor: "pointer", opacity: "1" });
+
+  await page.locator("#group-link").focus();
+  await expect(page.locator("#group-link")).toBeFocused();
+  const focus = await page.locator("#group-link").evaluate((link) => {
+    const style = getComputedStyle(link);
+    return { outlineStyle: style.outlineStyle, outlineWidth: style.outlineWidth };
+  });
+  expect(focus).toMatchObject({ outlineStyle: "solid", outlineWidth: "3px" });
+
+  await page.locator("#custom-shadow").focus();
+  const customFocus = await page.locator("#custom-shadow").evaluate((link) => {
+    const style = getComputedStyle(link);
+    return { boxShadow: style.boxShadow, outlineStyle: style.outlineStyle };
+  });
+  expect(customFocus.boxShadow).not.toBe("none");
+  expect(customFocus.outlineStyle).toBe("solid");
+
+  const interactiveBackground = async (selector, active = false) => {
+    const locator = page.locator(selector);
+    await locator.hover();
+    if (active) await page.mouse.down();
+    const background = await locator.evaluate((element) => getComputedStyle(element).backgroundColor);
+    if (active) await page.mouse.up();
+    return background;
+  };
+  expect(await interactiveBackground("#a-secondary")).toBe(await interactiveBackground("#b-secondary"));
+  expect(await interactiveBackground("#a-secondary", true)).toBe(await interactiveBackground("#b-secondary", true));
+});
+
+test("required markers remain robust across label and control shapes", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/components/");
+
+  const results = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="width: 180px">
+        <label id="input-label">A deliberately long required label that wraps
+          <input id="input-control" required>
+          <small id="input-help">Help text remains after the control.</small>
+        </label>
+        <label id="textarea-label">Long message label<textarea required></textarea></label>
+        <label id="select-label">Long selection label<select required><option>One</option></select></label>
+        <label id="separate" for="separate-control">A deliberately long separate label</label>
+        <input id="separate-control" required>
+        <small>Separate help text</small>
+        <label id="checkbox"><input type="checkbox" required> A deliberately long checkbox label that wraps over multiple lines</label>
+        <label id="radio"><input type="radio" required> A deliberately long radio label that wraps over multiple lines</label>
+        <label id="switch"><input type="checkbox" role="switch" required> Enable alerts across every workspace</label>
+      </main>`;
+    const marker = (id) => {
+      const label = document.getElementById(id);
+      return {
+        after: getComputedStyle(label, "::after").content,
+        before: getComputedStyle(label, "::before").content,
+        color: getComputedStyle(label, "::before").color,
+      };
+    };
+    const inputText = document.createRange();
+    inputText.selectNodeContents(document.getElementById("input-label").firstChild);
+    const checkboxText = document.createRange();
+    checkboxText.selectNodeContents(document.getElementById("checkbox").lastChild);
+    const light = marker("input-label");
+    document.documentElement.dataset.theme = "dark";
+    const dark = marker("input-label");
+    return {
+      checkboxLines: checkboxText.getClientRects().length,
+      dark,
+      helpTop: document.getElementById("input-help").getBoundingClientRect().top,
+      inputBottom: document.getElementById("input-control").getBoundingClientRect().bottom,
+      inputTextBottom: inputText.getBoundingClientRect().bottom,
+      inputTop: document.getElementById("input-control").getBoundingClientRect().top,
+      light,
+      markers: ["input-label", "textarea-label", "select-label", "checkbox", "radio", "switch"].map(marker),
+      separate: marker("separate"),
+    };
+  });
+
+  for (const marker of results.markers) {
+    expect(marker.before).toContain("*");
+    expect(marker.after).toBe("none");
+  }
+  expect(results.separate.before).toBe("none");
+  expect(results.separate.after).toContain("*");
+  expect(results.inputTextBottom).toBeLessThan(results.inputTop);
+  expect(results.helpTop).toBeGreaterThanOrEqual(results.inputBottom);
+  expect(results.checkboxLines).toBeGreaterThan(1);
+  expect(results.light.before).toBe(results.dark.before);
+  expect(results.light.color).not.toBe("rgba(0, 0, 0, 0)");
+  expect(results.dark.color).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+test("card headers support strong titles and all heading levels outside invalid hgroup markup", async ({ page }) => {
+  await page.goto("/components/");
+
+  const typography = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <article id="strong-card"><header><strong>Strong card title</strong></header></article>
+      <article id="heading-card"><header><h6>Level-six card title</h6></header></article>
+      <article id="group-card"><header><hgroup><h6>Grouped level-six title</h6><p>Description</p></hgroup></header></article>`;
+    const read = (selector) => {
+      const style = getComputedStyle(document.querySelector(selector));
+      return { fontSize: style.fontSize, fontWeight: style.fontWeight, lineHeight: style.lineHeight };
+    };
+    return {
+      groupedHeading: read("#group-card h6"),
+      heading: read("#heading-card h6"),
+      strong: read("#strong-card strong"),
+    };
+  });
+
+  expect(typography.heading).toEqual(typography.strong);
+  expect(typography.groupedHeading).toEqual(typography.heading);
+});
+
 test("the modal width token controls bare and article dialog surfaces", async ({ page }) => {
   await page.goto("/components/");
 
@@ -353,8 +552,8 @@ test("responsive top navigation uses one native popover list on mobile", async (
   expect(geometry.menuRight).toBeLessThan(geometry.viewportWidth);
   expect(geometry.menuBottom).toBeLessThanOrEqual(geometry.viewportHeight);
   expect(geometry.documentWidth).toBeLessThanOrEqual(geometry.viewportWidth);
-  await expect(menu.getByRole("button", { name: "Components" })).toBeVisible();
-  await expect(menu.getByRole("button", { name: "GitHub" })).toBeVisible();
+  await expect(menu.getByRole("link", { name: "Components" })).toBeVisible();
+  await expect(menu.getByRole("link", { name: "GitHub" })).toBeVisible();
 
   await page.keyboard.press("Escape");
   await expect(menu).toBeHidden();

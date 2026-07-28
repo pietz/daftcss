@@ -24,8 +24,8 @@ Skeleton:
   <h1 class="text-6xl mx-auto max-w-2xl">Your headline here.</h1>
   <p class="muted mx-auto max-w-xl">One paragraph explaining the product in concrete terms.</p>
   <div class="cluster justify-center mt-8">
-    <a href="/signup">Start free</a>
-    <a href="/docs">View docs</a>
+    <a class="button" href="/signup">Start free</a>
+    <a class="button secondary" href="/docs">View docs</a>
   </div>
 </section>
 ```
@@ -33,7 +33,7 @@ Skeleton:
 Mistakes:
 - Do not wrap the hero in `.hero-card`.
 - Do not add background blobs, fake screenshots, or terminal mockups by default.
-- Do not use `.btn-primary`; use a real `<button>` or `[role="button"]`.
+- Do not use `.btn-primary` or add `role="button"` to a navigation link. Use `<a class="button">` for a navigational CTA and `<button>` for an action.
 
 ## Reservation Hero
 
@@ -170,8 +170,8 @@ Skeleton:
     <h2>Ready to build without a component stack?</h2>
     <p class="muted mx-auto max-w-xl">Start with semantic HTML.</p>
     <footer class="cluster justify-center">
-      <a href="/signup">Get started</a>
-      <a href="/docs">Read docs</a>
+      <a class="button" href="/signup">Get started</a>
+      <a class="button secondary" href="/docs">Read docs</a>
     </footer>
   </article>
 </section>
@@ -207,7 +207,7 @@ Skeleton:
       <li>One project</li>
       <li>Community support</li>
     </ul>
-    <footer><a href="/signup">Start</a></footer>
+    <footer><a class="button" href="/signup">Start</a></footer>
   </article>
   <article>...</article>
 </div>

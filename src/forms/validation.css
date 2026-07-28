@@ -56,14 +56,23 @@ input[type="radio"][aria-invalid="false"] {
   border-color: var(--primary);
 }
 
-/* Required field indicator */
-label:has(+ input:required)::after,
-label:has(+ textarea:required)::after,
-label:has(+ select:required)::after,
-label:has(> input:required)::after,
-label:has(> textarea:required)::after,
-label:has(> select:required)::after {
-  content: " *";
+/* Required field indicators.
+   Generated content after a wrapping label lands after its control (and any
+   nested help text), not after the label text. Prefix every wrapping-label
+   marker so text fields and multiline checkbox/radio labels stay robust.
+   Separate labels immediately before their controls retain a suffix. The
+   non-breaking space keeps either marker attached to the adjacent word. */
+label:has(> input:required)::before,
+label:has(> textarea:required)::before,
+label:has(> select:required)::before {
+  content: "*\00a0" / "";
+  color: var(--destructive);
+}
+
+label:not(:has(> :required)):has(+ input:required)::after,
+label:not(:has(> :required)):has(+ textarea:required)::after,
+label:not(:has(> :required)):has(+ select:required)::after {
+  content: "\00a0*" / "";
   color: var(--destructive);
 }
 

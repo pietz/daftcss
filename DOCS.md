@@ -353,7 +353,7 @@ All typography is styled automatically. No classes needed.
 
 ## Buttons
 
-Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation. For toggle buttons and segmented controls, use `aria-pressed="true"` to identify the selected state. Reserve `aria-current` for a genuinely current navigation or item state.
+Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation. Add `.button` only when a prominent navigation link needs button appearance; this preserves native link semantics without `role="button"`. For toggle buttons and segmented controls, use `aria-pressed="true"` to identify the selected state. Reserve `aria-current` for a genuinely current navigation or item state.
 
 ### Basic Button
 
@@ -361,6 +361,8 @@ Buttons are styled automatically. Use `<button>` or a button-type `<input>` for 
 <button>Primary Button</button>
 <button type="reset">Reset Button</button>
 <a href="#">Navigation link</a>
+<a class="button" href="/checkout">Checkout</a>
+<a class="button secondary" href="#schedule">Explore the program</a>
 ```
 
 ### Variants
@@ -430,7 +432,7 @@ Use the native `disabled` attribute when a form control must not be operable:
 <button disabled>Disabled</button>
 ```
 
-`aria-disabled="true"` communicates a state to assistive technology and receives Daft's disabled styling, but it does not prevent keyboard activation or form submission. If a custom control uses it, application code must suppress the control's behavior.
+`aria-disabled="true"` communicates a state to assistive technology and receives Daft's disabled styling on button controls, but it does not prevent keyboard activation or form submission. If a custom control uses it, application code must suppress the control's behavior. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; omit an unavailable link or render non-interactive text.
 
 ### Loading State
 
@@ -602,7 +604,7 @@ An adjacent or following `<small>` automatically picks up the destructive or pri
 
 ### Required Fields
 
-Required fields automatically show an asterisk:
+Required fields automatically show a decorative asterisk. Wrapping labels place it before their contents so it stays clear of full-width controls, multiline choice text, and nested help text; separate labels keep a suffix marker:
 
 ```html
 <label>
@@ -658,13 +660,13 @@ Use `<article>` for cards:
 </article>
 ```
 
-**Title + subtitle pair (shadcn style):** wrap the heading and lead paragraph in `<hgroup>`. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
+**Title + subtitle pair (shadcn style):** wrap an appropriately leveled `<h1>`–`<h6>` and lead paragraph in `<hgroup>`. An `hgroup` requires a real heading; do not substitute `<strong>`. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
 
 ```html
 <article>
   <header>
     <hgroup>
-      <strong>Sprint 14</strong>
+      <h3>Sprint 14</h3>
       <p>Ends Friday. Cut release branch next.</p>
     </hgroup>
     <span class="badge">12 / 18</span>
@@ -1221,11 +1223,13 @@ Add the `.sticky` class for sticky positioning:
 <p class="muted">Muted text</p>
 ```
 
-**Link Variants:**
+**Button-looking Links:**
 
 ```html
-<a href="#" class="secondary">Secondary link</a>
+<a href="#" class="button secondary">Secondary navigation CTA</a>
 ```
+
+Variant classes alone do not change ordinary links.
 
 ### Text Utilities
 
