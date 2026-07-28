@@ -2,7 +2,7 @@
 
 ## Purpose and semantic contract
 
-Use native `<details>` and `<summary>` for a disclosure or accordion item. Daft CSS styles ordinary details as bordered accordion rows. The browser, not JavaScript, owns the open state through the `open` attribute.
+Use native `<details>` and `<summary>` for a disclosure or accordion item. Daft CSS styles ordinary details as lightweight bordered accordion rows. A standalone row has matching top and bottom boundaries; contiguous ordinary rows share one divider and retain only the run's outer boundaries. The browser, not JavaScript, owns the open state through the `open` attribute.
 
 ## Basic example
 
@@ -29,7 +29,7 @@ Use native `<details>` and `<summary>` for a disclosure or accordion item. Daft 
 
 - A plain summary has an underline on hover, a chevron, and primary-colored text while open.
 - `summary[role="button"]` is the button-styled summary variant. Apply button classes such as `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, or `.large` when needed.
-- A details element containing a button-styled summary loses the ordinary bottom border and uses `--spacing` below the item.
+- A details element containing a button-styled summary keeps its distinct borderless treatment and uses `--spacing` below the item.
 - The open chevron rotates 180 degrees.
 
 ## Relevant tokens
@@ -47,7 +47,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Composition
 
-Place sequential details in an article, section, FAQ, or form-help area. Use a button-styled summary only when its stronger visual affordance is appropriate. Use a [Tree](tree.md) for nested file-like hierarchy, which deliberately overrides accordion styling.
+Place sequential ordinary details directly next to each other in an article, section, FAQ, or form-help area when they should form one divider-row run. Other content or a specialized details variant interrupts the run, so ordinary details on either side retain complete outer boundaries. Use a button-styled summary only when its stronger visual affordance is appropriate. Dropdowns, button-styled summaries, and [Tree](tree.md) disclosures retain their distinct border treatment.
 
 ## Common mistakes
 

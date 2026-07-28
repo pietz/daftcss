@@ -64,6 +64,108 @@ for (const path of discoverHtmlRoutes()) {
   });
 }
 
+test("ordinary accordion boundaries form single dividers without affecting details variants", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="width: 320px; --border-width: 2px; --border: rgb(12 34 56)">
+        <section id="standalone"><details id="single"><summary>Single</summary><p>Content</p></details></section>
+        <section id="two">
+          <details id="two-a"><summary>Two A</summary></details>
+          <details id="two-b"><summary>Two B</summary></details>
+        </section>
+        <section id="three">
+          <details id="three-a"><summary>Three A</summary></details>
+          <details id="three-b"><summary>Three B</summary></details>
+          <details id="three-c"><summary>Three C</summary></details>
+        </section>
+        <section id="interrupted">
+          <details id="interrupted-a"><summary>Interrupted A</summary></details>
+          <p>Interruption</p>
+          <details id="interrupted-b"><summary>Interrupted B</summary></details>
+        </section>
+        <section id="variants">
+          <details id="before-dropdown"><summary>Before dropdown</summary></details>
+          <details id="dropdown" class="dropdown"><summary>Dropdown</summary><ul><li>Item</li></ul></details>
+          <details id="after-dropdown"><summary>After dropdown</summary></details>
+          <details id="button-accordion"><summary id="button-summary" role="button">Button accordion</summary><p>Content</p></details>
+          <ul class="tree"><li><details id="tree"><summary>Tree folder</summary><ul><li>Leaf</li></ul></details></li></ul>
+        </section>
+      </main>`;
+
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        bottom: rect.bottom,
+        bottomColor: style.borderBottomColor,
+        bottomStyle: style.borderBottomStyle,
+        bottomWidth: style.borderBottomWidth,
+        marginBottom: style.marginBottom,
+        top: rect.top,
+        topColor: style.borderTopColor,
+        topStyle: style.borderTopStyle,
+        topWidth: style.borderTopWidth,
+      };
+    };
+
+    const result = Object.fromEntries([
+      "single", "two-a", "two-b", "three-a", "three-b", "three-c",
+      "interrupted-a", "interrupted-b", "before-dropdown", "dropdown",
+      "after-dropdown", "button-accordion", "tree",
+    ].map((id) => [id, read(id)]));
+    const buttonSummary = getComputedStyle(document.getElementById("button-summary"));
+    result.buttonSummary = {
+      background: buttonSummary.backgroundColor,
+      borderWidth: buttonSummary.borderTopWidth,
+      display: buttonSummary.display,
+      height: buttonSummary.height,
+    };
+    return result;
+  });
+
+  const expectBoundary = (id, { top = "2px", bottom = "2px" } = {}) => {
+    const styles = result[id];
+    expect(styles.topWidth).toBe(top);
+    expect(styles.bottomWidth).toBe(bottom);
+    if (top !== "0px") {
+      expect(styles.topStyle).toBe("solid");
+      expect(styles.topColor).toBe("rgb(12, 34, 56)");
+    }
+    if (bottom !== "0px") {
+      expect(styles.bottomStyle).toBe("solid");
+      expect(styles.bottomColor).toBe("rgb(12, 34, 56)");
+    }
+  };
+
+  expectBoundary("single");
+  expectBoundary("two-a");
+  expectBoundary("two-b", { top: "0px" });
+  expect(result["two-a"].bottom).toBe(result["two-b"].top);
+  expectBoundary("three-a");
+  expectBoundary("three-b", { top: "0px" });
+  expectBoundary("three-c", { top: "0px" });
+  expect(result["three-a"].bottom).toBe(result["three-b"].top);
+  expect(result["three-b"].bottom).toBe(result["three-c"].top);
+
+  expectBoundary("interrupted-a");
+  expectBoundary("interrupted-b");
+  expect(result["interrupted-b"].top).toBeGreaterThan(result["interrupted-a"].bottom);
+  expectBoundary("before-dropdown");
+  expectBoundary("after-dropdown");
+
+  for (const id of ["dropdown", "tree"]) {
+    expectBoundary(id, { top: "0px", bottom: "0px" });
+    expect(result[id].marginBottom).toBe("0px");
+  }
+  expectBoundary("button-accordion", { top: "0px", bottom: "0px" });
+  expect(result["button-accordion"].marginBottom).toBe("16px");
+  expect(result.buttonSummary).toMatchObject({ borderWidth: "2px", display: "inline-flex", height: "32px" });
+  expect(result.buttonSummary.background).not.toBe("rgba(0, 0, 0, 0)");
+});
+
 test("image submit controls retain their intrinsic control dimensions", async ({ page }) => {
   await page.goto("/components/");
 

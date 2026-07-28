@@ -1602,13 +1602,18 @@
     min-height: 8rem;
   }
 
-  details {
-    margin-bottom: var(--spacing-sm);
-    border-bottom: var(--border-width) solid var(--border);
+  details:not(.dropdown, .tree details, :has( > summary[role="button"])) {
+    border-block: var(--border-width) solid var(--border);
+    margin-block-end: var(--spacing-sm);
   }
 
-  details:last-child {
-    margin-bottom: 0;
+  details:not(.dropdown, .tree details, :has( > summary[role="button"])) + details:not(.dropdown, .tree details, :has( > summary[role="button"])) {
+    border-block-start: none;
+    margin-block-start: calc(var(--spacing-sm) * -1);
+  }
+
+  details:not(.dropdown, .tree details, :has( > summary[role="button"])):last-child {
+    margin-block-end: 0;
   }
 
   summary {
