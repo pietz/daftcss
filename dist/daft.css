@@ -129,6 +129,10 @@
     margin: 0;
   }
 
+  [hidden]:not([hidden="until-found" i]) {
+    display: none !important;
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;

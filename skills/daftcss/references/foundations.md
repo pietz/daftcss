@@ -21,6 +21,10 @@ tokens → reset → base → layout → content → forms → components → sl
 
 Utilities intentionally override component defaults. Application CSS loaded after Daft remains the final authority.
 
+## Native hidden states
+
+Ordinary `hidden` values, including `hidden` and `hidden=""`, remain non-rendered even when a Daft component declares `display`. Remove the attribute to show the element normally. Daft excludes `hidden="until-found"` from that reset so supporting browsers can reveal it through find-in-page or fragment navigation. Firefox 129 and Safari 18 do not support that behavior, and CSS cannot feature-query it; a display-bearing component may therefore render on those versions instead of receiving an ordinary-hidden fallback. Do not make `until-found` the only way to reach essential content.
+
 ## Token API boundary
 
 This file is the canonical taxonomy for Daft's token API; `src/base/variables.css` is the implementation source of truth.

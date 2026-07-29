@@ -64,6 +64,96 @@ for (const path of discoverHtmlRoutes()) {
   });
 }
 
+test("ordinary hidden state overrides display-bearing Daft components", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <div id="alert" role="alert" hidden>Hidden alert</div>
+        <div id="status" role="status" hidden="">Hidden status</div>
+        <button id="button" hidden>Hidden button</button>
+        <span id="badge" class="badge" hidden="hidden">Hidden badge</span>
+        <div id="grid" class="grid" hidden="irrelevant"><span>Hidden grid</span></div>
+        <article id="card" hidden="">Hidden card</article>
+      </main>`;
+
+    const ids = ["alert", "status", "button", "badge", "grid", "card"];
+    const read = (id) => {
+      const element = document.getElementById(id);
+      return {
+        display: getComputedStyle(element).display,
+        rendered: element.getClientRects().length > 0,
+        visible: element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }),
+      };
+    };
+
+    const hidden = Object.fromEntries(ids.map((id) => [id, read(id)]));
+    for (const id of ids) document.getElementById(id).removeAttribute("hidden");
+    const revealed = Object.fromEntries(ids.map((id) => [id, read(id)]));
+    return { hidden, revealed };
+  });
+
+  for (const state of Object.values(result.hidden)) {
+    expect(state).toEqual({ display: "none", rendered: false, visible: false });
+  }
+  expect(result.revealed).toEqual({
+    alert: { display: "block", rendered: true, visible: true },
+    badge: { display: "inline-flex", rendered: true, visible: true },
+    button: { display: "inline-flex", rendered: true, visible: true },
+    card: { display: "block", rendered: true, visible: true },
+    grid: { display: "grid", rendered: true, visible: true },
+    status: { display: "block", rendered: true, visible: true },
+  });
+});
+
+test("hidden until-found retains native fragment reveal where supported", async ({ page }) => {
+  await page.goto("/components/");
+
+  const initial = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <a id="reveal-link" href="#until-found-probe">Reveal matching status</a>
+        <div id="until-found-probe" role="status" hidden="UNTIL-FOUND">
+          <span>Searchable status content</span>
+        </div>
+      </main>`;
+    const element = document.getElementById("until-found-probe");
+    window.untilFoundBeforeMatch = false;
+    element.addEventListener("beforematch", () => { window.untilFoundBeforeMatch = true; });
+    const style = getComputedStyle(element);
+    return {
+      contentVisibility: style.contentVisibility,
+      display: style.display,
+      hidden: element.hasAttribute("hidden"),
+    };
+  });
+
+  test.skip(
+    initial.contentVisibility !== "hidden" || initial.display === "none",
+    "This browser does not implement hidden=until-found reveal behavior",
+  );
+  expect(initial).toEqual({
+    contentVisibility: "hidden",
+    display: "block",
+    hidden: true,
+  });
+
+  await page.locator("#reveal-link").click();
+  await page.waitForTimeout(100);
+  const revealed = await page.evaluate(() => ({
+    beforeMatch: window.untilFoundBeforeMatch,
+    hidden: document.getElementById("until-found-probe").hasAttribute("hidden"),
+  }));
+  test.skip(
+    !revealed.beforeMatch && revealed.hidden,
+    "This browser exposes the hidden-until-found style but not fragment reveal",
+  );
+  expect(revealed).toEqual({ beforeMatch: true, hidden: false });
+  await expect(page.locator("#until-found-probe")).toBeVisible();
+  await expect(page.locator("#until-found-probe")).toHaveCSS("display", "block");
+});
+
 test("ordinary accordion boundaries form single dividers without affecting details variants", async ({ page }) => {
   await page.goto("/components/");
 
