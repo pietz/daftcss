@@ -51,6 +51,20 @@ Avatars do not load a fallback or announce status. Provide a reliable image URL 
 
 Use an avatar next to the visible account name in navigation, cards, lists, or a `role="group"` toolbar. Keep the name in text when possible, so the avatar is supplementary rather than the only identification.
 
+For a compact identity row, use `.cluster`, put `.grow` on the text cell, and use `<strong>` plus `<small>` for the primary and secondary lines. Do not introduce a page-level heading or `hgroup` for this compact composition.
+
+```html
+<div class="cluster">
+  <span class="avatar small"><img src="/karin.jpg" alt=""></span>
+  <div class="grow">
+    <strong>Karin Smith</strong><br>
+    <small>Product designer</small>
+  </div>
+</div>
+```
+
+Here the image is decorative because the adjacent text names Karin. If that text is absent, give the avatar its own accessible name as described above.
+
 ## Common mistakes
 
 - Using `.avatar` as a clickable element instead of a button or link.

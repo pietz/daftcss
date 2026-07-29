@@ -78,8 +78,24 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Composition
 
-- A direct card child of `.grid` has no bottom margin, so grid cells align. A plain article can also be a grid item, but remains unsurfaced.
+- Images intentionally have no universal external margin. Add an existing spacing utility where the composition needs one, for example `<img class="mb-4" src="/release.jpg" alt="Release team at work">` before a card header.
+- A direct card child of `.grid` has no bottom margin, and Grid equalizes the cards' outer heights. When footers must also align at the bottom, make each card `article.flex.flex-col` and its footer `footer.mt-auto`.
 - Use a footer with its default flex row and small gap for related actions.
+
+```html
+<div class="grid">
+  <article class="flex flex-col">
+    <header><strong>Starter</strong></header>
+    <p>For personal projects.</p>
+    <footer class="mt-auto"><button>Choose Starter</button></footer>
+  </article>
+  <article class="flex flex-col">
+    <header><strong>Team</strong></header>
+    <p>For teams that need shared projects and access controls.</p>
+    <footer class="mt-auto"><button>Choose Team</button></footer>
+  </article>
+</div>
+```
 
 ## Common mistakes
 

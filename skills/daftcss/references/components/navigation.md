@@ -4,7 +4,7 @@
 
 Use `<nav>` for a major set of navigation links. Daft CSS lays out its direct list groups horizontally and lets both the bar and its lists wrap when space is limited. This wrapping remains the safe semantic default.
 
-For a sticky navigation bar at the top of the viewport, `.top-nav-menu` and `.top-nav-toggle` provide an opt-in responsive pattern. One link list stays in normal horizontal layout on desktop and becomes a native Popover panel below 768px. The behavior needs no JavaScript and does not duplicate links.
+For a sticky navigation bar at the top of the viewport, `.top-nav-menu` and `.top-nav-toggle` provide an opt-in responsive pattern. One link list stays in normal horizontal layout on desktop and becomes a native Popover panel below 768px. Choose this pattern when ordinary wrapping would be unacceptable. The behavior needs no JavaScript and does not duplicate links.
 
 Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a location trail. This is Daft's canonical breadcrumb syntax and matches Pico CSS 2.1.1.
 
@@ -90,6 +90,20 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 ## Composition
 
 Place a nav in a `header`, or use a nav directly as a page landmark. Use the responsive pattern only for a sticky top navigation bar: it positions the panel from the viewport and the known bar height, not from an arbitrary trigger. A breadcrumb nav can be placed in page content. Do not nest it inside another nav. Use the body-level [Sidebar](sidebar.md) for persistent application navigation.
+
+Pagination keeps the ordinary semantic list and link markup. Center that specific navigation explicitly with `.justify-center`, mark the current destination, and retain Daft's link padding for adequate targets. This does not change the alignment of ordinary navigation.
+
+```html
+<nav class="justify-center" aria-label="Pagination">
+  <ul>
+    <li><a href="?page=1">Previous</a></li>
+    <li><a href="?page=1">1</a></li>
+    <li><a href="?page=2" aria-current="page">2</a></li>
+    <li><a href="?page=3">3</a></li>
+    <li><a href="?page=3">Next</a></li>
+  </ul>
+</nav>
+```
 
 ## Common mistakes
 

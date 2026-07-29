@@ -62,13 +62,15 @@ When a changing value needs to be announced, put appropriate live-region semanti
 
 ## Composition
 
-Use badges in table cells, card headers, and compact metadata rows.
+Use badges in table cells, card headers, and compact metadata rows. When a badge sits beside a heading or text, wrap the peers in `.cluster`; do not depend on raw adjacency or add an external margin to the badge.
 
 ```html
 <article>
   <header>
-    <strong>Deploy 42</strong>
-    <span class="badge outline success">Passed</span>
+    <div class="cluster">
+      <strong>Deploy 42</strong>
+      <span class="badge outline success">Passed</span>
+    </div>
   </header>
 </article>
 ```

@@ -18,7 +18,7 @@ Daft also shares much of the cluster styling with `[role="search"]`, but that ro
 
 ## Markup requirements
 
-- Put `role="group"` on the container and place segments as direct children.
+- Put `role="group"` on the container and place segments as direct children. Every direct child defines a visual segment, including an `.sr-only` label.
 - Use native controls where possible. `role="group"` provides grouping semantics, not button or selection behavior.
 - Use `aria-pressed="true"` for a selected toggle or segmented-control button. Keep `aria-current` for a genuinely current navigation or item state.
 - Use `<fieldset role="group">` for a full-width field grouping; retain a `<legend>` when it names the form controls.
@@ -69,6 +69,15 @@ Use `code`, `samp`, `kbd`, `span`, or `output` as direct addon segments. Daft re
   <code>install daftcss</code>
   <button>Copy</button>
 </div>
+```
+
+For a compact search group, name the input with its supported `aria-label` pattern rather than inserting an `.sr-only` label as a direct child. The hidden label would still become the first segment and change the controls' joined corners.
+
+```html
+<form role="search">
+  <input type="search" name="query" aria-label="Search documentation">
+  <button type="submit">Search</button>
+</form>
 ```
 
 ## Common mistakes

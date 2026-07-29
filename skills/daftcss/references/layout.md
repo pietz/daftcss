@@ -78,7 +78,7 @@ A vertical flow with the default spacing gap:
 </div>
 ```
 
-Use for form fields, vertically separated cards, and list-like content.
+Use for form fields, vertically separated cards, and list-like content. A `.cluster` spaces peers within one row; it does not create rhythm between separate search, filter, and message rows. Wrap those rows in `.stack`, or use an existing margin utility for a single local separation.
 
 ## Flex escape hatches
 
@@ -97,6 +97,15 @@ Do not recreate a utility-first layout system in markup. If a pattern repeats ac
 - `.max-w-xs` through `.max-w-3xl` constrain readable or focused content.
 - `.mx-auto` centers a constrained block.
 - `.ml-auto`, `.mr-auto`, `.mt-auto`, `.mb-auto` push flex items.
+
+`.text-center` aligns inline content; it does not constrain or center the block itself. When a card or form should be a centered narrow block, put `.max-w-* .mx-auto` on that container and use `.text-center` only if its text should also be centered.
+
+```html
+<form class="stack max-w-md mx-auto">
+  <label>Email <input type="email" name="email"></label>
+  <button type="submit">Continue</button>
+</form>
+```
 
 A `max-width` does not itself make an inline or shrink-to-fit element responsive. Pair it with `.w-full` or a component's documented full-width variant when necessary.
 
