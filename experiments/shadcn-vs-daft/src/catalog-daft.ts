@@ -17,6 +17,13 @@ document.querySelector("#open-catalog-dialog")?.addEventListener("click", () => 
 document.querySelector("#close-catalog-dialog")?.addEventListener("click", () => dialog?.close())
 document.querySelector("#dismiss-catalog-dialog")?.addEventListener("click", () => dialog?.close())
 
+document.querySelector<HTMLButtonElement>("#clear-catalog-filter")?.addEventListener("click", () => {
+  const input = document.querySelector<HTMLInputElement>("#catalog-filter")
+  if (!input) return
+  input.value = ""
+  input.focus()
+})
+
 document.addEventListener("click", (event) => {
   const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]')
   if (link) event.preventDefault()

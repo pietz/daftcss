@@ -1,17 +1,14 @@
 /**
- * Badge/Pill styles
- * Small status indicators with color variants.
- * Variants set a single --badge-tint; solid/outline/hover all derive from it.
+ * Compact presentational labels.
+ * Static colors are shared with button variants in button.css.
  */
 
 .badge {
-  --badge-tint: var(--primary);
-  --badge-on-tint: var(--primary-foreground);
-
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  padding: var(--spacing-xs) var(--spacing-sm);
+  height: 1.25rem;
+  padding: 0 var(--spacing-sm);
   font-size: var(--text-xs);
   font-weight: var(--font-medium);
   font-variant-numeric: tabular-nums;
@@ -20,58 +17,9 @@
   border: var(--border-width) solid transparent;
   border-radius: var(--badge-radius);
 
-  color: var(--badge-on-tint);
-  background-color: var(--badge-tint);
-}
-
-/* Variants — retint only. */
-.badge.secondary    { --badge-tint: var(--secondary);   --badge-on-tint: var(--secondary-foreground); }
-
-/* Solid secondary needs a stroke to survive muted surfaces. --secondary equals
-   --muted in the default palette, so an unstroked secondary badge disappears
-   entirely on any muted-backed surface — nested article sub-cards, sidebars,
-   table stripes. Same root cause as the .badge.outline.secondary divergence
-   below. The base .badge already reserves a transparent border, so colouring
-   it in costs no layout shift. */
-.badge.secondary:not(.outline) {
-  border-color: var(--border);
-}
-.badge.destructive  { --badge-tint: var(--destructive); --badge-on-tint: var(--destructive-foreground); }
-.badge.success      { --badge-tint: var(--success);     --badge-on-tint: var(--success-foreground); }
-.badge.warning      { --badge-tint: var(--warning);     --badge-on-tint: var(--warning-foreground); }
-
-/* Outline — invert: tint becomes text + border, bg goes transparent.
-
-   The light-mode status tints are tuned as solid backgrounds carrying dark
-   text, so reusing them directly as ink fails WCAG AA on light surfaces
-   (warning measured 2.69:1 on --muted, success 4.25:1, destructive 4.38:1).
-   Cap the ink's lightness in light mode only — the dark-mode tints already
-   clear AA on every surface, and the border keeps the full-strength tint so
-   the badge retains its colour identity. Capping leaves already-dark tints
-   such as --primary (L 0.205) untouched. */
-.badge.outline {
-  color: light-dark(
-    oklch(from var(--badge-tint) min(l, 0.5) c h),
-    var(--badge-tint)
-  );
-  background-color: transparent;
-  border-color: var(--badge-tint);
-}
-
-/* Secondary outline diverges: --secondary equals --muted in the default
-   palette (a near-background neutral), so retinting to it makes the outline
-   disappear. Fall back to foreground text + border-colored stroke. Override
-   --secondary to something distinguishable to reactivate the standard retint. */
-.badge.outline.secondary {
-  color: var(--foreground);
-  border-color: var(--border);
-}
-
-/* Size variants */
-.badge.small {
-  padding: 0 var(--spacing-xs);
-}
-
-.badge.large {
-  padding: var(--spacing-sm) var(--spacing-md);
+  & > svg {
+    flex-shrink: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
 }

@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~66 KB minified)
+- Minimal footprint (~68 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
@@ -707,7 +707,7 @@ Use `<article>` for cards. When a semantic article should remain ordinary docume
 
 ### Badge
 
-Small status indicator. Use `<span class="badge">` inline alongside text, headings, or table cells.
+Use `<span class="badge">` for a short inline status, category, count, or label alongside text, headings, or table cells.
 
 ```html
 <span class="badge">New</span>
@@ -716,36 +716,14 @@ Small status indicator. Use `<span class="badge">` inline alongside text, headin
 **Variants:**
 
 ```html
-<span class="badge">Primary</span>
-<span class="badge secondary">Secondary</span>
-<span class="badge success">Active</span>
-<span class="badge warning">Pending</span>
+<span class="badge">Featured</span>
+<span class="badge secondary">Pending</span>
+<span class="badge outline">Active</span>
+<span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
-<span class="badge outline">Outline</span>
 ```
 
-The `.outline` variant inverts any tint — combine it with a color class for a tinted border + matching text on a transparent background:
-
-```html
-<span class="badge outline success">Resolved</span>
-<span class="badge outline destructive">Critical</span>
-```
-
-`.outline.secondary` is the one exception: because the default palette sets `--secondary` equal to `--muted` (a near-background neutral), retinting would make the outline invisible. The badge falls back to `--foreground` text + `--border` stroke for a neutral chip. Override `--secondary` to a distinguishable color to reactivate the standard retint.
-
-```html
-<span class="badge outline secondary">Draft</span>
-```
-
-**Sizes:**
-
-```html
-<span class="badge small">12</span>
-<span class="badge">Default</span>
-<span class="badge large">Featured</span>
-```
-
-`--badge-radius` controls the corner radius (defaults to `--radius-md` — not a pill). Set it to `--radius-full` for a pill shape.
+Badges share button static surface recipes but remain presentational and noninteractive: they are not buttons or links. Choose at most one optional variant, keep the text meaningful without color, and use a real control for actions. Every badge uses the canonical 20px pill size; there are no badge size or shape variants. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
 
 ### Table
 
@@ -1115,7 +1093,7 @@ Tooltip text rendered by CSS is a visual enhancement, not a reliable accessible 
 
 ### Group
 
-Use `role="group"` for button groups and input groups:
+Use `role="group"` for related button or field controls. Button-only and non-qualifying groups retain joined, segmented borders:
 
 **Button Group:**
 
@@ -1155,11 +1133,11 @@ Use `role="group"` for button groups and input groups:
 </form>
 ```
 
-A regular `role="group"` containing an `<input type="search">` produces the same pill cluster — the search input drives the aesthetic, so either container works.
+A non-`fieldset`, non-vertical group with exactly one direct eligible text-like input, only direct `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and at most one direct button-like action becomes a full-width unified field shell. A `form role="search"` supports that shape only for a direct text or search input. The shell owns border, background, focus, and validation; labels and helper text stay outside it. Other shapes, including selects, textareas, extra inputs or actions, nested groups, fieldsets, vertical groups, and helper text, stay segmented. See the Groups reference for the complete contract and accessibility guidance.
 
 **Sized Group:**
 
-Adding `.small` or `.large` to the group cascades the size to every child:
+Adding `.small` or `.large` sizes supported direct controls and addon segments:
 
 ```html
 <div role="group" class="large">
@@ -1181,7 +1159,7 @@ Adding `.small` or `.large` to the group cascades the size to every child:
 
 **Addon Group:**
 
-Mix in a `<code>`, `<samp>`, `<kbd>`, `<span>`, or `<output>` child and the group becomes a unified pill with that child rendered as a muted addon. A leading `<select>` automatically picks up the muted addon background. The last child fills the remaining width; others size to content.
+A non-qualifying addon composition remains segmented. In a qualifying field shell, only `code`, `samp`, `kbd`, `span`, and `output` are allowed as direct non-editable addons, and they sit inside the shell.
 
 ```html
 <!-- CDN snippet picker -->

@@ -187,7 +187,9 @@ body {
 }
 
 .search-comparison {
+  display: grid;
   width: min(100%, 23rem);
+  gap: var(--spacing-sm);
 }
 
 .comparison-label {

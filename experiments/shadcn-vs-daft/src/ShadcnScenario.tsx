@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import {
   Activity,
   Boxes,
@@ -16,6 +16,7 @@ import {
   RotateCcw,
   Search,
   Settings,
+  X,
   ShieldCheck,
   TerminalSquare,
   Users,
@@ -53,6 +54,7 @@ import { Input } from "@/shadcn/components/ui/input"
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
   InputGroupText,
 } from "@/shadcn/components/ui/input-group"
@@ -196,6 +198,7 @@ function DeploymentDialog({ onQueued }: { onQueued: (environment: Environment) =
 
 export default function ShadcnScenario() {
   const [query, setQuery] = useState("")
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const [filter, setFilter] = useState<DeploymentFilter>("all")
   const [queued, setQueued] = useState<Environment | null>(null)
   const visibleDeployments = useMemo(
@@ -361,21 +364,51 @@ export default function ShadcnScenario() {
                     <CardTitle>Deployments</CardTitle>
                     <CardDescription>Latest changes across all release environments.</CardDescription>
                   </div>
-                  <div className="w-full max-w-sm">
-                    <div className="mb-1 flex items-center justify-between gap-2">
-                      <Label htmlFor="shadcn-search" className="sr-only">Search deployments</Label>
-                      <span className="ml-auto text-[11px] text-muted-foreground">Official Input Group</span>
+                  <div className="grid w-full max-w-sm gap-2">
+                    <div>
+                      <div className="mb-1 flex items-center justify-between gap-2">
+                        <Label htmlFor="shadcn-search" className="sr-only">Search deployments</Label>
+                        <span className="ml-auto text-[11px] text-muted-foreground">Official search group · icon, input, and clear action</span>
+                      </div>
+                      <form role="search" onSubmit={(event) => event.preventDefault()}>
+                        <InputGroup>
+                          <InputGroupAddon><Search /></InputGroupAddon>
+                          <InputGroupInput
+                            ref={searchInputRef}
+                            id="shadcn-search"
+                            type="search"
+                            value={query}
+                            onChange={(event) => setQuery(event.target.value)}
+                            placeholder="Search service, commit, or owner…"
+                          />
+                          <InputGroupAddon align="inline-end">
+                            <InputGroupButton
+                              aria-label="Clear deployment search"
+                              onClick={() => {
+                                setQuery("")
+                                searchInputRef.current?.focus()
+                              }}
+                            >
+                              <X />
+                            </InputGroupButton>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </form>
                     </div>
-                    <InputGroup>
-                      <InputGroupAddon><Search /></InputGroupAddon>
-                      <InputGroupInput
-                        id="shadcn-search"
-                        type="search"
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
-                        placeholder="Search service, commit, or owner…"
-                      />
-                    </InputGroup>
+                    <div>
+                      <div className="mb-1 flex items-center justify-between gap-2">
+                        <Label htmlFor="shadcn-release" className="sr-only">Open a release</Label>
+                        <span className="ml-auto text-[11px] text-muted-foreground">Official standard group · input and submit button</span>
+                      </div>
+                      <form onSubmit={(event) => event.preventDefault()}>
+                        <InputGroup>
+                          <InputGroupInput id="shadcn-release" placeholder="Release ID, for example rel-2025.06.18-3" />
+                          <InputGroupAddon align="inline-end">
+                            <InputGroupButton type="submit" variant="default">Open</InputGroupButton>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </form>
+                    </div>
                   </div>
                 </div>
                 <Tabs value={filter} onValueChange={(value) => setFilter(value as DeploymentFilter)}>

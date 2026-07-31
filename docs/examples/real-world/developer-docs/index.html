@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="RelayGrid developer documentation for creating webhook subscriptions.">
     <title>Create a subscription | RelayGrid Docs</title>
-    <link rel="stylesheet" href="../../../dist/daft.css?v=1.20.1">
+    <link rel="stylesheet" href="../../../dist/daft.css?v=1.21.0">
     <style>
       :root {
         --primary: light-dark(oklch(0.5 0.2 265), oklch(0.72 0.16 265));
@@ -19,7 +19,6 @@
         --component-height: 2.25rem;
         --aside-width: clamp(15rem, 20vw, 18rem);
         --card-shadow: none;
-        --badge-radius: var(--radius-full);
       }
     </style>
   </head>
@@ -114,9 +113,9 @@
           <h1>Create a subscription</h1>
           <p class="muted max-w-2xl">Register an HTTPS endpoint to receive a filtered, signed stream of events from your RelayGrid workspace.</p>
           <div class="cluster">
-            <span class="badge success">POST</span>
+            <span class="badge outline">POST</span>
             <span class="badge outline">/v1/subscriptions</span>
-            <span class="badge outline secondary">API 2026-04</span>
+            <span class="badge outline">API 2026-04</span>
           </div>
         </header>
 
@@ -201,25 +200,25 @@ Content-Type: application/json</code></pre>
                 <tr>
                   <th scope="row"><code>endpoint</code></th>
                   <td>string · URI</td>
-                  <td><span class="badge success small">Required</span></td>
+                  <td><span class="badge outline">Required</span></td>
                   <td>Public HTTPS URL that receives event deliveries.</td>
                 </tr>
                 <tr>
                   <th scope="row"><code>events</code></th>
                   <td>string[]</td>
-                  <td><span class="badge success small">Required</span></td>
+                  <td><span class="badge outline">Required</span></td>
                   <td>One to 25 event types. Wildcards are not accepted.</td>
                 </tr>
                 <tr>
                   <th scope="row"><code>description</code></th>
                   <td>string</td>
-                  <td><span class="badge outline secondary small">Optional</span></td>
+                  <td><span class="badge outline">Optional</span></td>
                   <td>Human-readable label, up to 120 characters.</td>
                 </tr>
                 <tr>
                   <th scope="row"><code>metadata</code></th>
                   <td>object</td>
-                  <td><span class="badge outline secondary small">Optional</span></td>
+                  <td><span class="badge outline">Optional</span></td>
                   <td>Up to 10 key-value pairs returned with the resource.</td>
                 </tr>
               </tbody>
@@ -234,7 +233,7 @@ Content-Type: application/json</code></pre>
           <article>
             <header>
               <strong>201 Created</strong>
-              <span class="badge success">JSON</span>
+              <span class="badge outline">JSON</span>
             </header>
             <pre tabindex="0"><code>{
   "id": "sub_01JY7Q9ATDJ5K8N4FV3M2R6XBC",

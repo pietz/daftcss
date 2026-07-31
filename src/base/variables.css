@@ -143,7 +143,7 @@
   --modal-radius: var(--radius-lg);
   --dropdown-radius: var(--radius-md);
   --tooltip-radius: var(--radius-md);
-  --badge-radius: var(--radius-md);
+  --badge-radius: var(--radius-full);
   --progress-radius: var(--radius-full);
 
   /* Shadows (set any to `none` to flatten that component) */

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>Northstar Operations</title>
-    <link rel="stylesheet" href="../../../dist/daft.css?v=1.20.1">
+    <link rel="stylesheet" href="../../../dist/daft.css?v=1.21.0">
     <style>
       :root {
         --primary: light-dark(oklch(0.52 0.19 258), oklch(0.72 0.15 252));
@@ -17,7 +17,6 @@
         --spacing: 0.875rem;
         --component-height: 2.25rem;
         --aside-width: clamp(14rem, 18vw, 17rem);
-        --badge-radius: var(--radius-full);
         --button-shadow: none;
         --card-shadow: var(--shadow-sm);
       }
@@ -33,9 +32,9 @@
         <ul>
           <li class="label">Operate</li>
           <li><a href="#overview" aria-current="page">Overview</a></li>
-          <li><a href="#services">Services <span class="badge outline secondary small">12</span></a></li>
+          <li><a href="#services">Services <span class="badge outline">12</span></a></li>
           <li><a href="#deployments">Deployments</a></li>
-          <li><a href="#incidents">Incidents <span class="badge warning small">1</span></a></li>
+          <li><a href="#incidents">Incidents <span class="badge secondary">1</span></a></li>
         </ul>
         <ul>
           <li class="label">Manage</li>
@@ -67,7 +66,7 @@
             </button>
           </li>
           <li><strong>Operations</strong></li>
-          <li><span class="badge outline success">All systems operational</span></li>
+          <li><span class="badge outline">All systems operational</span></li>
         </ul>
         <ul>
           <li class="grow">
@@ -143,22 +142,22 @@
           <article>
             <small class="muted">Monthly recurring revenue</small>
             <p class="text-3xl m-0"><strong>$284.6k</strong></p>
-            <span class="badge success">↑ 8.2% this month</span>
+            <span class="badge outline">↑ 8.2% this month</span>
           </article>
           <article>
             <small class="muted">Active organizations</small>
             <p class="text-3xl m-0"><strong>1,842</strong></p>
-            <span class="badge outline success">+37 this week</span>
+            <span class="badge outline">+37 this week</span>
           </article>
           <article>
             <small class="muted">API success rate</small>
             <p class="text-3xl m-0"><strong>99.982%</strong></p>
-            <span class="badge success">Within SLO</span>
+            <span class="badge outline">Within SLO</span>
           </article>
           <article>
             <small class="muted">Open incidents</small>
             <p class="text-3xl m-0"><strong>1</strong></p>
-            <span class="badge warning">Investigating</span>
+            <span class="badge secondary">Investigating</span>
           </article>
         </div>
       </section>
@@ -179,7 +178,7 @@
           <article>
             <header>
               <hgroup><h3>API gateway</h3><p>us-east-1 · 18 instances</p></hgroup>
-              <span class="badge success">Healthy</span>
+              <span class="badge outline">Healthy</span>
             </header>
             <label>
               Request capacity · 61%
@@ -190,7 +189,7 @@
           <article>
             <header>
               <hgroup><h3>Event pipeline</h3><p>eu-west-1 · 9 consumers</p></hgroup>
-              <span class="badge warning">Elevated</span>
+              <span class="badge secondary">Elevated</span>
             </header>
             <label>
               Queue saturation · 78%
@@ -201,7 +200,7 @@
           <article>
             <header>
               <hgroup><h3>Primary database</h3><p>us-east-1 · multi-AZ</p></hgroup>
-              <span class="badge success">Healthy</span>
+              <span class="badge outline">Healthy</span>
             </header>
             <label>
               Connection pool · 43%
@@ -237,7 +236,7 @@
                 <tr>
                   <th scope="row">Billing API</th>
                   <td><code>v4.18.2</code></td>
-                  <td><span class="badge success">Succeeded</span></td>
+                  <td><span class="badge outline">Succeeded</span></td>
                   <td><span class="cluster"><span class="avatar small" aria-hidden="true">IP</span> Iris Park</span></td>
                   <td>09:42</td>
                   <td>4m 12s</td>
@@ -245,7 +244,7 @@
                 <tr>
                   <th scope="row">Web application</th>
                   <td><code>v8.31.0</code></td>
-                  <td><span class="badge success">Succeeded</span></td>
+                  <td><span class="badge outline">Succeeded</span></td>
                   <td><span class="cluster"><span class="avatar small" aria-hidden="true">NW</span> Noah Williams</span></td>
                   <td>08:16</td>
                   <td>6m 48s</td>
@@ -253,7 +252,7 @@
                 <tr>
                   <th scope="row">Event worker</th>
                   <td><code>v2.9.7</code></td>
-                  <td><span class="badge warning">Rolling out</span></td>
+                  <td><span class="badge secondary">Rolling out</span></td>
                   <td><span class="cluster"><span class="avatar small" aria-hidden="true">MC</span> Maya Chen</span></td>
                   <td>07:58</td>
                   <td>12m elapsed</td>
@@ -283,7 +282,7 @@
             <article>
               <header>
                 <hgroup><h3>Delayed webhook delivery</h3><p>INC-248 · Started 34 minutes ago</p></hgroup>
-                <span class="badge warning">SEV-2</span>
+                <span class="badge secondary">SEV-2</span>
               </header>
               <p>Elevated retry volume for EU tenants. Customer impact is limited to delayed events.</p>
               <footer>
@@ -294,7 +293,7 @@
             <article>
               <header>
                 <hgroup><h3>Production access request</h3><p>Requested by Priya Rao · 18 min ago</p></hgroup>
-                <span class="badge outline secondary">Approval</span>
+                <span class="badge outline">Approval</span>
               </header>
               <p>Temporary read-only database access for ticket CS-1924.</p>
               <footer>
@@ -319,17 +318,17 @@
               <div class="cluster">
                 <span class="avatar" aria-hidden="true">IP</span>
                 <span class="grow"><strong>Iris Park</strong> promoted <code>billing-api v4.18.2</code> to production<br><small class="muted">8 minutes ago · DEP-8821</small></span>
-                <span class="badge success">Succeeded</span>
+                <span class="badge outline">Succeeded</span>
               </div>
               <div class="cluster">
                 <span class="avatar" aria-hidden="true">NW</span>
                 <span class="grow"><strong>Noah Williams</strong> acknowledged a latency monitor alert<br><small class="muted">26 minutes ago · MON-114</small></span>
-                <span class="badge outline secondary">Acknowledged</span>
+                <span class="badge outline">Acknowledged</span>
               </div>
               <div class="cluster">
                 <span class="avatar" aria-hidden="true">PR</span>
                 <span class="grow"><strong>Priya Rao</strong> requested temporary production access<br><small class="muted">34 minutes ago · expires in 2 hours</small></span>
-                <span class="badge warning">Pending</span>
+                <span class="badge secondary">Pending</span>
               </div>
             </div>
           </article>
@@ -388,7 +387,7 @@
         <div class="cluster">
           <a href="#">System status</a>
           <a href="#">Support</a>
-          <span class="badge outline secondary">API v2025-03</span>
+          <span class="badge outline">API v2025-03</span>
         </div>
       </div>
     </footer>

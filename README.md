@@ -9,7 +9,7 @@ Daft CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero required JavaScript** for native interactions like popovers, accordions, and dropdowns
-- **A tiny footprint** — one ~66 KB minified file
+- **A tiny footprint** — one ~68 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -32,7 +32,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~66 KB** | 83 KB |
+| Size (minified) | **~68 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -48,7 +48,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~66 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~68 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -225,17 +225,14 @@ Use `<article class="plain">` for a semantic article that should follow normal d
 ### Badges
 
 ```html
-<span class="badge">Primary</span>
-<span class="badge secondary">Secondary</span>
-<span class="badge success">Active</span>
-<span class="badge warning">Pending</span>
+<span class="badge">Featured</span>
+<span class="badge secondary">Pending</span>
+<span class="badge outline">Active</span>
+<span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
-<span class="badge outline">Outline</span>
-<span class="badge small">12</span>
-<span class="badge large">Featured</span>
 ```
 
-Combine `.outline` with a color class for tinted outline badges (`.outline.success`, `.outline.destructive`). `.outline.secondary` is the one exception — text stays neutral and the border uses `--border`, because the default palette sets `--secondary` equal to `--muted`.
+Badges use the same static surface recipes as buttons, but are presentational and noninteractive. They have one canonical 20px pill size: choose at most one variant, keep the text meaningful without color, and use a real button or link for actions. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
 
 ### Accordion
 
@@ -423,7 +420,7 @@ A round container for initials, an image, or an SVG icon.
 
 ### Groups
 
-`role="group"` joins adjacent controls — buttons, inputs, or addons — into a single pill. For toggle buttons or segmented controls, mark the selected button with `aria-pressed="true"`; reserve `aria-current` for a genuinely current navigation or item state. Add a `<code>`/`<samp>`/`<kbd>`/`<span>`/`<output>` child to render it as a muted display addon; the last child fills the remaining width. Add a `<input type="search">` child and the cluster automatically takes the pill (fully-rounded) aesthetic — same shape as a `role="search"` form.
+`role="group"` normally joins direct controls as segmented buttons or fields. A simple horizontal group with one eligible text-like input, only `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and at most one button-like action becomes a full-width unified field shell; `form role="search"` supports the same shape for a direct text or search input. Keep labels and helper text outside that shell. For toggle buttons or segmented controls, mark the selected button with `aria-pressed="true"`; reserve `aria-current` for a genuinely current navigation or item state.
 
 ```html
 <div role="group">
@@ -437,7 +434,7 @@ A round container for initials, an image, or an SVG icon.
 </div>
 ```
 
-Add `.small` or `.large` to the group and the size cascades to every child — buttons, inputs, and selects all step together:
+Add `.small` or `.large` to size supported direct controls and addon segments:
 
 ```html
 <div role="group" class="large">

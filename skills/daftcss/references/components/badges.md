@@ -2,14 +2,14 @@
 
 ## Purpose and semantic contract
 
-Use `.badge` on a short inline status, category, count, or label. A badge is presentational styling on ordinary content; it does not add status or alert semantics.
+Use `.badge` on a short inline status, category, count, or label. A badge is presentational styling on ordinary content. It does not add status or alert semantics, and it is not a button, link, filter, or other interactive control.
 
 ## Basic example
 
 ```html
 <span class="badge">New</span>
-<span class="badge success">Active</span>
-<span class="badge warning">Pending</span>
+<span class="badge outline">Active</span>
+<span class="badge secondary">Pending</span>
 ```
 
 ## Markup requirements
@@ -17,42 +17,32 @@ Use `.badge` on a short inline status, category, count, or label. A badge is pre
 - Apply `.badge` to an element containing concise text, usually `<span>`.
 - Make the text understandable without color alone.
 - Add ARIA semantics only when the information itself requires them; the class does not make the badge a live status.
+- Use a real button or link for an interactive action. Do not apply `.badge` to a link.
 
-## Variants and options
+## Variants
 
-### Color
+Badges share the static surface recipes of buttons, but remain presentational and noninteractive. Choose at most one optional variant.
 
-| Class | Meaning |
+| Class | Use |
 |---|---|
-| none | Primary |
-| `.secondary` | Neutral |
-| `.success` | Resolved, active, healthy |
-| `.warning` | Pending, attention |
-| `.destructive` | Failed, blocked, error |
+| none | Primary emphasis |
+| `.secondary` | Pending, low-emphasis, or muted information |
+| `.outline` | Neutral status, category, count, or metadata |
+| `.ghost` | Minimal-emphasis metadata on a quiet surface |
+| `.destructive` | Failed, blocked, or error state |
 
-### Outline
+Badges have one canonical 20px pill size. There are no badge size classes; themes may override the shared `--badge-radius` token.
 
-`.outline` uses a transparent background with the current tint as text and border. Combine it with color variants, for example `.badge outline success`.
-
-`.badge.outline.secondary` is intentionally neutral: with the default palette, it uses `--foreground` text and `--border` stroke because `--secondary` equals `--muted`. If `--secondary` is overridden to a distinguishable color, its standard tint can show through.
-
-### Size and shape
-
-- `.small` changes padding to `0 var(--spacing-xs)`.
-- `.large` changes padding to `var(--spacing-sm) var(--spacing-md)`.
-- Both retain `--text-xs`; they do not change font size.
-- Set `--badge-radius: var(--radius-full)` to make badges pill-shaped.
+For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old `.small` or `.large` classes render at the canonical size. Do not use these aliases in new markup.
 
 ## Relevant tokens
 
-See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
+See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. Badge surfaces use the same color tokens as the corresponding static button recipes:
 
-- `--badge-radius`
-- `--spacing-xs`, `--spacing-sm`, `--spacing-md`
-- `--text-xs`, `--font-medium`
-- `--border-width`
-- `--primary`, `--secondary`, `--success`, `--warning`, `--destructive`
+- `--primary`, `--secondary`, `--destructive`
 - Their corresponding `*-foreground` tokens
+- `--border`
+- `--badge-radius`
 
 ## Behavior and accessibility
 
@@ -69,7 +59,7 @@ Use badges in table cells, card headers, and compact metadata rows. When a badge
   <header>
     <div class="cluster">
       <strong>Deploy 42</strong>
-      <span class="badge outline success">Passed</span>
+      <span class="badge outline">Passed</span>
     </div>
   </header>
 </article>
@@ -78,7 +68,6 @@ Use badges in table cells, card headers, and compact metadata rows. When a badge
 ## Common mistakes
 
 - Encoding status only by color.
-- Using a badge as a button or filter without supplying a real interactive control.
-- Expecting `.small` or `.large` to change text size.
-- Assuming badges are pills by default. Their default radius is `--radius-md`.
+- Using a badge as a button, link, or filter instead of a real interactive control.
+- Combining badge variants or inventing size variants.
 - Using long labels that cannot wrap.

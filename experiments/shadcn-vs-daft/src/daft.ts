@@ -61,8 +61,8 @@ let searchQuery = ""
 
 function statusClass(status: DeploymentStatus) {
   if (status === "Failed") return "badge destructive"
-  if (status === "Building") return "badge warning"
-  return "badge outline success"
+  if (status === "Building") return "badge secondary"
+  return "badge outline"
 }
 
 function renderMetricCards() {
@@ -79,7 +79,7 @@ function renderMetricCards() {
           </div>
           <p class="metric-value">${kpi.value}</p>
           <div class="metric-meta">
-            <span class="badge ${kpi.tone === "success" ? "outline success" : "secondary"}">${kpi.change}</span>
+            <span class="badge ${kpi.tone === "success" ? "outline" : "secondary"}">${kpi.change}</span>
             <small class="muted text-xs">${kpi.detail}</small>
           </div>
         </article>
@@ -171,7 +171,7 @@ function initializeDialog() {
     dialog.close()
   })
 
-  form.querySelector('[role="group"]')?.addEventListener("click", (event) => {
+  form.querySelector("#environment-group")?.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button")
     if (!button) return
     activeEnvironment = button.textContent?.trim() as Environment
@@ -196,9 +196,22 @@ window.addEventListener("message", (event) => {
   }
 })
 
-document.querySelector<HTMLInputElement>("#daft-search")?.addEventListener("input", (event) => {
+const deploymentSearch = document.querySelector<HTMLInputElement>("#daft-search")
+
+deploymentSearch?.addEventListener("input", (event) => {
   searchQuery = (event.currentTarget as HTMLInputElement).value
   renderDeployments()
+})
+
+deploymentSearch?.form?.addEventListener("submit", (event) => event.preventDefault())
+document.querySelector<HTMLFormElement>("#release-lookup-form")?.addEventListener("submit", (event) => event.preventDefault())
+
+document.querySelector<HTMLButtonElement>("#clear-daft-search")?.addEventListener("click", () => {
+  if (!deploymentSearch) return
+  deploymentSearch.value = ""
+  searchQuery = ""
+  renderDeployments()
+  deploymentSearch.focus()
 })
 
 document.addEventListener("click", (event) => {

@@ -7,7 +7,7 @@
   <title>daft.css — The UI library that's just a stylesheet</title>
   <meta name="description" content="Link one stylesheet. Write semantic HTML. Get a design system with dark mode and theme tokens. No build, no JS.">
 
-  <link rel="stylesheet" href="./dist/daft.css?v=1.20.1">
+  <link rel="stylesheet" href="./dist/daft.css?v=1.21.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css" integrity="sha384-w6Ujm1VWa9HYFqGc89oAPn/DWDi2gUamjNrq9DRvEYm2X3ClItg9Y9xs1ViVo5b5" crossorigin="anonymous" media="(prefers-color-scheme: light)">
@@ -83,7 +83,7 @@
   <nav class="top-nav sticky glass" aria-label="Primary">
     <div class="container-fluid flex items-center justify-between">
       <ul>
-        <li><a href="./" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.20.1</span></a></li>
+        <li><a href="./" class="flex items-center gap-2"><strong>daft.css</strong> <span class="badge">1.21.0</span></a></li>
       </ul>
       <button class="top-nav-toggle ghost icon" type="button" popovertarget="primary-menu" aria-label="Toggle primary navigation">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
@@ -120,7 +120,7 @@
         <span class="badge outline">Semantic HTML</span>
         <span class="badge outline">No build</span>
         <span class="badge outline">No JS</span>
-        <span class="badge outline">66 KB</span>
+        <span class="badge outline">68 KB</span>
       </div>
       <h1 class="text-6xl mx-auto max-w-2xl">The UI library that's<br>just a stylesheet.</h1>
       <p class="muted mx-auto max-w-xl">Link <code>daft.min.css</code> in your <code>&lt;head&gt;</code>. Write <code>&lt;button&gt;</code>, <code>&lt;dialog&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;article&gt;</code>. Daft styles them as a design system with dark mode and theme tokens you change at the root.</p>
@@ -184,7 +184,7 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Pasteable override</strong> <span class="badge outline small">paste at <code>:root</code></span></header>
+          <header><strong>Pasteable override</strong> <span class="badge outline">paste at <code>:root</code></span></header>
           <div>
 <pre data-for="default" class="max-h-sm overflow-auto"><code>/* Default — shadcn baseline.
    No override needed. */</code></pre>
@@ -233,23 +233,23 @@
       <!-- ROW A — Installation | Browser support | Theme surface -->
       <div class="grid">
         <article class="flex flex-col">
-          <header class="cluster"><strong>Installation</strong> <span class="badge outline small">CDN</span></header>
+          <header class="cluster"><strong>Installation</strong> <span class="badge outline">CDN</span></header>
           <label class="mb-4">CDN link
             <input type="text" readonly value='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css">'>
           </label>
           <div class="grid">
             <article>
-              <div class="text-center"><strong class="text-3xl">66 KB</strong></div>
+              <div class="text-center"><strong class="text-3xl">68 KB</strong></div>
               <div class="flex items-center justify-between">
                 <span class="muted text-sm">CSS</span>
-                <span class="badge outline small">minified</span>
+                <span class="badge outline">minified</span>
               </div>
             </article>
             <article>
               <div class="text-center"><strong class="text-3xl">0 KB</strong></div>
               <div class="flex items-center justify-between">
                 <span class="muted text-sm">Runtime</span>
-                <span class="badge outline small">none</span>
+                <span class="badge outline">none</span>
               </div>
             </article>
           </div>
@@ -264,9 +264,9 @@
           </header>
           <table>
             <tbody>
-              <tr><td>Chrome</td><td class="text-right"><span class="badge success">123+</span></td></tr>
-              <tr><td>Firefox</td><td class="text-right"><span class="badge success">129+</span></td></tr>
-              <tr><td>Safari</td><td class="text-right"><span class="badge success">18+</span></td></tr>
+              <tr><td>Chrome</td><td class="text-right"><span class="badge outline">123+</span></td></tr>
+              <tr><td>Firefox</td><td class="text-right"><span class="badge outline">129+</span></td></tr>
+              <tr><td>Safari</td><td class="text-right"><span class="badge outline">18+</span></td></tr>
             </tbody>
           </table>
           <div role="status" class="mt-auto">
@@ -281,7 +281,7 @@
               <h2>Theme surface</h2>
               <p>Start broad, then override only where the product needs precision.</p>
             </hgroup>
-            <span class="badge success small">tiered</span>
+            <span class="badge outline">tiered</span>
           </header>
           <div class="max-h-xs overflow-auto">
             <details>
@@ -341,9 +341,9 @@
           <div class="mb-4">
             <div class="flex justify-between">
               <span><strong>Daft</strong></span>
-              <span class="muted text-sm">66 KB</span>
+              <span class="muted text-sm">68 KB</span>
             </div>
-            <progress value="66" max="700" class="success"></progress>
+            <progress value="68" max="700" class="success"></progress>
           </div>
           <div class="mb-4">
             <div class="flex justify-between">
@@ -490,7 +490,7 @@
               <tr>
                 <td><code>1.13</code></td>
                 <td>Utility scale: max-w, max-h, type, margins</td>
-                <td><span class="badge success">current</span></td>
+                <td><span class="badge outline">current</span></td>
                 <td>May 2026</td>
               </tr>
               <tr>
@@ -559,7 +559,7 @@
 
       <div class="grid">
         <article class="flex flex-col">
-          <header><strong>Core</strong> <span class="badge outline small">set at :root</span></header>
+          <header><strong>Core</strong> <span class="badge outline">set at :root</span></header>
           <p class="muted text-sm">A small set of variables defines the shape of the system.</p>
 <pre>--spacing:         1rem;
 --radius:          0.5rem;
@@ -568,7 +568,7 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Derived</strong> <span class="badge outline small">via calc()</span></header>
+          <header><strong>Derived</strong> <span class="badge outline">via calc()</span></header>
           <p class="muted text-sm">Every step on every scale recomputes from the core.</p>
 <pre>--spacing-xs: calc(var(--spacing) / 4);
 --radius-sm:  calc(var(--radius)  * 0.6);
@@ -577,7 +577,7 @@
         </article>
 
         <article class="flex flex-col">
-          <header><strong>Semantic</strong> <span class="badge outline small">light-dark()</span></header>
+          <header><strong>Semantic</strong> <span class="badge outline">light-dark()</span></header>
           <p class="muted text-sm">Surfaces and brand follow color-scheme on their own.</p>
 <pre>--background: light-dark(…, …);
 --foreground: light-dark(…, …);
@@ -597,7 +597,7 @@
 
       <div class="grid">
         <article class="flex flex-col">
-          <header><strong>Fewer tokens per element</strong> <span class="badge outline small">~3 vs ~50</span></header>
+          <header><strong>Fewer tokens per element</strong> <span class="badge outline">~3 vs ~50</span></header>
           <p>A Daft button is <code>&lt;button&gt;</code>. A Tailwind button is nine utility classes the agent regenerates from working memory on every page. Across a real codebase the difference is measurable.</p>
         </article>
 
@@ -632,8 +632,8 @@
     <div class="container flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing); padding-top: 2.5rem; padding-bottom: 2rem;">
       <strong>daft.css</strong>
       <div class="flex gap-6 muted text-sm" style="flex-wrap: wrap">
-        <span>v1.20.1</span>
-        <span>66 KB</span>
+        <span>v1.21.0</span>
+        <span>68 KB</span>
         <span>MIT</span>
         <span>© 2026</span>
       </div>

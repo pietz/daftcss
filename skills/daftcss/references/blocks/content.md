@@ -43,7 +43,7 @@ Skeleton:
   <article>
     <header>
       <strong>Version x.y.z</strong>
-      <span class="badge success">Latest</span>
+      <span class="badge outline">Latest</span>
       <p>Release date</p>
     </header>
     <ul>
@@ -78,7 +78,7 @@ Skeleton:
     <tbody>
       <tr>
         <td>Semantic forms</td>
-        <td><span class="badge success">Built in</span></td>
+        <td><span class="badge outline">Built in</span></td>
         <td>Manual selectors</td>
       </tr>
     </tbody>

@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>Northstar Issues</title>
-    <link rel="stylesheet" href="../../../dist/daft.css?v=1.20.1">
+    <link rel="stylesheet" href="../../../dist/daft.css?v=1.21.0">
     <style>
       :root {
         --primary: light-dark(oklch(0.52 0.19 263), oklch(0.72 0.15 263));
         --success: light-dark(oklch(0.53 0.14 151), oklch(0.73 0.13 151));
-        --warning: light-dark(oklch(0.67 0.15 74), oklch(0.82 0.13 79));
         --muted: light-dark(oklch(0.97 0.008 264), oklch(0.25 0.018 264));
         --border: light-dark(oklch(0.91 0.012 264), oklch(0.96 0.012 264 / 14%));
         --radius: 0.5rem;
         --spacing: 0.875rem;
         --component-height: 2.125rem;
         --aside-width: clamp(14rem, 18vw, 17rem);
-        --badge-radius: var(--radius-full);
         --card-shadow: none;
         --button-shadow: none;
       }
@@ -29,7 +27,7 @@
         <ul>
           <li><strong>Northstar</strong></li>
           <li><a href="#page-title">Overview</a></li>
-          <li><a href="#issues" aria-current="page">Issues <span class="badge outline secondary small">24</span></a></li>
+          <li><a href="#issues" aria-current="page">Issues <span class="badge outline">24</span></a></li>
           <li><a href="#page-title">Roadmap</a></li>
           <li><a href="#page-title">Cycles</a></li>
         </ul>
@@ -41,9 +39,9 @@
         </ul>
         <ul>
           <li class="label">Saved views</li>
-          <li><a href="#page-title">Assigned to me <span class="badge outline secondary small">6</span></a></li>
-          <li><a href="#page-title">Needs triage <span class="badge warning small">4</span></a></li>
-          <li><a href="#page-title">Blocked <span class="badge destructive small">2</span></a></li>
+          <li><a href="#page-title">Assigned to me <span class="badge outline">6</span></a></li>
+          <li><a href="#page-title">Needs triage <span class="badge secondary">4</span></a></li>
+          <li><a href="#page-title">Blocked <span class="badge destructive">2</span></a></li>
         </ul>
       </nav>
       <footer>
@@ -66,7 +64,7 @@
           <li><strong>Northstar</strong></li>
         </ul>
         <ul>
-          <li><span class="badge outline success">All systems operational</span></li>
+          <li><span class="badge outline">All systems operational</span></li>
           <li><span class="avatar small" role="img" aria-label="Maya Chen">MC</span></li>
           <li><a href="#page-title">Maya Chen</a></li>
         </ul>
@@ -110,17 +108,17 @@
           <article>
             <small class="muted">Open issues</small>
             <p class="text-3xl m-0"><strong>24</strong></p>
-            <span class="badge outline secondary">8 in progress</span>
+            <span class="badge outline">8 in progress</span>
           </article>
           <article>
             <small class="muted">Completed this cycle</small>
             <p class="text-3xl m-0"><strong>18</strong></p>
-            <span class="badge success">+5 this week</span>
+            <span class="badge outline">+5 this week</span>
           </article>
           <article>
             <small class="muted">Needs attention</small>
             <p class="text-3xl m-0"><strong>6</strong></p>
-            <span class="badge warning">4 untriaged</span>
+            <span class="badge secondary">4 untriaged</span>
           </article>
           <article>
             <small class="muted">Cycle 12</small>
@@ -201,70 +199,70 @@
               <tr id="web-247">
                 <th scope="row"><a href="#web-247">WEB-247</a><br><span class="font-normal truncate">Checkout CTA overlaps consent banner on small screens</span></th>
                 <td><span class="badge destructive">Blocked</span></td>
-                <td><span class="badge warning">Urgent</span></td>
+                <td><span class="badge secondary">Urgent</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Maya Chen">MC</span><span>Maya Chen</span></span></td>
                 <td>3 pts</td><td><time datetime="2026-06-12T09:42:00Z">12 min ago</time></td>
               </tr>
               <tr id="web-241">
                 <th scope="row"><a href="#web-241">WEB-241</a><br><span class="font-normal truncate">Finalize migration redirects for legacy campaign URLs</span></th>
                 <td><span class="badge">In progress</span></td>
-                <td><span class="badge warning outline">High</span></td>
+                <td><span class="badge secondary">High</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Jon Bell">JB</span><span>Jon Bell</span></span></td>
                 <td>5 pts</td><td><time datetime="2026-06-12T08:15:00Z">2 hours ago</time></td>
               </tr>
               <tr id="web-238">
                 <th scope="row"><a href="#web-238">WEB-238</a><br><span class="font-normal truncate">Add organization schema to customer story pages</span></th>
                 <td><span class="badge outline">In review</span></td>
-                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="badge outline">Medium</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Priya Shah">PS</span><span>Priya Shah</span></span></td>
                 <td>2 pts</td><td><time datetime="2026-06-11">Yesterday</time></td>
               </tr>
               <tr id="web-233">
                 <th scope="row"><a href="#web-233">WEB-233</a><br><span class="font-normal truncate">Replace homepage video with responsive source set</span></th>
                 <td><span class="badge">In progress</span></td>
-                <td><span class="badge warning outline">High</span></td>
+                <td><span class="badge secondary">High</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Elena Rossi">ER</span><span>Elena Rossi</span></span></td>
                 <td>3 pts</td><td><time datetime="2026-06-11">Yesterday</time></td>
               </tr>
               <tr id="web-229">
                 <th scope="row"><a href="#web-229">WEB-229</a><br><span class="font-normal truncate">Audit focus order in pricing comparison table</span></th>
                 <td><span class="badge secondary">Backlog</span></td>
-                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="badge outline">Medium</span></td>
                 <td><span class="muted">Unassigned</span></td>
                 <td>2 pts</td><td><time datetime="2026-06-10">2 days ago</time></td>
               </tr>
               <tr id="web-224">
                 <th scope="row"><a href="#web-224">WEB-224</a><br><span class="font-normal truncate">Localize footer navigation for French and German</span></th>
                 <td><span class="badge secondary">Backlog</span></td>
-                <td><span class="badge outline secondary">Low</span></td>
+                <td><span class="badge outline">Low</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Noah Williams">NW</span><span>Noah Williams</span></span></td>
                 <td>5 pts</td><td><time datetime="2026-06-09">3 days ago</time></td>
               </tr>
               <tr id="web-219">
                 <th scope="row"><a href="#web-219">WEB-219</a><br><span class="font-normal truncate">Document analytics events for lead-generation forms</span></th>
                 <td><span class="badge outline">In review</span></td>
-                <td><span class="badge outline secondary">Medium</span></td>
+                <td><span class="badge outline">Medium</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Maya Chen">MC</span><span>Maya Chen</span></span></td>
                 <td>3 pts</td><td><time datetime="2026-06-08">4 days ago</time></td>
               </tr>
               <tr id="web-212">
                 <th scope="row"><a href="#web-212">WEB-212</a><br><span class="font-normal truncate">Reduce cumulative layout shift on case-study pages</span></th>
-                <td><span class="badge success">Done</span></td>
-                <td><span class="badge warning outline">High</span></td>
+                <td><span class="badge outline">Done</span></td>
+                <td><span class="badge secondary">High</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Jon Bell">JB</span><span>Jon Bell</span></span></td>
                 <td>5 pts</td><td><time datetime="2026-06-07">5 days ago</time></td>
               </tr>
               <tr id="web-207">
                 <th scope="row"><a href="#web-207">WEB-207</a><br><span class="font-normal truncate">Define empty state for filtered customer stories</span></th>
                 <td><span class="badge secondary">Backlog</span></td>
-                <td><span class="badge outline secondary">Low</span></td>
+                <td><span class="badge outline">Low</span></td>
                 <td><span class="muted">Unassigned</span></td>
                 <td>1 pt</td><td><time datetime="2026-06-06">6 days ago</time></td>
               </tr>
               <tr id="web-198">
                 <th scope="row"><a href="#web-198">WEB-198</a><br><span class="font-normal truncate">Verify cookie preferences persist across subdomains</span></th>
                 <td><span class="badge destructive">Blocked</span></td>
-                <td><span class="badge warning">Urgent</span></td>
+                <td><span class="badge secondary">Urgent</span></td>
                 <td><span class="cluster"><span class="avatar small" role="img" aria-label="Priya Shah">PS</span><span>Priya Shah</span></span></td>
                 <td>3 pts</td><td><time datetime="2026-06-05">1 week ago</time></td>
               </tr>

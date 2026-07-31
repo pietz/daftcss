@@ -1,5 +1,24 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { discoverHtmlRoutes } from "./docs-routes.js";
+
+const coreBadgeSource = readFileSync("src/components/badge.css", "utf8");
+const coreButtonSource = readFileSync("src/components/button.css", "utf8");
+const coreDocumentSource = readFileSync("src/base/document.css", "utf8");
+const coreResetSource = readFileSync("src/base/reset.css", "utf8");
+const coreRootSource = readFileSync("src/base/root.css", "utf8");
+const coreVariablesSource = readFileSync("src/base/variables.css", "utf8");
+
+async function loadCoreBadgeSource(page) {
+  await page.setContent("<!doctype html><html><head></head><body></body></html>");
+  await page.addStyleTag({ content: `
+    @layer tokens, reset, base, components;
+    @layer tokens { ${coreVariablesSource} }
+    @layer reset { ${coreResetSource} }
+    @layer base { ${coreRootSource} ${coreDocumentSource} }
+    @layer components { ${coreBadgeSource} ${coreButtonSource} }
+  ` });
+}
 
 test.beforeEach(async ({ context }) => {
   await context.route("**/*", async (route) => {
@@ -352,6 +371,350 @@ test("dropdown trigger and item SVGs share the icon token and centered flex comp
   expect(result.items.iconLink).toMatchObject({ alignItems: "center", display: "flex" });
   expect(result.items.iconLabel).toEqual(result.items.iconLink);
   expect(result.items.textLink).toEqual(result.items.iconLink);
+});
+
+test("button-only, vertical, and install groups retain segmented treatment", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="--border-width: 2px">
+        <div id="buttons" role="group" aria-label="View">
+          <button id="button-first" class="outline">First</button>
+          <button id="button-middle" class="outline">Middle</button>
+          <button id="button-last" class="outline">Last</button>
+        </div>
+        <div id="vertical" role="group" class="vertical" aria-label="Stacked view">
+          <button id="vertical-first" class="outline">First</button>
+          <button id="vertical-last" class="outline">Last</button>
+        </div>
+        <div id="install" role="group" aria-label="Install command">
+          <select aria-label="Package manager"><option>npm</option></select>
+          <code id="install-code">install daftcss</code>
+          <button>Copy</button>
+        </div>
+      </main>`;
+
+    const style = (id) => getComputedStyle(document.getElementById(id));
+    const rect = (id) => document.getElementById(id).getBoundingClientRect();
+    const first = style("button-first");
+    const middle = style("button-middle");
+    const last = style("button-last");
+    const verticalFirst = style("vertical-first");
+    const verticalLast = style("vertical-last");
+    const installCode = style("install-code");
+
+    return {
+      buttons: {
+        borderWidth: style("buttons").borderTopWidth,
+        firstRightRadius: first.borderTopRightRadius,
+        firstLeftRadius: first.borderTopLeftRadius,
+        lastLeftRadius: last.borderTopLeftRadius,
+        lastRightRadius: last.borderTopRightRadius,
+        middleMargin: middle.marginLeft,
+        middleRadius: middle.borderRadius,
+        overlap: rect("button-first").right - rect("button-middle").left,
+      },
+      install: {
+        codeBackground: installCode.backgroundColor,
+        codeBorder: installCode.borderTopWidth,
+        wrapperBorder: style("install").borderTopWidth,
+      },
+      vertical: {
+        direction: style("vertical").flexDirection,
+        firstBottomRadius: verticalFirst.borderBottomLeftRadius,
+        lastTopRadius: verticalLast.borderTopLeftRadius,
+        marginTop: verticalLast.marginTop,
+      },
+    };
+  });
+
+  expect(result.buttons).toMatchObject({
+    borderWidth: "0px",
+    firstRightRadius: "0px",
+    lastLeftRadius: "0px",
+    middleMargin: "-2px",
+    middleRadius: "0px",
+    overlap: 2,
+  });
+  expect(result.buttons.firstLeftRadius).not.toBe("0px");
+  expect(result.buttons.lastRightRadius).not.toBe("0px");
+  expect(result.vertical).toMatchObject({
+    direction: "column",
+    firstBottomRadius: "0px",
+    lastTopRadius: "0px",
+    marginTop: "-2px",
+  });
+  expect(result.install.wrapperBorder).toBe("0px");
+  expect(result.install.codeBorder).toBe("2px");
+  expect(result.install.codeBackground).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+test("text-like role groups and search landmarks become unified field shells", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <main style="--input: rgb(10 20 30); --input-background: rgb(240 241 242); --muted-foreground: rgb(90 91 92)">
+        <div id="icon-shell" role="group"><svg id="leading-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="icon-input" aria-label="Icon field"></div>
+        <div id="prefix-shell" role="group"><span id="prefix">https://</span><input id="prefix-input" type="text" aria-label="Domain"></div>
+        <div id="action-shell" role="group"><input id="action-input" type="email" aria-label="Action field"><button id="action-button" type="button">Apply</button></div>
+        <div id="full-shell" role="group" class="full-width"><svg id="full-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg><input id="full-input" aria-label="Full field"><button id="full-button" class="ghost icon" type="button" aria-label="Clear"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12"/></svg></button></div>
+        <form id="search-shell" role="search" style="width: 300px"><input id="search-input" type="search" aria-label="Search"><button type="submit">Search</button></form>
+        <div id="small-shell" role="group" class="small"><span>USD</span><input aria-label="Small amount"></div>
+        <div id="large-shell" role="group" class="large"><span>USD</span><input aria-label="Large amount"></div>
+        <section id="narrow" style="width: 160px"><div id="narrow-shell" role="group" class="full-width"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="narrow-input" aria-label="Narrow field"><button type="button">Go</button></div></section>
+      </main>`;
+
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return {
+        background: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        borderWidth: style.borderTopWidth,
+        boxShadow: style.boxShadow,
+        flexGrow: style.flexGrow,
+        flexShrink: style.flexShrink,
+        height: box.height,
+        minWidth: style.minWidth,
+        pointerEvents: style.pointerEvents,
+        width: box.width,
+      };
+    };
+    const shellBox = document.getElementById("full-shell").getBoundingClientRect();
+    const buttonBox = document.getElementById("full-button").getBoundingClientRect();
+    const narrowBox = document.getElementById("narrow").getBoundingClientRect();
+    const narrowShellBox = document.getElementById("narrow-shell").getBoundingClientRect();
+
+    return {
+      actionButton: read("action-button"),
+      full: {
+        buttonBottom: buttonBox.bottom,
+        buttonHeight: buttonBox.height,
+        buttonTop: buttonBox.top,
+        buttonWidth: buttonBox.width,
+        shellBottom: shellBox.bottom,
+        shellHeight: shellBox.height,
+        shellTop: shellBox.top,
+        shellWidth: shellBox.width,
+      },
+      icon: read("leading-icon"),
+      inputs: ["icon-input", "prefix-input", "action-input", "full-input", "search-input", "narrow-input"].map(read),
+      narrow: {
+        containerRight: narrowBox.right,
+        inputWidth: document.getElementById("narrow-input").getBoundingClientRect().width,
+        shellRight: narrowShellBox.right,
+        shellScrollWidth: document.getElementById("narrow-shell").scrollWidth,
+        shellWidth: narrowShellBox.width,
+      },
+      prefix: { ...read("prefix"), color: getComputedStyle(document.getElementById("prefix")).color },
+      search: read("search-shell"),
+      shells: ["icon-shell", "prefix-shell", "action-shell", "full-shell", "narrow-shell"].map(read),
+      sizes: { large: read("large-shell").height, small: read("small-shell").height },
+    };
+  });
+
+  for (const shell of result.shells) {
+    expect(shell).toMatchObject({
+      background: "rgb(240, 241, 242)",
+      borderWidth: "1px",
+    });
+    expect(shell.borderRadius).not.toBe("0px");
+  }
+  for (const input of result.inputs) {
+    expect(input).toMatchObject({
+      background: "rgba(0, 0, 0, 0)",
+      borderRadius: "0px",
+      borderWidth: "0px",
+      boxShadow: "none",
+      flexGrow: "1",
+      minWidth: "0px",
+    });
+  }
+  expect(result.icon).toMatchObject({
+    flexGrow: "0",
+    flexShrink: "0",
+    height: 16,
+    pointerEvents: "none",
+    width: 16,
+  });
+  expect(result.prefix).toMatchObject({
+    background: "rgba(0, 0, 0, 0)",
+    borderWidth: "0px",
+    color: "rgb(90, 91, 92)",
+    flexGrow: "0",
+    flexShrink: "0",
+  });
+  expect(result.actionButton.borderWidth).toBe("0px");
+  expect(result.actionButton.flexGrow).toBe("0");
+  expect(result.actionButton.height).toBe(22);
+  expect(result.full.shellWidth).toBe(1280);
+  expect(result.full.buttonHeight).toBeLessThan(result.full.shellHeight);
+  expect(result.actionButton.width).not.toBe(result.actionButton.height);
+  expect(result.full.buttonHeight).toBe(26);
+  expect(result.full.buttonWidth).toBe(result.full.buttonHeight);
+  expect(result.full.buttonTop).toBeGreaterThan(result.full.shellTop);
+  expect(result.full.buttonBottom).toBeLessThan(result.full.shellBottom);
+  expect(result.search.borderRadius).toBe("9999px");
+  expect(result.search.width).toBe(300);
+  expect(result.sizes).toEqual({ large: 36, small: 28 });
+  expect(result.narrow.shellWidth).toBe(160);
+  expect(result.narrow.shellRight).toBeLessThanOrEqual(result.narrow.containerRight);
+  expect(result.narrow.shellScrollWidth).toBeLessThanOrEqual(result.narrow.shellWidth);
+  expect(result.narrow.inputWidth).toBeGreaterThan(0);
+});
+
+test("field shells expose wrapper focus, action, validation, and inactive states", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <main style="--input: rgb(10 20 30); --input-background: rgb(240 241 242); --ring: rgb(11 22 33); --focus-ring: 0 0 0 3px rgb(11 22 33); --focus-ring-destructive: 0 0 0 3px rgb(201 31 41); --primary: rgb(21 121 71); --destructive: rgb(201 31 41); --muted: rgb(220 221 222); --muted-foreground: rgb(90 91 92); --foreground: rgb(15 16 17)">
+        <div id="focus-shell" role="group"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="focus-input" aria-label="Focusable field"><button id="focus-button" type="button">Apply</button></div>
+        <div id="invalid-shell" role="group"><input id="invalid-input" aria-label="Validated field" aria-invalid="true"></div>
+        <div id="disabled-shell" role="group"><input id="disabled-input" aria-label="Disabled field" disabled value="Disabled"><button id="disabled-action" type="button">Enabled action</button></div>
+        <div id="readonly-shell" role="group"><span>Key</span><input id="readonly-input" aria-label="Read-only field" readonly value="Readable"></div>
+      </main>`;
+  });
+
+  const focusShell = page.locator("#focus-shell");
+  const focusInput = page.locator("#focus-input");
+  const focusButton = page.locator("#focus-button");
+  const buttonBackground = await focusButton.evaluate((element) => getComputedStyle(element).backgroundColor);
+  await focusButton.hover();
+  await expect.poll(() => focusButton.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe(buttonBackground);
+
+  await focusInput.focus();
+  await expect(focusShell).toHaveCSS("border-top-color", "rgb(11, 22, 33)");
+  expect(await focusShell.evaluate((element) => getComputedStyle(element).boxShadow)).toContain("11, 22, 33");
+  await expect(focusInput).toHaveCSS("border-top-width", "0px");
+  await expect(focusInput).toHaveCSS("box-shadow", "none");
+
+  await page.keyboard.press("Tab");
+  await focusButton.focus();
+  await expect(focusButton).toBeFocused();
+  expect(await focusButton.evaluate((element) => element.matches(":focus-visible"))).toBe(true);
+  await expect(focusButton).toHaveCSS("outline-width", "3px");
+  expect(await focusShell.evaluate((element) => getComputedStyle(element).boxShadow)).toContain("11, 22, 33");
+
+  const invalid = await page.locator("#invalid-shell").evaluate((element) => {
+    const input = element.querySelector("input");
+    const shellStyle = getComputedStyle(element);
+    const inputStyle = getComputedStyle(input);
+    return {
+      inputBorder: inputStyle.borderTopWidth,
+      inputShadow: inputStyle.boxShadow,
+      shellBorder: shellStyle.borderTopColor,
+      shellShadow: shellStyle.boxShadow,
+    };
+  });
+  expect(invalid).toMatchObject({
+    inputBorder: "0px",
+    inputShadow: "none",
+    shellBorder: "rgb(201, 31, 41)",
+  });
+  expect(invalid.shellShadow).not.toBe("none");
+
+  await page.locator("#invalid-input").evaluate((element) => element.setAttribute("aria-invalid", "false"));
+  await expect(page.locator("#invalid-shell")).toHaveCSS("border-top-color", "rgb(21, 121, 71)");
+  await expect(page.locator("#invalid-shell")).toHaveCSS("box-shadow", "none");
+
+  const inactive = await page.evaluate(() => {
+    const read = (shellId, inputId) => {
+      const shell = getComputedStyle(document.getElementById(shellId));
+      const input = getComputedStyle(document.getElementById(inputId));
+      return {
+        inputBackground: input.backgroundColor,
+        inputColor: input.color,
+        inputOpacity: input.opacity,
+        shellBackground: shell.backgroundColor,
+        shellOpacity: shell.opacity,
+      };
+    };
+    return {
+      disabled: {
+        ...read("disabled-shell", "disabled-input"),
+        actionOpacity: getComputedStyle(document.getElementById("disabled-action")).opacity,
+      },
+      readonly: read("readonly-shell", "readonly-input"),
+    };
+  });
+  expect(inactive.disabled).toEqual({
+    actionOpacity: "1",
+    inputBackground: "rgba(0, 0, 0, 0)",
+    inputColor: "rgb(15, 16, 17)",
+    inputOpacity: "0.5",
+    shellBackground: "rgb(220, 221, 222)",
+    shellOpacity: "1",
+  });
+  expect(inactive.readonly).toEqual({
+    inputBackground: "rgba(0, 0, 0, 0)",
+    inputColor: "rgb(15, 16, 17)",
+    inputOpacity: "1",
+    shellBackground: "rgb(220, 221, 222)",
+    shellOpacity: "1",
+  });
+});
+
+test("incompatible controls and complex group structures do not trigger field-shell mode", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    const excludedTypes = [
+      "hidden", "checkbox", "radio", "range", "file", "color", "date", "datetime-local",
+      "month", "week", "time", "number", "submit", "reset", "button", "image",
+    ];
+    document.body.innerHTML = `
+      <main>
+        <div id="text-shell" role="group"><input aria-label="Text control"></div>
+        <form id="valid-search" role="search"><input type="text" aria-label="Search"><button type="submit">Search</button></form>
+        ${excludedTypes.map((type) => `<div id="excluded-${type}" role="group"><input aria-label="${type} control" type="${type}"${type === "image" ? " width=24 height=16" : ""}></div>`).join("")}
+        <div id="excluded-textarea" role="group"><textarea aria-label="Multiline control"></textarea></div>
+        <div id="excluded-select" role="group"><input aria-label="Text with select"><select aria-label="Choice"><option>A</option></select></div>
+        <div id="excluded-label" role="group"><label for="labeled">Label</label><input id="labeled"></div>
+        <div id="excluded-legend" role="group"><legend>Legend</legend><input aria-label="Legend field"></div>
+        <div id="excluded-fieldset-child" role="group"><fieldset><input aria-label="Nested fieldset input"></fieldset><input aria-label="Outer input"></div>
+        <fieldset id="excluded-fieldset-wrapper" role="group"><input aria-label="Fieldset group input"></fieldset>
+        <div id="excluded-nested-group" role="group"><span role="group">Addon</span><input aria-label="Nested group field"></div>
+        <div id="excluded-multiple-inputs" role="group"><input aria-label="First field"><input aria-label="Second field"></div>
+        <div id="excluded-multiple-actions" role="group"><input aria-label="Action field"><button>One</button><button>Two</button></div>
+        <div id="excluded-native-action" role="group"><input aria-label="Native action field"><input type="submit" value="Submit"></div>
+        <div id="excluded-helper" role="group"><input aria-label="Field with helper"><small>Helper text</small></div>
+        <div id="excluded-paragraph" role="group"><input aria-label="Field with paragraph"><p>Unexpected child</p></div>
+        <div id="excluded-search-div" role="search"><input type="search" aria-label="Invalid search container"></div>
+        <form id="excluded-search-email" role="search"><input type="email" aria-label="Email search"></form>
+        <div id="excluded-shadcn" data-slot="input-group" role="group"><div role="group" data-slot="input-group-addon">Addon</div><input data-slot="input-group-control" aria-label="Generated shadcn field"></div>
+      </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { id, background: style.backgroundColor, borderWidth: style.borderTopWidth, height: style.height };
+    };
+    const structuralIds = [
+      "excluded-textarea", "excluded-select", "excluded-label", "excluded-legend",
+      "excluded-fieldset-child", "excluded-fieldset-wrapper", "excluded-nested-group",
+      "excluded-multiple-inputs", "excluded-multiple-actions", "excluded-native-action",
+      "excluded-helper", "excluded-paragraph", "excluded-search-div",
+      "excluded-search-email", "excluded-shadcn",
+    ];
+    return {
+      excluded: [
+        ...excludedTypes.map((type) => read(`excluded-${type}`)),
+        ...structuralIds.map(read),
+      ],
+      search: read("valid-search"),
+      text: read("text-shell"),
+    };
+  });
+
+  expect(result.text).toMatchObject({ borderWidth: "1px", height: "32px" });
+  expect(result.search).toMatchObject({ borderWidth: "1px", height: "32px" });
+  for (const wrapper of result.excluded) {
+    expect(wrapper.borderWidth, wrapper.id).toBe("0px");
+    expect(wrapper.background, wrapper.id).toBe("rgba(0, 0, 0, 0)");
+  }
 });
 
 test("image submit controls retain their intrinsic control dimensions", async ({ page }) => {
@@ -2143,86 +2506,187 @@ test('role="list" opts out of marker and indent styling', async ({ page }) => {
   expect(parseFloat(lists.prose.padding)).toBeGreaterThan(0);
 });
 
-test("outline status badges meet AA contrast on light surfaces", async ({ page }) => {
-  await page.goto("/components/");
+test("badges use the canonical fixed geometry and overridable pill radius", async ({ page }) => {
+  await loadCoreBadgeSource(page);
 
-  const ratios = await page.evaluate(() => {
-    document.documentElement.dataset.theme = "light";
+  const geometry = await page.evaluate(() => {
     document.body.innerHTML = `
-      <main class="container">
-        <article><article id="surface">
-          <span class="badge outline destructive" id="destructive">Failed</span>
-          <span class="badge outline success" id="success">Paid</span>
-          <span class="badge outline warning" id="warning">Pending</span>
-          <span class="badge outline" id="primary">Draft</span>
-        </article></article>
-      </main>`;
-
-    const toRgb = (color) => {
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = 1;
-      const context = canvas.getContext("2d");
-      context.fillStyle = "#000";
-      context.fillRect(0, 0, 1, 1);
-      context.fillStyle = color;
-      context.fillRect(0, 0, 1, 1);
-      return context.getImageData(0, 0, 1, 1).data;
-    };
-    const luminance = (rgb) => {
-      const channel = (value) => {
-        const ratio = value / 255;
-        return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-      };
-      return 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
-    };
-    const contrast = (foreground, background) => {
-      const first = luminance(toRgb(foreground));
-      const second = luminance(toRgb(background));
-      const lighter = Math.max(first, second);
-      const darker = Math.min(first, second);
-      return (lighter + 0.05) / (darker + 0.05);
-    };
-
-    const surface = getComputedStyle(document.getElementById("surface")).backgroundColor;
-    const measure = (id) => contrast(getComputedStyle(document.getElementById(id)).color, surface);
+      <span class="badge" id="badge">
+        <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>
+        12,345
+      </span>
+      <span class="badge" id="custom-radius" style="--badge-radius: 7px">Custom</span>`;
+    const badge = document.getElementById("badge");
+    const badgeStyle = getComputedStyle(badge);
+    const icon = document.getElementById("icon");
+    const iconStyle = getComputedStyle(icon);
     return {
-      destructive: measure("destructive"),
-      primary: measure("primary"),
-      success: measure("success"),
-      warning: measure("warning"),
+      badge: {
+        borderColor: badgeStyle.borderTopColor,
+        borderRadius: badgeStyle.borderTopLeftRadius,
+        borderWidth: badgeStyle.borderTopWidth,
+        boxSizing: badgeStyle.boxSizing,
+        fontSize: badgeStyle.fontSize,
+        fontVariantNumeric: badgeStyle.fontVariantNumeric,
+        fontWeight: badgeStyle.fontWeight,
+        gap: badgeStyle.gap,
+        height: badge.getBoundingClientRect().height,
+        lineHeight: badgeStyle.lineHeight,
+        paddingLeft: badgeStyle.paddingLeft,
+        paddingRight: badgeStyle.paddingRight,
+        whiteSpace: badgeStyle.whiteSpace,
+      },
+      customRadius: getComputedStyle(document.getElementById("custom-radius")).borderTopLeftRadius,
+      icon: {
+        flexShrink: iconStyle.flexShrink,
+        height: icon.getBoundingClientRect().height,
+        width: icon.getBoundingClientRect().width,
+      },
     };
   });
 
-  // Badge text is --text-xs, so WCAG AA normal-text applies.
-  for (const [variant, ratio] of Object.entries(ratios)) {
-    expect(ratio, `${variant} outline badge contrast`).toBeGreaterThanOrEqual(4.5);
+  expect(geometry.badge).toEqual({
+    borderColor: "rgba(0, 0, 0, 0)",
+    borderRadius: "9999px",
+    borderWidth: "1px",
+    boxSizing: "border-box",
+    fontSize: "12px",
+    fontVariantNumeric: "tabular-nums",
+    fontWeight: "500",
+    gap: "4px",
+    height: 20,
+    lineHeight: "12px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
+    whiteSpace: "nowrap",
+  });
+  expect(geometry.icon).toEqual({ flexShrink: "0", height: 12, width: 12 });
+  expect(geometry.customRadius).toBe("7px");
+});
+
+test("badge variants share each button static color recipe in light and dark themes", async ({ page }) => {
+  await loadCoreBadgeSource(page);
+
+  const stylesByTheme = await page.evaluate(() => {
+    const themes = ["light", "dark"];
+    const variants = ["primary", "secondary", "outline", "ghost", "destructive"];
+    document.body.innerHTML = themes.map((theme) => `
+      <section data-theme="${theme}">
+        ${variants.map((variant) => {
+          const className = variant === "primary" ? "" : ` class="${variant}"`;
+          return `<span class="badge${variant === "primary" ? "" : ` ${variant}`}" id="badge-${theme}-${variant}">${variant}</span>
+            <button type="button"${className} id="button-${theme}-${variant}">${variant}</button>`;
+        }).join("")}
+      </section>`).join("");
+
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        background: style.backgroundColor,
+        borderColor: style.borderTopColor,
+        borderStyle: style.borderTopStyle,
+        borderWidth: style.borderTopWidth,
+        color: style.color,
+      };
+    };
+
+    return Object.fromEntries(themes.map((theme) => [theme, Object.fromEntries(variants.map((variant) => [
+      variant,
+      { badge: read(`badge-${theme}-${variant}`), button: read(`button-${theme}-${variant}`) },
+    ]))]));
+  });
+
+  for (const [theme, variants] of Object.entries(stylesByTheme)) {
+    for (const [variant, styles] of Object.entries(variants)) {
+      expect(styles.badge, `${theme} ${variant} badge recipe`).toEqual(styles.button);
+    }
   }
 });
 
-test("a solid secondary badge stays visible on muted surfaces", async ({ page }) => {
-  await page.goto("/components/");
+test("deprecated badge classes map safely onto the canonical API", async ({ page }) => {
+  await loadCoreBadgeSource(page);
 
-  const badge = await page.evaluate(() => {
-    document.documentElement.dataset.theme = "light";
+  const styles = await page.evaluate(() => {
     document.body.innerHTML = `
-      <main class="container">
-        <article><article id="surface">
-          <span class="badge secondary" id="badge">Bug</span>
-        </article></article>
+      <main style="--success: rgb(1 101 1); --warning: rgb(202 102 2)">
+        <span class="badge" id="default">Default</span>
+        <span class="badge outline" id="outline">Outline</span>
+        <span class="badge secondary" id="secondary">Secondary</span>
+        <span class="badge success" id="success">Success</span>
+        <span class="badge warning" id="warning">Warning</span>
+        <span class="badge small" id="small">Small</span>
+        <span class="badge large" id="large">Large</span>
+        <span class="badge link" id="link">Link</span>
       </main>`;
-    const style = getComputedStyle(document.getElementById("badge"));
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return {
+        background: style.backgroundColor,
+        borderColor: style.borderTopColor,
+        color: style.color,
+        fontSize: style.fontSize,
+        height: element.getBoundingClientRect().height,
+        paddingLeft: style.paddingLeft,
+        paddingRight: style.paddingRight,
+        textDecoration: style.textDecorationLine,
+      };
+    };
+    return Object.fromEntries(["default", "outline", "secondary", "success", "warning", "small", "large", "link"].map((id) => [id, read(id)]));
+  });
+
+  expect(styles.success).toEqual(styles.outline);
+  expect(styles.warning).toEqual(styles.secondary);
+  for (const variant of ["small", "large", "link"]) {
+    expect(styles[variant], `.badge.${variant}`).toEqual(styles.default);
+  }
+});
+
+test("presentational badge spans do not inherit button interaction or shadow behavior", async ({ page }) => {
+  await loadCoreBadgeSource(page);
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="--button-shadow: 0 0 0 2px rgb(12 34 56)">
+        <span class="badge" id="badge">Presentational</span>
+        <button id="button" type="button">Interactive</button>
+      </main>`;
+  });
+
+  const readBadge = () => page.locator("#badge").evaluate((element) => {
+    const style = getComputedStyle(element);
     return {
       background: style.backgroundColor,
       borderColor: style.borderTopColor,
-      borderWidth: parseFloat(style.borderTopWidth),
-      surface: getComputedStyle(document.getElementById("surface")).backgroundColor,
+      boxShadow: style.boxShadow,
+      color: style.color,
+      cursor: style.cursor,
+      outlineStyle: style.outlineStyle,
+      tabIndex: element.tabIndex,
+      transitionDuration: style.transitionDuration,
+      userSelect: style.userSelect || style.webkitUserSelect,
     };
   });
 
-  // The fill deliberately matches --muted, so the stroke is what delineates it.
-  expect(badge.background).toBe(badge.surface);
-  expect(badge.borderWidth).toBeGreaterThan(0);
-  expect(badge.borderColor).not.toBe(badge.surface);
+  const before = await readBadge();
+  await page.locator("#badge").hover();
+  const hovered = await readBadge();
+  expect(hovered).toEqual(before);
+  expect(before).toMatchObject({
+    boxShadow: "none",
+    cursor: "auto",
+    outlineStyle: "none",
+    tabIndex: -1,
+    transitionDuration: "0s",
+  });
+  expect(before.userSelect).not.toBe("none");
+
+  expect(await page.locator("#button").evaluate((element) => getComputedStyle(element).boxShadow)).not.toBe("none");
+  const focus = await page.locator("#badge").evaluate((element) => {
+    element.focus();
+    return { activeId: document.activeElement.id, buttonTabIndex: document.getElementById("button").tabIndex };
+  });
+  expect(focus.activeId).not.toBe("badge");
+  expect(focus.buttonTabIndex).toBe(0);
 });
 
 test(".grow lets a truncating cell shrink instead of forcing a cluster to wrap", async ({ page }) => {

@@ -13,8 +13,8 @@ Use native `<table>` markup for data whose rows and columns need to be read in r
     <tr><th scope="col">Project</th><th scope="col">Status</th></tr>
   </thead>
   <tbody>
-    <tr><td>Daft CSS</td><td><span class="badge success">Active</span></td></tr>
-    <tr><td>Website</td><td><span class="badge warning">Pending</span></td></tr>
+    <tr><td>Daft CSS</td><td><span class="badge outline">Active</span></td></tr>
+    <tr><td>Website</td><td><span class="badge secondary">Pending</span></td></tr>
   </tbody>
 </table>
 ```

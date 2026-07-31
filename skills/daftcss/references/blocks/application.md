@@ -126,7 +126,7 @@ Use for small metric summaries.
 Rules:
 - Use `.grid`.
 - Use one `<article>` per metric.
-- Use `.badge.success`, `.badge.warning`, or `.badge.outline` for status.
+- Use `.badge.outline` for neutral status, `.badge.secondary` for pending or low-emphasis state, and `.badge.destructive` for failure.
 
 Skeleton:
 ```html
@@ -134,7 +134,7 @@ Skeleton:
   <article>
     <small class="muted">Revenue</small>
     <p class="text-4xl m-0"><strong>$42.8k</strong></p>
-    <span class="badge success">+12%</span>
+    <span class="badge outline">+12%</span>
   </article>
   <article>...</article>
   <article>...</article>

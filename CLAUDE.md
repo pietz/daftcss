@@ -80,7 +80,7 @@ Theme switching uses `light-dark()` function with `color-scheme` property. Overr
 
 Daft uses two naming styles for sizes, mapped to two different shapes of API:
 
-- **Component variants → full words.** When a component has a binary "is this bigger or smaller than default" toggle, use `.small` and `.large` (bare class = default). Examples: `.button.small`, `.badge.large`, `.avatar.small`. Reads naturally in HTML.
+- **Component variants → full words.** When a component has a binary "is this bigger or smaller than default" toggle, use `.small` and `.large` (bare class = default). Examples: `.button.small` and `.avatar.large`. Reads naturally in HTML.
 - **Utility & token scales → abbreviations.** When sizing expresses a multi-step t-shirt scale, use `-xs`, `-sm`, bare (= default), `-lg`, `-xl`, `-2xl`, …. Examples: `.text-sm`, `.rounded-lg`, `.shadow`, `--spacing-xs`. Words don't scale (`.text-extra-small` is unreadable).
 
 When adding a new component or utility, pick the side based on shape, not aesthetic preference.

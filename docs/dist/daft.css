@@ -76,7 +76,7 @@
     --modal-radius: var(--radius-lg);
     --dropdown-radius: var(--radius-md);
     --tooltip-radius: var(--radius-md);
-    --badge-radius: var(--radius-md);
+    --badge-radius: var(--radius-full);
     --progress-radius: var(--radius-full);
     --button-shadow: none;
     --card-shadow: var(--shadow-xs);
@@ -1247,6 +1247,27 @@
 }
 
 @layer components {
+  .badge {
+    align-items: center;
+    gap: var(--spacing-xs);
+    height: 1.25rem;
+    padding: 0 var(--spacing-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    border: var(--border-width) solid transparent;
+    border-radius: var(--badge-radius);
+    line-height: 1;
+    display: inline-flex;
+
+    & > svg {
+      flex-shrink: 0;
+      width: .75rem;
+      height: .75rem;
+    }
+  }
+
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary) {
     justify-content: center;
     align-items: center;
@@ -1265,8 +1286,6 @@
     border: var(--border-width) solid transparent;
     border-radius: var(--button-radius);
     transition: color var(--transition-default), background-color var(--transition-default), border-color var(--transition-default), box-shadow var(--transition-default);
-    color: var(--primary-foreground);
-    background-color: var(--primary);
     box-shadow: var(--button-shadow);
     text-decoration: none;
     display: inline-flex;
@@ -1296,14 +1315,38 @@
     }
   }
 
+  :is(.badge, button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary) {
+    color: var(--primary-foreground);
+    background-color: var(--primary);
+    border-color: #0000;
+
+    &:is(.secondary, [type="reset"]), &.badge.warning:not(.outline) {
+      color: var(--secondary-foreground);
+      background-color: var(--secondary);
+    }
+
+    &.destructive {
+      color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
+      background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
+    }
+
+    &.outline, &.badge.success {
+      color: var(--foreground);
+      background-color: var(--background);
+      border-color: var(--border);
+    }
+
+    &.ghost {
+      color: var(--foreground);
+      background-color: #0000;
+    }
+  }
+
   a[role="button"], a.button {
     text-decoration: none;
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary):is(.secondary, [type="reset"]) {
-    color: var(--secondary-foreground);
-    background-color: var(--secondary);
-
     &:hover {
       background-color: color-mix(in oklch, var(--secondary) 80%, var(--secondary-foreground) 5%);
     }
@@ -1314,9 +1357,6 @@
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).destructive {
-    color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
-    background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
-
     &:hover {
       background-color: color-mix(in oklch, var(--destructive) 20%, transparent);
     }
@@ -1331,19 +1371,13 @@
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).outline {
-    color: var(--foreground);
-    background-color: var(--background);
-    border-color: var(--border);
-
     &:hover {
       background-color: var(--accent);
     }
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).ghost {
-    color: var(--foreground);
     box-shadow: none;
-    background-color: #0000;
 
     &:hover {
       background-color: var(--accent);
@@ -2463,65 +2497,136 @@
     padding: 0 var(--spacing-lg);
   }
 
-  .badge {
-    --badge-tint: var(--primary);
-    --badge-on-tint: var(--primary-foreground);
-    align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    border: var(--border-width) solid transparent;
-    border-radius: var(--badge-radius);
-    color: var(--badge-on-tint);
-    background-color: var(--badge-tint);
-    line-height: 1;
-    display: inline-flex;
-  }
+  :is([role="group"]:not(fieldset):not(.vertical):has( > :is(input:not([type]), input:is([type=""], [type="text" i], [type="search" i], [type="email" i], [type="url" i], [type="tel" i], [type="password" i]))), form[role="search"]:has( > :is(input:not([type]), input:is([type=""], [type="text" i], [type="search" i])))) {
+    &:not(:has( > input ~ input), :has( > :is([role="group"], [role="search"])), :has( > :not(:is(input:not([type]), input:is([type=""], [type="text" i], [type="search" i], [type="email" i], [type="url" i], [type="tel" i], [type="password" i]), svg, code, samp, kbd, span, output, button, [role="button"], a.button))), :has( > :is(button, [role="button"], a.button) ~ :is(button, [role="button"], a.button))) {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: var(--input-height);
+      border: var(--border-width) solid var(--input);
+      border-radius: var(--input-radius);
+      background-color: var(--input-background);
+      transition: border-color var(--transition-default), box-shadow var(--transition-default);
+      align-items: center;
+      display: flex;
 
-  .badge.secondary {
-    --badge-tint: var(--secondary);
-    --badge-on-tint: var(--secondary-foreground);
-  }
+      & > input {
+        width: auto;
+        min-width: 0;
+        height: 100%;
+        box-shadow: none;
+        opacity: 1;
+        background-color: #0000;
+        border: 0;
+        border-radius: 0;
+        flex: 1 1 0;
+        margin: 0;
+      }
 
-  .badge.secondary:not(.outline) {
-    border-color: var(--border);
-  }
+      & > :is(code, samp, kbd, span, output) {
+        width: auto;
+        height: 100%;
+        padding: 0 var(--spacing-md);
+        color: var(--muted-foreground);
+        font-family: inherit;
+        font-size: var(--text-base);
+        font-weight: var(--font-normal);
+        line-height: var(--line-height);
+        white-space: nowrap;
+        background-color: #0000;
+        border: 0;
+        border-radius: 0;
+        flex: none;
+        align-items: center;
+        margin: 0;
+        display: inline-flex;
+      }
 
-  .badge.destructive {
-    --badge-tint: var(--destructive);
-    --badge-on-tint: var(--destructive-foreground);
-  }
+      & > svg {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        margin: 0 var(--spacing-md);
+        color: var(--muted-foreground);
+        pointer-events: none;
+        flex: none;
+      }
 
-  .badge.success {
-    --badge-tint: var(--success);
-    --badge-on-tint: var(--success-foreground);
-  }
+      & > :is(svg, code, samp, kbd, span, output) + input {
+        padding-inline-start: 0;
+      }
 
-  .badge.warning {
-    --badge-tint: var(--warning);
-    --badge-on-tint: var(--warning-foreground);
-  }
+      & > input:has( + :is(svg, code, samp, kbd, span, output, button, [role="button"], a.button)) {
+        padding-inline-end: 0;
+      }
 
-  .badge.outline {
-    color: light-dark(oklch(from var(--badge-tint) min(l, .5) c h), var(--badge-tint));
-    border-color: var(--badge-tint);
-    background-color: #0000;
-  }
+      & > :is(button, [role="button"], a.button) {
+        width: auto;
+        height: calc(100% - 2 * var(--spacing-xs));
+        margin-block: var(--spacing-xs);
+        border-radius: calc(var(--input-radius)  - var(--spacing-xs));
+        border: 0;
+        flex: none;
+        margin-inline-start: calc(var(--spacing-xs)  + var(--border-width));
+        margin-inline-end: var(--spacing-xs);
+        padding-block: 0;
+        line-height: normal;
 
-  .badge.outline.secondary {
-    color: var(--foreground);
-    border-color: var(--border);
-  }
+        &.icon {
+          aspect-ratio: 1;
+          height: calc(100% - var(--spacing-xs));
+          margin: calc(var(--spacing-xs) / 2) var(--spacing-xs);
+          border-radius: var(--radius-sm);
+        }
+      }
 
-  .badge.small {
-    padding: 0 var(--spacing-xs);
-  }
+      &:focus-within {
+        border-color: var(--ring);
+        box-shadow: var(--focus-ring);
+      }
 
-  .badge.large {
-    padding: var(--spacing-sm) var(--spacing-md);
+      &:has( > input:read-only) {
+        background-color: var(--muted);
+      }
+
+      &:has( > input:is(:disabled, [aria-disabled="true"])) {
+        opacity: 1;
+        background-color: var(--muted);
+        border-color: var(--muted-foreground);
+      }
+
+      & > input:is(:disabled, [aria-disabled="true"]) {
+        opacity: var(--disabled-opacity);
+      }
+
+      &:has( > input[aria-invalid="true"]) {
+        border-color: var(--destructive);
+        box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--destructive) 20%, transparent);
+      }
+
+      &:has( > input[aria-invalid="true"]):focus-within {
+        box-shadow: var(--focus-ring-destructive);
+      }
+
+      &:has( > input[aria-invalid="false"]) {
+        border-color: var(--primary);
+      }
+
+      &[role="group"].small {
+        height: var(--input-height-sm);
+
+        & > :is(code, samp, kbd, span, output) {
+          padding-inline: var(--spacing-sm);
+        }
+      }
+
+      &[role="group"].large {
+        height: var(--input-height-lg);
+
+        & > :is(code, samp, kbd, span, output) {
+          padding-inline: var(--spacing-lg);
+        }
+      }
+    }
   }
 
   .avatar {

@@ -1,5 +1,5 @@
 /**
- * Daft CSS v1.20.1
+ * Daft CSS v1.21.0
  * A semantic-first, utility-second CSS framework
  * https://github.com/pietz/daftcss
  */
@@ -33,6 +33,7 @@
 @import "forms/validation.css" layer(forms);
 
 /* Components */
+@import "components/badge.css" layer(components);
 @import "components/button.css" layer(components);
 @import "components/table.css" layer(components);
 @import "components/card.css" layer(components);
@@ -44,7 +45,6 @@
 @import "components/loading.css" layer(components);
 @import "components/tooltip.css" layer(components);
 @import "components/group.css" layer(components);
-@import "components/badge.css" layer(components);
 @import "components/avatar.css" layer(components);
 @import "components/alert.css" layer(components);
 @import "components/sidebar.css" layer(components);

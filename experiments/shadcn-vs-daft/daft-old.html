@@ -73,11 +73,29 @@
             <small>Latest changes across all release environments.</small>
           </div>
           <div class="search-comparison">
-            <div class="comparison-label">
-              <label class="sr-only" for="daft-search">Search deployments</label>
-              <small>Closest available · standalone search input</small>
+            <div class="search-example">
+              <div class="comparison-label">
+                <label class="sr-only" id="daft-search-label" for="daft-search">Search deployments</label>
+                <small>Frozen search group · icon, input, and clear action</small>
+              </div>
+              <form role="search" aria-labelledby="daft-search-label">
+                <i data-lucide="search" aria-hidden="true"></i>
+                <input id="daft-search" type="search" placeholder="Search service, commit, or owner…" />
+                <button id="clear-daft-search" class="ghost icon" type="button" aria-label="Clear deployment search"><i data-lucide="x" aria-hidden="true"></i></button>
+              </form>
             </div>
-            <input id="daft-search" type="search" placeholder="Search service, commit, or owner…" />
+            <div class="search-example">
+              <div class="comparison-label">
+                <label class="sr-only" id="daft-release-label" for="daft-release">Open a release</label>
+                <small>Frozen standard group · input and submit button</small>
+              </div>
+              <form id="release-lookup-form">
+                <div role="group" aria-labelledby="daft-release-label">
+                  <input id="daft-release" type="text" placeholder="Release ID, for example rel-2025.06.18-3" />
+                  <button type="submit">Open</button>
+                </div>
+              </form>
+            </div>
           </div>
         </header>
 
@@ -132,7 +150,7 @@
 
           <fieldset>
             <legend>Environment</legend>
-            <div role="group" aria-label="Environment">
+            <div id="environment-group" role="group" aria-label="Environment">
               <button type="button" aria-pressed="true">Production</button>
               <button type="button" class="outline" aria-pressed="false">Preview</button>
             </div>

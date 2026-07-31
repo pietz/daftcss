@@ -22,13 +22,13 @@ Use native `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>`, `<fieldset>
 - Alternatively, connect separate elements with `for` and `id`; a required indicator is added when the label immediately precedes its required control.
 - Group related checkboxes or radios in `<fieldset>` with a `<legend>`. Give radios in one choice set the same `name`.
 - Give an unlabeled search field or other icon-only control an `aria-label`.
-- A non-search form makes non-icon buttons full width. Use `form role="search"` when the search field and submit button should form an inline, full-width group.
+- A non-search form makes non-icon buttons full width. A simple direct text/search input and submit action in `form role="search"` can form a full-width field shell; see [groups.md](groups.md).
 
 ## Variants and options
 
 - Text-like inputs, `<textarea>`, and `<select>` receive the standard input surface. Textarea is vertically resizable.
 - `.small` and `.large` work on text-like `<input>` and `<select>`, or on a containing `[role="group"]`.
-- `input[type="search"]` is pill-shaped; it makes a containing `[role="group"]` pill-shaped too.
+- `input[type="search"]` is pill-shaped. A simple eligible containing group can become a unified field shell; see [groups.md](groups.md) for its exact shape.
 - `input[type="file"]`, `color`, `date`, `datetime-local`, `month`, `time`, and `week` have type-specific styling.
 - `select[multiple]` grows to content and drops its chevron.
 - `input[type="checkbox"]`, radio, and `checkbox[role="switch"]` are styled natively. Set `role="switch"` on a checkbox, not a class.
@@ -61,7 +61,7 @@ Disabled controls and disabled fieldsets use reduced opacity. A label around a d
 
 ## Composition
 
-Use `[role="group"]` to join adjacent controls, with `.vertical` or `.full-width` when needed. Direct `code`, `samp`, `kbd`, `span`, or `output` children become muted non-editable addon segments.
+Use `[role="group"]` to join adjacent controls, with `.vertical` or `.full-width` when needed. Groups are segmented by default; only the narrow direct-child shape in [groups.md](groups.md) becomes a unified field shell. Keep labels and help text outside that shell.
 
 ### Button width inside forms
 
