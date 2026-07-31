@@ -32,10 +32,15 @@ body {
 
 img,
 picture,
-video,
-svg {
+video {
   display: block;
   max-width: 100%;
+}
+
+svg {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
 }
 
 input,

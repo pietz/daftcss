@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daft CSS 1.20.1 · Release Operations</title>
+    <link rel="stylesheet" href="/vendor/daft-old.css" />
+    <link rel="stylesheet" href="/src/daft-layout.css" />
+  </head>
+  <body>
+    <aside id="workspace-sidebar" class="sidebar scenario-sidebar" popover aria-label="Workspace navigation">
+      <div class="sidebar-brand">
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="square-terminal"></i></span>
+        <span><strong>Acme Cloud</strong><small class="text-xs">Release workspace</small></span>
+      </div>
+      <nav aria-label="Operations">
+        <ul>
+          <li class="label">Operations</li>
+          <li><a href="#" aria-current="page"><i data-lucide="layout-dashboard"></i>Overview</a></li>
+          <li><a href="#"><i data-lucide="rocket"></i>Deployments</a></li>
+          <li><a href="#"><i data-lucide="boxes"></i>Services</a></li>
+          <li><a href="#"><i data-lucide="cloud-cog"></i>Environments</a></li>
+          <li><a href="#"><i data-lucide="users"></i>Team access</a></li>
+        </ul>
+        <ul>
+          <li class="label">Workspace</li>
+          <li><a href="#"><i data-lucide="shield-check"></i>Audit log</a></li>
+          <li><a href="#"><i data-lucide="settings"></i>Settings</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="ghost account-row">
+        <span class="avatar small" role="img" aria-label="Maya Chen">MC</span>
+        <span><strong>Maya Chen</strong><small class="text-xs">Platform lead</small></span>
+        <i data-lucide="chevron-right" aria-hidden="true"></i>
+      </button>
+    </aside>
+
+    <header class="container-fluid app-header">
+      <button class="ghost icon sidebar-toggle" type="button" popovertarget="workspace-sidebar" aria-label="Open workspace navigation">
+        <i data-lucide="panel-left" aria-hidden="true"></i>
+      </button>
+      <nav aria-label="Breadcrumb">
+        <ul>
+          <li><a href="#">Acme Cloud</a></li>
+          <li>Release Operations</li>
+        </ul>
+      </nav>
+      <span class="badge outline hidden-mobile">Live</span>
+      <span class="avatar small hidden-desktop" role="img" aria-label="Maya Chen">MC</span>
+    </header>
+
+    <main class="container-fluid workspace-main stack">
+      <section class="page-heading">
+        <hgroup>
+          <p class="eyebrow">Production workspace</p>
+          <h1>Release Operations</h1>
+          <p>Monitor service health and coordinate production changes.</p>
+        </hgroup>
+        <button type="button" id="open-deployment-dialog"><i data-lucide="plus"></i>New deployment</button>
+      </section>
+
+      <div id="queued-status" role="status" hidden>
+        <strong>Deployment queued</strong>
+        <p>Checkout API will deploy to Production after verification.</p>
+      </div>
+
+      <section id="metric-grid" class="grid metrics" aria-label="Release metrics"></section>
+
+      <article class="deployments-card">
+        <header class="deployments-header">
+          <div>
+            <strong>Deployments</strong>
+            <small>Latest changes across all release environments.</small>
+          </div>
+          <div class="search-comparison">
+            <div class="comparison-label">
+              <label class="sr-only" for="daft-search">Search deployments</label>
+              <small>Closest available · standalone search input</small>
+            </div>
+            <input id="daft-search" type="search" placeholder="Search service, commit, or owner…" />
+          </div>
+        </header>
+
+        <div id="deployment-filters" role="group" aria-label="Filter deployments"></div>
+
+        <figure>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Service</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="wide-column">Commit</th>
+                <th scope="col" class="owner-column">Owner</th>
+                <th scope="col" class="duration-column">Duration</th>
+                <th scope="col" class="text-right">Deployed</th>
+                <th scope="col"><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="deployment-rows"></tbody>
+          </table>
+        </figure>
+      </article>
+
+      <article>
+        <header>
+          <hgroup>
+            <h2>Release health</h2>
+            <p>24 of 25 deploys completed without rollback.</p>
+          </hgroup>
+          <span class="badge outline success">96% healthy</span>
+        </header>
+        <progress class="success" value="96" max="100" aria-label="Release health: 96 percent">96%</progress>
+        <div class="health-facts">
+          <div><small>Window</small><strong>Last 24 hours</strong></div>
+          <div><small>Rollback budget</small><strong>1 remaining</strong></div>
+          <div><small>Next freeze</small><strong>Friday, 16:00 UTC</strong></div>
+        </div>
+      </article>
+    </main>
+
+    <dialog id="deployment-dialog" aria-labelledby="deployment-dialog-title">
+      <article>
+        <header>
+          <hgroup>
+            <h2 id="deployment-dialog-title">New deployment</h2>
+            <p>Promote a release to the selected environment.</p>
+          </hgroup>
+          <button type="button" aria-label="Close"><i data-lucide="x" aria-hidden="true"></i></button>
+        </header>
+        <form id="deployment-form" class="stack">
+          <label>Service<input name="service" value="Checkout API" /></label>
+
+          <fieldset>
+            <legend>Environment</legend>
+            <div role="group" aria-label="Environment">
+              <button type="button" aria-pressed="true">Production</button>
+              <button type="button" class="outline" aria-pressed="false">Preview</button>
+            </div>
+          </fieldset>
+
+          <div>
+            <div class="comparison-label">
+              <label for="daft-branch">Release target</label>
+              <small>Closest available · standalone input</small>
+            </div>
+            <input id="daft-branch" name="branch" value="acme/checkout · release/2025-06-18" />
+            <small>Repository and release branch</small>
+          </div>
+
+          <label>Release notes<textarea name="notes">Promote checkout resilience fixes after canary verification.</textarea></label>
+
+          <footer>
+            <button type="button" class="outline" id="cancel-deployment">Cancel</button>
+            <button type="submit">Queue deployment</button>
+          </footer>
+        </form>
+      </article>
+    </dialog>
+
+    <script type="module" src="/src/daft.ts"></script>
+  </body>
+</html>

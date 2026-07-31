@@ -2,6 +2,8 @@
  * Sidebar
  *
  * <aside class="sidebar"> is a body-level page/application sidebar.
+ * Its direct children are an optional <header>, a required <nav>, and an
+ * optional <footer>. Only the navigation region scrolls.
  *
  * Placement defines the desktop layout:
  *   - <aside.sidebar> before the top header/nav: full-height rail.
@@ -9,7 +11,7 @@
  *
  * Mobile: hidden by default. Add the popover attribute and a
  * <button class="sidebar-toggle" popovertarget="sidebar"> to open it as a
- * drawer.
+ * drawer. Add .drawer to use that overlay behavior at every width.
  */
 
 body {
@@ -17,19 +19,37 @@ body {
 }
 
 body > aside.sidebar {
-  background-color: var(--muted);
+  padding: 0;
   color: inherit;
+  background-color: var(--card);
   border: none;
-  padding: var(--spacing-lg);
+  border-inline-end: var(--border-width) solid var(--border);
+}
+
+body > aside.sidebar > :is(header, footer) {
+  padding: var(--spacing);
+}
+
+body > aside.sidebar > header {
+  border-bottom: var(--border-width) solid var(--border);
 }
 
 body > aside.sidebar > nav {
   display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
   justify-content: flex-start;
   gap: var(--spacing-sm);
+  overflow-y: auto;
+  padding-inline: var(--spacing);
+}
+
+body > aside.sidebar > footer {
+  margin-top: auto;
+  border-top: var(--border-width) solid var(--border);
 }
 
 body > aside.sidebar > nav > ul {
@@ -45,6 +65,7 @@ body > aside.sidebar > nav > ul {
 
 body > aside.sidebar > nav > ul > li {
   margin: 0;
+  padding: 0;
 }
 
 /* Section labels — works as a direct child of <nav> or as a <li> inside the list */
@@ -52,8 +73,9 @@ body > aside.sidebar > nav > .label,
 body > aside.sidebar > nav > ul > li.label,
 body > aside.sidebar > nav > ul > li > strong {
   display: block;
-  padding: var(--spacing-xs) 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
   margin-top: var(--spacing-sm);
+  font-size: var(--text-xs);
   margin-bottom: 0;
 }
 
@@ -68,6 +90,7 @@ body > aside.sidebar > nav > ul > li > a {
   align-items: center;
   gap: var(--spacing-sm);
   width: 100%;
+  margin: 0;
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -84,7 +107,7 @@ body > aside.sidebar > nav > ul > li > a {
 
 body > aside.sidebar > nav > ul > li > a:hover {
   /* A foreground overlay darkens light sidebars and lightens dark sidebars,
-     so hover remains visible when the sidebar itself uses --muted. */
+     so hover remains visible on the current sidebar surface. */
   background-color: color-mix(in oklch, var(--foreground) 6%, transparent);
   color: inherit;
   text-decoration: none;
@@ -97,79 +120,76 @@ body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"
   font-weight: var(--font-semibold);
 }
 
-@media (min-width: 768px) {
-  body > aside.sidebar {
-    display: block;
-    position: fixed;
-    inset: var(--sidebar-offset-top) auto 0 0;
-    width: var(--aside-width);
-    height: calc(100dvh - var(--sidebar-offset-top));
-    overflow-y: auto;
-    z-index: 10;
-  }
-
-  body > aside.sidebar ~ :is(header, nav, main, footer) {
-    margin-left: var(--aside-width);
-    width: auto;
-  }
-
-  body > :is(header, nav):first-child:has(+ aside.sidebar) + aside.sidebar {
-    --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
-  }
-
-  body > :is(header, nav).top-nav:first-child:has(+ aside.sidebar) + aside.sidebar {
-    --sidebar-offset-top: var(--top-nav-height);
-  }
-
-  body > :is(header, nav):first-child:has(+ aside.sidebar) ~ main,
-  body > :is(header, nav):first-child:has(+ aside.sidebar) ~ footer {
-    margin-left: var(--aside-width);
-    width: auto;
-  }
-}
-
 @media (max-width: 767.98px) {
   body > aside.sidebar {
     display: none;
   }
+}
 
-  body > aside.sidebar[popover]:popover-open {
-    display: block;
-    position: fixed;
-    inset: 0 auto 0 0;
-    width: min(var(--aside-width), 85vw);
-    height: 100dvh;
-    z-index: 100;
-    overflow-y: auto;
-    transform: translateX(0);
-    transition: transform var(--transition-slow) var(--ease-default),
-                overlay var(--transition-slow) var(--ease-default) allow-discrete,
-                display var(--transition-slow) var(--ease-default) allow-discrete;
-  }
+body > aside.sidebar:where([popover]:popover-open) {
+  display: flex;
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(var(--aside-width), 85vw);
+  height: 100dvh;
+  flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+  transform: translateX(0);
+  transition: transform var(--transition-slow) var(--ease-default),
+              overlay var(--transition-slow) var(--ease-default) allow-discrete,
+              display var(--transition-slow) var(--ease-default) allow-discrete;
+}
 
-  body > aside.sidebar[popover]::backdrop {
-    background-color: var(--modal-overlay);
-    backdrop-filter: blur(var(--blur));
-  }
+body > aside.sidebar[popover]::backdrop {
+  background-color: var(--modal-overlay);
+  backdrop-filter: blur(var(--blur));
+}
 
-  @starting-style {
-    body > aside.sidebar[popover]:popover-open {
-      transform: translateX(-100%);
-    }
+@starting-style {
+  body > aside.sidebar:where([popover]:popover-open) {
+    transform: translateX(-100%);
   }
 }
 
 @media (min-width: 768px) {
-  /* The base button rule is
-   * `:is(button, [type=submit], …, details.dropdown > summary)`, which scores
-   * (0,1,2) because `:is()` adopts the specificity of its most specific
-   * argument. A plain `.sidebar-toggle` is only (0,1,0), so `display:
-   * inline-flex` used to win and the toggle stayed visible on desktop unless it
-   * happened to sit in an `<li>` (where the `:has()` rule below hid the list
-   * item instead). The class is repeated to reach (0,2,0) so the toggle hides
-   * wherever it sits in the markup, without `!important`. */
+  body > aside.sidebar:not(.drawer) {
+    display: flex;
+    position: fixed;
+    inset: var(--sidebar-offset-top) auto 0 0;
+    width: var(--aside-width);
+    height: calc(100dvh - var(--sidebar-offset-top));
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  body > aside.sidebar:not(.drawer) ~ :is(header, nav, main, footer) {
+    margin-left: var(--aside-width);
+    width: auto;
+  }
+
+  body > :is(header, nav):first-child:has(+ aside.sidebar:not(.drawer)) + aside.sidebar:not(.drawer) {
+    --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
+  }
+
+  body > :is(header, nav).top-nav:first-child:has(+ aside.sidebar:not(.drawer)) + aside.sidebar:not(.drawer) {
+    --sidebar-offset-top: var(--top-nav-height);
+  }
+
+  body > :is(header, nav):first-child:has(+ aside.sidebar:not(.drawer)) ~ main,
+  body > :is(header, nav):first-child:has(+ aside.sidebar:not(.drawer)) ~ footer {
+    margin-left: var(--aside-width);
+    width: auto;
+  }
+
   .sidebar-toggle.sidebar-toggle,
-  li:has(> .sidebar-toggle) {
+  body:not(:has(> aside.sidebar.drawer)) li:has(> .sidebar-toggle) {
     display: none;
+  }
+
+  /* The list item remains in its native layout when a drawer needs its toggle. */
+  body:has(> aside.sidebar.drawer) .sidebar-toggle.sidebar-toggle {
+    display: inline-flex;
   }
 }

@@ -17,7 +17,7 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 <button type="button" popovertarget="help-dialog">Open help</button>
 
 <dialog id="help-dialog" popover aria-labelledby="help-title">
-  <article>
+  <header>
     <button aria-label="Close" popovertarget="help-dialog"
             popovertargetaction="hide">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -28,9 +28,9 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
         <path d="m6 6 12 12"/>
       </svg>
     </button>
-    <header><strong id="help-title">Help</strong></header>
-    <p>Supporting information.</p>
-  </article>
+    <strong id="help-title">Help</strong>
+  </header>
+  <p>Supporting information.</p>
 </dialog>
 ```
 
@@ -42,25 +42,23 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 </button>
 
 <dialog id="confirm-dialog" aria-labelledby="confirm-title">
-  <article>
-    <header>
-      <button aria-label="Close" onclick="this.closest('dialog').close()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <path d="M18 6 6 18"/>
-          <path d="m6 6 12 12"/>
-        </svg>
-      </button>
-      <h2 id="confirm-title">Delete account?</h2>
-    </header>
-    <p>This action cannot be undone.</p>
-    <footer>
-      <button class="secondary" type="button" onclick="this.closest('dialog').close()">Cancel</button>
-      <button class="destructive" type="button">Delete</button>
-    </footer>
-  </article>
+  <header>
+    <button aria-label="Close" onclick="this.closest('dialog').close()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+    <h2 id="confirm-title">Delete account?</h2>
+  </header>
+  <p>This action cannot be undone.</p>
+  <footer>
+    <button class="secondary" type="button" onclick="this.closest('dialog').close()">Cancel</button>
+    <button class="destructive" type="button">Delete</button>
+  </footer>
 </dialog>
 ```
 
@@ -68,13 +66,21 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 
 - Give the dialog an `id` when a popover trigger or script refers to it.
 - Keep the dialog name in the dialog itself. Use `aria-labelledby` for a visible heading, otherwise `aria-label`.
-- Wrap content in `<article>` for the full card layout, including its styled header, footer, and close-button placement. The article is optional: a dialog without one is styled as a compact card surface.
+- The dialog is the surface. Use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Forms have no dialog-specific container styling.
+- When a dialog header needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a title alone is enough. The heading keeps its semantic level; dialogs render titles at 18px and subtitles at 14px.
+- Migration: `<dialog><article>…</article></dialog>` is deprecated but remains supported in v1; remove the `<article>` tags.
 - A dialog close button is only visually recognized by `aria-label="Close"` (or `rel="prev"`). Supply the actual close behavior: `popovertargetaction="hide"` for a popover, or `close()` / `method="dialog"` for a modal.
 - Put the official Lucide X SVG directly inside the close button and mark it `aria-hidden="true"`; the button's `aria-label` supplies the accessible name. Daft retains a generated X only as a backward-compatible fallback for an empty close button.
 
 ## Variants and options
 
-There are no dialog variant classes. Compose the contents with standard buttons, forms, cards, and utility classes. The surface is at most `--modal-max-width` wide and scrolls when its content exceeds the available dynamic viewport height.
+There are no dialog variant classes. Compose the contents with standard buttons, forms, cards, and utility classes. The surface defaults to a 24rem `--modal-max-width`, uses `--card-padding`, and scrolls when its content exceeds the available dynamic viewport height. Override `--modal-max-width` on an application selector when a particular dialog needs more room; the viewport constraints remain in effect.
+
+```css
+dialog.report {
+  --modal-max-width: 40rem;
+}
+```
 
 ## Relevant tokens
 
@@ -87,7 +93,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Behavior and accessibility
 
-Both dialog forms share Daft's centered surface, overlay backdrop, close-button styling, and entrance animation when content is wrapped in an article.
+Both dialog forms share Daft's centered surface, overlay backdrop, close-button styling, and entrance animation.
 
 Use a non-modal popover for supplementary, interruptible content. Its native light-dismiss behavior is appropriate when losing the overlay does not discard work. Do not use it for confirmation, destructive actions, or a workflow that must block the page.
 
@@ -95,7 +101,7 @@ Use `showModal()` for blocking confirmation, authentication, or required decisio
 
 ## Composition
 
-Use a `<footer>` in the article for right-aligned action buttons. For a modal form, `<form method="dialog">` can close the modal declaratively for cancel/submit flows; keep business-side effects in your application logic.
+Use a direct `<footer>` for right-aligned action buttons, or put it inside a direct `<form>`. For a modal form, `<form method="dialog">` can close the modal declaratively for cancel/submit flows; keep business-side effects in your application logic.
 
 ## Common mistakes
 

@@ -308,6 +308,52 @@ test("ordinary accordion summaries use compact centered rhythm without changing 
   expect(result.alignment.textCenter).toBeCloseTo(result.alignment.rowCenter, 5);
 });
 
+test("dropdown trigger and item SVGs share the icon token and centered flex composition", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.documentElement.style.setProperty("--icon-size", "19px");
+    document.body.innerHTML = `
+      <details class="dropdown" open>
+        <summary id="trigger"><svg id="trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg>Actions</summary>
+        <ul>
+          <li><a id="icon-link" href="#profile"><svg id="link-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>Profile</a></li>
+          <li><label id="icon-label"><svg id="label-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16"/></svg>Enable alerts</label></li>
+          <li><a id="text-link" href="#settings">Settings</a></li>
+        </ul>
+      </details>`;
+
+    const readIcon = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { flexShrink: style.flexShrink, height: style.height, width: style.width };
+    };
+    const readItem = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        alignItems: style.alignItems,
+        display: style.display,
+        gap: style.gap,
+        padding: style.padding,
+      };
+    };
+    return {
+      icons: ["trigger-icon", "link-icon", "label-icon"].map(readIcon),
+      items: {
+        iconLabel: readItem("icon-label"),
+        iconLink: readItem("icon-link"),
+        textLink: readItem("text-link"),
+      },
+    };
+  });
+
+  for (const icon of result.icons) {
+    expect(icon).toEqual({ flexShrink: "0", height: "19px", width: "19px" });
+  }
+  expect(result.items.iconLink).toMatchObject({ alignItems: "center", display: "flex" });
+  expect(result.items.iconLabel).toEqual(result.items.iconLink);
+  expect(result.items.textLink).toEqual(result.items.iconLink);
+});
+
 test("image submit controls retain their intrinsic control dimensions", async ({ page }) => {
   await page.goto("/components/");
 
@@ -547,48 +593,449 @@ test("required markers remain robust across label and control shapes", async ({ 
   expect(results.dark.color).not.toBe("rgba(0, 0, 0, 0)");
 });
 
-test("card headers support strong titles and all heading levels outside invalid hgroup markup", async ({ page }) => {
+test("document hgroups provide compact rhythm without flattening heading hierarchy", async ({ page }) => {
+  await page.goto("/components/");
+
+  const typography = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <hgroup id="primary-group"><h1 id="grouped-h1">Primary heading</h1><p id="grouped-subtitle">Primary subtitle</p></hgroup>
+        <hgroup><h2 id="grouped-h2">Section heading</h2><p>Section subtitle</p></hgroup>
+        <hgroup><h6 id="grouped-h6">Minor heading</h6><p>Minor subtitle</p></hgroup>
+        <h1 id="reference-h1">Reference h1</h1>
+        <h2 id="reference-h2">Reference h2</h2>
+        <h6 id="reference-h6">Reference h6</h6>
+        <span id="muted-reference" class="muted">Muted reference</span>
+      </main>`;
+    const readHeading = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        fontSize: style.fontSize,
+        lineHeight: style.lineHeight,
+        marginBottom: style.marginBottom,
+        marginTop: style.marginTop,
+      };
+    };
+    const groupStyle = getComputedStyle(document.getElementById("primary-group"));
+    const subtitleStyle = getComputedStyle(document.getElementById("grouped-subtitle"));
+    return {
+      group: {
+        display: groupStyle.display,
+        flexDirection: groupStyle.flexDirection,
+        gap: groupStyle.gap,
+        marginBottom: groupStyle.marginBottom,
+      },
+      grouped: ["grouped-h1", "grouped-h2", "grouped-h6"].map(readHeading),
+      references: ["reference-h1", "reference-h2", "reference-h6"].map(readHeading),
+      subtitle: {
+        color: subtitleStyle.color,
+        lineHeight: subtitleStyle.lineHeight,
+        marginBottom: subtitleStyle.marginBottom,
+        marginTop: subtitleStyle.marginTop,
+      },
+      mutedColor: getComputedStyle(document.getElementById("muted-reference")).color,
+    };
+  });
+
+  expect(typography.group).toEqual({
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+    marginBottom: "16px",
+  });
+  expect(typography.grouped.map(({ fontSize }) => fontSize)).toEqual(["36px", "30px", "16px"]);
+  expect(typography.grouped.map(({ fontSize, lineHeight }) => ({ fontSize, lineHeight })))
+    .toEqual(typography.references.map(({ fontSize, lineHeight }) => ({ fontSize, lineHeight })));
+  for (const heading of typography.grouped) {
+    expect(heading).toMatchObject({ marginBottom: "0px", marginTop: "0px" });
+  }
+  expect(typography.subtitle).toMatchObject({
+    color: typography.mutedColor,
+    lineHeight: "24px",
+    marginBottom: "0px",
+    marginTop: "0px",
+  });
+});
+
+test("card headers keep compact card typography while inheriting the hgroup gap", async ({ page }) => {
   await page.goto("/components/");
 
   const typography = await page.evaluate(() => {
     document.body.innerHTML = `
       <article id="strong-card"><header><strong>Strong card title</strong></header></article>
       <article id="heading-card"><header><h6>Level-six card title</h6></header></article>
-      <article id="group-card"><header><hgroup><h6>Grouped level-six title</h6><p>Description</p></hgroup></header></article>`;
+      <article id="group-card"><header><hgroup><h6>Grouped level-six title</h6><p>Card subtitle</p></hgroup></header></article>
+      <span id="muted-reference" class="muted">Muted reference</span>`;
     const read = (selector) => {
       const style = getComputedStyle(document.querySelector(selector));
       return { fontSize: style.fontSize, fontWeight: style.fontWeight, lineHeight: style.lineHeight };
     };
+    const groupStyle = getComputedStyle(document.querySelector("#group-card hgroup"));
+    const subtitleStyle = getComputedStyle(document.querySelector("#group-card hgroup > p"));
     return {
+      group: {
+        display: groupStyle.display,
+        flexDirection: groupStyle.flexDirection,
+        gap: groupStyle.gap,
+        margin: groupStyle.margin,
+        minWidth: groupStyle.minWidth,
+      },
       groupedHeading: read("#group-card h6"),
       heading: read("#heading-card h6"),
       strong: read("#strong-card strong"),
+      mutedColor: getComputedStyle(document.getElementById("muted-reference")).color,
+      subtitle: {
+        color: subtitleStyle.color,
+        fontSize: subtitleStyle.fontSize,
+        lineHeight: subtitleStyle.lineHeight,
+        margin: subtitleStyle.margin,
+      },
     };
   });
 
-  expect(typography.heading).toEqual(typography.strong);
+  expect(typography.heading).toEqual({ fontSize: "18px", fontWeight: "600", lineHeight: "22.5px" });
+  expect(typography.strong).toEqual(typography.heading);
   expect(typography.groupedHeading).toEqual(typography.heading);
+  expect(typography.group).toEqual({
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+    margin: "0px",
+    minWidth: "0px",
+  });
+  expect(typography.subtitle).toMatchObject({
+    color: typography.mutedColor,
+    fontSize: "14px",
+    lineHeight: "21px",
+    margin: "0px",
+  });
 });
 
-test("the modal width token controls bare and article dialog surfaces", async ({ page }) => {
+test("dialogs use one compact card-derived surface and preserve form control typography", async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
   await page.goto("/components/");
 
-  const widths = await page.evaluate(() => {
-    document.documentElement.style.setProperty("--modal-max-width", "20rem");
-    const bare = document.createElement("dialog");
-    bare.textContent = "Bare dialog";
-    const wrapped = document.createElement("dialog");
-    wrapped.innerHTML = "<article>Wrapped dialog</article>";
-    document.body.append(bare, wrapped);
-    bare.show();
-    wrapped.show();
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <article id="padding-reference">Card padding reference</article>
+      <span id="muted-reference" class="muted">Muted reference</span>
+      <dialog id="direct-heading" open aria-label="Direct heading dialog">
+        <h2>Direct title</h2>
+        <p>Direct body</p>
+      </dialog>
+      <dialog id="direct-header" open aria-label="Direct header dialog">
+        <header><h2>Header title</h2><p>Header subtitle</p><button type="button" aria-label="Close"><svg aria-hidden="true" width="16" height="16"></svg></button></header>
+        <p>Direct body</p>
+        <footer><button type="button">Done</button></footer>
+      </dialog>
+      <dialog id="wide-dialog" open aria-label="Wide dialog" style="--modal-max-width: 40rem">
+        <h2>Wide title</h2>
+      </dialog>
+      <dialog id="direct-hgroup" open aria-label="Direct hgroup dialog">
+        <hgroup><h2>Grouped title</h2><p>Grouped subtitle</p></hgroup>
+        <p>Direct body</p>
+      </dialog>
+      <dialog id="with-form" open aria-label="Form dialog">
+        <header><strong>Form title</strong></header>
+        <form method="dialog">
+          <label for="dialog-field">Name</label>
+          <input id="dialog-field" name="name">
+          <footer><button type="button" class="secondary">Cancel</button><button type="submit">Save</button></footer>
+        </form>
+      </dialog>
+      <dialog id="legacy" open aria-label="Legacy dialog">
+        <article>
+          <header><hgroup><h2>Legacy title</h2><p>Legacy subtitle</p></hgroup></header>
+          <p>Legacy body</p>
+          <footer><button type="button">Done</button></footer>
+        </article>
+      </dialog>`;
+
+    const readSurface = (element) => {
+      const style = getComputedStyle(element);
+      return {
+        background: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        borderWidth: style.borderTopWidth,
+        boxShadow: style.boxShadow,
+        color: style.color,
+        maxHeight: style.maxHeight,
+        maxWidth: style.maxWidth,
+        overflow: style.overflow,
+        padding: style.padding,
+        width: style.width,
+      };
+    };
+    const readType = (element) => {
+      const style = getComputedStyle(element);
+      return {
+        color: style.color,
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+        lineHeight: style.lineHeight,
+      };
+    };
+    const readFooter = (element) => {
+      const style = getComputedStyle(element);
+      return {
+        alignItems: style.alignItems,
+        display: style.display,
+        gap: style.gap,
+        justifyContent: style.justifyContent,
+        marginTop: style.marginTop,
+        padding: style.padding,
+      };
+    };
+
+    const directHeading = document.getElementById("direct-heading");
+    const directHeader = document.getElementById("direct-header");
+    const directHgroup = document.getElementById("direct-hgroup");
+    const wideDialog = document.getElementById("wide-dialog");
+    const withForm = document.getElementById("with-form");
+    const legacy = document.getElementById("legacy");
+    const form = withForm.querySelector("form");
+    const formStyle = getComputedStyle(form);
     return {
-      article: getComputedStyle(wrapped.firstElementChild).maxWidth,
-      bare: getComputedStyle(bare).maxWidth,
+      cardPadding: getComputedStyle(document.getElementById("padding-reference")).padding,
+      close: (() => {
+        const header = directHeader.querySelector("header");
+        const titleRect = header.querySelector("h2").getBoundingClientRect();
+        const button = header.querySelector('[aria-label="Close"]');
+        const buttonRect = button.getBoundingClientRect();
+        const iconRect = button.querySelector("svg").getBoundingClientRect();
+        const buttonStyle = getComputedStyle(button);
+        return {
+          buttonHeight: buttonStyle.height,
+          centerDelta: Math.abs(titleRect.top + titleRect.height / 2 - (iconRect.top + iconRect.height / 2)),
+          headerPaddingInlineEnd: getComputedStyle(header).paddingInlineEnd,
+          right: buttonStyle.right,
+          top: buttonStyle.top,
+        };
+      })(),
+      controls: {
+        button: readType(form.querySelector("button")),
+        input: readType(form.querySelector("input")),
+        label: readType(form.querySelector("label")),
+      },
+      form: {
+        background: formStyle.backgroundColor,
+        borderWidth: formStyle.borderTopWidth,
+        boxShadow: formStyle.boxShadow,
+        padding: formStyle.padding,
+      },
+      footers: [directHeader.querySelector("footer"), form.querySelector("footer"), legacy.querySelector("footer")].map(readFooter),
+      legacyArticleDisplay: getComputedStyle(legacy.firstElementChild).display,
+      mutedColor: getComputedStyle(document.getElementById("muted-reference")).color,
+      subtitles: [
+        directHeader.querySelector("header > p"),
+        directHgroup.querySelector("hgroup > p"),
+        legacy.querySelector("hgroup > p"),
+      ].map(readType),
+      surfaces: [directHeading, directHeader, directHgroup, withForm, legacy].map(readSurface),
+      wideSurface: readSurface(wideDialog),
+      titles: [
+        directHeading.querySelector(":scope > h2"),
+        directHeader.querySelector("header > h2"),
+        directHgroup.querySelector("hgroup > h2"),
+        withForm.querySelector("header > strong"),
+        legacy.querySelector("hgroup > h2"),
+      ].map(readType),
     };
   });
 
-  expect(widths).toEqual({ article: "320px", bare: "320px" });
+  expect(result.cardPadding).toBe("16px");
+  expect(result.surfaces[0]).toMatchObject({ maxWidth: "384px", padding: "16px", width: "384px" });
+  for (const surface of result.surfaces.slice(1)) expect(surface).toEqual(result.surfaces[0]);
+  expect(result.wideSurface).toMatchObject({ maxWidth: "640px", padding: "16px", width: "640px" });
+  expect(result.close).toMatchObject({
+    buttonHeight: "32px",
+    headerPaddingInlineEnd: "40px",
+    right: "12px",
+    top: "12px",
+  });
+  expect(result.close.centerDelta).toBeLessThan(1);
+  for (const title of result.titles) {
+    expect(title).toMatchObject({ fontSize: "18px", fontWeight: "600", lineHeight: "22.5px" });
+  }
+  for (const subtitle of result.subtitles) {
+    expect(subtitle).toMatchObject({
+      color: result.mutedColor,
+      fontSize: "14px",
+      fontWeight: "400",
+      lineHeight: "21px",
+    });
+  }
+  expect(result.controls.input.fontSize).toBe("16px");
+  expect(result.controls.label.fontSize).toBe("14px");
+  expect(result.controls.button.fontSize).toBe("14px");
+  expect(result.footers[0]).toMatchObject({ display: "flex", justifyContent: "flex-end" });
+  expect(result.footers[1]).toEqual(result.footers[0]);
+  expect(result.footers[2]).toEqual(result.footers[0]);
+  expect(result.form).toEqual({
+    background: "rgba(0, 0, 0, 0)",
+    borderWidth: "0px",
+    boxShadow: "none",
+    padding: "0px",
+  });
+  expect(result.legacyArticleDisplay).toBe("contents");
+});
+
+test("direct modal and popover dialogs preserve their distinct native open behavior", async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 600 });
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <button id="outside" type="button">Outside control</button>
+      <dialog id="modal" aria-label="Modal dialog"><p>Blocking content</p></dialog>
+      <dialog id="popover-dialog" popover aria-label="Popover dialog"><p>Interruptible content</p></dialog>`;
+  });
+
+  const modal = page.locator("#modal");
+  const popover = page.locator("#popover-dialog");
+  await page.evaluate(() => document.getElementById("modal").showModal());
+  await expect(modal).toBeVisible();
+  const modalState = await page.evaluate(() => {
+    const dialog = document.getElementById("modal");
+    const outside = document.getElementById("outside");
+    outside.focus();
+    const style = getComputedStyle(dialog);
+    return {
+      activeOutside: document.activeElement === outside,
+      backdrop: getComputedStyle(dialog, "::backdrop").backgroundColor,
+      modal: dialog.matches(":modal"),
+      open: dialog.open,
+      popoverOpen: dialog.matches(":popover-open"),
+      surface: {
+        animationDuration: style.animationDuration,
+        animationName: style.animationName,
+        background: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        boxShadow: style.boxShadow,
+        maxHeight: style.maxHeight,
+        overflow: style.overflow,
+        padding: style.padding,
+        width: style.width,
+      },
+    };
+  });
+  expect(modalState).toMatchObject({ activeOutside: false, modal: true, open: true, popoverOpen: false });
+  expect(modalState.backdrop).not.toBe("rgba(0, 0, 0, 0)");
+  expect(modalState.surface.animationName).toBe("modal-in");
+  expect(Number.parseFloat(modalState.surface.animationDuration)).toBeGreaterThan(0);
+
+  await page.evaluate(() => {
+    document.getElementById("modal").close();
+    document.getElementById("popover-dialog").showPopover();
+  });
+  await expect(modal).toBeHidden();
+  await expect(popover).toBeVisible();
+  const popoverState = await page.evaluate(() => {
+    const dialog = document.getElementById("popover-dialog");
+    const outside = document.getElementById("outside");
+    outside.focus();
+    const style = getComputedStyle(dialog);
+    return {
+      activeOutside: document.activeElement === outside,
+      modal: dialog.matches(":modal"),
+      open: dialog.open,
+      popoverOpen: dialog.matches(":popover-open"),
+      surface: {
+        animationDuration: style.animationDuration,
+        animationName: style.animationName,
+        background: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        boxShadow: style.boxShadow,
+        maxHeight: style.maxHeight,
+        overflow: style.overflow,
+        padding: style.padding,
+        width: style.width,
+      },
+    };
+  });
+  expect(popoverState).toMatchObject({ activeOutside: true, modal: false, open: false, popoverOpen: true });
+  expect(popoverState.surface).toEqual(modalState.surface);
+
+  const box = await popover.boundingBox();
+  expect(box.width).toBeLessThan(800);
+  expect(box.height).toBeLessThan(600);
+  await page.mouse.click(5, 595);
+  await expect(popover).toBeHidden();
+  expect(await popover.evaluate((element) => element.matches(":popover-open"))).toBe(false);
+});
+
+test("dialog close controls keep canonical positioning and the legacy icon fallback", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <dialog open aria-label="Close controls">
+        <button id="svg-close" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <header><button id="header-close" aria-label="Close"></button><strong>Direct title</strong></header>
+        <p>Body</p>
+      </dialog>
+      <dialog open aria-label="Legacy close control"><article>
+        <button id="legacy-close" rel="prev"></button><p>Body</p>
+      </article></dialog>`;
+    document.querySelectorAll("dialog").forEach((dialog) => dialog.getAnimations().forEach((animation) => animation.finish()));
+    const readPosition = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        height: style.height,
+        position: style.position,
+        right: style.right,
+        top: style.top,
+        width: style.width,
+      };
+    };
+    const svgClose = document.getElementById("svg-close");
+    const headerClose = document.getElementById("header-close");
+    return {
+      emptyContent: getComputedStyle(headerClose, "::before").content,
+      emptyMask: getComputedStyle(headerClose, "::before").maskImage,
+      positions: ["svg-close", "header-close", "legacy-close"].map(readPosition),
+      svgContent: getComputedStyle(svgClose, "::before").content,
+      svgCount: svgClose.querySelectorAll("svg").length,
+    };
+  });
+
+  expect(result.positions[0]).toEqual({ height: "32px", position: "absolute", right: "12px", top: "12px", width: "32px" });
+  expect(result.positions[1]).toEqual(result.positions[0]);
+  expect(result.positions[2]).toEqual(result.positions[0]);
+  expect(result.svgCount).toBe(1);
+  expect(result.svgContent).toBe("none");
+  expect(result.emptyContent).toBe('\"\"');
+  expect(result.emptyMask).toContain("data:image/svg+xml");
+});
+
+test("direct and legacy dialog content scroll within the viewport max-height", async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 400 });
+  await page.goto("/components/");
+
+  const metrics = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <dialog id="direct-scroll" open aria-label="Direct scrolling dialog"><header><strong>Title</strong></header><div style="height: 50rem">Tall body</div></dialog>
+      <dialog id="legacy-scroll" open aria-label="Legacy scrolling dialog"><article><header><strong>Title</strong></header><div style="height: 50rem">Tall body</div></article></dialog>`;
+    document.querySelectorAll("dialog").forEach((dialog) => dialog.getAnimations().forEach((animation) => animation.finish()));
+    return [document.getElementById("direct-scroll"), document.getElementById("legacy-scroll")].map((dialog) => {
+      const style = getComputedStyle(dialog);
+      return {
+        clientHeight: dialog.clientHeight,
+        height: dialog.getBoundingClientRect().height,
+        maxHeight: style.maxHeight,
+        overflowY: style.overflowY,
+        scrollHeight: dialog.scrollHeight,
+      };
+    });
+  });
+
+  for (const metric of metrics) {
+    expect(metric.maxHeight).toBe("368px");
+    expect(metric.height).toBeLessThanOrEqual(368);
+    expect(metric.overflowY).toBe("auto");
+    expect(metric.scrollHeight).toBeGreaterThan(metric.clientHeight);
+  }
 });
 
 test("card spacing follows root scale and card-level token overrides", async ({ page }) => {
@@ -615,7 +1062,7 @@ test("card spacing follows root scale and card-level token overrides", async ({ 
 
   expect(spacing).toEqual({
     fromCardTokens: { footerGap: "12px", headerGap: "12px", padding: "20px" },
-    fromRootScale: { footerGap: "20px", headerGap: "20px", padding: "30px" },
+    fromRootScale: { footerGap: "20px", headerGap: "20px", padding: "20px" },
   });
 });
 
@@ -855,6 +1302,181 @@ test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   expect(gutters.right).toBeGreaterThanOrEqual(16);
 });
 
+test("default desktop sidebar remains persistent and shifts following landmarks", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.goto("/components/");
+
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <header id="application-header"><nav aria-label="Application"><ul>
+        <li id="default-toggle-item"><button class="sidebar-toggle" type="button" popovertarget="default-sidebar">Open navigation</button></li>
+        <li><strong>Workspace</strong></li>
+      </ul></nav></header>
+      <aside id="default-sidebar" class="sidebar" popover aria-label="Workspace navigation">
+        <header>Workspace</header>
+        <nav aria-label="Workspace"><ul>${Array.from({ length: 40 }, (_, index) => `<li><a href="#${index}">Item ${index}</a></li>`).join("")}</ul></nav>
+        <footer>Account</footer>
+      </aside>
+      <main id="default-content"><article>Card reference</article></main>
+      <footer id="application-footer">Page footer</footer>`;
+  });
+
+  const sidebar = page.locator("#default-sidebar");
+  const toggle = page.locator("#default-toggle-item > .sidebar-toggle");
+  await expect(sidebar).toBeVisible();
+  await expect(toggle).toBeHidden();
+  await expect(page.locator("#default-toggle-item")).toBeHidden();
+
+  const shell = await page.evaluate(() => {
+    const sidebar = document.getElementById("default-sidebar");
+    const header = sidebar.querySelector("header");
+    const nav = sidebar.querySelector("nav");
+    const footer = sidebar.querySelector("footer");
+    const sidebarRect = sidebar.getBoundingClientRect();
+    const before = { headerTop: header.getBoundingClientRect().top, footerBottom: footer.getBoundingClientRect().bottom };
+    nav.scrollTop = nav.scrollHeight;
+    const after = { headerTop: header.getBoundingClientRect().top, footerBottom: footer.getBoundingClientRect().bottom };
+    return {
+      after,
+      before,
+      contentMargin: getComputedStyle(document.getElementById("default-content")).marginLeft,
+      footerMargin: getComputedStyle(document.getElementById("application-footer")).marginLeft,
+      headerMargin: getComputedStyle(document.getElementById("application-header")).marginLeft,
+      navScrollTop: nav.scrollTop,
+      navScrollable: nav.scrollHeight > nav.clientHeight,
+      open: sidebar.matches(":popover-open"),
+      position: getComputedStyle(sidebar).position,
+      sidebarBottom: sidebarRect.bottom,
+      sidebarOverflow: getComputedStyle(sidebar).overflow,
+      sidebarTop: sidebarRect.top,
+      sidebarWidth: sidebarRect.width,
+      viewportHeight: innerHeight,
+    };
+  });
+
+  expect(shell).toMatchObject({
+    headerMargin: "0px",
+    navScrollable: true,
+    open: false,
+    position: "fixed",
+    sidebarBottom: shell.viewportHeight,
+    sidebarOverflow: "hidden",
+  });
+  expect(shell.contentMargin).toBe(`${shell.sidebarWidth}px`);
+  expect(shell.footerMargin).toBe(`${shell.sidebarWidth}px`);
+  expect(shell.sidebarTop).toBeGreaterThan(0);
+  expect(shell.navScrollTop).toBeGreaterThan(0);
+  expect(shell.after).toEqual(shell.before);
+
+  await page.keyboard.press("Escape");
+  await expect(sidebar).toBeVisible();
+  expect(await sidebar.evaluate((element) => element.matches(":popover-open"))).toBe(false);
+});
+
+for (const mode of [
+  { className: "sidebar", name: "default mobile sidebar", viewport: { width: 375, height: 600 } },
+  { className: "sidebar drawer", name: "desktop sidebar drawer", viewport: { width: 1280, height: 600 } },
+]) {
+  test(`${mode.name} uses one native, non-shifting drawer`, async ({ page }) => {
+    await page.setViewportSize(mode.viewport);
+    await page.goto("/components/");
+
+    await page.evaluate(({ className }) => {
+      document.body.innerHTML = `
+        <header><nav aria-label="Application"><ul>
+          <li id="drawer-toggle-item"><button class="sidebar-toggle" type="button" popovertarget="drawer-sidebar">Open navigation</button></li>
+          <li><strong>Workspace</strong></li>
+        </ul></nav></header>
+        <aside id="drawer-sidebar" class="${className}" popover aria-label="Workspace navigation">
+          <header>Workspace <button class="sidebar-toggle" type="button" popovertarget="drawer-sidebar" popovertargetaction="hide">Close navigation</button></header>
+          <nav aria-label="Workspace"><ul>${Array.from({ length: 40 }, (_, index) => `<li><a href="#${index}">Item ${index}</a></li>`).join("")}</ul></nav>
+          <footer>Account</footer>
+        </aside>
+        <main id="drawer-content"><article>Application content</article></main>
+        <footer>Page footer</footer>`;
+    }, { className: mode.className });
+
+    const sidebar = page.locator("#drawer-sidebar");
+    const toggle = page.locator("#drawer-toggle-item > .sidebar-toggle");
+    const initialContent = await page.locator("#drawer-content").evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, width: rect.width };
+    });
+
+    await expect(sidebar).toBeHidden();
+    await expect(toggle).toBeVisible();
+    await expect(page.locator("#drawer-toggle-item")).toBeVisible();
+    expect(await sidebar.evaluate((element) => element.matches(":popover-open"))).toBe(false);
+
+    await toggle.click();
+    await expect(sidebar).toBeVisible();
+
+    const shell = await sidebar.evaluate((element) => {
+      const header = element.querySelector("header");
+      const nav = element.querySelector("nav");
+      const footer = element.querySelector("footer");
+      const before = {
+        footerBottom: footer.getBoundingClientRect().bottom,
+        headerTop: header.getBoundingClientRect().top,
+      };
+      nav.scrollTop = nav.scrollHeight;
+      const after = {
+        footerBottom: footer.getBoundingClientRect().bottom,
+        headerTop: header.getBoundingClientRect().top,
+      };
+      const sidebarStyle = getComputedStyle(element);
+      return {
+        after,
+        backdrop: getComputedStyle(element, "::backdrop").backgroundColor,
+        before,
+        display: sidebarStyle.display,
+        flexDirection: sidebarStyle.flexDirection,
+        navOverflow: getComputedStyle(nav).overflowY,
+        navScrollTop: nav.scrollTop,
+        navScrollable: nav.scrollHeight > nav.clientHeight,
+        open: element.matches(":popover-open"),
+        position: sidebarStyle.position,
+        sidebarOverflow: sidebarStyle.overflow,
+        sidebarScrollable: element.scrollHeight > element.clientHeight,
+      };
+    });
+    const openContent = await page.locator("#drawer-content").evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, width: rect.width };
+    });
+
+    expect(shell).toMatchObject({
+      display: "flex",
+      flexDirection: "column",
+      navOverflow: "auto",
+      navScrollable: true,
+      open: true,
+      position: "fixed",
+      sidebarOverflow: "hidden",
+      sidebarScrollable: false,
+    });
+    expect(shell.backdrop).not.toBe("rgba(0, 0, 0, 0)");
+    expect(shell.navScrollTop).toBeGreaterThan(0);
+    expect(shell.after).toEqual(shell.before);
+    expect(openContent).toEqual(initialContent);
+
+    await sidebar.getByRole("button", { name: "Close navigation" }).click();
+    await expect(sidebar).toBeHidden();
+    expect(await sidebar.evaluate((element) => element.matches(":popover-open"))).toBe(false);
+
+    await toggle.click();
+    await expect(sidebar).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(sidebar).toBeHidden();
+
+    await toggle.click();
+    await expect(sidebar).toBeVisible();
+    await page.mouse.click(mode.viewport.width - 4, mode.viewport.height - 4);
+    await expect(sidebar).toBeHidden();
+    expect(await sidebar.evaluate((element) => element.matches(":popover-open"))).toBe(false);
+  });
+}
+
 test("sidebar links provide adaptive hover and current-page states", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");
@@ -875,6 +1497,10 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
       const current = document.querySelector('a[href="#current"]');
       const inactive = document.querySelector('a[href="#inactive"]');
       const falseCurrent = document.querySelector('a[href="#false"]');
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const inactiveRect = inactive.getBoundingClientRect();
+      const sidebarStyle = getComputedStyle(sidebar);
+      const sidebarContentRight = sidebarRect.right - Number.parseFloat(sidebarStyle.borderRightWidth);
       return {
         sidebarBackground: getComputedStyle(sidebar).backgroundColor,
         inactiveColor: getComputedStyle(inactive).color,
@@ -888,7 +1514,8 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
           borderRadius: getComputedStyle(inactive).borderRadius,
           paddingLeft: getComputedStyle(inactive).paddingLeft,
           paddingRight: getComputedStyle(inactive).paddingRight,
-          width: inactive.getBoundingClientRect().width,
+          leftInset: inactiveRect.left - sidebarRect.left,
+          rightInset: sidebarContentRight - inactiveRect.right,
         },
       };
     });
@@ -897,7 +1524,13 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
     expect(states.current.color).toBe(states.inactiveColor);
     expect(states.current.fontWeight).toBe("600");
     expect(states.falseCurrentBackground).toBe("rgba(0, 0, 0, 0)");
-    expect(states.geometry).toEqual({ borderRadius: "6px", paddingLeft: "8px", paddingRight: "8px", width: 192 });
+    expect(states.geometry).toEqual({
+      borderRadius: "6px",
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      leftInset: 16,
+      rightInset: 16,
+    });
 
     await page.locator('a[href="#inactive"]').hover();
     await page.waitForTimeout(200);
@@ -910,21 +1543,6 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
     expect(hover.color).toBe(states.inactiveColor);
     expect(hover.textDecoration).toBe("none");
   }
-});
-
-test("a bare sidebar toggle is hidden at desktop widths", async ({ page }) => {
-  await page.setViewportSize({ width: 1024, height: 768 });
-  await page.goto("/components/");
-
-  const display = await page.evaluate(() => {
-    const toggle = document.createElement("button");
-    toggle.className = "ghost icon sidebar-toggle";
-    toggle.textContent = "Menu";
-    document.body.append(toggle);
-    return getComputedStyle(toggle).display;
-  });
-
-  expect(display).toBe("none");
 });
 
 test("responsive top navigation uses one native popover list on mobile", async ({ page }) => {
@@ -1056,6 +1674,16 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
     const dividerBeforeOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
     canonical.style.setProperty("--breadcrumb-divider", '"/"');
     const dividerAfterOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
+    legacy.style.setProperty("--breadcrumb-divider", '"/"');
+    const readDividerSpacing = (list) => {
+      const firstItem = list.firstElementChild;
+      const divider = getComputedStyle(firstItem, "::after");
+      return {
+        marginInlineStart: getComputedStyle(firstItem.nextElementSibling).marginInlineStart,
+        paddingInlineEnd: divider.paddingInlineEnd,
+        paddingInlineStart: divider.paddingInlineStart,
+      };
+    };
     return {
       canonical: canonicalBreadcrumb,
       canonicalWrapper: {
@@ -1068,6 +1696,10 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
       dividerBeforeOverride,
       foreground: getComputedStyle(probe).color,
       legacy: legacyBreadcrumb,
+      spacing: {
+        canonical: readDividerSpacing(canonicalList),
+        legacy: readDividerSpacing(document.getElementById("legacy")),
+      },
     };
   });
 
@@ -1087,6 +1719,14 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
   });
   expect(breadcrumbs.canonicalWrapper).toMatchObject({ display: "block", paddingBlock: "0px" });
   expect(breadcrumbs.canonicalWrapper.height).toBeCloseTo(breadcrumbs.canonicalWrapper.listHeight, 5);
+  for (const spacing of Object.values(breadcrumbs.spacing)) {
+    expect(spacing).toEqual({
+      marginInlineStart: "0px",
+      paddingInlineEnd: "8px",
+      paddingInlineStart: "8px",
+    });
+  }
+  expect(breadcrumbs.spacing.legacy).toEqual(breadcrumbs.spacing.canonical);
 
   const focusability = await page.locator("#canonical-home").evaluate((link) => link.tabIndex);
   expect(focusability).toBe(0);
@@ -1096,41 +1736,81 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
   await expect(page.locator("#canonical-home")).toHaveCSS("outline-width", "2px");
 });
 
-test("canonical Lucide SVGs follow the control icon pattern", async ({ page }) => {
+test("SVG defaults preserve inline alignment and canonical navigation icon composition", async ({ page }) => {
   await page.goto("/components/");
   await page.evaluate(() => {
     document.documentElement.style.setProperty("--icon-size", "19px");
     document.body.innerHTML = `
+      <p>Before <svg id="ordinary" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg> after</p>
       <button id="icon-only" class="icon ghost" type="button" aria-label="Search" style="color: rgb(12 34 56)">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
       </button>
       <button id="icon-text" type="button" style="color: rgb(65 43 21)">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
         Search projects
-      </button>`;
+      </button>
+      <nav id="icon-navigation"><ul><li><a id="nav-icon-link" href="#projects">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+        Projects
+      </a></li></ul></nav>`;
   });
 
   await expect(page.getByRole("button", { name: "Search", exact: true })).toHaveCount(1);
   await expect(page.getByRole("button", { name: "Search projects", exact: true })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Projects", exact: true })).toHaveCount(1);
 
-  const controls = await page.locator("#icon-only, #icon-text").evaluateAll((buttons) => buttons.map((button) => {
-    const svg = button.querySelector("svg");
-    const style = getComputedStyle(svg);
-    return {
-      ariaHidden: svg.getAttribute("aria-hidden"),
-      color: getComputedStyle(button).color,
-      fill: style.fill,
-      height: style.height,
-      intrinsicHeight: svg.getAttribute("height"),
-      intrinsicWidth: svg.getAttribute("width"),
-      stroke: style.stroke,
-      viewBox: svg.getAttribute("viewBox"),
-      width: style.width,
+  const result = await page.evaluate(() => {
+    const readControl = (id) => {
+      const button = document.getElementById(id);
+      const svg = button.querySelector("svg");
+      const style = getComputedStyle(svg);
+      return {
+        alignItems: getComputedStyle(button).alignItems,
+        ariaHidden: svg.getAttribute("aria-hidden"),
+        color: getComputedStyle(button).color,
+        fill: style.fill,
+        height: style.height,
+        intrinsicHeight: svg.getAttribute("height"),
+        intrinsicWidth: svg.getAttribute("width"),
+        stroke: style.stroke,
+        viewBox: svg.getAttribute("viewBox"),
+        width: style.width,
+      };
     };
-  }));
+    const ordinary = getComputedStyle(document.getElementById("ordinary"));
+    return {
+      controls: ["icon-only", "icon-text"].map(readControl),
+      navigation: {
+        alignItems: getComputedStyle(document.getElementById("icon-navigation")).alignItems,
+        display: getComputedStyle(document.getElementById("icon-navigation")).display,
+        link: readControl("nav-icon-link"),
+        linkGap: getComputedStyle(document.getElementById("nav-icon-link")).gap,
+        linkDisplay: getComputedStyle(document.getElementById("nav-icon-link")).display,
+      },
+      ordinary: {
+        display: ordinary.display,
+        maxWidth: ordinary.maxWidth,
+        verticalAlign: ordinary.verticalAlign,
+      },
+    };
+  });
 
-  for (const control of controls) {
+  expect(result.ordinary).toEqual({ display: "inline-block", maxWidth: "100%", verticalAlign: "middle" });
+  expect(result.navigation).toMatchObject({
+    alignItems: "center",
+    display: "flex",
+    linkDisplay: "inline-flex",
+    linkGap: "8px",
+    link: {
+      alignItems: "center",
+      ariaHidden: "true",
+      height: "19px",
+      width: "19px",
+    },
+  });
+  for (const control of result.controls) {
     expect(control).toMatchObject({
+      alignItems: "center",
       ariaHidden: "true",
       fill: "none",
       height: "19px",
@@ -1163,58 +1843,6 @@ test("SVG defaults do not override an explicit fill attribute", async ({ page })
   expect(fills.solid).not.toBe("none");
 });
 
-test("dialog SVG close controls do not receive a duplicate fallback icon", async ({ page }) => {
-  await page.goto("/components/");
-
-  const closeIcons = await page.evaluate(() => {
-    document.body.innerHTML = `
-      <dialog open aria-label="Icon test"><article>
-        <button id="svg-close" aria-label="Close">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
-        <button id="empty-close" aria-label="Close"></button>
-      </article></dialog>`;
-    const svgClose = document.getElementById("svg-close");
-    const emptyClose = document.getElementById("empty-close");
-    return {
-      emptyContent: getComputedStyle(emptyClose, "::before").content,
-      emptyMask: getComputedStyle(emptyClose, "::before").maskImage,
-      svgContent: getComputedStyle(svgClose, "::before").content,
-      svgCount: svgClose.querySelectorAll("svg").length,
-    };
-  });
-
-  expect(closeIcons.svgCount).toBe(1);
-  expect(closeIcons.svgContent).toBe("none");
-  expect(closeIcons.emptyContent).toBe('\"\"');
-  expect(closeIcons.emptyMask).toContain("data:image/svg+xml");
-});
-
-test("dialog popovers keep an outside hit area for native light dismiss", async ({ page }) => {
-  await page.setViewportSize({ width: 800, height: 600 });
-  await page.goto("/components/");
-  await page.getByRole("button", { name: "Open Help" }).click();
-
-  const dialog = page.getByRole("dialog", { name: "Help" });
-  await expect(dialog).toBeVisible();
-  const box = await dialog.boundingBox();
-  expect(box.width).toBeLessThan(800);
-  expect(box.height).toBeLessThan(600);
-
-  await page.mouse.click(5, 595);
-  await expect(dialog).toBeHidden();
-});
-
-test("the modal demo opens through showModal and has an accessible name", async ({ page }) => {
-  await page.goto("/examples/pico-comparison/");
-  await page.getByRole("button", { name: "Launch demo modal" }).click();
-
-  const dialog = page.getByRole("dialog", { name: "Confirm your action!" });
-  await expect(dialog).toBeVisible();
-  await expect(dialog).toHaveJSProperty("open", true);
-  expect(await dialog.evaluate((element) => element.matches(":modal"))).toBe(true);
-});
-
 test("theme attributes switch semantic colors", async ({ page }) => {
   await page.goto("/components/");
 
@@ -1228,6 +1856,53 @@ test("theme attributes switch semantic colors", async ({ page }) => {
   });
 
   expect(colors.dark).not.toBe(colors.light);
+});
+
+test("slides retain their hgroup gap and presentation scale", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/slides/");
+
+  const typography = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <section id="standard" style="--slide-text: 20px">
+        <hgroup><h1>Standard slide title</h1><p>Standard slide subtitle</p></hgroup>
+      </section>
+      <section id="title" class="title" style="--slide-text: 20px">
+        <hgroup><h1>Title slide title</h1><p>Title slide subtitle</p></hgroup>
+      </section>`;
+    const read = (id) => {
+      const slide = document.getElementById(id);
+      const groupStyle = getComputedStyle(slide.querySelector("hgroup"));
+      const titleStyle = getComputedStyle(slide.querySelector("h1"));
+      const subtitleStyle = getComputedStyle(slide.querySelector("hgroup > p"));
+      return {
+        group: {
+          display: groupStyle.display,
+          flexDirection: groupStyle.flexDirection,
+          gap: groupStyle.gap,
+          margin: groupStyle.margin,
+        },
+        subtitle: {
+          fontSize: Number.parseFloat(subtitleStyle.fontSize),
+          lineHeight: Number.parseFloat(subtitleStyle.lineHeight),
+        },
+        titleSize: Number.parseFloat(titleStyle.fontSize),
+      };
+    };
+    return { standard: read("standard"), title: read("title") };
+  });
+
+  expect(typography.standard.group).toEqual({
+    display: "flex",
+    flexDirection: "column",
+    gap: "2px",
+    margin: "0px",
+  });
+  expect(typography.title.group).toEqual(typography.standard.group);
+  expect(typography.standard.subtitle.lineHeight)
+    .toBeCloseTo(typography.standard.subtitle.fontSize * 1.25, 1);
+  expect(typography.title.titleSize).toBeGreaterThan(typography.standard.titleSize);
+  expect(typography.title.subtitle.fontSize).toBeGreaterThan(typography.standard.subtitle.fontSize);
 });
 
 test("slide spacing and type stay proportional to the fitted canvas", async ({ page }) => {
@@ -1380,6 +2055,61 @@ test("form action rows keep buttons inline instead of stretching them", async ({
   expect(widths.sameRow).toBe(true);
   // A .link button is inline text and must never be stretched into a block.
   expect(widths.inline).toBeLessThan(widths.form / 2);
+});
+
+test("table small text remains subordinate without utility classes", async ({ page }) => {
+  await page.goto("/components/");
+
+  const typography = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <span id="muted" class="muted">Muted reference</span>
+      <table><tbody><tr><td>Primary <small>Secondary metadata</small></td></tr></tbody></table>`;
+    const cellStyle = getComputedStyle(document.querySelector("td"));
+    const smallStyle = getComputedStyle(document.querySelector("td small"));
+    return {
+      cellSize: cellStyle.fontSize,
+      smallSize: smallStyle.fontSize,
+      smallLineHeight: smallStyle.lineHeight,
+      smallColor: smallStyle.color,
+      mutedColor: getComputedStyle(document.getElementById("muted")).color,
+    };
+  });
+
+  expect(typography.cellSize).toBe("14px");
+  expect(typography.smallSize).toBe("12px");
+  expect(typography.smallLineHeight).toBe("15px");
+  expect(typography.smallColor).toBe(typography.mutedColor);
+});
+
+test("stack owns direct-child spacing without flattening nested content", async ({ page }) => {
+  await page.goto("/components/");
+
+  const spacing = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main class="container">
+        <div class="stack">
+          <section id="first"><p id="nested">Nested content</p><span>Tail</span></section>
+          <article id="second">Second surface</article>
+        </div>
+      </main>`;
+    const first = document.getElementById("first");
+    const second = document.getElementById("second");
+    const firstRect = first.getBoundingClientRect();
+    const secondRect = second.getBoundingClientRect();
+    return {
+      firstMargin: getComputedStyle(first).marginBlock,
+      secondMargin: getComputedStyle(second).marginBlock,
+      gap: secondRect.top - firstRect.bottom,
+      nestedMarginBottom: getComputedStyle(document.getElementById("nested")).marginBottom,
+    };
+  });
+
+  expect(spacing).toEqual({
+    firstMargin: "0px",
+    secondMargin: "0px",
+    gap: 16,
+    nestedMarginBottom: "16px",
+  });
 });
 
 test('role="list" opts out of marker and indent styling', async ({ page }) => {

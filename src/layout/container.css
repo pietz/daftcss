@@ -52,17 +52,3 @@
   padding-left: var(--spacing);
   padding-right: var(--spacing);
 }
-
-@media (min-width: 768px) {
-  .container-fluid {
-    padding-left: var(--spacing-lg);
-    padding-right: var(--spacing-lg);
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-fluid {
-    padding-left: var(--spacing-xl);
-    padding-right: var(--spacing-xl);
-  }
-}

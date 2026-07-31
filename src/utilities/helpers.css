@@ -171,6 +171,12 @@
   gap: var(--spacing);
 }
 
+/* The stack owns spacing between its direct children. Semantic margins inside
+   each child remain untouched. */
+.stack > * {
+  margin-block: 0;
+}
+
 .items-center {
   align-items: center;
 }

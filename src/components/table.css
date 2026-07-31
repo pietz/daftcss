@@ -43,6 +43,13 @@ td {
   vertical-align: middle;
 }
 
+/* Secondary metadata stays visibly subordinate inside an already-small table. */
+td small {
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+  line-height: var(--line-height-sm);
+}
+
 /* Table footer */
 tfoot {
   border-top: var(--border-width) solid var(--border);

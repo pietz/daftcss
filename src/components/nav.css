@@ -30,12 +30,20 @@ nav {
 }
 
 :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]) {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
   margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   border-radius: var(--radius-sm);
+
+  & > svg {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    flex-shrink: 0;
+  }
 }
 
 :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]):not(:hover) {
@@ -197,10 +205,6 @@ nav[aria-label="breadcrumb" i] {
   margin: 0;
   padding: 0;
   line-height: var(--line-height);
-}
-
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:first-child) {
-  margin-inline-start: var(--spacing-sm);
 }
 
 :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:last-child)::after {

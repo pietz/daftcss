@@ -61,8 +61,6 @@ article:not(:where(.plain)) > header:has(> hgroup) {
 }
 
 article:not(:where(.plain)) > header > hgroup {
-  display: flex;
-  flex-direction: column;
   margin: 0;
   min-width: 0;
 }

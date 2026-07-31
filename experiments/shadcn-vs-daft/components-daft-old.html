@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daft CSS v1.20.1 · Component Catalog</title>
+    <link rel="stylesheet" href="/vendor/daft-old.css" />
+    <link rel="stylesheet" href="/src/catalog-layout.css" />
+  </head>
+  <body>
+    <main class="catalog" aria-labelledby="catalog-title">
+      <header class="catalog-header">
+        <div><p class="catalog-kicker">Daft CSS</p><h1 id="catalog-title">Component catalog</h1><p>Semantic HTML surfaces, arranged for direct comparison.</p></div>
+        <span class="badge outline catalog-version">Daft catalog</span>
+      </header>
+
+      <section class="catalog-section" aria-labelledby="type-title">
+        <header><h2 id="type-title">Typography &amp; content</h2><p>The document scale alongside representative reading content.</p></header>
+        <div class="catalog-grid">
+          <article class="catalog-panel span-5"><h3>Heading scale</h3><div class="catalog-heading-scale"><h1>Heading one</h1><h2>Heading two</h2><h3>Heading three</h3><h4>Heading four</h4><h5>Heading five</h5><h6>Heading six</h6></div></article>
+          <article class="catalog-panel span-7"><h3>Prose</h3><div class="catalog-copy"><p>Daft begins with readable native elements. This paragraph includes an <a href="#content-example">inline link</a>, <strong>strong emphasis</strong>, and <code>inline code</code>.</p><blockquote>“A small semantic vocabulary can still make an interface feel deliberate.”</blockquote><div class="catalog-grid"><ul class="span-6"><li>Native document structure</li><li>Composed control surfaces</li></ul><ol class="span-6"><li>Choose a landmark</li><li>Use the relevant element</li></ol></div><pre><code>const release = "v1.20.1";
+console.log(release);</code></pre></div></article>
+        </div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="actions-title">
+        <header><h2 id="actions-title">Actions &amp; identity</h2><p>Buttons, status labels, avatars, and joined controls.</p></header>
+        <div class="catalog-grid">
+          <article class="catalog-panel span-7"><h3>Buttons</h3><div class="catalog-actions"><button type="button">Save changes</button><button class="secondary" type="button">Secondary</button><button class="outline" type="button">Outline</button><button class="ghost" type="button">Ghost</button><button class="destructive" type="button">Delete</button><button class="link" type="button">Learn more</button></div><div class="catalog-actions"><button class="small" type="button">Small</button><button type="button"><i data-lucide="plus" aria-hidden="true"></i>Create item</button><button class="large" type="button">Large action</button><button class="icon ghost" type="button" aria-label="Search"><i data-lucide="search" aria-hidden="true"></i></button><button class="icon outline" type="button" aria-label="Copy link"><i data-lucide="copy" aria-hidden="true"></i></button><button type="button" disabled>Disabled</button><button type="button" aria-busy="true" disabled>Saving</button></div></article>
+          <article class="catalog-panel span-5"><h3>Badges &amp; avatars</h3><div class="status-row"><span class="badge">Default</span><span class="badge secondary">Draft</span><span class="badge outline">Review</span><span class="badge outline success">Healthy</span><span class="badge warning">Pending</span><span class="badge destructive">Failed</span></div><div class="avatar-row"><span class="avatar small" role="img" aria-label="Maya Chen">MC</span><span class="avatar" role="img" aria-label="Jordan Lee">JL</span><span class="avatar large" role="img" aria-label="Ava Stone">AS</span><span>Assigned reviewers</span></div></article>
+          <article class="catalog-panel span-12"><h3>Joined controls &amp; semantic search</h3><div class="catalog-inline"><div role="group" aria-label="Preview range"><button class="outline" type="button">Day</button><button class="outline" type="button" aria-pressed="true">Week</button><button class="outline" type="button">Month</button></div><label for="catalog-search">Search components<input id="catalog-search" type="search" placeholder="Search components" /></label></div></article>
+        </div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="surfaces-title">
+        <header><h2 id="surfaces-title">Surfaces &amp; feedback</h2><p>Cards, live messages, progress, and loading states.</p></header>
+        <div class="catalog-grid">
+          <article class="span-6"><header><h3>Release readiness</h3><p>One planned change is awaiting review.</p></header><p>Review the affected service before publishing the release note.</p><footer><button class="outline" type="button">View details</button><button type="button">Approve</button></footer></article>
+          <article class="span-6"><header><h3>Compact card</h3><p>Low-detail summary surface.</p></header><div class="catalog-inline"><span class="badge outline success">Synced</span><span class="muted">Updated just now</span></div></article>
+          <div class="catalog-panel span-6"><div role="status"><strong>Changes saved</strong><p>Your draft is available to collaborators.</p></div></div>
+          <div class="catalog-panel span-6"><div role="alert"><strong>Publishing blocked</strong><p>Fix the validation issue before continuing.</p></div></div>
+          <article class="catalog-panel span-6"><h3>Progress</h3><progress value="72" max="100" aria-label="Migration progress: 72 percent">72%</progress><small>72% complete</small></article>
+          <article class="catalog-panel span-6"><h3>Loading</h3><div class="catalog-loader" aria-busy="true"><span>Refreshing usage data</span></div></article>
+        </div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="forms-title">
+        <header><h2 id="forms-title">Forms</h2><p>Text controls, choices, validation, and native ranges.</p></header>
+        <div class="catalog-grid">
+          <form class="catalog-form span-6" onsubmit="return false"><label for="catalog-name">Project name<input id="catalog-name" value="Component catalog" /></label><label for="catalog-role">Role<select id="catalog-role"><option>Editor</option><option>Viewer</option><option>Owner</option></select></label><label for="catalog-notes">Notes<textarea id="catalog-notes">Keep the release notes focused and readable.</textarea></label><footer><button class="outline" type="reset">Reset</button><button type="submit">Save settings</button></footer></form>
+          <form class="catalog-form span-6" onsubmit="return false"><label for="catalog-email">Email address<input id="catalog-email" type="email" value="missing-domain" aria-invalid="true" aria-describedby="catalog-email-help" /></label><small id="catalog-email-help">Enter a complete email address.</small><label for="catalog-slug">Valid slug<input id="catalog-slug" value="release-notes" aria-invalid="false" /></label><fieldset><legend>Notifications</legend><div class="catalog-checks"><label><input type="checkbox" checked />Email summaries</label><label><input type="checkbox" role="switch" checked />Enable release alerts</label><label><input type="radio" name="digest" checked />Daily digest</label><label><input type="radio" name="digest" />Weekly digest</label></div></fieldset><label for="catalog-volume">Alert volume<input id="catalog-volume" type="range" min="0" max="100" value="65" /></label></form>
+        </div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="data-title">
+        <header><h2 id="data-title">Data &amp; navigation</h2><p>Table density alongside ordinary navigation patterns.</p></header>
+        <div class="catalog-grid">
+          <article class="catalog-panel span-7"><h3>Table</h3><figure class="catalog-table"><table><thead><tr><th scope="col">Service</th><th scope="col">Owner</th><th scope="col">Status</th><th scope="col">Updated</th></tr></thead><tbody><tr><th scope="row">Checkout API</th><td>Maya Chen</td><td><span class="badge outline success">Healthy</span></td><td>2 min ago</td></tr><tr><th scope="row">Auth gateway</th><td>Jordan Lee</td><td><span class="badge warning">Deploying</span></td><td>8 min ago</td></tr><tr><th scope="row">Asset worker</th><td>Ava Stone</td><td><span class="badge destructive">Failed</span></td><td>21 min ago</td></tr></tbody></table></figure></article>
+          <article class="catalog-panel span-5"><h3>Navigation</h3><nav class="catalog-nav" aria-label="Project navigation"><ul><li><a href="#overview" aria-current="page">Overview</a></li><li><a href="#activity">Activity</a></li><li><a href="#settings">Settings</a></li></ul></nav><nav aria-label="breadcrumb"><ul><li><a href="#workspace">Workspace</a></li><li><a href="#projects">Projects</a></li><li>Component catalog</li></ul></nav><h3>Tree</h3><ul class="tree catalog-tree"><li><details open><summary>src</summary><ul><li><details open><summary>components</summary><ul><li><a href="#button">button.css</a></li><li><a href="#catalog" aria-current="page">catalog.css</a></li></ul></details></li><li><a href="#entry">daft.css</a></li></ul></details></li><li><a href="#readme">README.md</a></li></ul></article>
+        </div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="interactive-title">
+        <header><h2 id="interactive-title">Disclosure &amp; overlays</h2><p>Native details, menus, dialogs, and focused help.</p></header>
+        <div class="catalog-grid">
+          <article class="catalog-panel span-6"><h3>Accordion</h3><details open><summary>What is included?</summary><p>Ordinary application and content surfaces, without sidebar or slides.</p></details><details><summary>How are the panes isolated?</summary><p>Each rendering lives in its own same-origin iframe.</p></details></article>
+          <article class="catalog-panel span-6"><h3>Dropdown &amp; dialog</h3><div class="catalog-inline"><details class="dropdown"><summary class="outline"><i data-lucide="ellipsis" aria-hidden="true"></i>Actions</summary><ul><li class="label">Catalog actions</li><li role="separator"></li><li><a href="#duplicate"><i data-lucide="copy" aria-hidden="true"></i>Duplicate</a></li><li><a href="#archive"><i data-lucide="archive" aria-hidden="true"></i>Archive</a></li></ul></details><button id="open-catalog-dialog" class="outline" type="button"><i data-lucide="panel-top-open" aria-hidden="true"></i>Open dialog</button><button class="icon ghost" type="button" aria-label="Catalog help" data-tooltip="Catalog help" data-placement="bottom"><i data-lucide="circle-help" aria-hidden="true"></i></button></div></article>
+          <article class="catalog-panel span-6"><h3>Embedded content</h3><figure class="catalog-figure"><img alt="Abstract release timeline with three stages" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='320' viewBox='0 0 640 320'%3E%3Crect width='640' height='320' fill='%23e4e4e7'/%3E%3Cpath d='M70 240 L220 150 L360 190 L530 65' fill='none' stroke='%2318181b' stroke-width='14' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='70' cy='240' r='14' fill='%2318181b'/%3E%3Ccircle cx='220' cy='150' r='14' fill='%2318181b'/%3E%3Ccircle cx='360' cy='190' r='14' fill='%2318181b'/%3E%3Ccircle cx='530' cy='65' r='14' fill='%2318181b'/%3E%3C/svg%3E" /><figcaption>Release completion rate, last four windows.</figcaption></figure></article>
+          <article class="catalog-panel span-6"><h3>Embedded document</h3><iframe class="catalog-iframe" title="Release note preview" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;body style='font:14px system-ui;padding:16px;color:#18181b'&gt;&lt;strong&gt;Release note preview&lt;/strong&gt;&lt;p&gt;A contained native iframe surface.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"></iframe></article>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="catalog-dialog" aria-labelledby="catalog-dialog-title"><article><header><hgroup><h2 id="catalog-dialog-title">Share component catalog</h2><p>Copy a stable reference link for this comparison.</p></hgroup><button id="close-catalog-dialog" class="icon ghost" type="button" aria-label="Close dialog"><i data-lucide="x" aria-hidden="true"></i></button></header><p>Anyone with the link can open the catalog in their browser.</p><footer><button id="dismiss-catalog-dialog" class="outline" type="button">Cancel</button><button type="button">Copy link</button></footer></article></dialog>
+    <script type="module" src="/src/catalog-daft.ts"></script>
+  </body>
+</html>

@@ -56,6 +56,7 @@ Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a 
 - Put each nav group in a direct `<ul>` child of `<nav>`. A list directly inside a direct `.container` or `.container-fluid` child is also matched.
 - Put each item in an `<li>`. Direct links, `[role="link"]`, controls, and `strong` receive the intended navigation treatment.
 - Use `<a>` for navigation and a real `<button>` for an action. Add an accessible name to every navigation landmark when the page has more than one.
+- Ordinary nav list links may contain a direct SVG followed by text. Daft renders these links inline-flex, centers the icon and text, applies the standard gap, and sizes the direct SVG with `--icon-size`.
 - For the responsive pattern, put `.top-nav` on the sticky top `<nav>`, then give the one link list an `id`, `.top-nav-menu`, and `popover`. Point an icon-only `.top-nav-toggle` button at that id with `popovertarget` and give it an `aria-label`.
 - Keep the trigger outside `.top-nav-menu` so it remains available while that list is closed. Use a restrained inline SVG with `aria-hidden="true"`; do not rely on a text glyph or visible “Menu” label.
 - Breadcrumbs use `<nav aria-label="breadcrumb"><ul>…</ul></nav>` with the list as the nav's direct child. The `aria-label` match is case-insensitive. Use list items in trail order and plain text for the current page; `aria-current` is not required.
@@ -74,7 +75,7 @@ Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a 
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-`--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--text-lg`, `--font-medium`, `--font-semibold`, `--line-height`, `--radius-sm`, `--dropdown-radius`, `--dropdown-shadow`, `--top-nav-height`, `--popover`, `--popover-foreground`, `--border`, `--breadcrumb-divider`, and `--muted-foreground`.
+`--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--text-lg`, `--font-medium`, `--font-semibold`, `--line-height`, `--radius-sm`, `--icon-size`, `--dropdown-radius`, `--dropdown-shadow`, `--top-nav-height`, `--popover`, `--popover-foreground`, `--border`, `--breadcrumb-divider`, and `--muted-foreground`.
 
 ## Behavior and accessibility
 

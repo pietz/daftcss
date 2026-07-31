@@ -82,7 +82,7 @@
     --card-shadow: var(--shadow-xs);
     --dropdown-shadow: var(--shadow-md);
     --modal-shadow: var(--shadow-lg);
-    --card-padding: var(--spacing-lg);
+    --card-padding: var(--spacing);
     --card-gap: var(--spacing);
     --button-height: var(--component-height);
     --button-height-sm: var(--component-height-sm);
@@ -96,7 +96,7 @@
     --switch-width: 2rem;
     --switch-height: 1.25rem;
     --switch-thumb: 1rem;
-    --modal-max-width: 32rem;
+    --modal-max-width: 24rem;
     --modal-overlay: light-dark(oklch(0% 0 0 / .5), oklch(0% 0 0 / .7));
     --breadcrumb-divider: "›";
     --top-nav-height: calc(var(--component-height)  + var(--spacing)  + 2 * var(--spacing-xs)  + var(--border-width));
@@ -145,9 +145,15 @@
     line-height: 1.5;
   }
 
-  img, picture, video, svg {
+  img, picture, video {
     max-width: 100%;
     display: block;
+  }
+
+  svg {
+    vertical-align: middle;
+    max-width: 100%;
+    display: inline-block;
   }
 
   input, button, textarea, select {
@@ -326,20 +332,6 @@
     margin-right: auto;
   }
 
-  @media (width >= 768px) {
-    .container-fluid {
-      padding-left: var(--spacing-lg);
-      padding-right: var(--spacing-lg);
-    }
-  }
-
-  @media (width >= 1024px) {
-    .container-fluid {
-      padding-left: var(--spacing-xl);
-      padding-right: var(--spacing-xl);
-    }
-  }
-
   main {
     min-height: 1px;
     display: block;
@@ -457,15 +449,19 @@
   }
 
   hgroup {
+    gap: var(--spacing-xs);
     margin-bottom: var(--spacing);
+    flex-direction: column;
+    display: flex;
 
     & > :is(h1, h2, h3, h4, h5, h6) {
-      margin-bottom: var(--spacing-sm);
+      margin: 0;
     }
 
     & > p {
       color: var(--muted-foreground);
-      margin-bottom: 0;
+      line-height: var(--line-height);
+      margin: 0;
     }
   }
 
@@ -1444,6 +1440,12 @@
     vertical-align: middle;
   }
 
+  td small {
+    color: var(--muted-foreground);
+    font-size: var(--text-xs);
+    line-height: var(--line-height-sm);
+  }
+
   tfoot {
     border-top: var(--border-width) solid var(--border);
   }
@@ -1543,10 +1545,8 @@
   }
 
   article:not(:where(.plain)) > header > hgroup {
-    flex-direction: column;
     min-width: 0;
     margin: 0;
-    display: flex;
   }
 
   article:not(:where(.plain)) > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
@@ -1774,6 +1774,12 @@
     text-decoration: none;
     display: flex;
 
+    & > svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      flex-shrink: 0;
+    }
+
     &:hover {
       background-color: var(--accent);
       color: var(--accent-foreground);
@@ -1804,16 +1810,19 @@
 
   dialog {
     z-index: 100;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-    padding: var(--spacing);
-    background-color: #0000;
-    border: none;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    width: min(var(--modal-max-width), calc(100vw - var(--spacing-xl)));
+    max-width: var(--modal-max-width);
+    height: fit-content;
+    max-height: calc(100dvh - var(--spacing-xl));
+    padding: var(--card-padding);
+    color: var(--foreground);
+    background-color: var(--card);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--modal-radius);
+    box-shadow: var(--modal-shadow);
+    animation: modal-in var(--transition-slow) var(--ease-default);
+    margin: auto;
+    display: block;
     position: fixed;
     inset: 0;
     overflow: auto;
@@ -1828,53 +1837,8 @@
     display: none;
   }
 
-  dialog:not(:has( > article)) {
-    width: auto;
-    max-width: var(--modal-max-width);
-    height: fit-content;
-    max-height: calc(100dvh - var(--spacing-xl));
-    padding: var(--spacing-lg);
-    color: var(--foreground);
-    background-color: var(--card);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--modal-radius);
-    box-shadow: var(--modal-shadow);
-    margin: auto;
-    display: block;
-    position: fixed;
-    inset: 0;
-    overflow: auto;
-  }
-
-  dialog[popover] {
-    margin: auto;
-  }
-
-  dialog[popover]:has( > article) {
-    width: min(var(--modal-max-width), calc(100vw - 2 * var(--spacing)));
-    height: fit-content;
-    max-height: calc(100dvh - 2 * var(--spacing));
-    padding: 0;
-    overflow: visible;
-  }
-
-  dialog[popover]:popover-open {
-    display: block;
-  }
-
-  dialog > article {
-    width: 100%;
-    max-width: var(--modal-max-width);
-    max-height: calc(100dvh - var(--spacing-xl));
-    padding: var(--spacing-lg);
-    background-color: var(--card);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--modal-radius);
-    box-shadow: var(--modal-shadow);
-    animation: modal-in var(--transition-slow) var(--ease-default);
-    margin: 0;
-    position: relative;
-    overflow: auto;
+  dialog > article:only-child {
+    display: contents;
   }
 
   @keyframes modal-in {
@@ -1889,68 +1853,89 @@
     }
   }
 
-  dialog > article > header {
-    margin-bottom: var(--spacing-sm);
-    padding: 0;
-    display: block;
-  }
-
-  dialog > article > header > p {
-    margin: 0;
-  }
-
-  dialog > article > header > strong, dialog > article > header > p > strong {
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    color: var(--foreground);
-  }
-
-  dialog > article > button[aria-label="Close"], dialog > article > header > button[aria-label="Close"], dialog > article > button[rel="prev"], dialog > article > header > button[rel="prev"] {
-    top: var(--spacing);
-    right: var(--spacing);
-    width: 2rem;
-    height: 2rem;
-    color: var(--muted-foreground);
-    border-radius: var(--radius-sm);
-    box-shadow: none;
-    cursor: pointer;
-    transition: background-color var(--transition-default), color var(--transition-default);
-    background-color: #0000;
-    border: none;
-    padding: 0;
-    position: absolute;
-
-    &:hover {
-      background-color: var(--accent);
-      color: var(--accent-foreground);
-    }
-
-    &:not(:has(svg)):before {
-      content: "";
-      width: var(--icon-size);
-      height: var(--icon-size);
-      background-color: currentColor;
+  :is(dialog, dialog > article:only-child) {
+    & > header {
+      padding: 0;
+      margin-bottom: var(--spacing-sm);
+      padding-inline-end: calc(2rem + var(--spacing-sm));
       display: block;
-      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E") center / contain no-repeat;
     }
-  }
 
-  dialog > article > p, dialog > article > div {
-    margin-bottom: var(--spacing-sm);
-    padding: 0;
-  }
+    & > hgroup {
+      margin-bottom: var(--spacing-sm);
+    }
 
-  dialog > article > p:last-child, dialog > article > div:last-child {
-    margin-bottom: 0;
-  }
+    & > header > hgroup {
+      margin: 0;
+    }
 
-  dialog > article > footer {
-    justify-content: flex-end;
-    align-items: center;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-sm);
-    padding: 0;
-    display: flex;
+    & > :is(h1, h2, h3, h4, h5, h6), & > hgroup > :is(h1, h2, h3, h4, h5, h6), & > header > :is(strong, h1, h2, h3, h4, h5, h6), & > header > hgroup > :is(h1, h2, h3, h4, h5, h6), & > header > p > strong {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      line-height: var(--line-height-sm);
+      color: var(--foreground);
+      margin: 0;
+    }
+
+    & > :is(h1, h2, h3, h4, h5, h6) {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    & > hgroup > p, & > header > p, & > header > hgroup > p {
+      font-size: var(--text-sm);
+      font-weight: var(--font-normal);
+      line-height: var(--line-height);
+      color: var(--muted-foreground);
+      margin: 0;
+    }
+
+    & > :is(button[aria-label="Close"], button[rel="prev"]), & > header > :is(button[aria-label="Close"], button[rel="prev"]) {
+      top: calc(var(--card-padding)  - var(--spacing-xs));
+      right: calc(var(--card-padding)  - var(--spacing-xs));
+      width: 2rem;
+      height: 2rem;
+      color: var(--muted-foreground);
+      border-radius: var(--radius-sm);
+      box-shadow: none;
+      cursor: pointer;
+      transition: background-color var(--transition-default), color var(--transition-default);
+      background-color: #0000;
+      border: none;
+      padding: 0;
+      position: absolute;
+
+      &:hover {
+        background-color: var(--accent);
+        color: var(--accent-foreground);
+      }
+
+      &:not(:has(svg)):before {
+        content: "";
+        width: var(--icon-size);
+        height: var(--icon-size);
+        background-color: currentColor;
+        display: block;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+      }
+    }
+
+    & > :is(p, div) {
+      margin-bottom: var(--spacing-sm);
+      padding: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    & > footer, & > form > footer {
+      justify-content: flex-end;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+      padding: 0;
+      display: flex;
+    }
   }
 
   nav {
@@ -1980,12 +1965,20 @@
   }
 
   :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]) {
+    align-items: center;
+    gap: var(--spacing-sm);
     margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     border-radius: var(--radius-sm);
-    display: inline-block;
+    display: inline-flex;
+
+    & > svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      flex-shrink: 0;
+    }
   }
 
   :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(a, [role="link"]):not(:hover) {
@@ -2127,10 +2120,6 @@
     margin: 0;
     padding: 0;
     display: flex;
-  }
-
-  :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:first-child) {
-    margin-inline-start: var(--spacing-sm);
   }
 
   :is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:last-child):after {
@@ -2626,18 +2615,36 @@
   }
 
   body > aside.sidebar {
-    background-color: var(--muted);
     color: inherit;
-    padding: var(--spacing-lg);
+    background-color: var(--card);
     border: none;
+    border-inline-end: var(--border-width) solid var(--border);
+    padding: 0;
+  }
+
+  body > aside.sidebar > :is(header, footer) {
+    padding: var(--spacing);
+  }
+
+  body > aside.sidebar > header {
+    border-bottom: var(--border-width) solid var(--border);
   }
 
   body > aside.sidebar > nav {
     justify-content: flex-start;
     align-items: stretch;
     gap: var(--spacing-sm);
+    min-height: 0;
+    padding-inline: var(--spacing);
     flex-flow: column;
+    flex: auto;
     display: flex;
+    overflow-y: auto;
+  }
+
+  body > aside.sidebar > footer {
+    border-top: var(--border-width) solid var(--border);
+    margin-top: auto;
   }
 
   body > aside.sidebar > nav > ul {
@@ -2652,11 +2659,13 @@
 
   body > aside.sidebar > nav > ul > li {
     margin: 0;
+    padding: 0;
   }
 
   body > aside.sidebar > nav > .label, body > aside.sidebar > nav > ul > li.label, body > aside.sidebar > nav > ul > li > strong {
-    padding: var(--spacing-xs) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
     margin-top: var(--spacing-sm);
+    font-size: var(--text-xs);
     margin-bottom: 0;
     display: block;
   }
@@ -2678,6 +2687,7 @@
     white-space: nowrap;
     transition: background-color var(--transition-default), color var(--transition-default);
     background-color: #0000;
+    margin: 0;
     text-decoration: none;
     display: flex;
     overflow: hidden;
@@ -2695,68 +2705,72 @@
     font-weight: var(--font-semibold);
   }
 
-  @media (width >= 768px) {
-    body > aside.sidebar {
-      inset: var(--sidebar-offset-top) auto 0 0;
-      width: var(--aside-width);
-      height: calc(100dvh - var(--sidebar-offset-top));
-      z-index: 10;
-      display: block;
-      position: fixed;
-      overflow-y: auto;
-    }
-
-    body > aside.sidebar ~ :is(header, nav, main, footer) {
-      margin-left: var(--aside-width);
-      width: auto;
-    }
-
-    body > :is(header, nav):first-child:has( + aside.sidebar) + aside.sidebar {
-      --sidebar-offset-top: calc(var(--component-height)  + var(--spacing));
-    }
-
-    body > :is(header, nav).top-nav:first-child:has( + aside.sidebar) + aside.sidebar {
-      --sidebar-offset-top: var(--top-nav-height);
-    }
-
-    body > :is(header, nav):first-child:has( + aside.sidebar) ~ main, body > :is(header, nav):first-child:has( + aside.sidebar) ~ footer {
-      margin-left: var(--aside-width);
-      width: auto;
-    }
-  }
-
   @media (width <= 767.98px) {
     body > aside.sidebar {
       display: none;
     }
+  }
 
-    body > aside.sidebar[popover]:popover-open {
-      width: min(var(--aside-width), 85vw);
-      z-index: 100;
-      height: 100dvh;
-      transition: transform var(--transition-slow) var(--ease-default), overlay var(--transition-slow) var(--ease-default) allow-discrete, display var(--transition-slow) var(--ease-default) allow-discrete;
-      display: block;
-      position: fixed;
-      inset: 0 auto 0 0;
-      overflow-y: auto;
-      transform: translateX(0);
-    }
+  body > aside.sidebar:where([popover]:popover-open) {
+    width: min(var(--aside-width), 85vw);
+    z-index: 100;
+    height: 100dvh;
+    transition: transform var(--transition-slow) var(--ease-default), overlay var(--transition-slow) var(--ease-default) allow-discrete, display var(--transition-slow) var(--ease-default) allow-discrete;
+    flex-direction: column;
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;
+    overflow: hidden;
+    transform: translateX(0);
+  }
 
-    body > aside.sidebar[popover]::backdrop {
-      background-color: var(--modal-overlay);
-      backdrop-filter: blur(var(--blur));
-    }
+  body > aside.sidebar[popover]::backdrop {
+    background-color: var(--modal-overlay);
+    backdrop-filter: blur(var(--blur));
+  }
 
-    @starting-style {
-      body > aside.sidebar[popover]:popover-open {
-        transform: translateX(-100%);
-      }
+  @starting-style {
+    body > aside.sidebar:where([popover]:popover-open) {
+      transform: translateX(-100%);
     }
   }
 
   @media (width >= 768px) {
-    .sidebar-toggle.sidebar-toggle, li:has( > .sidebar-toggle) {
+    body > aside.sidebar:not(.drawer) {
+      inset: var(--sidebar-offset-top) auto 0 0;
+      width: var(--aside-width);
+      height: calc(100dvh - var(--sidebar-offset-top));
+      z-index: 10;
+      flex-direction: column;
+      display: flex;
+      position: fixed;
+      overflow: hidden;
+    }
+
+    body > aside.sidebar:not(.drawer) ~ :is(header, nav, main, footer) {
+      margin-left: var(--aside-width);
+      width: auto;
+    }
+
+    body > :is(header, nav):first-child:has( + aside.sidebar:not(.drawer)) + aside.sidebar:not(.drawer) {
+      --sidebar-offset-top: calc(var(--component-height)  + var(--spacing));
+    }
+
+    body > :is(header, nav).top-nav:first-child:has( + aside.sidebar:not(.drawer)) + aside.sidebar:not(.drawer) {
+      --sidebar-offset-top: var(--top-nav-height);
+    }
+
+    body > :is(header, nav):first-child:has( + aside.sidebar:not(.drawer)) ~ main, body > :is(header, nav):first-child:has( + aside.sidebar:not(.drawer)) ~ footer {
+      margin-left: var(--aside-width);
+      width: auto;
+    }
+
+    .sidebar-toggle.sidebar-toggle, body:not(:has( > aside.sidebar.drawer)) li:has( > .sidebar-toggle) {
       display: none;
+    }
+
+    body:has( > aside.sidebar.drawer) .sidebar-toggle.sidebar-toggle {
+      display: inline-flex;
     }
   }
 
@@ -3222,6 +3236,10 @@
     gap: var(--spacing);
     flex-direction: column;
     display: flex;
+  }
+
+  .stack > * {
+    margin-block: 0;
   }
 
   .items-center {

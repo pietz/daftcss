@@ -205,7 +205,7 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 </article>
 ```
 
-Wrap an appropriately leveled heading and lead paragraph in `<hgroup>` for the shadcn-style title + muted description pair. An `hgroup` requires a real `<h1>`–`<h6>`; do not substitute `<strong>`. A sibling element (badge, action) floats right automatically.
+When a card needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render the pair at 18px and 14px. A sibling element (badge, action) floats right automatically.
 
 Use `<article class="plain">` for a semantic article that should follow normal document flow without Daft's card background, border, radius, shadow, padding, or compact card header/footer layout. Ordinary `<article>` elements remain automatic cards.
 
@@ -289,25 +289,26 @@ For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover 
 ```html
 <button popovertarget="help-dialog">Open Help</button>
 <dialog id="help-dialog" popover aria-label="Help">
-  <article>
-    <header>
-      <button aria-label="Close" popovertarget="help-dialog">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <path d="M18 6 6 18"/>
-          <path d="m6 6 12 12"/>
-        </svg>
-      </button>
-      <strong>Help</strong>
-    </header>
-    <p>Supporting information goes here.</p>
-  </article>
+  <header>
+    <button aria-label="Close" popovertarget="help-dialog"
+            popovertargetaction="hide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+    <strong>Help</strong>
+  </header>
+  <p>Supporting information goes here.</p>
 </dialog>
 ```
 
-For a true modal interaction, use a regular `<dialog>` and open it with `showModal()`. Daft styles both patterns.
+For a true modal interaction, use a regular `<dialog>` and open it with `showModal()`. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Forms have no dialog-specific container styling.
+
+Migration: `<dialog><article>…</article></dialog>` remains supported in v1; remove the `<article>` tags.
 
 ### Alerts
 
@@ -377,11 +378,12 @@ For a location trail, use a named navigation landmark with a plain-text final it
 
 ### Sidebar
 
-Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the top header/nav for a full-height rail, or after the top header/nav when the rail should sit below it. Add the `popover` attribute and a `.sidebar-toggle` button for a mobile slide-out drawer — no JavaScript.
+Place `aside.sidebar` as a direct child of `body`. Its canonical structure is an optional direct `header`, a required direct `nav`, and an optional direct `footer`. Header and footer have full-width separators and remain visible; only the nav scrolls. A nav-only sidebar is also supported. Add `popover` and a `.sidebar-toggle` button for a mobile slide-out drawer. No JavaScript is required beyond native popover behavior.
 
 ```html
 <body>
-  <aside id="sidebar" class="sidebar" popover>
+  <aside id="sidebar" class="sidebar" popover aria-label="Workspace navigation">
+    <header><strong>Acme</strong></header>
     <nav>
       <ul>
         <li class="label">Overview</li>
@@ -389,30 +391,23 @@ Place `<aside class="sidebar">` as a direct child of `<body>`. Put it before the
         <li><a href="#">Reports</a></li>
       </ul>
     </nav>
+    <footer><small>Signed in as Kai</small></footer>
   </aside>
 
   <header class="container-fluid">
-    <nav>
-      <ul>
-        <li>
-          <button class="ghost icon sidebar-toggle"
-                  popovertarget="sidebar"
-                  aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
-        </li>
-        <li><strong>Admin</strong></li>
-      </ul>
-    </nav>
+    <button class="ghost icon sidebar-toggle"
+            popovertarget="sidebar"
+            aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
+    <strong>Admin</strong>
   </header>
 
   <main class="container-fluid">
-    <section>
-      <!-- page content -->
-    </section>
+    <section><!-- page content --></section>
   </main>
 </body>
 ```
 
-The `.sidebar-toggle` button auto-hides on desktop (≥768px). On mobile it opens the sidebar as a drawer via the native Popover API. Override `--aside-width` to change the column width.
+By default, the sidebar is a persistent desktop rail and a native Popover drawer on mobile; its `.sidebar-toggle` is shown only on mobile. Add `.drawer` (`class="sidebar drawer"`) to make it a native hidden drawer at every width: the same `.sidebar-toggle` is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript. Override `--aside-width` to change the width.
 
 ### Avatar
 

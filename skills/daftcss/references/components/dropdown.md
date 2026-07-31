@@ -22,7 +22,7 @@ Use `<details class="dropdown">` for a compact disclosure whose list is visually
 ## Markup requirements
 
 - Use `<details class="dropdown">` with a first-child `<summary>` trigger and a direct-child `<ul>` menu.
-- Put each menu entry in an `<li>`. Direct child `<a>` and `<label>` elements receive the menu-item styling.
+- Put each menu entry in an `<li>`. Direct child `<a>` and `<label>` elements receive the menu-item styling. A direct child SVG before its text is sized with `--icon-size` and kept beside the label.
 - Use `<li class="label">` for a noninteractive section label and `<li role="separator"></li>` for a visual separator.
 - A summary with only an icon needs an accessible name, for example `aria-label="More actions"`.
 

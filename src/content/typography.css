@@ -51,15 +51,19 @@ h6 {
 
 /* Heading groups */
 hgroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
   margin-bottom: var(--spacing);
 
   & > :is(h1, h2, h3, h4, h5, h6) {
-    margin-bottom: var(--spacing-sm);
+    margin: 0;
   }
 
   & > p {
+    margin: 0;
     color: var(--muted-foreground);
-    margin-bottom: 0;
+    line-height: var(--line-height);
   }
 }
 

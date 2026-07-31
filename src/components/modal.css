@@ -1,28 +1,29 @@
 /**
  * Dialog styles
  *
- * <dialog popover> provides a no-JavaScript, non-modal overlay. It does not
- * make the page inert or contain focus. Use showModal() when interaction must
- * be modal. Both approaches can wrap content in <article> for the full layout
- * (header/footer/close-button positioning).
+ * The dialog is the single visible surface for both showModal() and
+ * <dialog popover>. Popovers remain non-modal and retain native light dismiss;
+ * showModal() retains native focus containment and page inertness.
  */
 
-/* Base dialog styles (shared by both approaches) */
 dialog {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  padding: var(--spacing);
-  background-color: transparent;
-  border: none;
+  display: block;
+  width: min(var(--modal-max-width), calc(100vw - var(--spacing-xl)));
+  max-width: var(--modal-max-width);
+  height: fit-content;
+  max-height: calc(100dvh - var(--spacing-xl));
+  margin: auto;
+  padding: var(--card-padding);
   overflow: auto;
+  color: var(--foreground);
+  background-color: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--modal-radius);
+  box-shadow: var(--modal-shadow);
+  animation: modal-in var(--transition-slow) var(--ease-default);
 }
 
 dialog::backdrop {
@@ -34,59 +35,10 @@ dialog:not([open]):not(:popover-open) {
   display: none;
 }
 
-/* Bare-dialog fallback. Styles <dialog> itself as the card when there is no
-   inner <article>, so showModal() with arbitrary children still looks
-   designed. Wrap content in <article> for the full modal layout. */
-dialog:not(:has(> article)) {
-  display: block;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  width: auto;
-  max-width: var(--modal-max-width);
-  height: fit-content;
-  max-height: calc(100dvh - var(--spacing-xl));
-  padding: var(--spacing-lg);
-  color: var(--foreground);
-  background-color: var(--card);
-  border: var(--border-width) solid var(--border);
-  border-radius: var(--modal-radius);
-  box-shadow: var(--modal-shadow);
-  overflow: auto;
-}
-
-/* Popover dialog (non-modal, no JavaScript required). Keep its hit area
-   around the surface so clicks elsewhere can trigger native light dismiss. */
-dialog[popover] {
-  margin: auto;
-}
-
-dialog[popover]:has(> article) {
-  width: min(var(--modal-max-width), calc(100vw - 2 * var(--spacing)));
-  height: fit-content;
-  max-height: calc(100dvh - 2 * var(--spacing));
-  padding: 0;
-  overflow: visible;
-}
-
-dialog[popover]:popover-open {
-  display: block;
-}
-
-/* Dialog content (article inside dialog) */
-dialog > article {
-  position: relative;
-  width: 100%;
-  max-width: var(--modal-max-width);
-  max-height: calc(100dvh - var(--spacing-xl));
-  margin: 0;
-  padding: var(--spacing-lg);
-  overflow: auto;
-  background-color: var(--card);
-  border: var(--border-width) solid var(--border);
-  border-radius: var(--modal-radius);
-  box-shadow: var(--modal-shadow);
-  animation: modal-in var(--transition-slow) var(--ease-default);
+/* Deprecated v1 bridge: only an article that is the dialog's sole child is
+   flattened into the canonical dialog surface. Do not use for new markup. */
+dialog > article:only-child {
+  display: contents;
 }
 
 @keyframes modal-in {
@@ -100,79 +52,103 @@ dialog > article {
   }
 }
 
-/* Dialog header */
-dialog > article > header {
-  display: block;
-  padding: 0;
-  margin-bottom: var(--spacing-sm);
-}
-
-dialog > article > header > p {
-  margin: 0;
-}
-
-dialog > article > header > strong,
-dialog > article > header > p > strong {
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  color: var(--foreground);
-}
-
-/* Close button - positioned at corner intersection */
-dialog > article > button[aria-label="Close"],
-dialog > article > header > button[aria-label="Close"],
-dialog > article > button[rel="prev"],
-dialog > article > header > button[rel="prev"] {
-  position: absolute;
-  top: var(--spacing);
-  right: var(--spacing);
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  color: var(--muted-foreground);
-  background-color: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  box-shadow: none;
-  cursor: pointer;
-  transition: background-color var(--transition-default),
-              color var(--transition-default);
-
-  &:hover {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
-  }
-
-  /* Backward-compatible fallback for close buttons without an SVG.
-     Recommended markup supplies one, so it never receives a duplicate icon. */
-  &:not(:has(svg))::before {
-    content: "";
+/* The second root is the temporary v1 article-wrapper bridge. */
+:is(dialog, dialog > article:only-child) {
+  /* Title blocks */
+  & > header {
     display: block;
-    width: var(--icon-size);
-    height: var(--icon-size);
-    background-color: currentColor;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+    padding: 0;
+    padding-inline-end: calc(2rem + var(--spacing-sm));
+    margin-bottom: var(--spacing-sm);
   }
-}
 
-/* Dialog body */
-dialog > article > p,
-dialog > article > div {
-  padding: 0;
-  margin-bottom: var(--spacing-sm);
-}
+  & > hgroup {
+    margin-bottom: var(--spacing-sm);
+  }
 
-dialog > article > p:last-child,
-dialog > article > div:last-child {
-  margin-bottom: 0;
-}
+  & > header > hgroup {
+    margin: 0;
+  }
 
-/* Modal footer */
-dialog > article > footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-  padding: 0;
-  margin-top: var(--spacing-sm);
+  & > :is(h1, h2, h3, h4, h5, h6),
+  & > hgroup > :is(h1, h2, h3, h4, h5, h6),
+  & > header > :is(strong, h1, h2, h3, h4, h5, h6),
+  & > header > hgroup > :is(h1, h2, h3, h4, h5, h6),
+  & > header > p > strong {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--line-height-sm);
+    color: var(--foreground);
+  }
+
+  & > :is(h1, h2, h3, h4, h5, h6) {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  & > hgroup > p,
+  & > header > p,
+  & > header > hgroup > p {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-normal);
+    line-height: var(--line-height);
+    color: var(--muted-foreground);
+  }
+
+  /* Close control */
+  & > :is(button[aria-label="Close"], button[rel="prev"]),
+  & > header > :is(button[aria-label="Close"], button[rel="prev"]) {
+    position: absolute;
+    top: calc(var(--card-padding) - var(--spacing-xs));
+    right: calc(var(--card-padding) - var(--spacing-xs));
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    color: var(--muted-foreground);
+    background-color: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    box-shadow: none;
+    cursor: pointer;
+    transition: background-color var(--transition-default),
+                color var(--transition-default);
+
+    &:hover {
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+    }
+
+    /* Backward-compatible fallback for close buttons without an SVG. */
+    &:not(:has(svg))::before {
+      content: "";
+      display: block;
+      width: var(--icon-size);
+      height: var(--icon-size);
+      background-color: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+  }
+
+  /* Flow body */
+  & > :is(p, div) {
+    padding: 0;
+    margin-bottom: var(--spacing-sm);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* A form footer receives the same action-row layout without giving the form
+     its own dialog-specific surface or container styling. */
+  & > footer,
+  & > form > footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    padding: 0;
+    margin-top: var(--spacing-sm);
+  }
 }

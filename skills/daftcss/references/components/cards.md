@@ -18,7 +18,7 @@ Use `<article>` for a self-contained, independently meaningful unit such as a po
 
 - Use direct-child `<header>` for the card heading and optional supporting text.
 - Use direct-child `<footer>` for actions or metadata that follows the body.
-- For a title and subtitle, put an appropriately leveled `<h1>`–`<h6>` and `<p>` in `<hgroup>` inside the header. An `hgroup` must contain a real heading; do not substitute `<strong>`.
+- When a card needs a compact title and subtitle, put direct real heading and supporting paragraph children in `<hgroup>` inside the header. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render titles at 18px and subtitles at 14px.
 
 ```html
 <article>

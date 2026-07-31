@@ -173,10 +173,12 @@ Each elevated component has its own shadow token. Set any to `none` to flatten t
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--card-padding` | `var(--spacing-lg)` | Space between a card edge and its content |
+| `--card-padding` | `var(--spacing)` | Space between a card edge and its content |
 | `--card-gap` | `var(--spacing)` | Separation from a card header or footer to its body |
 
-Override them together for compact cards, or independently when outer padding and internal section rhythm should differ.
+Dialogs use `--card-padding`; their `--modal-max-width` default is `24rem`.
+
+Override card spacing tokens together for compact cards, or independently when outer padding and internal section rhythm should differ.
 
 ---
 
@@ -227,17 +229,19 @@ For a multi-row layout, use multiple grids — one per row. The layout reads top
 
 ### Sidebar
 
-Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar. On desktop (≥ 768px), placement defines the layout: put the sidebar before the top header/nav for a full-height rail, or after it when the rail should sit below the top bar. On mobile, pair it with the `popover` attribute and a `.sidebar-toggle` button for a slide-out drawer with no JavaScript.
+Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar. Its canonical direct-child structure is an optional `<header>`, required `<nav>`, and optional `<footer>`. Header and footer have full-width separators and remain visible; the nav is the only scrolling region. A nav-only sidebar remains supported. On desktop (≥ 768px), placement defines the layout. On mobile, pair it with `popover` and a `.sidebar-toggle` button for a slide-out drawer with no JavaScript.
 
 ```html
-<aside id="sidebar" class="sidebar" popover>
-  <nav>
+<aside id="sidebar" class="sidebar" popover aria-label="Workspace navigation">
+  <header><strong>Acme</strong></header>
+  <nav aria-label="Workspace">
     <ul>
       <li class="label">Overview</li>
       <li><a href="#" aria-current="page">Dashboard</a></li>
       <li><a href="#">Reports</a></li>
     </ul>
   </nav>
+  <footer><small>Signed in as Kai</small></footer>
 </aside>
 
 <header class="container-fluid">
@@ -248,17 +252,14 @@ Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar.
 </header>
 
 <main class="container-fluid">
-  <section>
-    <hgroup>
-      <h1>Page Title</h1>
-      <p>Subtitle</p>
-    </hgroup>
-    <article>Content card</article>
-  </section>
+  <hgroup>
+    <h1>Page Title</h1>
+    <p>Subtitle</p>
+  </hgroup>
 </main>
 ```
 
-The `.sidebar-toggle` helper hides the menu button on desktop. The browser's native Popover API handles mobile open/close behavior, ESC, click-outside behavior, focus management, and the backdrop.
+By default, the sidebar is a persistent desktop rail and a native Popover drawer on mobile; its `.sidebar-toggle` is shown only on mobile. Add `.drawer` (`class="sidebar drawer"`) to make it a native hidden drawer at every width: the same `.sidebar-toggle` is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript. The native Popover API handles open/close, Escape, click-outside behavior, focus management, and the backdrop.
 
 **Custom width**
 
@@ -301,6 +302,8 @@ All typography is styled automatically. No classes needed.
 ```
 
 ### Heading Groups
+
+Use `<hgroup>` only for a compact heading and subtitle, not when a heading alone is enough. Its direct children are a real `<h1>`–`<h6>` and supporting `<p>`; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal document spacing around the group. Cards and dialogs contextually render the pair at 18px and 14px; slides retain their responsive slide typography.
 
 ```html
 <hgroup>
@@ -660,7 +663,7 @@ Use `<article>` for cards. When a semantic article should remain ordinary docume
 </article>
 ```
 
-**Title + subtitle pair (shadcn style):** wrap an appropriately leveled `<h1>`–`<h6>` and lead paragraph in `<hgroup>`. An `hgroup` requires a real heading; do not substitute `<strong>`. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
+**Optional title + subtitle pair:** use `<hgroup>` with direct real heading and supporting paragraph children when a card needs both. The heading keeps its semantic level; card titles render at 18px and subtitles at 14px. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
 
 ```html
 <article>
@@ -904,21 +907,20 @@ For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover 
 <button popovertarget="help-dialog">Open Help</button>
 
 <dialog id="help-dialog" popover aria-label="Help">
-  <article>
-    <header>
-      <button aria-label="Close" popovertarget="help-dialog">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <path d="M18 6 6 18"/>
-          <path d="m6 6 12 12"/>
-        </svg>
-      </button>
-      <strong>Help</strong>
-    </header>
-    <p>Supporting information goes here.</p>
-  </article>
+  <header>
+    <button aria-label="Close" popovertarget="help-dialog"
+            popovertargetaction="hide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+    <strong>Help</strong>
+  </header>
+  <p>Supporting information goes here.</p>
 </dialog>
 ```
 
@@ -937,19 +939,21 @@ Use a regular `<dialog>` opened with `showModal()` when the rest of the page mus
 <button onclick="document.getElementById('alert-dialog').showModal()">Open</button>
 ```
 
-A bare `<dialog>` renders as a card surface. Wrap its content in `<article>` when you want the full header, footer, and close-button layout.
+The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. Forms have no dialog-specific container styling.
+
+Migration: `<dialog><article>…</article></dialog>` remains supported in v1; remove the `<article>` tags.
 
 ### Navigation
 
 **Horizontal Nav:**
 
-Ordinary navigation remains horizontal and wraps safely on narrow screens.
+Ordinary navigation remains horizontal and wraps safely on narrow screens. A list link may contain a direct inline SVG followed by its text; Daft aligns the icon and text with the standard gap and sizes the SVG with `--icon-size`.
 
 ```html
 <nav>
   <strong>Brand</strong>
   <ul>
-    <li><a href="/" aria-current="page">Home</a></li>
+    <li><a href="/" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/contact">Contact</a></li>
   </ul>

@@ -144,6 +144,7 @@
   </nav>
 
   <aside id="sidebar" class="sidebar" popover aria-label="Component navigation">
+    <header><strong>Daft CSS</strong></header>
     <nav aria-label="Components">
       <ul>
         <li class="label">Components</li>
@@ -159,6 +160,7 @@
         <li><a href="#overlays">Overlays</a></li>
       </ul>
     </nav>
+    <footer><small>Component reference</small></footer>
   </aside>
 
   <main class="container-fluid">
@@ -172,6 +174,7 @@
 
     <section id="typography">
       <h2>Typography</h2>
+      <p>Use <code>&lt;hgroup&gt;</code> only for a compact heading and subtitle: a direct real heading plus supporting paragraph. It preserves the heading level, adds a 4px internal gap and muted subtitle, and keeps normal document spacing. Cards and dialogs use 18px titles and 14px subtitles; slides keep responsive slide typography.</p>
 
       <h3>Headings</h3>
       <div class="grid">
@@ -649,9 +652,12 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       </div>
 
       <h3>Sidebar</h3>
-      <p><code>&lt;aside class="sidebar"&gt;</code> supports two desktop layouts depending on where it appears as a
-        direct child of <code>&lt;body&gt;</code>. Add <code>popover</code> and a <code>.sidebar-toggle</code> button
-        wherever your mobile layout should open the drawer.</p>
+      <p><code>&lt;aside class="sidebar"&gt;</code> is a direct child of <code>&lt;body&gt;</code> with an optional direct
+        <code>header</code>, required <code>nav</code>, and optional direct <code>footer</code>. Header and footer have
+        full-width separators and remain visible while only the nav scrolls. A nav-only sidebar is also supported. By default, it is a persistent
+        desktop rail and a native mobile drawer; the <code>.sidebar-toggle</code> is shown only on mobile. Add <code>.drawer</code> to make it a
+        native hidden drawer at every width: use the same <code>.sidebar-toggle</code>, the layout does not shift, and no JavaScript is needed.
+        A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript.</p>
       <div class="sidebar-layouts">
         <article class="sidebar-layout">
           <h4>Top nav over everything</h4>
@@ -664,7 +670,9 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;a href="/"&gt;Home&lt;/a&gt;
 &lt;/nav&gt;
 &lt;aside id="sidebar" class="sidebar" popover&gt;
+  &lt;header&gt;&lt;strong&gt;Acme&lt;/strong&gt;&lt;/header&gt;
   &lt;nav aria-label="Sidebar"&gt;&lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/nav&gt;
+  &lt;footer&gt;&lt;small&gt;Account&lt;/small&gt;&lt;/footer&gt;
 &lt;/aside&gt;
 &lt;button class="sidebar-toggle" popovertarget="sidebar" aria-label="Open sidebar"&gt;Menu&lt;/button&gt;
 &lt;main class="container-fluid"&gt;&lt;h1&gt;Dashboard&lt;/h1&gt;&lt;/main&gt;</code></pre>
@@ -677,7 +685,9 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <span class="diagram-main">main</span>
           </div>
           <pre><code>&lt;aside id="sidebar" class="sidebar" popover&gt;
+  &lt;header&gt;&lt;strong&gt;Acme&lt;/strong&gt;&lt;/header&gt;
   &lt;nav aria-label="Sidebar"&gt;&lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/nav&gt;
+  &lt;footer&gt;&lt;small&gt;Account&lt;/small&gt;&lt;/footer&gt;
 &lt;/aside&gt;
 &lt;header class="container-fluid"&gt;
   &lt;nav aria-label="Primary"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/nav&gt;
@@ -998,25 +1008,27 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
     <section id="overlays">
       <h2>Overlays</h2>
+      <p>Dialog surfaces default to a 24rem maximum width and use <code>--card-padding</code>.</p>
 
       <h3>Popover Dialog</h3>
       <div class="grid">
         <article>
-          <p>This no-JavaScript overlay is light-dismiss and non-modal. The page does not become inert.</p>
+          <p>This no-JavaScript overlay is light-dismiss and non-modal. The dialog is the surface: use direct header and flow content. The page does not become inert.</p>
+          <p><small>Migration: <code>&lt;dialog&gt;&lt;article&gt;…&lt;/article&gt;&lt;/dialog&gt;</code> remains supported in v1; remove the <code>article</code> tags.</small></p>
           <button popovertarget="demo-dialog">Open Help</button>
           <dialog id="demo-dialog" popover aria-label="Help">
-            <article>
+            <header>
               <button aria-label="Close" popovertarget="demo-dialog" popovertargetaction="hide"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-              <header><strong>Help</strong></header>
-              <p>Supporting information goes here.</p>
-            </article>
+              <strong>Help</strong>
+            </header>
+            <p>Supporting information goes here.</p>
           </dialog>
         </article>
         <article>
           <pre><code>&lt;button popovertarget="demo-dialog"&gt;Open Help&lt;/button&gt;
 
 &lt;dialog id="demo-dialog" popover aria-label="Help"&gt;
-  &lt;article&gt;
+  &lt;header&gt;
     &lt;button aria-label="Close"
             popovertarget="demo-dialog"
             popovertargetaction="hide"&gt;
@@ -1028,9 +1040,9 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         &lt;path d="m6 6 12 12"/&gt;
       &lt;/svg&gt;
     &lt;/button&gt;
-    &lt;header&gt;&lt;strong&gt;Help&lt;/strong&gt;&lt;/header&gt;
-    &lt;p&gt;Supporting information goes here.&lt;/p&gt;
-  &lt;/article&gt;
+    &lt;strong&gt;Help&lt;/strong&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Supporting information goes here.&lt;/p&gt;
 &lt;/dialog&gt;</code></pre>
         </article>
       </div>

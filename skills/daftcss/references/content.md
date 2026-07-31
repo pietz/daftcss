@@ -17,7 +17,7 @@ Daft styles headings, paragraphs, links, emphasis, small text, abbreviations, ma
 ```
 
 - Heading size and weight follow the shared type scale.
-- `<hgroup>` pairs a heading with muted supporting text.
+- Use `<hgroup>` when a compact heading and subtitle belong together, not when a heading alone is enough. Its direct children are a real heading and supporting paragraph; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal outer document spacing. Card and dialog headers contextually use 18px titles and 14px subtitles; slides retain responsive slide typography.
 - Use `<article class="plain">` for a semantic narrative article that should follow this normal document typography and flow instead of Daft's automatic card presentation.
 - `.muted` is available for supporting text that has no stronger semantic state.
 - Links use underlines and visible keyboard focus by default.

@@ -52,14 +52,17 @@ Mistakes:
 Use for dense apps with persistent navigation.
 
 Rules:
-- Use body-level `<aside class="sidebar">`.
-- Add `popover` and a `.sidebar-toggle` button for mobile.
+- Use body-level `<aside class="sidebar">` with an optional direct `<header>`, required direct `<nav>`, and optional direct `<footer>`.
+- Header and footer have full-width separators and remain visible; the nav is the only scrolling region. A nav-only sidebar is supported.
+- By default, add `popover` and the same `.sidebar-toggle` button for the native mobile drawer; desktop remains a persistent rail and the toggle is mobile-only.
+- Add `.drawer` to make it a native hidden drawer at every width: the same toggle is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse requires application state and JavaScript, so Daft does not provide it.
 - Put the sidebar before or after the top header depending on desired desktop placement.
-- Use `.container-fluid` for the shifted header and main canvas so they retain responsive gutters beside the rail.
+- Use `.container-fluid` for the shifted header and main canvas so they retain consistent gutters beside the rail.
 
 Skeleton:
 ```html
 <aside id="sidebar" class="sidebar" popover aria-label="Workspace navigation">
+  <header><strong>Workspace</strong></header>
   <nav aria-label="Workspace">
     <ul>
       <li class="label">Workspace</li>
@@ -68,14 +71,11 @@ Skeleton:
       <li><a href="#">Settings</a></li>
     </ul>
   </nav>
+  <footer><small>Signed in as Kai</small></footer>
 </aside>
 <header class="container-fluid">
-  <nav aria-label="Application">
-    <ul>
-      <li><button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button></li>
-      <li><strong>Workspace</strong></li>
-    </ul>
-  </nav>
+  <button class="ghost icon sidebar-toggle" popovertarget="sidebar" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
+  <strong>Workspace</strong>
 </header>
 <main class="container-fluid">...</main>
 ```
@@ -83,7 +83,7 @@ Skeleton:
 Mistakes:
 - Do not put `.sidebar` inside `<main>`.
 - Do not use `.container` for the shifted application canvas; its viewport breakpoints do not account for the rail.
-- Do not create a custom drawer with JavaScript.
+- Do not create a custom drawer with JavaScript or a second drawer-toggle class.
 
 ## Workspace Browser
 

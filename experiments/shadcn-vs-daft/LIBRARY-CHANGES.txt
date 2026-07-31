@@ -1,0 +1,586 @@
+DAFT CSS COMPOSITION-PARITY CHANGE AUDIT
+========================================
+
+Purpose
+-------
+This file records the library changes explored on branch
+feat/shadcn-composition-parity before they were reverted to the v1.20.1
+baseline. It is intended as a lookup for reconsidering each idea separately,
+without treating the shadcn reference as a pixel-perfect target.
+
+Baseline
+--------
+Base commit: 0aa92f8 (Release v1.20.1)
+Expanded CSS: 86,716 bytes
+Minified CSS: 66,923 bytes
+Minified gzip: 11,740 bytes
+
+Largest intermediate version
+----------------------------
+Expanded CSS: 96,529 bytes
+Minified CSS: 74,537 bytes
+Minified gzip: 12,792 bytes
+Gzip increase: 1,052 bytes (9.0%)
+
+Slimmed version immediately before this audit and revert
+---------------------------------------------------------
+Expanded CSS: 91,693 bytes
+Minified CSS: 70,573 bytes
+Minified gzip: 12,258 bytes
+Gzip increase: 518 bytes (4.4%)
+
+The comparison applications, experiment CSS, React/shadcn code, tests, and
+repository documentation are not part of the published npm payload. The npm
+package includes src/ and dist/.
+
+
+1. COMPACT DENSITY PRESET
+=========================
+
+Files changed
+-------------
+src/base/variables.css
+README.md
+DOCS.md
+skills/daftcss references
+tests/density.spec.js
+
+Implementation
+--------------
+An opt-in [data-density="compact"] selector changed --spacing from 1rem to
+0.75rem. It also redeclared the inherited spacing aliases:
+
+  --spacing-xs
+  --spacing-sm
+  --spacing-md
+  --spacing-lg
+  --spacing-xl
+  --section-gap
+  --card-padding
+  --card-gap
+  --top-nav-height
+
+The aliases had to be repeated because inherited custom-property values are
+resolved where they are declared. Changing only --spacing on a descendant does
+not cause aliases inherited from :root to recompute inside that subtree.
+
+Visible result
+--------------
+The current Daft comparison became tighter across cards, sections, forms,
+navigation, tables, and general layout rhythm. Typography, radii, colors, and
+control heights were deliberately kept unchanged.
+
+Size and complexity
+-------------------
+Approximately 426 minified bytes and 27 gzip bytes.
+
+Why it was questioned
+---------------------
+Although inexpensive, it introduced a framework helper/data API for one
+particular density choice. Daft already exposes --spacing as the primary root
+knob. The desired tighter appearance could instead be obtained by setting
+--spacing directly in an application or by changing Daft's default only after
+an explicit design decision.
+
+Status after this audit
+-----------------------
+Reverted. Reconsider independently as one of these alternatives:
+
+1. Keep v1.20.1 defaults and let applications set --spacing: 0.75rem.
+2. Change Daft's root --spacing default to 0.75rem as an intentional global
+   design change.
+3. Add a density preset only when a demonstrated subtree-density use case
+   justifies the extra API.
+
+
+2. SHARED-SHELL INPUT GROUP
+===========================
+
+Files changed
+-------------
+src/components/input-group.css (new)
+src/daft.css
+src/base/variables.css during the larger iteration
+src/components/group.css during the larger iteration
+README.md
+DOCS.md
+skills/daftcss references
+docs/components/index.html
+tests/input-group.spec.js
+
+Original broad implementation
+-----------------------------
+The first implementation supported:
+
+  inline-start and inline-end addons
+  block-start and block-end addons
+  textarea compositions
+  nested and direct actions
+  validation, valid, disabled, aria-disabled, and read-only states
+  helper-text recoloring
+  visual addon reordering through data-align
+  --input-group-action-size
+
+It also added :not(.input-group) to every existing [role="group"] selector to
+separate shared shells from joined controls.
+
+Problems found during review
+----------------------------
+The broad version was reference-complete rather than Daft-minimal. Visual
+reordering could diverge from reading order. An internal action could receive
+both its own focus outline and the shell focus ring. Repeated group-selector
+carve-outs increased selector size and specificity. Textarea and block-addon
+support had no demonstrated product need. The static keyboard shortcut hint
+advertised behavior that did not exist.
+
+Slimmed implementation
+-----------------------
+The final explored version supported only:
+
+  one direct text input
+  inline .input-group-addon elements in DOM/display order
+  an optional direct compact action
+  one shell border and surface
+  input focus shown on the shell
+  invalid and disabled input states
+  addon SVG sizing through --icon-size
+
+The original [role="group"] CSS was restored unchanged. The public action-size
+token, textareas, block addons, visual ordering, valid/read-only/aria-disabled
+APIs, nested actions, and sibling helper recoloring were removed. The fake
+keyboard hint was removed from public docs and both comparison renderings.
+
+Visible result
+--------------
+The deployment search field became a single continuous field with an embedded
+search icon rather than a standalone input or several independently bordered
+segments.
+
+Size and complexity
+-------------------
+The broad input-group implementation plus group carve-outs contributed about
+4,429 minified bytes and 554 gzip bytes. The slimmed implementation recovered
+roughly 315 gzip bytes, but it remained the largest new library primitive.
+
+Why it was questioned
+---------------------
+The user did not want a new helper class merely to recreate the reference
+search field. The preferred direction is to reconsider whether existing
+semantic search/group markup can be improved, whether a smaller native pattern
+is sufficient, or whether this composition belongs in application CSS.
+
+Status after this audit
+-----------------------
+Reverted completely. Existing joined [role="group"] and [role="search"]
+behavior returns to v1.20.1. Reconsider the search-field visual as a separate
+change, starting from semantic markup and existing Daft primitives.
+
+
+3. COMPACT TABLE WRAPPER
+========================
+
+Files changed
+-------------
+src/components/table.css
+README.md
+DOCS.md
+skills/daftcss references
+docs/components/index.html
+tests/table-dialog-parity.spec.js
+
+Implementation
+--------------
+A .table-compact wrapper supplied:
+
+  overflow-x: auto
+  a width:max-content table with min-width:100%
+  no bottom table margin
+  nowrap cells
+  --spacing-xs block padding
+  a shorter header height
+
+An earlier version also used position:relative and
+overscroll-behavior-x:contain; those declarations were removed during slimming.
+
+Visible result
+--------------
+Operational rows and headers became considerably tighter. Wide records stayed
+on one line and scrolled inside the wrapper rather than widening the page.
+
+Size and complexity
+-------------------
+About 290 minified bytes and roughly 40 to 47 gzip bytes.
+
+Why it was questioned
+---------------------
+The design was useful in the dashboard, but the class encoded a specific
+operational-table policy. Daft already lets a figure or .overflow-auto wrapper
+provide horizontal overflow, while project CSS can choose nowrap and compact
+cell padding. The user did not want a framework helper class solely to match
+the reference.
+
+Status after this audit
+-----------------------
+Reverted. Reconsider table row/header spacing separately from overflow. Likely
+options include changing existing table spacing tokens/rules directly, using
+existing --spacing aliases, or leaving operational nowrap behavior local to an
+application.
+
+
+4. SIDEBAR COMPOSITION
+======================
+
+Files changed
+-------------
+src/components/sidebar.css
+README.md
+DOCS.md
+skills/daftcss references
+tests/sidebar-parity.spec.js
+
+Original broad implementation
+-----------------------------
+The first version introduced six public sidebar color tokens and six private
+fallback aliases, plus specialized avatar/account-row selectors. It added a
+flex-column shell, independently scrolling nav, pinned footer, uppercase
+section labels, full-width links, stronger current states, and a rail edge.
+
+Review simplification
+---------------------
+The sidebar-specific token mirror was removed. The final explored version used
+existing generic semantic tokens such as --muted, --foreground,
+--muted-foreground, --border, and --ring. Specialized account-row internals
+were removed in favor of standard .button, avatar, .stack, .gap-1, and .grow
+composition. Adaptive transparent foreground overlays were used for hover and
+current states.
+
+Retained explored behavior before revert
+-----------------------------------------
+  flex-column sidebar shell
+  nav takes available height and scrolls independently
+  direct semantic footer stays pinned
+  uppercase, semibold section labels
+  full-width links
+  stronger current state
+  logical border at the rail edge
+
+Visible result
+--------------
+The sidebar hierarchy became clearer and more application-like. The account
+row stayed at the bottom while long navigation scrolled above it.
+
+Size and complexity
+-------------------
+The broad sidebar change contributed about 1,824 minified bytes and 304 gzip
+bytes. Removing the token mirror and structural account API recovered a
+meaningful portion of that increase.
+
+Important experiment-only distinction
+--------------------------------------
+Daft remains zero-JavaScript and hides its native mobile popover toggle on
+desktop.
+
+Status after this audit
+-----------------------
+Reverted to v1.20.1. Reconsider these as separate decisions:
+
+1. Section-label typography.
+2. Full-width/current navigation rows.
+3. Independently scrolling nav plus pinned footer.
+4. Rail border.
+5. Optional application-level desktop collapsing.
+
+
+5. DIALOG CHANGES
+=================
+
+Files changed
+-------------
+src/components/modal.css
+README.md
+DOCS.md
+skills/daftcss references
+tests/table-dialog-parity.spec.js
+
+Initial implementation
+----------------------
+The first pass made the backdrop lighter by mixing --modal-overlay with
+transparent and halved --blur. It changed max-height calculations from
+--spacing-xl to 2 * --spacing, added overscroll containment, supported a footer
+nested under form, allowed action wrapping, and expanded narrow-screen actions.
+
+Review simplification
+---------------------
+Direct token contracts were restored:
+
+  dialog::backdrop used --modal-overlay directly
+  backdrop-filter used --blur directly
+  max-height returned to --spacing-xl
+
+The final explored additions were:
+
+  overscroll-behavior: contain on article dialogs
+  dialog > article > form > footer support
+  flex-wrap on action rows
+  narrow-screen flexible action widths
+
+Visible result
+--------------
+Long dialogs retained an internal scrolling surface. Transactional forms could
+own their footer without losing the standard action layout. Narrow dialog
+actions composed more safely.
+
+Size and complexity
+-------------------
+Small, around several dozen gzip bytes.
+
+Status after this audit
+-----------------------
+Reverted. Reconsider nested form-footer support, overscroll containment, and
+mobile action policy independently. The backdrop experiment was already
+abandoned before the final revert.
+
+
+6. DROPDOWN CHANGES
+===================
+
+Files changed
+-------------
+src/components/dropdown.css
+skills/daftcss references
+tests/dropdown.spec.js
+
+Implementation
+--------------
+Two additions were explored:
+
+1. details.dropdown[data-placement="top"] positioned the menu above its
+   trigger using bottom:100% and inverted entrance translation.
+2. Direct SVGs inside dropdown links/labels were constrained to --icon-size.
+
+The experiment also gave related details elements the same name for native
+exclusive behavior. Review found that named-details exclusivity begins in
+Firefox 130, while Daft's stated baseline is Firefox 129. Documentation was
+changed to call this progressive enhancement rather than guaranteed behavior.
+
+Visible result
+--------------
+Lower table-row menus could open upward. Dropdown item icons shrank from about
+24px to the expected 16px.
+
+Size and complexity
+-------------------
+Explicit top placement was about 134 minified bytes and 27 gzip bytes. Icon
+sizing was also a very small rule.
+
+Status after this audit
+-----------------------
+Reverted. Reconsider icon sizing independently because it corrects an obvious
+inconsistency. Reconsider explicit top placement only if Daft wants a manual
+placement API rather than application-local positioning.
+
+
+7. SVG, NAVIGATION, AND BREADCRUMB ALIGNMENT
+============================================
+
+Files changed
+-------------
+src/base/reset.css
+src/components/nav.css
+tests/icon-alignment.spec.js
+tests/regressions.spec.js
+skills/daftcss references
+
+Implementation
+--------------
+The reset previously grouped svg with block media. The explored change made
+SVGs inline-block with vertical-align:middle while leaving images, pictures,
+and video block-level. Ordinary nav links changed from inline-block to
+inline-flex with align-items:center and a spacing gap.
+
+Breadcrumbs previously combined symmetric divider padding with an additional
+start margin on every item after the first. That gave the divider more space on
+its right than its left. The extra item margin was removed.
+
+Visible result
+--------------
+Icon/text combinations centered more consistently in navigation and inline
+content. Breadcrumb chevrons had symmetric spacing.
+
+Size and complexity
+-------------------
+Tiny. SVG plus nav alignment was under roughly 10 gzip bytes. Removing the
+breadcrumb margin reduced CSS.
+
+Complication discovered
+-----------------------
+The metric-card alignment issue in the comparison was not a generic flex or
+SVG problem. A global form helper rule gave every small element margin-top.
+The experiment fixed metric headings locally with margin:0 and line-height:1.
+The New deployment button was measured within 0.5px of mathematical center and
+was not given an arbitrary icon offset.
+
+Status after this audit
+-----------------------
+Reverted with the rest of the library changes so it can be reconsidered on its
+own. The experiment-local metric correction remains in the comparison site.
+
+
+8. BADGE TOKEN EXPERIMENT
+=========================
+
+Files changed during the intermediate version
+---------------------------------------------
+src/base/variables.css
+src/components/badge.css
+documentation and tests
+
+Implementation
+--------------
+A --badge-font-weight token defaulting to --font-medium was added.
+
+Finding
+-------
+All semantic badge variants already inherited the same base font weight. The
+token did not create a visible improvement and added unnecessary API surface.
+
+Status after this audit
+-----------------------
+Removed before the final revert. No badge library change remained.
+
+
+9. DOCUMENTATION-SITE-ONLY FIXES
+================================
+
+Files changed
+-------------
+docs/index.html
+docs/components/index.html
+tests/docs-visual.spec.js
+
+Implementation
+--------------
+  dark-mode code highlighting used a high-contrast two-tone semantic palette
+  the long highlight.js selector list was later simplified
+  mobile documentation navigation received a visible close control
+  mobile open/close controls received 44px minimum targets
+
+Package impact
+--------------
+None. These files are not part of the npm package.
+
+Status after this audit
+-----------------------
+Reverted with the root documentation to restore the complete repository to the
+v1.20.1 starting state. Reconsider separately as documentation accessibility
+fixes rather than composition-parity work.
+
+
+10. TESTS AND DOCUMENTATION ADDED
+=================================
+
+New tests explored
+------------------
+tests/density.spec.js
+tests/docs-visual.spec.js
+tests/dropdown.spec.js
+tests/icon-alignment.spec.js
+tests/input-group.spec.js
+tests/sidebar-parity.spec.js
+tests/table-dialog-parity.spec.js
+
+The package test script was expanded to enumerate those files. The broad early
+tests locked down some exact reference geometry. They were later reduced to
+more durable behavioral contracts while the feature scope was slimmed.
+
+Validation immediately before revert
+------------------------------------
+  npm run build: passed
+  npm run check: passed
+  213 cross-browser tests: passed
+  42 automated accessibility tests: passed
+  experiment lint: passed
+  experiment typecheck: passed
+  experiment production build: passed
+
+Status after this audit
+-----------------------
+New feature tests are removed with the reverted features. The original v1.20.1
+test suite remains.
+
+
+11. COMPARISON APPLICATIONS, PRESERVED
+======================================
+
+Location
+--------
+experiments/shadcn-vs-daft/
+
+Release Operations comparison
+-----------------------------
+URL: /
+
+Two independently selectable panes can show:
+
+  frozen Daft v1.20.1
+  current Daft working artifact
+  pinned shadcn/ui Radix Nova reference
+
+The page supports Swap, synchronized light/dark themes, wide displays, mobile
+stacking, isolated iframes, and independent interactions. Experiment-only
+refinements include a smaller dashboard title, corrected metric label/icon
+alignment, tighter two-line brand/account copy, and removal of the fake
+keyboard shortcut.
+
+Component Catalog comparison
+----------------------------
+URL: /components.html
+
+The same two-pane selector compares a broad catalog covering typography,
+buttons, badges, avatars, groups, forms, cards, feedback, progress, loading,
+tables, navigation, breadcrumbs, trees, accordions, dropdowns, dialogs,
+tooltips, and embedded content. Sidebar and slides are intentionally omitted.
+Frames report actual content height and share the taller pane height. Section
+headings in Daft were reduced one scale step for better reference alignment.
+
+The pinned shadcn snapshot lacks generated select, accordion, checkbox, radio,
+and switch components. Those reference examples use accessible native controls
+with experiment-local styling. Generated shadcn component files remain
+untouched.
+
+The comparison applications are intentionally preserved after the library
+revert. They can be used to evaluate and reintroduce proposed library changes
+one at a time.
+
+
+12. REVIEW SUMMARY
+==================
+
+Independent SOL and K3 reviews agreed on the main size findings:
+
+  the original input-group implementation was overbuilt
+  the original sidebar token mirror was too close to shadcn's API
+  density was inexpensive but still an explicit product/API decision
+  compact tables were useful but policy-specific
+  dialog token contracts should remain direct
+  SVG/nav alignment was proportionate
+  badge weight did not justify a token
+
+The reviews drove the peak gzip increase from 1,052 bytes down to 518 bytes
+before the decision to revert all library changes and reconsider them
+individually.
+
+
+REVERT BOUNDARY
+===============
+
+The requested revert restores tracked library source, generated dist files,
+root documentation, skills references, package scripts, and feature tests to
+base commit 0aa92f8. It removes new root feature files created by this branch.
+
+The following are deliberately not part of the revert:
+
+  experiments/shadcn-vs-daft/ and both comparison sites
+  this audit file
+  user-owned untracked examples/
+  user-owned proto-1.png, proto-2.png, and proto-3.png
