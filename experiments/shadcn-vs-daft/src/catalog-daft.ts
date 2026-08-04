@@ -3,14 +3,16 @@ import {
   CircleHelp,
   Copy,
   Ellipsis,
+  Mic,
   PanelTopOpen,
+  Paperclip,
   Plus,
   Search,
   X,
   createIcons,
 } from "lucide"
 
-createIcons({ icons: { Archive, CircleHelp, Copy, Ellipsis, PanelTopOpen, Plus, Search, X } })
+createIcons({ icons: { Archive, CircleHelp, Copy, Ellipsis, Mic, PanelTopOpen, Paperclip, Plus, Search, X } })
 
 const dialog = document.querySelector<HTMLDialogElement>("#catalog-dialog")
 document.querySelector("#open-catalog-dialog")?.addEventListener("click", () => dialog?.showModal())

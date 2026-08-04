@@ -135,7 +135,7 @@ select {
 input[type="file"] {
   width: 100%;
   height: var(--input-height);
-  padding: 0 var(--spacing-sm);
+  padding: 0 var(--spacing-xs);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   /* Line-height for vertical centering (flex doesn't work on file inputs) */
@@ -148,8 +148,11 @@ input[type="file"] {
   transition: border-color var(--transition-default);
 
   &::file-selector-button {
-    padding: var(--spacing-xs) var(--spacing-md);
+    height: calc(var(--input-height) - 2 * var(--border-width) - 2 * var(--spacing-xs));
+    padding: 0 calc(var(--spacing) * 0.625);
     margin-right: var(--spacing-md);
+    font-family: inherit;
+    font-size: inherit;
     font-weight: var(--font-medium);
     color: var(--foreground);
     background-color: var(--accent);
@@ -245,6 +248,7 @@ label:has(> textarea) {
   & > select,
   & > textarea {
     margin-top: var(--spacing-sm);
+    margin-bottom: 0;
   }
 }
 
@@ -254,6 +258,28 @@ small {
   margin-top: var(--spacing-xs);
   font-size: var(--text-sm);
   color: var(--muted-foreground);
+}
+
+/* Form-row rhythm outside forms. Direct form children use the roomier spacing
+   below, while controls inside labels and groups are reset by their containers. */
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"]),
+  textarea,
+  select,
+  [role="group"]:has(> input),
+  form[role="search"]
+) {
+  margin-bottom: var(--spacing-sm);
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"]),
+  textarea,
+  select,
+  [role="group"]:has(> input),
+  form[role="search"]
+):last-child {
+  margin-bottom: 0;
 }
 
 /* Form layout */

@@ -567,6 +567,78 @@ test("text-like role groups and search landmarks become unified field shells", a
   expect(result.narrow.inputWidth).toBeGreaterThan(0);
 });
 
+test("field shells keep multiple actions inset on either side of one input", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="width: 220px">
+        <div id="composer" role="group" aria-label="Message composer">
+          <button id="attach" class="icon ghost" type="button" aria-label="Attach file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6-8 8"/></svg></button>
+          <input id="message" aria-label="Message" placeholder="Write a message">
+          <button id="dictate" class="icon ghost" type="button" aria-label="Dictate message"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="13" rx="3"/></svg></button>
+          <button id="send" type="button">Send</button>
+        </div>
+      </main>`;
+
+    const shell = document.getElementById("composer");
+    const input = document.getElementById("message");
+    const shellBox = shell.getBoundingClientRect();
+    const inputStyle = getComputedStyle(input);
+    const readAction = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return {
+        borderWidth: style.borderTopWidth,
+        bottom: box.bottom,
+        height: box.height,
+        left: box.left,
+        marginInlineEnd: style.marginInlineEnd,
+        marginInlineStart: style.marginInlineStart,
+        right: box.right,
+        tabIndex: element.tabIndex,
+        top: box.top,
+      };
+    };
+
+    return {
+      actions: [readAction("attach"), readAction("dictate"), readAction("send")],
+      input: {
+        borderWidth: inputStyle.borderTopWidth,
+        flexGrow: inputStyle.flexGrow,
+        minWidth: inputStyle.minWidth,
+        tabIndex: input.tabIndex,
+        width: input.getBoundingClientRect().width,
+      },
+      order: ["attach", "message", "dictate", "send"].map((id) => document.getElementById(id).getBoundingClientRect().left),
+      shell: {
+        borderWidth: getComputedStyle(shell).borderTopWidth,
+        left: shellBox.left,
+        right: shellBox.right,
+        scrollWidth: shell.scrollWidth,
+        width: shellBox.width,
+      },
+    };
+  });
+
+  expect(result.shell).toMatchObject({ borderWidth: "1px", width: 220 });
+  expect(result.shell.scrollWidth).toBeLessThanOrEqual(result.shell.width);
+  expect(result.input).toMatchObject({ borderWidth: "0px", flexGrow: "1", minWidth: "0px", tabIndex: 0 });
+  expect(result.input.width).toBeGreaterThan(0);
+  expect(result.order).toEqual([...result.order].sort((a, b) => a - b));
+  for (const action of result.actions) {
+    expect(action.borderWidth).toBe("0px");
+    expect(action.left).toBeGreaterThan(result.shell.left);
+    expect(action.right).toBeLessThan(result.shell.right);
+    expect(action.marginInlineStart).toBe("4px");
+    expect(action.tabIndex).toBe(0);
+  }
+  expect(result.actions[0].marginInlineEnd).toBe("0px");
+  expect(result.actions[1].marginInlineEnd).toBe("0px");
+  expect(result.actions[2].marginInlineEnd).toBe("4px");
+});
+
 test("field shells expose wrapper focus, action, validation, and inactive states", async ({ page }) => {
   await page.goto("/components/");
   await page.evaluate(() => {
@@ -680,7 +752,6 @@ test("incompatible controls and complex group structures do not trigger field-sh
         <fieldset id="excluded-fieldset-wrapper" role="group"><input aria-label="Fieldset group input"></fieldset>
         <div id="excluded-nested-group" role="group"><span role="group">Addon</span><input aria-label="Nested group field"></div>
         <div id="excluded-multiple-inputs" role="group"><input aria-label="First field"><input aria-label="Second field"></div>
-        <div id="excluded-multiple-actions" role="group"><input aria-label="Action field"><button>One</button><button>Two</button></div>
         <div id="excluded-native-action" role="group"><input aria-label="Native action field"><input type="submit" value="Submit"></div>
         <div id="excluded-helper" role="group"><input aria-label="Field with helper"><small>Helper text</small></div>
         <div id="excluded-paragraph" role="group"><input aria-label="Field with paragraph"><p>Unexpected child</p></div>
@@ -695,7 +766,7 @@ test("incompatible controls and complex group structures do not trigger field-sh
     const structuralIds = [
       "excluded-textarea", "excluded-select", "excluded-label", "excluded-legend",
       "excluded-fieldset-child", "excluded-fieldset-wrapper", "excluded-nested-group",
-      "excluded-multiple-inputs", "excluded-multiple-actions", "excluded-native-action",
+      "excluded-multiple-inputs", "excluded-native-action",
       "excluded-helper", "excluded-paragraph", "excluded-search-div",
       "excluded-search-email", "excluded-shadcn",
     ];
@@ -715,6 +786,76 @@ test("incompatible controls and complex group structures do not trigger field-sh
     expect(wrapper.borderWidth, wrapper.id).toBe("0px");
     expect(wrapper.background, wrapper.id).toBe("rgba(0, 0, 0, 0)");
   }
+});
+
+test("standalone form rows keep rhythm while nested controls defer to their container", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <section id="standalone">
+          <input id="standalone-first" aria-label="First field">
+          <input id="standalone-last" aria-label="Last field">
+        </section>
+        <form id="regular-form">
+          <input id="form-first" aria-label="First form field">
+          <input id="form-last" aria-label="Last form field">
+        </form>
+        <section>
+          <form id="row-search" role="search"><input type="search" aria-label="Search"><button>Search</button></form>
+          <div id="row-group" role="group"><span>https://</span><input id="group-input" aria-label="Domain"></div>
+          <label id="wrapped-label">Wrapped field<input id="wrapped-input"></label>
+        </section>
+      </main>`;
+
+    const marginBottom = (id) => getComputedStyle(document.getElementById(id)).marginBottom;
+    const gap = (first, second) => {
+      const firstBox = document.getElementById(first).getBoundingClientRect();
+      const secondBox = document.getElementById(second).getBoundingClientRect();
+      return secondBox.top - firstBox.bottom;
+    };
+    return {
+      form: { first: marginBottom("form-first"), gap: gap("form-first", "form-last"), last: marginBottom("form-last") },
+      nested: { group: marginBottom("row-group"), groupInput: marginBottom("group-input"), input: marginBottom("wrapped-input") },
+      rows: { search: marginBottom("row-search"), searchToGroup: gap("row-search", "row-group") },
+      standalone: { first: marginBottom("standalone-first"), gap: gap("standalone-first", "standalone-last"), last: marginBottom("standalone-last") },
+    };
+  });
+
+  expect(result.standalone).toEqual({ first: "8px", gap: 8, last: "0px" });
+  expect(result.form).toEqual({ first: "16px", gap: 16, last: "0px" });
+  expect(result.rows).toEqual({ search: "8px", searchToGroup: 8 });
+  expect(result.nested).toEqual({ group: "8px", groupInput: "0px", input: "0px" });
+});
+
+test("file selector buttons share inset action geometry", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    const input = document.createElement("input");
+    input.type = "file";
+    document.body.append(input);
+    const inputStyle = getComputedStyle(input);
+    const buttonStyle = getComputedStyle(input, "::file-selector-button");
+    return {
+      button: {
+        borderRadius: buttonStyle.borderRadius,
+        fontFamily: buttonStyle.fontFamily,
+        fontSize: buttonStyle.fontSize,
+        height: buttonStyle.height,
+        paddingInline: buttonStyle.paddingInline,
+      },
+      input: {
+        height: inputStyle.height,
+        paddingInline: inputStyle.paddingInline,
+      },
+    };
+  });
+
+  expect(result.input).toEqual({ height: "32px", paddingInline: "4px" });
+  expect(result.button).toMatchObject({ borderRadius: "6px", fontSize: "14px", height: "22px", paddingInline: "10px" });
+  expect(result.button.fontFamily).toContain("system-ui");
 });
 
 test("image submit controls retain their intrinsic control dimensions", async ({ page }) => {
@@ -778,6 +919,35 @@ test("aria-disabled buttons keep pointer behavior for application logic", async 
   });
 
   expect(result).toEqual({ activations: 1, cursor: "not-allowed", pointerEvents: "auto" });
+});
+
+test("button sizes form a proportional height, spacing, type, and radius hierarchy", async ({ page }) => {
+  await page.goto("/components/");
+
+  const styles = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <button id="small" class="small" type="button"><svg aria-hidden="true"></svg>Small</button>
+      <button id="default" type="button"><svg aria-hidden="true"></svg>Default</button>
+      <button id="large" class="large" type="button"><svg aria-hidden="true"></svg>Large</button>`;
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return {
+        borderRadius: style.borderRadius,
+        fontSize: style.fontSize,
+        gap: style.gap,
+        height: style.height,
+        paddingInline: style.paddingInline,
+      };
+    };
+    return { default: read("default"), large: read("large"), small: read("small") };
+  });
+
+  expect(styles).toEqual({
+    default: { borderRadius: "10px", fontSize: "14px", gap: "6px", height: "32px", paddingInline: "10px" },
+    large: { borderRadius: "10px", fontSize: "14px", gap: "6px", height: "36px", paddingInline: "16px" },
+    small: { borderRadius: "8px", fontSize: "13px", gap: "4px", height: "28px", paddingInline: "8px" },
+  });
 });
 
 test("button-looking anchors retain link semantics and button composition", async ({ page }) => {

@@ -8,9 +8,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
+  gap: calc(var(--spacing) * 0.375);
   height: var(--button-height);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) calc(var(--spacing) * 0.625);
   font-family: inherit;
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -162,12 +162,15 @@ a[role="button"], a.button {
 }
 
 /* Small button — direct .small, or any button inside a sized group.
-   Horizontal padding tracks --spacing-sm so the size scale reads
-   small (-sm) < default (-md) < large (-lg). */
+   Type, gap, and radius tighten with the height while remaining derived from
+   the same root scales as the default button. */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).small,
 [role="group"].small > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary) {
+  gap: var(--spacing-xs);
   height: var(--button-height-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: min(var(--button-radius), var(--radius-md));
+  font-size: calc(var(--font-size-base) * 0.8125);
   line-height: calc(var(--button-height-sm) - 2 * var(--border-width) - 2 * var(--spacing-xs));
 }
 
@@ -175,7 +178,7 @@ a[role="button"], a.button {
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).large,
 [role="group"].large > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary) {
   height: var(--button-height-lg);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing);
   line-height: calc(var(--button-height-lg) - 2 * var(--border-width) - 2 * var(--spacing-sm));
 }
 

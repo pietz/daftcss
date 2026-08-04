@@ -176,6 +176,8 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 
 ### Forms
 
+Standalone sibling controls and input groups receive compact row spacing; direct form children use the roomier form rhythm. Native file-selector buttons use the same inset geometry as input-group actions.
+
 ```html
 <form>
   <label>Email <input type="email"></label>
@@ -420,7 +422,7 @@ A round container for initials, an image, or an SVG icon.
 
 ### Groups
 
-`role="group"` normally joins direct controls as segmented buttons or fields. A simple horizontal group with one eligible text-like input, only `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and at most one button-like action becomes a full-width unified field shell; `form role="search"` supports the same shape for a direct text or search input. Keep labels and helper text outside that shell. For toggle buttons or segmented controls, mark the selected button with `aria-pressed="true"`; reserve `aria-current` for a genuinely current navigation or item state.
+`role="group"` normally joins direct controls as segmented buttons or fields. A simple horizontal group with one eligible text-like input, only `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and any number of direct button-like actions becomes a full-width unified field shell. Actions can appear before or after the input. `form role="search"` supports the same shape for a direct text or search input. Keep labels and helper text outside that shell. For toggle buttons or segmented controls, mark the selected button with `aria-pressed="true"`; reserve `aria-current` for a genuinely current navigation or item state.
 
 ```html
 <div role="group">
@@ -428,9 +430,15 @@ A round container for initials, an image, or an SVG icon.
   <code>npm install daftcss</code>
 </div>
 
-<div role="group">
-  <input type="search" placeholder="Search">
-  <button>Go</button>
+<div role="group" aria-label="Message composer">
+  <button class="icon ghost" type="button" aria-label="Attach file">
+    <svg aria-hidden="true"><!-- paperclip --></svg>
+  </button>
+  <input aria-label="Message" placeholder="Write a message">
+  <button class="icon ghost" type="button" aria-label="Dictate message">
+    <svg aria-hidden="true"><!-- microphone --></svg>
+  </button>
+  <button type="button">Send</button>
 </div>
 ```
 

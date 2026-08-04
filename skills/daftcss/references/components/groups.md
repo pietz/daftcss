@@ -32,15 +32,20 @@ Apply `.small` or `.large` to a `role="group"` to size its supported direct cont
 A non-`fieldset`, non-`.vertical` `role="group"` becomes a full-width unified field shell only when it has exactly one direct eligible text-like input and no other direct children except:
 
 - `svg`, `code`, `samp`, `kbd`, `span`, or `output` addons
-- At most one `button`, `[role="button"]`, or `a.button` action
+- Any number of direct `button`, `[role="button"]`, or `a.button` actions
 
 Eligible group inputs are an omitted or empty type, or `text`, `search`, `email`, `url`, `tel`, or `password`. A `form[role="search"]` can use the same simple shape, but its sole direct input must be `text` or `search` (including omitted or empty type).
 
 ```html
-<div role="group" aria-label="Invite member">
-  <svg aria-hidden="true"><!-- search icon --></svg>
-  <input type="email" aria-label="Email address">
-  <button type="button">Invite</button>
+<div role="group" aria-label="Message composer">
+  <button class="icon ghost" type="button" aria-label="Attach file">
+    <svg aria-hidden="true"><!-- paperclip icon --></svg>
+  </button>
+  <input type="text" aria-label="Message">
+  <button class="icon ghost" type="button" aria-label="Dictate message">
+    <svg aria-hidden="true"><!-- microphone icon --></svg>
+  </button>
+  <button type="button">Send</button>
 </div>
 
 <form role="search">
@@ -49,9 +54,9 @@ Eligible group inputs are an omitted or empty type, or `text`, `search`, `email`
 </form>
 ```
 
-The shell owns its border, background, radius, `:focus-within`, and input validation presentation. Its input is transparent and borderless; allowed addons sit inside the surface; its optional action is inset. The action remains its own keyboard-focusable control.
+The shell owns its border, background, radius, `:focus-within`, and input validation presentation. Its input is transparent and borderless; allowed addons sit inside the surface; direct actions are inset and can appear before or after the input. Each action remains its own keyboard-focusable control.
 
-The following do **not** qualify and stay segmented: direct `select`, `textarea`, `label`, `legend`, `fieldset`, nested group, hidden or unsupported input, a second input, a second action, helper `<p>` or `<small>`, native input action, a fieldset wrapper, or a vertical group. Any other unlisted direct child also keeps the group segmented. In segmented mode, addons are separate muted segments rather than shell content.
+The following do **not** qualify and stay segmented: direct `select`, `textarea`, `label`, `legend`, `fieldset`, nested group, hidden or unsupported input, a second input, helper `<p>` or `<small>`, native input action, a fieldset wrapper, or a vertical group. Any other unlisted direct child also keeps the group segmented. In segmented mode, addons are separate muted segments rather than shell content.
 
 Keep visible labels and helper or error text outside a field shell. Name the input with a visible `<label for>` where practical, or with `aria-label`/`aria-labelledby`; connect outside help text with `aria-describedby`. Name a `role="group"` too when its relationship needs a label.
 
@@ -72,6 +77,6 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 - Using a `.group` class. The selector is `[role="group"]`.
 - Nesting controls and expecting the inner children to join or qualify for a shell.
-- Putting a label, helper text, select, or extra action inside a shell and expecting it to remain unified.
+- Putting a label, helper text, select, unsupported child, or second input inside a shell and expecting it to remain unified.
 - Using `role="search"` for a generic input-and-button pair.
 - Expecting a group to supply application interaction behavior.

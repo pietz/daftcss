@@ -449,7 +449,7 @@ Use the native `disabled` attribute when a form control must not be operable:
 
 ## Forms
 
-Form elements are styled automatically with semantic HTML.
+Form elements are styled automatically with semantic HTML. Standalone sibling controls and input groups receive compact row spacing; direct form children use the roomier form rhythm. Controls nested inside labels or groups defer spacing to their container.
 
 ### Text Inputs
 
@@ -486,7 +486,7 @@ All standard input types are supported:
 <input type="file">
 ```
 
-Date, time, datetime-local, month, and week share the same calendar-picker treatment — the native picker indicator is muted at rest and intensifies on hover. `type="color"` renders as a clickable swatch sitting inside the framework's border, radius, and `--input-background` surface, so it stays aligned with adjacent text inputs in a stack or `role="group"`.
+Date, time, datetime-local, month, and week share the same calendar-picker treatment — the native picker indicator is muted at rest and intensifies on hover. `type="color"` renders as a clickable swatch sitting inside the framework's border, radius, and `--input-background` surface, so it stays aligned with adjacent text inputs in a stack or `role="group"`. The native file-selector button keeps its secondary surface while matching the inset size, padding, and edge spacing of an input-group action.
 
 ### Sizes
 
@@ -1118,9 +1118,15 @@ Use `role="group"` for related button or field controls. Button-only and non-qua
 **Input Group:**
 
 ```html
-<div role="group">
-  <input type="text" placeholder="Search...">
-  <button>Go</button>
+<div role="group" aria-label="Message composer">
+  <button class="icon ghost" type="button" aria-label="Attach file">
+    <svg aria-hidden="true"><!-- paperclip --></svg>
+  </button>
+  <input type="text" aria-label="Message" placeholder="Write a message">
+  <button class="icon ghost" type="button" aria-label="Dictate message">
+    <svg aria-hidden="true"><!-- microphone --></svg>
+  </button>
+  <button type="button">Send</button>
 </div>
 ```
 
@@ -1133,7 +1139,7 @@ Use `role="group"` for related button or field controls. Button-only and non-qua
 </form>
 ```
 
-A non-`fieldset`, non-vertical group with exactly one direct eligible text-like input, only direct `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and at most one direct button-like action becomes a full-width unified field shell. A `form role="search"` supports that shape only for a direct text or search input. The shell owns border, background, focus, and validation; labels and helper text stay outside it. Other shapes, including selects, textareas, extra inputs or actions, nested groups, fieldsets, vertical groups, and helper text, stay segmented. See the Groups reference for the complete contract and accessibility guidance.
+A non-`fieldset`, non-vertical group with exactly one direct eligible text-like input, only direct `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and any number of direct button-like actions becomes a full-width unified field shell. Actions can appear before or after the input. A `form role="search"` supports that shape only for a direct text or search input. The shell owns border, background, focus, and validation; labels and helper text stay outside it. Other shapes, including selects, textareas, extra inputs, nested groups, fieldsets, vertical groups, and helper text, stay segmented. See the Groups reference for the complete contract and accessibility guidance.
 
 **Sized Group:**
 
@@ -1159,7 +1165,7 @@ Adding `.small` or `.large` sizes supported direct controls and addon segments:
 
 **Addon Group:**
 
-A non-qualifying addon composition remains segmented. In a qualifying field shell, only `code`, `samp`, `kbd`, `span`, and `output` are allowed as direct non-editable addons, and they sit inside the shell.
+A non-qualifying addon composition remains segmented. In a qualifying field shell, `svg`, `code`, `samp`, `kbd`, `span`, and `output` are allowed as direct noninteractive addons, and they sit inside the shell.
 
 ```html
 <!-- CDN snippet picker -->

@@ -4,7 +4,7 @@ A same-origin visual comparison of one assembled **Release Operations** dashboar
 
 This is intentionally a composition test rather than a component catalog. It exposes how each system's sidebar width, breakpoints, card internals, form primitives, tables, menus, dialogs, and density rules interact in a realistic application shell. Equivalent outcomes are aligned, but framework-specific composition is preserved.
 
-A second, additive comparison is available at **`/components.html`**. It is a long-form component catalog rather than an app shell: two independently selected same-origin panes compare frozen Daft v1.20.1, current compact-density Daft, or the pinned shadcn reference. Its frames automatically report their content height to the host, so the host document provides the single long-page scroll surface.
+A second, additive comparison is available at **`/components.html`**. It is a long-form component catalog rather than an app shell: two independently selected same-origin panes compare frozen Daft v1.20.1, current Daft, or the pinned shadcn reference. Its frames automatically report their content height to the host, so the host document provides the single long-page scroll surface.
 
 ## Run
 
@@ -41,4 +41,4 @@ Tailwind's reset/utilities and Daft's semantic element selectors are both global
 
 ## Deliberately not normalized
 
-The experiment aligns scenario content, data, order, viewport, and outcomes, but does not normalize framework typography, radii, color tokens, responsive breakpoints, sidebar behavior, dialogs, or menus. The updated Daft pane deliberately exercises the new `data-density="compact"` and semantic sidebar-footer APIs; shadcn continues to use its untouched official equivalents. Daft's deployment filters and environment selector still demonstrate the separate joined `[role="group"]` API.
+The experiment aligns scenario content, data, order, viewport, and outcomes, but does not normalize framework typography, radii, color tokens, responsive breakpoints, sidebar behavior, dialogs, or menus. The updated Daft pane deliberately exercises the semantic sidebar-footer APIs; shadcn continues to use its untouched official equivalents. Daft's deployment filters and environment selector still demonstrate the separate joined `[role="group"]` API.

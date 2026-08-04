@@ -4,7 +4,7 @@ type Theme = "light" | "dark"
 
 const panes = [
   { id: "old", title: "Daft CSS · frozen", detail: "v1.20.1 artifact", src: "/components-daft-old.html" },
-  { id: "new", title: "Daft CSS · current", detail: "Current branch · compact density", src: "/components-daft.html" },
+  { id: "new", title: "Daft CSS · current", detail: "Current branch", src: "/components-daft.html" },
   { id: "shadcn", title: "shadcn/ui · reference", detail: "Radix Nova · CLI 4.16.0", src: "/components-shadcn.html" },
 ] as const
 

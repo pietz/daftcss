@@ -148,9 +148,9 @@ fieldset[role="group"] {
 }
 
 /* Structurally adaptive field shell. Only deliberately simple, horizontal
-   compositions qualify: one direct text-like input, no incompatible form
-   structure, and at most one direct action. Search is limited to its valid
-   landmark shape, form[role="search"], with a text or search input. */
+   compositions qualify: one direct text-like input plus any number of direct
+   addons or actions, with no incompatible form structure. Search is limited
+   to its valid landmark shape, form[role="search"], with a text or search input. */
 :is(
   [role="group"]:not(fieldset):not(.vertical):has(> :is(input:not([type]), input:is([type=""], [type="text" i], [type="search" i], [type="email" i], [type="url" i], [type="tel" i], [type="password" i]))),
   form[role="search"]:has(> :is(input:not([type]), input:is([type=""], [type="text" i], [type="search" i])))
@@ -163,8 +163,7 @@ fieldset[role="group"] {
       input:is([type=""], [type="text" i], [type="search" i], [type="email" i], [type="url" i], [type="tel" i], [type="password" i]),
       svg, code, samp, kbd, span, output,
       button, [role="button"], a.button
-    ))),
-    :has(> :is(button, [role="button"], a.button) ~ :is(button, [role="button"], a.button))
+    )))
   ) {
     display: flex;
     align-items: center;
@@ -227,22 +226,29 @@ fieldset[role="group"] {
       padding-inline-end: 0;
     }
 
+    /* Every action is inset from its preceding sibling by the same small
+       step. The final action also clears the shell edge. This remains
+       position-independent for leading, trailing, or mixed action runs. */
     & > :is(button, [role="button"], a.button) {
       flex: 0 0 auto;
       width: auto;
       height: calc(100% - 2 * var(--spacing-xs));
       margin-block: var(--spacing-xs);
-      margin-inline-start: calc(var(--spacing-xs) + var(--border-width));
-      margin-inline-end: var(--spacing-xs);
+      margin-inline-start: var(--spacing-xs);
+      margin-inline-end: 0;
       padding-block: 0;
       border: 0;
       border-radius: calc(var(--input-radius) - var(--spacing-xs));
       line-height: normal;
 
+      &:last-child {
+        margin-inline-end: var(--spacing-xs);
+      }
+
       &.icon {
         aspect-ratio: 1;
         height: calc(100% - var(--spacing-xs));
-        margin: calc(var(--spacing-xs) / 2) var(--spacing-xs);
+        margin-block: calc(var(--spacing-xs) / 2);
         border-radius: var(--radius-sm);
       }
     }

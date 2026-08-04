@@ -29,7 +29,7 @@ Use native `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>`, `<fieldset>
 - Text-like inputs, `<textarea>`, and `<select>` receive the standard input surface. Textarea is vertically resizable.
 - `.small` and `.large` work on text-like `<input>` and `<select>`, or on a containing `[role="group"]`.
 - `input[type="search"]` is pill-shaped. A simple eligible containing group can become a unified field shell; see [groups.md](groups.md) for its exact shape.
-- `input[type="file"]`, `color`, `date`, `datetime-local`, `month`, `time`, and `week` have type-specific styling.
+- `input[type="file"]`, `color`, `date`, `datetime-local`, `month`, `time`, and `week` have type-specific styling. The native file-selector button keeps a secondary surface with the same inset geometry as a field-shell action.
 - `select[multiple]` grows to content and drops its chevron.
 - `input[type="checkbox"]`, radio, and `checkbox[role="switch"]` are styled natively. Set `role="switch"` on a checkbox, not a class.
 - `input[type="range"]` has a themed track and thumb.
@@ -62,6 +62,8 @@ Disabled controls and disabled fieldsets use reduced opacity. A label around a d
 ## Composition
 
 Use `[role="group"]` to join adjacent controls, with `.vertical` or `.full-width` when needed. Groups are segmented by default; only the narrow direct-child shape in [groups.md](groups.md) becomes a unified field shell. Keep labels and help text outside that shell.
+
+Standalone sibling controls and input groups receive compact row spacing. Direct children of a form use the roomier form rhythm, while controls nested inside labels or groups defer spacing to their container.
 
 ### Button width inside forms
 
