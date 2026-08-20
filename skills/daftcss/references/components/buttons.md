@@ -8,9 +8,9 @@ Use native `<button>` for actions and `<a href>` for navigation. Add `.button` t
 
 ```html
 <button type="button">Save changes</button>
-<button type="submit">Create account</button>
+<button class="accent" type="button">Publish with accent</button>
 <a class="button" href="/checkout">Checkout</a>
-<a class="button secondary" href="#schedule">Explore the program</a>
+<a class="button accent" href="#schedule">Accent link action</a>
 ```
 
 ## Markup requirements
@@ -49,7 +49,8 @@ Use native `<button>` for actions and `<a href>` for navigation. Add `.button` t
 
 ## Variants and options
 
-- Default: primary.
+- Default: primary. Do not add a `.primary` class.
+- `.accent`: solid accent emphasis using `--accent` and `--accent-foreground`.
 - `.secondary`: muted secondary surface. `<input type="reset">` is secondary by default.
 - `.destructive`: tinted destructive action; its focus ring follows the destructive color.
 - `.outline`: bordered background surface.
@@ -61,7 +62,9 @@ Use native `<button>` for actions and `<a href>` for navigation. Add `.button` t
 - `aria-pressed="true"`: selected state for a toggle button or segmented control.
 - `aria-current="true"`: current navigation or item state, not a toggle state.
 
-Variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`. On anchors, include `.button` explicitly, such as `class="button outline"`; a variant class alone never turns a link into a button.
+`.accent` is mutually exclusive with `.secondary`, `.destructive`, `.outline`, `.ghost`, and `.link`; those established surface variants take precedence if accidentally combined. State attributes still apply: disabled and busy treatments remain visible, while `aria-pressed="true"` or `aria-current="true"` uses the selected primary recipe. Size, `.icon`, `.full-width`, group, link-button, and dropdown-summary composition all remain supported.
+
+Other variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`. On anchors, include `.button` explicitly, such as `class="button accent"`; a variant class alone never turns a link into a button.
 
 Inside a `<form>`, a button fills the form's width by default. Wrap buttons in `<footer>` or `.cluster` for a content-sized action row; `.icon` and `.link` buttons are never stretched. See [forms.md](forms.md#button-width-inside-forms).
 
@@ -71,13 +74,13 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 - `--button-height`, `--button-height-sm`, `--button-height-lg`
 - `--button-radius`, `--button-shadow`
-- `--primary`, `--primary-foreground`, `--secondary`, `--secondary-foreground`
-- `--destructive`, `--foreground`, `--accent`
+- `--primary`, `--primary-foreground`, `--accent`, `--accent-foreground`
+- `--secondary`, `--secondary-foreground`, `--destructive`, `--foreground`
 - `--focus-ring`, `--focus-ring-destructive`, `--disabled-opacity`, `--icon-size`
 
 ## Behavior and accessibility
 
-Buttons and `.button` links have hover and active feedback and a visible focus ring on `:focus-visible`. Disabled native buttons do not accept pointer input and render at `--disabled-opacity`. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; render non-interactive text or omit the unavailable link instead. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while a native button submission is unavailable.
+Buttons and `.button` links have hover and active feedback and a visible focus ring on `:focus-visible`. The solid accent variant mixes toward its foreground for hover/active feedback and uses the accent color for its focus ring. Disabled native buttons do not accept pointer input and render at `--disabled-opacity`. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; render non-interactive text or omit the unavailable link instead. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while a native button submission is unavailable.
 
 ## Composition
 

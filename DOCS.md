@@ -130,7 +130,8 @@ Customize the design system by overriding root variables:
 | `--foreground` | Default text color |
 | `--primary` | Primary action color (default: neutral near-black/near-white) |
 | `--secondary` | Secondary button background |
-| `--accent` | Hover surface for ghost buttons, dropdown items, etc. |
+| `--accent` | Solid accent components and hover/selected surfaces |
+| `--accent-foreground` | Auto-contrasting text on accent surfaces; may be overridden explicitly |
 | `--muted` | Subtle/inert background (disabled inputs, inline `<code>`, `<kbd>`) |
 | `--code-background` | `<pre>` block surface (slightly darker than `--muted` in dark mode) |
 | `--muted-foreground` | Muted text |
@@ -144,7 +145,7 @@ Customize the design system by overriding root variables:
 | `--card` | Card background |
 | `--popover` | Dropdown / popover background (defaults to `--card`; override independently) |
 
-`--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune ghost-hover, secondary-button, and disabled surfaces independently.
+`--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune solid accent components and hover/selected surfaces, secondary buttons, and disabled surfaces independently. `--accent-foreground` derives a neutral near-white or near-black from an opaque `--accent` using relative OKLCH; an explicit declaration overrides it. This minor release replaces the previous `var(--foreground)` default, so custom accents can visibly change existing accent-powered hover/selected text. Set `--accent-foreground: var(--foreground)` to retain the former behavior. Scoped accent overrides must redeclare the foreground pair, and translucent accents need an explicit opaque foreground plus contrast testing over their actual backgrounds.
 
 **Component Shadows:**
 
@@ -372,12 +373,15 @@ Buttons are styled automatically. Use `<button>` or a button-type `<input>` for 
 
 ```html
 <button>Primary</button>
+<button class="accent">Accent</button>
 <button class="secondary">Secondary</button>
 <button class="outline">Outline</button>
 <button class="ghost">Ghost</button>
 <button class="link">Link</button>
 <button class="destructive">Destructive</button>
 ```
+
+Bare buttons remain primary; there is no `.primary` class. Across Daft, `.accent` means non-status brand emphasis. It is supported by the button family (including `.button` links and button-styled summaries), badges, and progress—no other components or elements. On buttons it is mutually exclusive with `.secondary`, `.destructive`, `.outline`, `.ghost`, and `.link`; an established surface variant wins if classes are accidentally combined. Size, icon, full-width, group, disabled/busy, and selected-state composition remains supported.
 
 ### Sizes
 
@@ -444,6 +448,17 @@ Use the native `disabled` attribute when a form control must not be operable:
 ```html
 <button disabled aria-busy="true">Loading...</button>
 ```
+
+### Accent support matrix
+
+| Surface | Support and meaning |
+|---|---|
+| Buttons, button-type inputs, button roles, `.button` links, button-styled summaries | Solid accent action or trigger |
+| Badges | Branded category, featured label, or accent emphasis |
+| Progress | Branded task progress without status meaning |
+| Inputs/choices/validation, alerts/status/loaders, cards/dialogs/tooltips, navigation/tree/accordions, tables/avatars, content/layout/utilities | No `.accent`; native state/role or the component's non-color-variant contract owns presentation |
+
+This is a semantic component variant, not a generic background or text-color utility.
 
 ---
 
@@ -717,13 +732,14 @@ Use `<span class="badge">` for a short inline status, category, count, or label 
 
 ```html
 <span class="badge">Featured</span>
+<span class="badge accent">Branded</span>
 <span class="badge secondary">Pending</span>
 <span class="badge outline">Active</span>
 <span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
 ```
 
-Badges share button static surface recipes but remain presentational and noninteractive: they are not buttons or links. Choose at most one optional variant, keep the text meaningful without color, and use a real control for actions. Every badge uses the canonical 20px pill size; there are no badge size or shape variants. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
+Badges share button static surface recipes, including `.accent`, but remain presentational and noninteractive: they are not buttons or links. Choose at most one optional variant, keep the text meaningful without color, and use a real control for actions. Every badge uses the canonical 20px pill size; there are no badge size or shape variants. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
 
 ### Table
 
@@ -805,11 +821,11 @@ Use `<details class="dropdown">`:
 </details>
 ```
 
-Dropdown summaries use the same styling and variants as buttons:
+Dropdown summaries use the same styling and variants as buttons, including the solid `.accent` treatment:
 
 ```html
 <details class="dropdown">
-  <summary class="ghost">Actions</summary>
+  <summary class="accent">Actions</summary>
   <ul>
     <li><a href="#">Option 1</a></li>
     <li><a href="#">Option 2</a></li>
@@ -1022,11 +1038,14 @@ This pattern is for a single-row sticky top bar, not an arbitrarily placed trigg
 
 ```html
 <progress value="60" max="100"></progress>
+<progress value="60" max="100" class="accent"></progress>
 <progress value="60" max="100" class="secondary"></progress>
 <progress value="60" max="100" class="success"></progress>
 <progress value="60" max="100" class="warning"></progress>
 <progress value="60" max="100" class="destructive"></progress>
 ```
+
+Use `.accent` for branded task emphasis without status meaning. Use at most one progress color class; communicate success, warning, or failure in text rather than color alone.
 
 **With Label:**
 

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Daft CSS — Components</title>
-  <link rel="stylesheet" href="../dist/daft.css?v=1.21.0">
+  <link rel="stylesheet" href="../dist/daft.css?v=1.22.0">
 
   <!-- Syntax highlighting for code examples (HTML only) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css" integrity="sha384-w6Ujm1VWa9HYFqGc89oAPn/DWDi2gUamjNrq9DRvEYm2X3ClItg9Y9xs1ViVo5b5" crossorigin="anonymous" media="(prefers-color-scheme: light)">
@@ -18,6 +18,11 @@
     pre code.hljs { background: transparent; padding: 0; overflow: visible; }
     pre :is(.hljs-comment, .hljs-string) { color: var(--muted-foreground); }
     pre :is(.hljs-name, .hljs-attr, .hljs-selector-tag, .hljs-title, .hljs-variable, .hljs-subst, .hljs-literal) { color: var(--foreground); }
+
+    .site-sequel-accent {
+      --accent: #a3f0c4;
+      --accent-foreground: #052e1b;
+    }
 
     .sidebar-layouts {
       display: grid;
@@ -496,7 +501,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
       <h3>Variants and Sizes</h3>
       <div class="grid">
         <article>
-          <p><button>Primary</button> <button class="secondary">Secondary</button> <button
+          <p><button>Primary</button> <button class="accent">Accent</button> <button class="secondary">Secondary</button> <button
               class="destructive">Destructive</button></p>
           <p><button class="outline">Outline</button> <button class="ghost">Ghost</button> <button
               class="link">Link</button></p>
@@ -504,6 +509,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
         <article>
           <pre><code>&lt;button&gt;Primary&lt;/button&gt;
+&lt;button class="accent"&gt;Accent&lt;/button&gt;
 &lt;button class="secondary"&gt;Secondary&lt;/button&gt;
 &lt;button class="destructive"&gt;Destructive&lt;/button&gt;
 &lt;button class="outline"&gt;Outline&lt;/button&gt;
@@ -515,18 +521,54 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         </article>
       </div>
 
+      <h3>Solid accent composition</h3>
+      <p>The documented <code>.accent</code> surface uses <code>--accent</code> and <code>--accent-foreground</code>. It composes with button sizes, icons, full width, groups, navigation links, dropdown summaries, and disabled/busy states. Keep it mutually exclusive with other surface variants; bare buttons remain primary.</p>
+      <div class="grid site-sequel-accent">
+        <article>
+          <p class="cluster">
+            <button class="accent small" type="button">Small</button>
+            <button class="accent" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>Continue</button>
+            <button class="accent icon large" type="button" aria-label="Add item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            <button class="accent" type="button" disabled aria-busy="true">Publishing</button>
+          </p>
+          <p><button class="accent full-width" type="button">Full-width accent action</button></p>
+          <p><span role="group" class="small"><button class="accent" type="button">Accent</button><button class="outline" type="button">Later</button></span></p>
+          <p class="cluster"><a class="button accent" href="#surfaces">Accent link action</a><details class="dropdown"><summary class="accent">Accent menu</summary><ul><li><a href="#buttons">Buttons</a></li><li><a href="#surfaces">Badges</a></li></ul></details><span class="badge accent">Accent badge</span></p>
+          <label>Accent progress <progress class="accent" value="64" max="100">64%</progress></label>
+        </article>
+        <article>
+          <pre><code>&lt;style&gt;
+:root {
+  --accent: #a3f0c4;
+  --accent-foreground: #052e1b; /* optional override */
+}
+&lt;/style&gt;
+
+&lt;button class="accent"&gt;Accent action&lt;/button&gt;
+&lt;a class="button accent" href="/next"&gt;Accent link action&lt;/a&gt;
+&lt;details class="dropdown"&gt;
+  &lt;summary class="accent"&gt;Accent menu&lt;/summary&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;a href="/edit"&gt;Edit&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/details&gt;
+&lt;span class="badge accent"&gt;Accent badge&lt;/span&gt;
+&lt;progress class="accent" value="64" max="100"&gt;64%&lt;/progress&gt;</code></pre>
+        </article>
+      </div>
+
       <h3>Button-looking navigation links</h3>
       <p>Add <code>.button</code> to prominent navigation links without changing their native link semantics. Variant and size classes compose normally; a variant class alone does not style an anchor as a button.</p>
       <div class="grid">
         <article>
           <p class="cluster">
             <a class="button" href="#surfaces">Checkout</a>
+            <a class="button accent" href="#buttons">Accent link action</a>
             <a class="button secondary" href="#layout">Explore the program</a>
             <a class="button outline small" href="#forms">Review form guidance</a>
           </p>
         </article>
         <article>
           <pre><code>&lt;a class="button" href="/checkout"&gt;Checkout&lt;/a&gt;
+&lt;a class="button accent" href="#next"&gt;Accent link action&lt;/a&gt;
 &lt;a class="button secondary" href="#schedule"&gt;Explore the program&lt;/a&gt;
 &lt;a class="button outline small" href="/forms"&gt;Review form guidance&lt;/a&gt;</code></pre>
         </article>
@@ -734,7 +776,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <p>No card surface, padding, or compact card layout is applied.</p>
             <footer><small>Semantic article, ordinary presentation</small></footer>
           </article>
-          <p><span class="badge">Primary</span> <span class="badge secondary">Pending</span> <span
+          <p><span class="badge">Primary</span> <span class="badge accent">Branded</span> <span class="badge secondary">Pending</span> <span
               class="badge outline">Active</span> <span class="badge ghost">Metadata</span> <span
               class="badge destructive">Failed</span></p>
           <p><span class="avatar">DP</span> <span class="avatar small">SM</span> <span class="avatar large">LG</span>
@@ -752,6 +794,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;/article&gt;
 
 &lt;span class="badge"&gt;Primary&lt;/span&gt;
+&lt;span class="badge accent"&gt;Branded&lt;/span&gt;
 &lt;span class="badge secondary"&gt;Pending&lt;/span&gt;
 &lt;span class="badge outline"&gt;Active&lt;/span&gt;
 &lt;span class="badge ghost"&gt;Metadata&lt;/span&gt;
@@ -811,11 +854,11 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
             <p>No. Native details elements own the disclosure state.</p>
           </details>
           <details>
-            <summary role="button">Button Accordion</summary>
-            <p>Styled as a button.</p>
+            <summary class="accent" role="button">Accent Button Accordion</summary>
+            <p>Styled as a solid accent button.</p>
           </details>
           <details class="dropdown">
-            <summary class="ghost">Actions</summary>
+            <summary class="accent">Actions</summary>
             <ul>
               <li class="label">My Account</li>
               <li><a href="#">Profile</a></li>
@@ -838,12 +881,12 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 &lt;/details&gt;
 
 &lt;details&gt;
-  &lt;summary role="button"&gt;Button Accordion&lt;/summary&gt;
-  &lt;p&gt;Styled as a button.&lt;/p&gt;
+  &lt;summary class="accent" role="button"&gt;Accent Button Accordion&lt;/summary&gt;
+  &lt;p&gt;Styled as a solid accent button.&lt;/p&gt;
 &lt;/details&gt;
 
 &lt;details class="dropdown"&gt;
-  &lt;summary class="ghost"&gt;Actions&lt;/summary&gt;
+  &lt;summary class="accent"&gt;Actions&lt;/summary&gt;
   &lt;ul&gt;
     &lt;li class="label"&gt;My Account&lt;/li&gt;
     &lt;li&gt;&lt;a href="#"&gt;Profile&lt;/a&gt;&lt;/li&gt;
@@ -936,7 +979,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
           <div role="status"><strong>Sync in progress</strong>
             <p>We are updating your workspace.</p>
           </div>
-          <label>Success <progress class="success" value="80" max="100"></progress></label>
+          <label>Accent <progress class="accent" value="64" max="100">64%</progress></label>
+          <label>Success <progress class="success" value="80" max="100">80%</progress></label>
           <label>Indeterminate <progress></progress></label>
         </article>
         <article>
@@ -950,7 +994,8 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
   &lt;p&gt;We are updating your workspace.&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;label&gt;Success &lt;progress class="success" value="80" max="100"&gt;&lt;/progress&gt;&lt;/label&gt;
+&lt;label&gt;Accent &lt;progress class="accent" value="64" max="100"&gt;64%&lt;/progress&gt;&lt;/label&gt;
+&lt;label&gt;Success &lt;progress class="success" value="80" max="100"&gt;80%&lt;/progress&gt;&lt;/label&gt;
 &lt;label&gt;Indeterminate &lt;progress&gt;&lt;/progress&gt;&lt;/label&gt;</code></pre>
         </article>
       </div>

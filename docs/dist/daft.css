@@ -66,7 +66,7 @@
     --success-foreground: oklch(from var(--success) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --warning-foreground: oklch(from var(--warning) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --accent: var(--muted);
-    --accent-foreground: var(--foreground);
+    --accent-foreground: oklch(from var(--accent) clamp(0, (l / .623 - 1) * -infinity, 1) 0 h);
     --code-background: light-dark(var(--muted), oklch(18% 0 0));
     --secondary: var(--muted);
     --secondary-foreground: var(--foreground);
@@ -1332,6 +1332,11 @@
     background-color: var(--primary);
     border-color: #0000;
 
+    &.accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, .success, .warning, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+      color: var(--accent-foreground);
+      background-color: var(--accent);
+    }
+
     &:is(.secondary, [type="reset"]), &.badge.warning:not(.outline) {
       color: var(--secondary-foreground);
       background-color: var(--secondary);
@@ -1356,6 +1361,20 @@
 
   a[role="button"], a.button {
     text-decoration: none;
+  }
+
+  :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+    &:hover {
+      background-color: color-mix(in oklch, var(--accent) var(--hover-opacity), var(--accent-foreground) 5%);
+    }
+
+    &:active {
+      background-color: color-mix(in oklch, var(--accent) var(--active-opacity), var(--accent-foreground) 10%);
+    }
+
+    &:focus-visible {
+      outline-color: color-mix(in oklch, var(--accent) var(--focus-ring-opacity), transparent);
+    }
   }
 
   :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary):is(.secondary, [type="reset"]) {
@@ -2257,6 +2276,10 @@
     100% {
       background-position: -200% 0;
     }
+  }
+
+  progress.accent {
+    --progress-color: var(--accent);
   }
 
   progress.secondary {

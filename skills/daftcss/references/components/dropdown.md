@@ -28,7 +28,7 @@ Use `<details class="dropdown">` for a compact disclosure whose list is visually
 
 ## Variants and options
 
-- The summary uses the same button selectors as a button. Supported classes include `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`, and `.icon`.
+- The summary uses the same button selectors as a button. Supported classes include `.accent`, `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`, and `.icon`. The accent class is a solid treatment and follows the button variant precedence rules.
 - `.icon` removes the dropdown's added chevron. Use it only where the icon itself clearly conveys a menu, and give it an accessible name.
 - Add `dir="rtl"` to the menu `<ul>` to right-align it. The rule resets its text direction to LTR, so use this alignment option only for an LTR menu.
 - A dropdown inside `nav` is right-aligned automatically.

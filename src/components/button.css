@@ -1,6 +1,6 @@
 /**
  * Button styles
- * Primary, secondary, destructive, outline, ghost, and link variants.
+ * Primary, accent, secondary, destructive, outline, ghost, and link variants.
  */
 
 /* Base button styles */
@@ -66,6 +66,11 @@
   background-color: var(--primary);
   border-color: transparent;
 
+  &.accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, .success, .warning, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+    color: var(--accent-foreground);
+    background-color: var(--accent);
+  }
+
   &:is(.secondary, [type="reset"]),
   &.badge.warning:not(.outline) {
     color: var(--secondary-foreground);
@@ -93,6 +98,22 @@
 /* Button-looking links preserve native anchor semantics. */
 a[role="button"], a.button {
   text-decoration: none;
+}
+
+/* Solid accent variant. Established surface variants and reset inputs win if
+   incompatible variant classes are combined by mistake. */
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+  &:hover {
+    background-color: color-mix(in oklch, var(--accent) var(--hover-opacity), var(--accent-foreground) 5%);
+  }
+
+  &:active {
+    background-color: color-mix(in oklch, var(--accent) var(--active-opacity), var(--accent-foreground) 10%);
+  }
+
+  &:focus-visible {
+    outline-color: color-mix(in oklch, var(--accent) var(--focus-ring-opacity), transparent);
+  }
 }
 
 /* Secondary variant — also the default for <input type="reset">. */

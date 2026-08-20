@@ -137,16 +137,17 @@ See the visual reference at [`docs/blocks/`](docs/blocks/) and the agent referen
 
 ```html
 <button>Primary</button>
+<button class="accent">Accent</button>
 <button class="secondary">Secondary</button>
 <button class="outline">Outline</button>
 <button class="ghost">Ghost</button>
 <button class="destructive">Destructive</button>
 <button disabled aria-busy="true">Loading</button>
 <a class="button" href="/checkout">Checkout</a>
-<a class="button secondary" href="#schedule">Explore the program</a>
+<a class="button accent" href="#schedule">Accent link action</a>
 ```
 
-Use `.button` only for prominent navigational links that need button appearance. It preserves native anchor semantics; do not add `role="button"` for styling. Variant and size classes work when combined with `.button`. Links have no native disabled state, so Daft does not define a disabled `.button` anchor.
+Use `.button` only for prominent navigational links that need button appearance. It preserves native anchor semantics; do not add `role="button"` for styling. Variant and size classes work when combined with `.button`. `.accent` means non-status brand emphasis and is supported on the button family (including button-looking links and button-styled summaries), badges, and progress. It is not a generic color utility; do not apply it to other surfaces or combine it with another surface/color variant. Bare buttons remain primary—there is no `.primary` class. Links have no native disabled state, so Daft does not define a disabled `.button` anchor.
 
 Daft provides an icon pattern, not an icon library. Put `.icon` on an icon-only square control, give the control an accessible name, and place an official inline SVG directly inside it. For icon plus text, use an ordinary control without `.icon`; the same direct-child SVG sizing and flex gap apply.
 
@@ -224,17 +225,31 @@ Use `<article class="plain">` for a semantic article that should follow normal d
 </article>
 ```
 
+### Accent support
+
+The complete audited support boundary is intentionally small:
+
+| Surface | `.accent` |
+|---|---|
+| Buttons, button-type inputs, button roles, `.button` links, button-styled summaries | Solid accent action/trigger |
+| Badges | Branded category, featured label, or accent emphasis |
+| Progress | Branded task progress without status meaning |
+| Forms, alerts/status, loaders, cards/dialogs, navigation/tree, tables, avatars, content/layout/utilities | Not supported; their native state/role or non-variant surface contract takes precedence |
+
+See the [foundations support matrix](skills/daftcss/references/foundations.md#accent-support-matrix) for the component-by-component rationale.
+
 ### Badges
 
 ```html
 <span class="badge">Featured</span>
+<span class="badge accent">Branded</span>
 <span class="badge secondary">Pending</span>
 <span class="badge outline">Active</span>
 <span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
 ```
 
-Badges use the same static surface recipes as buttons, but are presentational and noninteractive. They have one canonical 20px pill size: choose at most one variant, keep the text meaningful without color, and use a real button or link for actions. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
+Badges use the same static surface recipes as buttons, including the solid accent treatment, but are presentational and noninteractive. They have one canonical 20px pill size: choose at most one variant, keep the text meaningful without color, and use a real button or link for actions. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
 
 ### Accordion
 
@@ -579,7 +594,7 @@ Daft CSS uses a hierarchical variable system designed to give you both simplicit
 }
 ```
 
-The system automatically handles derived concerns — for example, button text color adjusts based on whether the primary color is light or dark.
+The system automatically handles derived concerns—for example, solid primary and accent component text adjusts based on whether its background is light or dark. `--accent-foreground` can still be declared explicitly for a brand-specific pair. This minor release replaces its former `var(--foreground)` default, so custom accents can visibly change existing accent-powered hover/selected text; explicitly restore that value if needed. Scoped accent overrides must redeclare the foreground pair. Translucent accents cannot be auto-contrasted reliably against unknown backgrounds and need an explicit opaque foreground. Because accent also drives hover/selected surfaces, verify the pair in those contexts too.
 
 **2. Scale variables** — Root values cascade into scales. Decrease `--spacing` and all spacing shrinks proportionally:
 

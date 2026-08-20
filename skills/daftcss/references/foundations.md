@@ -62,11 +62,31 @@ All default colors use `light-dark()` and follow the active `color-scheme`.
 | `--primary`, `--primary-foreground` | Primary actions and emphasis |
 | `--secondary`, `--secondary-foreground` | Secondary controls |
 | `--muted`, `--muted-foreground` | Quiet surfaces and supporting text |
-| `--accent`, `--accent-foreground` | Hover and selected surfaces |
+| `--accent`, `--accent-foreground` | Solid accent components plus hover and selected surfaces |
 | `--destructive`, `--success`, `--warning` | Status meaning |
 | `--border`, `--input`, `--ring` | Boundaries, form borders, focus |
 
-Foreground pairs for primary and status colors derive automatically from their background color. Override the pair only when the computed contrast is unsuitable for a custom palette.
+Foreground pairs for primary, accent, and status colors derive automatically from their background color with relative OKLCH, choosing a neutral near-white or near-black around the L 0.623 threshold. A valid opaque custom root `--accent` therefore supplies readable text for solid accent components and accent hover surfaces in supported browsers. An explicit `--accent-foreground` declaration still overrides the derived default; use it for a brand-specific pair after checking contrast.
+
+This minor release changes the default `--accent-foreground` from `var(--foreground)` to that auto-contrast derivation. Existing pages with a custom accent may therefore see text on accent-powered hover/selected surfaces switch to neutral black or white; redeclare `--accent-foreground: var(--foreground)` to preserve the previous behavior. Like Daft's other derived foreground tokens, a narrowly scoped background override should redeclare its foreground pair because an inherited derived value does not recompute against a descendant override. Translucent accent colors are also outside the auto-contrast guarantee: compositing depends on the surface underneath, and relative-color output can preserve source alpha. For a translucent `--accent`, provide an explicit opaque `--accent-foreground` and test the pair over every actual background.
+
+## Accent support matrix
+
+`.accent` has one cross-component meaning: **non-status brand emphasis using the accent token pair**. It is a semantic component variant, never a generic text/background utility.
+
+| Surface | Support | Rationale |
+|---|---|---|
+| Buttons, button-type inputs, button roles, `.button` links | Yes | Actions and prominent navigation can need a second branded emphasis distinct from the bare primary action. |
+| Dropdown summaries and button-styled disclosure summaries | Yes | These already share the complete button variant/state contract. |
+| Badges | Yes | A concise category, featured label, or brand marker can carry non-status accent emphasis. |
+| Progress | Yes | A task can be brand-emphasized without claiming success, warning, or failure. |
+| Inputs, choices, switches, range, validation | No | Their colors communicate native value, focus, validation, or selected state; an accent class would blur that state model. |
+| Alerts/status, loading indicators | No | Their role/state determines urgency or activity. Use the existing semantic role or state rather than brand emphasis. |
+| Cards, dialogs, tooltips, tables, avatars | No | These are content, container, data, or identity surfaces without a color-variant contract. Accent here would become generic decoration. |
+| Ordinary links/nav items, accordions, trees | No | Native/current/open interaction states own their presentation. Only an explicitly button-styled trigger receives the button API. |
+| Layout primitives, content elements, utilities | No | They are not semantic component surfaces; `.accent` would be a generic color utility. |
+
+For buttons and badges, `.accent` is mutually exclusive with other surface/color variants. Established variants win accidental combinations. Button selected/current state also wins because state is stronger than brand emphasis. Progress likewise uses one color class at a time; status meaning should never rely on color alone.
 
 ## Derived scales
 

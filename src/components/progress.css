@@ -69,6 +69,7 @@ progress:not([value])::-moz-progress-bar {
 }
 
 /* Color variants — only set the variable, everything else inherits. */
+progress.accent       { --progress-color: var(--accent); }
 progress.secondary    { --progress-color: var(--muted-foreground); }
 progress.success      { --progress-color: var(--success); }
 progress.warning      { --progress-color: var(--warning); }

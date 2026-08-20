@@ -34,6 +34,24 @@ for (const path of discoverHtmlRoutes()) {
   }
 }
 
+test("Site Sequel accent components meet automated WCAG contrast expectations", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="--accent: #a3f0c4; --accent-foreground: #052e1b">
+        <button class="accent" type="button">Accent action</button>
+        <button class="accent" type="button" disabled aria-busy="true">Publishing</button>
+        <a class="button accent" href="#next">Accent link action</a>
+        <details class="dropdown"><summary class="accent">Accent menu</summary><ul><li><a href="#edit">Edit</a></li></ul></details>
+        <span class="badge accent">Accent badge</span>
+        <label>Accent progress <progress class="accent" value="64" max="100">64%</progress></label>
+      </main>`;
+  });
+
+  const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+  expect(results.violations, formatViolations(results.violations)).toEqual([]);
+});
+
 for (const theme of ["light", "dark"]) {
   test(`the canonical breadcrumb has a named navigation landmark and no automated WCAG A/AA violations in ${theme} theme`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme });

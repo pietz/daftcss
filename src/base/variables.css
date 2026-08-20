@@ -120,9 +120,11 @@
   --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
   --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
 
-  /* Hover-surface role (derived from --muted; override to retune) */
+  /* Accent component and hover-surface role (derived from --muted by default).
+     Its foreground auto-contrasts like the other solid semantic colors; an
+     explicit --accent-foreground declaration still overrides this default. */
   --accent: var(--muted);
-  --accent-foreground: var(--foreground);
+  --accent-foreground: oklch(from var(--accent) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
 
   /* Code block surface — intentionally darker than --muted in dark mode so
      <pre> reads as a recessed surface, not equal to inline-code chrome. */

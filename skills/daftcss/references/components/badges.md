@@ -8,6 +8,7 @@ Use `.badge` on a short inline status, category, count, or label. A badge is pre
 
 ```html
 <span class="badge">New</span>
+<span class="badge accent">Featured</span>
 <span class="badge outline">Active</span>
 <span class="badge secondary">Pending</span>
 ```
@@ -26,12 +27,13 @@ Badges share the static surface recipes of buttons, but remain presentational an
 | Class | Use |
 |---|---|
 | none | Primary emphasis |
+| `.accent` | Branded category, featured label, or accent emphasis |
 | `.secondary` | Pending, low-emphasis, or muted information |
 | `.outline` | Neutral status, category, count, or metadata |
 | `.ghost` | Minimal-emphasis metadata on a quiet surface |
 | `.destructive` | Failed, blocked, or error state |
 
-Badges have one canonical 20px pill size. There are no badge size classes; themes may override the shared `--badge-radius` token.
+Badges have one canonical 20px pill size. There are no badge size classes; themes may override the shared `--badge-radius` token. `.accent` is mutually exclusive with the other badge variants; an established variant takes precedence if accidentally combined.
 
 For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old `.small` or `.large` classes render at the canonical size. Do not use these aliases in new markup.
 
@@ -39,7 +41,7 @@ For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps 
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. Badge surfaces use the same color tokens as the corresponding static button recipes:
 
-- `--primary`, `--secondary`, `--destructive`
+- `--primary`, `--accent`, `--secondary`, `--destructive`
 - Their corresponding `*-foreground` tokens
 - `--border`
 - `--badge-radius`

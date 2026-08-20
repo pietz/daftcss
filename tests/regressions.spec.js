@@ -1064,6 +1064,180 @@ test("button-looking anchors retain link semantics and button composition", asyn
   expect(await interactiveBackground("#a-secondary", true)).toBe(await interactiveBackground("#b-secondary", true));
 });
 
+test("solid accent composes across every documented component and button state", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <main style="--accent: #a3f0c4; --accent-foreground: #052e1b; width: 240px">
+        <button id="button" class="accent" type="button">Accent action</button>
+        <input id="input-button" class="accent" type="button" value="Input button">
+        <input id="input-submit" class="accent" type="submit" value="Input submit">
+        <span id="role-button" class="accent" role="button" tabindex="0">Role button</span>
+        <details><summary id="button-summary" class="accent" role="button">Accent disclosure</summary><p>Details</p></details>
+        <button id="small" class="accent small" type="button">Small</button>
+        <button id="icon" class="accent icon large" type="button" aria-label="Add"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button>
+        <button id="full" class="accent full-width" type="button">Full width</button>
+        <button id="disabled" class="accent" type="button" disabled>Disabled</button>
+        <button id="busy" class="accent" type="button" disabled aria-busy="true">Busy</button>
+        <a id="link" class="button accent" href="#next">Accent link</a>
+        <span id="group" role="group" class="large"><button id="group-button" class="accent" type="button">Grouped</button><button class="outline" type="button">Other</button></span>
+        <details class="dropdown"><summary id="summary" class="accent">Accent menu</summary><ul><li><a href="#item">Item</a></li></ul></details>
+        <span id="badge" class="badge accent">Accent badge</span>
+        <progress id="progress" class="accent" value="64" max="100">64%</progress>
+        <progress id="indeterminate-progress" class="accent"></progress>
+      </main>`;
+  });
+
+  const styles = await page.evaluate(() => {
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return {
+        background: style.backgroundColor,
+        color: style.color,
+        height: style.height,
+        opacity: style.opacity,
+        progressColor: style.getPropertyValue("--progress-color").trim(),
+        width: style.width,
+      };
+    };
+    return Object.fromEntries(["button", "input-button", "input-submit", "role-button", "button-summary", "small", "icon", "full", "disabled", "busy", "link", "group-button", "summary", "badge", "progress", "indeterminate-progress"].map((id) => [id, read(id)]));
+  });
+
+  for (const id of ["button", "input-button", "input-submit", "role-button", "button-summary", "small", "icon", "full", "disabled", "busy", "link", "group-button", "summary", "badge"]) {
+    expect(styles[id].background, id).toBe("rgb(163, 240, 196)");
+    expect(styles[id].color, id).toBe("rgb(5, 46, 27)");
+  }
+  expect(styles.small.height).toBe("28px");
+  expect(styles.icon.height).toBe("36px");
+  expect(styles.icon.width).toBe(styles.icon.height);
+  expect(styles.full.width).toBe("240px");
+  expect(styles["group-button"].height).toBe("36px");
+  expect(styles.disabled.opacity).toBe("0.5");
+  expect(styles.busy.opacity).toBe("0.5");
+  expect(styles.progress.progressColor).toBe("#a3f0c4");
+  expect(styles["indeterminate-progress"].progressColor).toBe("#a3f0c4");
+
+  const button = page.locator("#button");
+  const restBackground = styles.button.background;
+  await button.hover();
+  await expect.poll(() => button.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe(restBackground);
+  await page.mouse.down();
+  const activeBackground = await button.evaluate((element) => getComputedStyle(element).backgroundColor);
+  await page.mouse.up();
+  expect(activeBackground).not.toBe(restBackground);
+
+  await button.focus();
+  await expect(button).toHaveCSS("outline-width", "3px");
+  const outlineColor = await button.evaluate((element) => getComputedStyle(element).outlineColor);
+  expect(outlineColor).not.toBe("rgba(0, 0, 0, 0)");
+  expect(await page.locator("#busy").evaluate((element) => getComputedStyle(element, "::before").content)).not.toBe("none");
+});
+
+test("accent foreground auto-contrasts and preserves explicit overrides", async ({ page }) => {
+  await loadCoreBadgeSource(page);
+  const colors = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <button id="probe" class="accent" type="button">Accent</button>
+      <i id="black" style="color: oklch(0 0 0)"></i>
+      <i id="white" style="color: oklch(1 0 0)"></i>`;
+    const root = document.documentElement;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    const context = canvas.getContext("2d");
+    const color = (id) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = getComputedStyle(document.getElementById(id)).color;
+      context.fillRect(0, 0, 1, 1);
+      return [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+    };
+    const reference = { black: color("black"), white: color("white") };
+
+    root.style.cssText = "--accent: #a3f0c4";
+    const light = color("probe");
+    root.style.cssText = "--accent: #052e1b";
+    const dark = color("probe");
+    root.style.cssText = "--accent: #a3f0c4; --accent-foreground: #052e1b";
+    const explicit = color("probe");
+    return { ...reference, dark, explicit, light };
+  });
+
+  expect(colors.light).toEqual(colors.black);
+  expect(colors.dark).toEqual(colors.white);
+  expect(colors.explicit).toEqual([5, 46, 27]);
+});
+
+test("established surface variants and selected state take precedence over accent", async ({ page }) => {
+  await page.goto("/components/");
+  const states = await page.evaluate(() => {
+    const variants = ["secondary", "destructive", "outline", "ghost", "link"];
+    const badgeVariants = ["secondary", "destructive", "outline", "ghost", "success", "warning"];
+    const progressVariants = ["secondary", "success", "warning", "destructive"];
+    document.body.innerHTML = `<main style="--accent: #a3f0c4; --accent-foreground: #052e1b">
+      ${variants.map((variant) => `<button id="plain-${variant}" class="${variant}">${variant}</button><button id="mixed-${variant}" class="accent ${variant}">${variant}</button>`).join("")}
+      <input id="reset-plain" type="reset" value="Reset"><input id="reset-accent" class="accent" type="reset" value="Reset accent">
+      <button id="selected-plain" aria-pressed="true">Selected</button>
+      <button id="selected-accent" class="accent" aria-pressed="true">Selected accent</button>
+      ${badgeVariants.map((variant) => `<span id="badge-plain-${variant}" class="badge ${variant}">Badge</span><span id="badge-mixed-${variant}" class="badge accent ${variant}">Badge</span>`).join("")}
+      ${progressVariants.map((variant) => `<progress id="progress-plain-${variant}" class="${variant}" value="50" max="100"></progress><progress id="progress-mixed-${variant}" class="accent ${variant}" value="50" max="100"></progress>`).join("")}
+    </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { background: style.backgroundColor, border: style.borderTopColor, color: style.color };
+    };
+    return {
+      badges: Object.fromEntries(badgeVariants.map((variant) => [variant, { mixed: read(`badge-mixed-${variant}`), plain: read(`badge-plain-${variant}`) }])),
+      progress: Object.fromEntries(progressVariants.map((variant) => [variant, {
+        mixed: getComputedStyle(document.getElementById(`progress-mixed-${variant}`)).getPropertyValue("--progress-color"),
+        plain: getComputedStyle(document.getElementById(`progress-plain-${variant}`)).getPropertyValue("--progress-color"),
+      }])),
+      resetAccent: read("reset-accent"),
+      resetPlain: read("reset-plain"),
+      selectedAccent: read("selected-accent"),
+      selectedPlain: read("selected-plain"),
+      variants: Object.fromEntries(variants.map((variant) => [variant, { mixed: read(`mixed-${variant}`), plain: read(`plain-${variant}`) }])),
+    };
+  });
+
+  for (const state of Object.values(states.variants)) expect(state.mixed).toEqual(state.plain);
+  for (const state of Object.values(states.badges)) expect(state.mixed).toEqual(state.plain);
+  for (const state of Object.values(states.progress)) expect(state.mixed).toBe(state.plain);
+  expect(states.resetAccent).toEqual(states.resetPlain);
+  expect(states.selectedAccent).toEqual(states.selectedPlain);
+});
+
+test("accent remains scoped to its documented semantic component surfaces", async ({ page }) => {
+  await page.goto("/components/");
+  const pairs = await page.evaluate(() => {
+    document.body.innerHTML = `<main>
+      <p id="text-plain">Text</p><p id="text-accent" class="accent">Text</p>
+      <a id="link-plain" href="#plain">Link</a><a id="link-accent" class="accent" href="#accent">Link</a>
+      <input id="field-plain" value="Field"><input id="field-accent" class="accent" value="Field">
+      <input id="choice-plain" type="checkbox"><input id="choice-accent" class="accent" type="checkbox">
+      <article id="card-plain">Card</article><article id="card-accent" class="accent">Card</article>
+      <details><summary id="ordinary-summary-plain">Summary</summary></details><details><summary id="ordinary-summary-accent" class="accent">Summary</summary></details>
+    </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return {
+        background: style.backgroundColor,
+        border: style.borderTopColor,
+        color: style.color,
+        display: style.display,
+      };
+    };
+    return Object.fromEntries(["text", "link", "field", "choice", "card", "ordinary-summary"].map((name) => [name, {
+      accent: read(`${name}-accent`),
+      plain: read(`${name}-plain`),
+    }]));
+  });
+
+  for (const state of Object.values(pairs)) expect(state.accent).toEqual(state.plain);
+});
+
 test("required markers remain robust across label and control shapes", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/components/");

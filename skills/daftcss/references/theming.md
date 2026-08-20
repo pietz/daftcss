@@ -33,6 +33,21 @@ If your brand has a separate dark-mode color:
 :root { --primary: light-dark(oklch(0.55 0.22 264), oklch(0.7 0.18 264)); }
 ```
 
+### Accent actions and labels
+
+Override `--accent` to brand the documented `.accent` button-family, badge, and progress surfaces. The same token continues to drive hover/selected surfaces. `--accent-foreground` automatically chooses a neutral near-white or near-black through relative OKLCH; declare it explicitly when the brand calls for a specific foreground pair.
+
+```css
+:root {
+  --accent: #a3f0c4;
+  --accent-foreground: #052e1b; /* optional explicit brand override */
+}
+```
+
+Keep the pair readable because dropdown items and ghost/outline hover states also consume it. Do not use `.accent` as a generic color utility or combine it with another button/badge surface variant or progress color variant. A narrowly scoped `--accent` override should redeclare `--accent-foreground` in the same scope; inherited derived foreground values do not recompute from a descendant background override. Auto-contrast assumes an opaque accent: translucent colors depend on the background beneath them and can pass their alpha into the relative-color result, so pair them with an explicit opaque foreground and test each composited surface.
+
+In this minor release the derived default replaces the former `--accent-foreground: var(--foreground)`. A custom accent can therefore change existing hover/selected text to neutral black or white. Set `--accent-foreground: var(--foreground)` explicitly if you need the old behavior.
+
 ### Custom font
 
 ```css
@@ -126,7 +141,7 @@ Either override per-variable inside the dark-mode block, or use `light-dark()` o
 }
 ```
 
-Foregrounds for these choose a light or dark neutral automatically. Override them only when contrast testing shows the computed pair is unsuitable.
+Foregrounds for these, primary, and accent choose a light or dark neutral automatically. Override them only when contrast testing shows the computed pair is unsuitable.
 
 ### Sidebar width
 

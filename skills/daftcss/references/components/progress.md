@@ -31,6 +31,7 @@ Use native `<progress>` to communicate completion of a task. A progress element 
 | Class | Progress color | Use |
 |---|---|---|
 | none | `--primary` | Default task progress |
+| `.accent` | `--accent` | Branded or specially emphasized task progress (not a status) |
 | `.secondary` | `--muted-foreground` | Quiet/secondary progress |
 | `.success` | `--success` | Successful or healthy state |
 | `.warning` | `--warning` | Attention or caution |
@@ -43,14 +44,14 @@ The bar is `100%` wide, `--spacing-sm` tall, and has an animated width transitio
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
 - `--progress-radius` controls the track and value radius.
-- `--primary`, `--muted-foreground`, `--success`, `--warning`, and `--destructive` supply variant colors.
+- `--primary`, `--accent`, `--muted-foreground`, `--success`, `--warning`, and `--destructive` supply variant colors.
 - `--muted` supplies the track color.
 - `--spacing-sm` sets height and label-to-bar spacing.
 - `--transition-slow` and `--ease-default` control the determinate transition.
 
 ## Behavior and accessibility
 
-Use a visible task label and update `value` and any accompanying textual percentage as work advances. Indeterminate progress conveys activity, not percent complete. Do not communicate success or failure only through the color class.
+Use a visible task label and update `value` and any accompanying textual percentage as work advances. `.accent` communicates brand emphasis, not completion health; use the status variants only when their meaning is also stated in text. Indeterminate progress conveys activity, not percent complete. Do not communicate success or failure only through the color class.
 
 For loading regions, `aria-busy="true"` can identify the region being updated and Daft shows a spinner for it. It does **not** set a control's native `disabled` state or reliably prevent keyboard or programmatic activation. Daft applies `pointer-events: none` while busy, but controls that must not be used, such as a submitting button, still need `disabled`:
 
