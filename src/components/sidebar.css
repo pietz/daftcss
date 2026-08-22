@@ -169,6 +169,12 @@ body > aside.sidebar[popover]::backdrop {
     width: auto;
   }
 
+  /* Keep content clear of the persistent rail when its landmark contains a
+     centered container, whose normal desktop gutters are otherwise removed. */
+  body > aside.sidebar:not(.drawer) ~ :is(header, nav, main, footer) .container {
+    padding-inline: var(--spacing);
+  }
+
   body > :is(header, nav):first-child:has(+ aside.sidebar:not(.drawer)) + aside.sidebar:not(.drawer) {
     --sidebar-offset-top: calc(var(--component-height) + var(--spacing));
   }

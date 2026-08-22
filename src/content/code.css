@@ -12,7 +12,8 @@ code {
   color: var(--foreground);
   padding: 0.2em 0.4em;
   border-radius: var(--radius-sm);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 /* Code inside links */

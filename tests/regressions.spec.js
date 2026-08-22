@@ -1989,6 +1989,86 @@ test("popover surfaces follow cards by default and retain an independent overrid
   expect(colors.overridden).toEqual({ card: "rgb(1, 2, 3)", popover: "rgb(4, 5, 6)" });
 });
 
+test("inline code wraps long tokens while direct pre code remains a scrolling code block", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 600 });
+  await page.goto("/components/");
+
+  const layout = await page.evaluate(() => {
+    const token = "very-long-inline-code-token-".repeat(12);
+    document.body.innerHTML = `
+      <main style="width: 240px">
+        <p id="inline-parent">Use <code id="inline-code">${token}</code> in a sentence.</p>
+        <pre id="fenced-code"><code>${token}</code></pre>
+      </main>`;
+
+    const inline = document.getElementById("inline-code");
+    const inlineRange = document.createRange();
+    inlineRange.selectNodeContents(inline);
+    const pre = document.getElementById("fenced-code");
+    const fenced = pre.querySelector("code");
+    const inlineStyle = getComputedStyle(inline);
+    const fencedStyle = getComputedStyle(fenced);
+    const preStyle = getComputedStyle(pre);
+    return {
+      documentWidth: document.documentElement.scrollWidth,
+      fenced: {
+        clientWidth: pre.clientWidth,
+        codeWhiteSpace: fencedStyle.whiteSpace,
+        overflowX: preStyle.overflowX,
+        scrollWidth: pre.scrollWidth,
+      },
+      inline: {
+        lineCount: inlineRange.getClientRects().length,
+        overflowWrap: inlineStyle.overflowWrap,
+        whiteSpace: inlineStyle.whiteSpace,
+      },
+      viewportWidth: innerWidth,
+    };
+  });
+
+  expect(layout.documentWidth).toBeLessThanOrEqual(layout.viewportWidth);
+  expect(layout.inline).toMatchObject({ overflowWrap: "anywhere", whiteSpace: "normal" });
+  expect(layout.inline.lineCount).toBeGreaterThan(1);
+  expect(layout.fenced).toMatchObject({ codeWhiteSpace: "pre", overflowX: "auto" });
+  expect(layout.fenced.scrollWidth).toBeGreaterThan(layout.fenced.clientWidth);
+});
+
+for (const viewport of [
+  { name: "at the compact desktop breakpoint", width: 768 },
+  { name: "at a standard desktop viewport", width: 1280 },
+]) {
+  test(`persistent sidebar keeps descendant container gutters ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: 800 });
+    await page.goto("/components/");
+
+    const layout = await page.evaluate(() => {
+      document.body.innerHTML = `
+        <aside class="sidebar"><nav><ul><li><a href="#overview">Overview</a></li></ul></nav></aside>
+        <main id="content-landmark"><div id="content-container" class="container"><div id="content">Application content</div></div></main>`;
+      const sidebar = document.querySelector(".sidebar").getBoundingClientRect();
+      const main = document.getElementById("content-landmark").getBoundingClientRect();
+      const container = document.getElementById("content-container");
+      const content = document.getElementById("content").getBoundingClientRect();
+      const style = getComputedStyle(container);
+      return {
+        contentLeft: content.left,
+        contentRight: content.right,
+        containerPaddingLeft: style.paddingLeft,
+        containerPaddingRight: style.paddingRight,
+        mainLeft: main.left,
+        mainRight: main.right,
+        sidebarRight: sidebar.right,
+      };
+    });
+
+    expect(layout.mainLeft).toBe(layout.sidebarRight);
+    expect(layout.containerPaddingLeft).toBe("16px");
+    expect(layout.containerPaddingRight).toBe("16px");
+    expect(layout.contentLeft - layout.sidebarRight).toBeGreaterThanOrEqual(16);
+    expect(layout.mainRight - layout.contentRight).toBeGreaterThanOrEqual(16);
+  });
+}
+
 test("a fluid sidebar canvas retains horizontal gutters", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");
