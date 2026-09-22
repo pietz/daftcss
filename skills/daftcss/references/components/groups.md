@@ -13,7 +13,7 @@ Use `<form role="search">` for a search landmark, not `role="group"` merely to o
 
 ## Segmented groups
 
-Place the participating controls directly in the group. Button-only groups are the common case. `.full-width` makes a `role="group"` flex and width `100%`; `.vertical` stacks its direct segments. `<fieldset role="group">` remains a full-width segmented grouping, with a `<legend>` when it names related controls.
+Place the participating controls directly in the group. Button-only groups are the common case. `.w-full` makes a `role="group"` a block-level flex row at width `100%`; `.vertical` stacks its direct segments. `<fieldset role="group">` remains a full-width segmented grouping, with a `<legend>` when it names related controls.
 
 ```html
 <div role="group" aria-label="Time range">
@@ -25,7 +25,7 @@ Place the participating controls directly in the group. Button-only groups are t
 
 Use `aria-pressed="true"` for a selected toggle or segmented-control button. Reserve `aria-current` for a genuinely current navigation or item state.
 
-Apply `.small` or `.large` to a `role="group"` to size its supported direct controls and addon segments. `input[type="search"]` gives a horizontal cluster its pill radius.
+Apply `.small` or `.large` to a `role="group"` to size its supported direct controls and addon segments. Search clusters use the same radius as other fields.
 
 ## Adaptive field shells
 
@@ -54,7 +54,7 @@ Eligible group inputs are an omitted or empty type, or `text`, `search`, `email`
 </form>
 ```
 
-The shell owns its border, background, radius, `:focus-within`, and input validation presentation. Its input is transparent and borderless; allowed addons sit inside the surface; direct actions are inset and can appear before or after the input. Each action remains its own keyboard-focusable control.
+The shell owns its border, background, radius, `:focus-within`, and input validation presentation. Its input is transparent and borderless; allowed addons sit inside the surface; direct actions are inset and can appear before or after the input. Icons sit close to the shell edge and closer to the text; ghost icon actions are muted until hover, and text actions are inset slightly from the shell edge. Each action remains its own keyboard-focusable control.
 
 The following do **not** qualify and stay segmented: direct `select`, `textarea`, `label`, `legend`, `fieldset`, nested group, hidden or unsupported input, a second input, helper `<p>` or `<small>`, native input action, a fieldset wrapper, or a vertical group. Any other unlisted direct child also keeps the group segmented. In segmented mode, addons are separate muted segments rather than shell content.
 
@@ -66,9 +66,9 @@ A disabled input changes the shell's input state but does not disable an enabled
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. This component primarily uses:
 
-- `--radius-md`, `--radius-full`
+- `--radius-md`
 - `--border-width`
-- `--input-radius`, `--input-height`, `--input-height-sm`, `--input-height-lg`
+- `--input-radius`, `--input-height`, `--input-height-sm`, `--input-height-lg`, `--input-font-size` (addon text)
 - `--button-radius`, `--button-height`, `--button-height-sm`, `--button-height-lg`
 - `--spacing-xs`, `--spacing-sm`, `--spacing-md`, `--spacing-lg`
 - `--input`, `--input-background`, `--muted`, `--muted-foreground`

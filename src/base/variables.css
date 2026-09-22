@@ -100,7 +100,7 @@
   --component-height-sm: calc(var(--component-height) - 0.25rem);
   --component-height-lg: calc(var(--component-height) + 0.25rem);
 
-  /* Backdrop blur — used by .glass surfaces and modal/sidebar overlays. */
+  /* Backdrop blur — used by .glass surfaces. Overlays use --modal-blur. */
   --blur: 10px;
 
   /* Shadow scale */
@@ -110,18 +110,16 @@
   --shadow-lg: 0 10px 15px -3px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4)), 0 4px 6px -4px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.4));
 
   /* Foreground colors (paired with each surface/brand color above).
-     The brand foregrounds auto-contrast against their tint via relative OKLCH:
-     near-white when the tint is darker than ~L 0.623, near-black otherwise. */
+     --primary-foreground auto-contrasts against its fill via relative OKLCH:
+     near-white when the fill is darker than ~L 0.623, near-black otherwise.
+     Status colors need no foreground: tones mix them into tinted text. */
   --card-foreground: var(--foreground);
   --popover-foreground: var(--card-foreground);
   --muted-foreground: light-dark(oklch(0.53 0 0), oklch(0.708 0 0));
   --primary-foreground: oklch(from var(--primary) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-  --destructive-foreground: oklch(from var(--destructive) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-  --success-foreground: oklch(from var(--success) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
-  --warning-foreground: oklch(from var(--warning) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
 
   /* Accent component and hover-surface role (derived from --muted by default).
-     Its foreground auto-contrasts like the other solid semantic colors; an
+     Its foreground auto-contrasts like --primary-foreground; an
      explicit --accent-foreground declaration still overrides this default. */
   --accent: var(--muted);
   --accent-foreground: oklch(from var(--accent) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h);
@@ -142,8 +140,8 @@
   --button-radius: var(--radius-lg);
   --input-radius: var(--radius-lg);
   --card-radius: var(--radius-xl);
-  --modal-radius: var(--radius-lg);
-  --dropdown-radius: var(--radius-md);
+  --modal-radius: var(--radius-xl);
+  --dropdown-radius: var(--radius-lg);
   --tooltip-radius: var(--radius-md);
   --badge-radius: var(--radius-full);
   --progress-radius: var(--radius-full);
@@ -169,6 +167,10 @@
   --input-height-sm: var(--component-height-sm);
   --input-height-lg: var(--component-height-lg);
   --input-background: var(--card);
+  /* Text size of inputs, selects, textareas, and group addons. 16px below
+     768px keeps iOS Safari from zooming on focus; 14px from 768px up matches
+     buttons (media query below). An unlayered :root override wins at all widths. */
+  --input-font-size: var(--text-base);
 
   /* Form controls (checkbox, radio, range thumb) */
   --control-size: 1rem;
@@ -180,7 +182,9 @@
 
   /* Modal */
   --modal-max-width: 24rem;
-  --modal-overlay: light-dark(oklch(0 0 0 / 50%), oklch(0 0 0 / 70%));
+  /* Overlay and blur shared by the dialog and sidebar drawer backdrops. */
+  --modal-overlay: oklch(0 0 0 / 10%);
+  --modal-blur: 4px;
 
   /* Breadcrumb */
   --breadcrumb-divider: "›";
@@ -188,8 +192,10 @@
   /* Responsive top navigation */
   --top-nav-height: calc(var(--component-height) + var(--spacing) + 2 * var(--spacing-xs) + var(--border-width));
 
-  /* Sidebar */
+  /* Sidebar. Link hover and current use --accent, so keep this surface
+     visibly distinct from --accent when retuning either one. */
   --aside-width: clamp(14rem, 20vw, 20rem);
+  --sidebar-background: light-dark(oklch(0.985 0 0), var(--card));
 
   /* ============================================================
      INTERACTION STATES
@@ -223,3 +229,8 @@
   --icon-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
+@media (min-width: 768px) {
+  :root {
+    --input-font-size: var(--text-sm);
+  }
+}

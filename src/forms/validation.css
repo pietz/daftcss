@@ -19,41 +19,33 @@ select[aria-invalid="true"]:focus-visible {
   box-shadow: var(--focus-ring-destructive);
 }
 
-/* Valid state */
-input[aria-invalid="false"],
-textarea[aria-invalid="false"],
-select[aria-invalid="false"] {
-  border-color: var(--primary);
-}
-
-/* Helper text colors for validation */
-input[aria-invalid="true"] + small,
-textarea[aria-invalid="true"] + small,
-select[aria-invalid="true"] + small,
-input[aria-invalid="true"] ~ small,
-textarea[aria-invalid="true"] ~ small,
-select[aria-invalid="true"] ~ small {
+/* Helper text colors for validation. A valid field (aria-invalid="false")
+   looks like any other field, so its helper stays the neutral muted color.
+   Any later sibling <small> follows the state at zero specificity; the helper
+   directly after the control or its wrapping label wins, so a valid field
+   cannot inherit the previous field's error color. */
+:where(:is(input, textarea, select)[aria-invalid="true"] ~ small) {
   color: var(--destructive);
 }
 
-input[aria-invalid="false"] + small,
-textarea[aria-invalid="false"] + small,
-select[aria-invalid="false"] + small,
-input[aria-invalid="false"] ~ small,
-textarea[aria-invalid="false"] ~ small,
-select[aria-invalid="false"] ~ small {
-  color: var(--primary);
+:where(:is(input, textarea, select)[aria-invalid="false"] ~ small) {
+  color: var(--muted-foreground);
+}
+
+:is(input, textarea, select)[aria-invalid="true"] + small,
+label:has(> :is(input, textarea, select)[aria-invalid="true"]) + small {
+  color: var(--destructive);
+}
+
+:is(input, textarea, select)[aria-invalid="false"] + small,
+label:has(> :is(input, textarea, select)[aria-invalid="false"]) + small {
+  color: var(--muted-foreground);
 }
 
 /* Checkbox/radio validation */
 input[type="checkbox"][aria-invalid="true"],
 input[type="radio"][aria-invalid="true"] {
   border-color: var(--destructive);
-}
-
-input[type="checkbox"][aria-invalid="false"],
-input[type="radio"][aria-invalid="false"] {
-  border-color: var(--primary);
 }
 
 /* Required field indicators.
@@ -79,8 +71,4 @@ label:not(:has(> :required)):has(+ select:required)::after {
 /* Dropdown validation */
 details.dropdown[aria-invalid="true"] > summary {
   border-color: var(--destructive);
-}
-
-details.dropdown[aria-invalid="false"] > summary {
-  border-color: var(--primary);
 }

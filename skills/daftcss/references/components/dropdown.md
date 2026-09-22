@@ -30,19 +30,20 @@ Use `<details class="dropdown">` for a compact disclosure whose list is visually
 
 - The summary uses the same button selectors as a button. Supported classes include `.accent`, `.secondary`, `.outline`, `.ghost`, `.destructive`, `.small`, `.large`, and `.icon`. The accent class is a solid treatment and follows the button variant precedence rules.
 - `.icon` removes the dropdown's added chevron. Use it only where the icon itself clearly conveys a menu, and give it an accessible name.
-- Add `dir="rtl"` to the menu `<ul>` to right-align it. The rule resets its text direction to LTR, so use this alignment option only for an LTR menu.
-- A dropdown inside `nav` is right-aligned automatically.
+- Add `data-placement="end"` to the `details.dropdown` to align the menu's inline-end edge with the trigger's (the right edge in LTR, the left edge in RTL). The menu then grows toward the start, which suits triggers near the end of a row.
+- A dropdown inside `nav` is end-aligned automatically.
 - Labels containing checkbox or radio inputs are supported without their usual label bottom margin.
+- Items are compact 28px rows (`--text-sm` with a 20px line and `--spacing-xs` block padding); `li.label` is a smaller `--text-xs` muted group label with matching inline padding.
 
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-`--spacing-xs`, `--spacing-sm`, `--text-sm`, `--icon-size`, `--icon-chevron`, `--popover`, `--popover-foreground`, `--accent`, `--accent-foreground`, `--border`, `--border-width`, `--dropdown-radius`, `--dropdown-shadow`, and `--transition-default`.
+`--spacing`, `--spacing-xs`, `--text-xs`, `--text-sm`, `--font-size-base`, `--radius-md`, `--muted-foreground`, `--icon-size`, `--icon-chevron`, `--popover`, `--popover-foreground`, `--accent`, `--accent-foreground`, `--border`, `--border-width`, `--dropdown-radius`, `--dropdown-shadow`, and `--transition-default`.
 
 ## Behavior and accessibility
 
-- The summary natively toggles the parent `details` element; `[open]` rotates the chevron. The list is absolutely positioned under the trigger with a minimum width of `10rem` and a z-index of `50`.
+- The summary natively toggles the parent `details` element; `[open]` rotates the chevron. The list is absolutely positioned under the trigger sized to its longest item (at least `8rem`, at most the viewport width less `--spacing` per side), with a z-index of `50`.
 - Opening is animated in. No closing animation is defined because closed details content is not rendered.
 - This pattern does **not** use the Popover API. It has no native light dismissal, no guaranteed Escape dismissal, no top-layer placement, and no focus management beyond native details behavior.
 - Keep a list of ordinary links as a list. Do not add `role="menu"` or menu-item roles unless you also implement the ARIA menu keyboard interaction model.
@@ -57,3 +58,4 @@ Use in a nav, toolbar, card header, or beside a contextual action. For a light-d
 - Do not expect clicking outside the dropdown to close it.
 - Do not omit `.dropdown`; ordinary details are styled as accordions.
 - Do not put the menu list outside the details or make menu entries non-list children.
+- Do not put `dir` on the menu `<ul>` to move it; use `data-placement="end"` on the `details`.

@@ -17,8 +17,8 @@ Use `<article>` for a self-contained, independently meaningful unit such as a po
 ## Markup requirements
 
 - Use direct-child `<header>` for the card heading and optional supporting text.
-- Use direct-child `<footer>` for actions or metadata that follows the body.
-- When a card needs a compact title and subtitle, put direct real heading and supporting paragraph children in `<hgroup>` inside the header. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render titles at 18px and subtitles at 14px.
+- Use direct-child `<footer>` for actions or metadata that follows the body. A closing direct `<footer>` becomes a full-bleed muted band with a top border, and the card drops its bottom padding; a footer that is the card's only child, a nested card's footer, and `article.plain` keep a plain row.
+- When a card needs a compact title and subtitle, put direct real heading and supporting paragraph children in `<hgroup>` inside the header. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render titles at 16px medium and subtitles at 14px. Direct body paragraphs use 14px UI text.
 
 ```html
 <article>
@@ -70,7 +70,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 - `--card-radius`, `--card-shadow`
 - `--card-padding`, `--card-gap`
 - `--spacing`, `--spacing-sm`, `--spacing-lg`
-- `--text-lg`, `--text-sm`, `--line-height-sm`, `--muted-foreground`
+- `--text-base`, `--text-sm`, `--line-height`, `--font-medium`, `--muted`, `--muted-foreground`
 
 ## Behavior and accessibility
 
@@ -79,20 +79,20 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 ## Composition
 
 - Images intentionally have no universal external margin. Add an existing spacing utility where the composition needs one, for example `<img class="mb-4" src="/release.jpg" alt="Release team at work">` before a card header.
-- A direct card child of `.grid` has no bottom margin, and Grid equalizes the cards' outer heights. When footers must also align at the bottom, make each card `article.flex.flex-col` and its footer `footer.mt-auto`.
-- Use a footer with its default flex row and small gap for related actions.
+- A direct card child of `.grid` has no bottom margin, and Grid equalizes the cards' outer heights. A closing footer (the card's last child) becomes a muted band pinned to the bottom automatically, so footers line up across the row without extra classes.
+- Automatic pinning applies only when the card has no direct inline children such as a bare `<span class="badge">` or `<button>`; wrap those in a `<p>` or `<header>`. For a footer that is not the last child, opt in explicitly with `article.flex.flex-col` and `footer.mt-auto`.
 
 ```html
 <div class="grid">
-  <article class="flex flex-col">
+  <article>
     <header><strong>Starter</strong></header>
     <p>For personal projects.</p>
-    <footer class="mt-auto"><button>Choose Starter</button></footer>
+    <footer><button>Choose Starter</button></footer>
   </article>
-  <article class="flex flex-col">
+  <article>
     <header><strong>Team</strong></header>
     <p>For teams that need shared projects and access controls.</p>
-    <footer class="mt-auto"><button>Choose Team</button></footer>
+    <footer><button>Choose Team</button></footer>
   </article>
 </div>
 ```

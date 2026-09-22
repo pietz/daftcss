@@ -5,7 +5,7 @@ Load this reference when starting a Daft page from scratch or when the installat
 ## Install
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
+<link rel="stylesheet" href="https://unpkg.com/daftcss@2/dist/daft.min.css">
 ```
 
 ## Minimal page
@@ -17,7 +17,7 @@ Load this reference when starting a Daft page from scratch or when the installat
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/daftcss@2/dist/daft.min.css">
     <title>App</title>
   </head>
   <body>

@@ -6,7 +6,7 @@ Use `<nav>` for a major set of navigation links. Daft CSS lays out its direct li
 
 For a sticky navigation bar at the top of the viewport, `.top-nav-menu` and `.top-nav-toggle` provide an opt-in responsive pattern. One link list stays in normal horizontal layout on desktop and becomes a native Popover panel below 768px. Choose this pattern when ordinary wrapping would be unacceptable. The behavior needs no JavaScript and does not duplicate links.
 
-Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a location trail. This is Daft's canonical breadcrumb syntax and matches Pico CSS 2.1.1.
+Use an `<ol>` as the direct child of a `<nav>` for a location trail, following the WAI breadcrumb pattern. The ordered list is the hook, so the landmark's `aria-label` can be in any language.
 
 ## Basic example
 
@@ -42,12 +42,12 @@ Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a 
   </ul>
 </nav>
 
-<nav aria-label="breadcrumb">
-  <ul>
+<nav aria-label="Breadcrumb">
+  <ol>
     <li><a href="/">Home</a></li>
     <li><a href="/docs">Docs</a></li>
     <li>Navigation</li>
-  </ul>
+  </ol>
 </nav>
 ```
 
@@ -59,28 +59,29 @@ Use a named `<nav aria-label="breadcrumb">` landmark with a direct `<ul>` for a 
 - Ordinary nav list links may contain a direct SVG followed by text. Daft renders these links inline-flex, centers the icon and text, applies the standard gap, and sizes the direct SVG with `--icon-size`.
 - For the responsive pattern, put `.top-nav` on the sticky top `<nav>`, then give the one link list an `id`, `.top-nav-menu`, and `popover`. Point an icon-only `.top-nav-toggle` button at that id with `popovertarget` and give it an `aria-label`.
 - Keep the trigger outside `.top-nav-menu` so it remains available while that list is closed. Use a restrained inline SVG with `aria-hidden="true"`; do not rely on a text glyph or visible “Menu” label.
-- Breadcrumbs use `<nav aria-label="breadcrumb"><ul>…</ul></nav>` with the list as the nav's direct child. The `aria-label` match is case-insensitive. Use list items in trail order and plain text for the current page; `aria-current` is not required.
-- The older bare `<ul aria-label="Breadcrumb">` syntax remains styled for backward compatibility, but is not the recommended markup.
+- Breadcrumbs use `<nav aria-label="Breadcrumb"><ol>…</ol></nav>` with the list as the nav's direct child. Any `<ol>` directly inside a `<nav>` is a breadcrumb trail; ordinary nav groups stay `<ul>`. Use list items in trail order and plain text for the current page; `aria-current` is not required.
+- A breadcrumb list outside a `<nav>`, or a `<ul>` in a nav, is not styled as a trail.
 
 ## Variants and options
 
 - Two `<ul>` groups are distributed to opposite sides when room permits. More groups are valid but are not a documented layout convention.
 - `nav strong` is styled as a brand label. Wrap it in a link when it should navigate.
-- A dropdown inside a nav has its menu right-aligned automatically. Inside an open mobile `.top-nav-menu`, it expands in the panel instead. See [Dropdown](dropdown.md).
+- A nav list link with `aria-current` (any value except `false` or empty, typically `"page"`) is highlighted with `--accent` / `--accent-foreground`, including pagination and links in an open mobile `.top-nav-menu`. The body [Sidebar](sidebar.md) uses the same accent state with a medium weight. `.tree` lists and `.button` links keep their own current treatment, and breadcrumb (`<ol>`) links never take it.
+- A dropdown inside a nav has its menu end-aligned automatically, as if it had `data-placement="end"`. Inside an open mobile `.top-nav-menu`, it expands in the panel instead. See [Dropdown](dropdown.md).
 - Set `--top-nav-height` to the actual sticky bar height if you customize it beyond Daft's default single row. The mobile panel uses this value to sit below the bar because the supported-browser baseline does not include CSS Anchor Positioning.
-- The final breadcrumb item is emphasized. Use plain text for the current page. Existing current breadcrumb links with `aria-current` (except `false`) remain non-clickable for backward compatibility.
+- The final breadcrumb item is emphasized. Use plain text for the current page. A current breadcrumb link with `aria-current` (except `false` or empty) is non-clickable.
 - Change `--breadcrumb-divider` to replace the default `›` separator.
 
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-`--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--text-lg`, `--font-medium`, `--font-semibold`, `--line-height`, `--radius-sm`, `--icon-size`, `--dropdown-radius`, `--dropdown-shadow`, `--top-nav-height`, `--popover`, `--popover-foreground`, `--border`, `--breadcrumb-divider`, and `--muted-foreground`.
+`--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--text-lg`, `--font-medium`, `--font-semibold`, `--line-height`, `--radius-sm`, `--icon-size`, `--accent`, `--accent-foreground`, `--dropdown-radius`, `--dropdown-shadow`, `--top-nav-height`, `--popover`, `--popover-foreground`, `--border`, `--breadcrumb-divider`, and `--muted-foreground`.
 
 ## Behavior and accessibility
 
-- `<nav>` remains a navigation landmark. The breadcrumb's `aria-label="breadcrumb"` gives its landmark an accessible name; use a distinct name for other navigation landmarks.
-- `aria-current="page"` communicates a current link when a current destination remains a link. The canonical breadcrumb instead uses plain text for its final item.
+- `<nav>` remains a navigation landmark. Give the breadcrumb nav an accessible name such as `aria-label="Breadcrumb"` (in the page's language); use a distinct name for other navigation landmarks.
+- `aria-current="page"` communicates a current link when a current destination remains a link, and supplies the visual highlight, so no `.active` class is needed. The canonical breadcrumb instead uses plain text for its final item.
 - Ordinary navs and their lists use `flex-wrap: wrap`; narrow layouts form additional rows. They are not changed to a vertical stack and have no overflow clipping rule.
 - Below 768px, a `.top-nav-menu[popover]` is hidden while closed and becomes a fixed, scrollable panel beneath the sticky top bar while open. At 768px and above, the same list participates in the normal horizontal nav layout and `.top-nav-toggle` is hidden.
 - A bare `popover` is an auto popover. The browser manages trigger state, Escape dismissal, and light dismiss. It remains non-modal: background content is not inert and focus is not trapped.
@@ -92,7 +93,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 Place a nav in a `header`, or use a nav directly as a page landmark. Use the responsive pattern only for a sticky top navigation bar: it positions the panel from the viewport and the known bar height, not from an arbitrary trigger. A breadcrumb nav can be placed in page content. Do not nest it inside another nav. Use the body-level [Sidebar](sidebar.md) for persistent application navigation.
 
-Pagination keeps the ordinary semantic list and link markup. Center that specific navigation explicitly with `.justify-center`, mark the current destination, and retain Daft's link padding for adequate targets. This does not change the alignment of ordinary navigation.
+Pagination keeps the ordinary semantic list and link markup. Center that specific navigation explicitly with `.justify-center`, mark the current destination with `aria-current="page"` so it receives the accent highlight, and retain Daft's link padding for adequate targets. This does not change the alignment of ordinary navigation.
 
 ```html
 <nav class="justify-center" aria-label="Pagination">
@@ -113,4 +114,5 @@ Pagination keeps the ordinary semantic list and link markup. Center that specifi
 - Do not duplicate the top navigation links into separate desktop and mobile lists.
 - Do not use `.top-nav-menu` for an arbitrary contextual popover or claim it anchors to its trigger. It is a viewport-positioned sticky top-navigation pattern.
 - Do not use a `<button>` for a destination or an `<a>` for an in-page action.
-- Do not omit the named `<nav>` wrapper from new breadcrumb markup or nest the breadcrumb nav inside another nav.
+- Do not omit the `<nav>` wrapper, use a `<ul>` for the trail, or nest the breadcrumb nav inside another nav.
+- Do not use an `<ol>` as a direct nav child for anything other than a breadcrumb; use `<ul>` for ordinary nav groups.

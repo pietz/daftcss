@@ -106,7 +106,7 @@ Skeleton:
     <strong>Install from CDN</strong>
     <span class="badge outline">HTML</span>
   </header>
-  <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@1/dist/daft.min.css"&gt;</code></pre>
+  <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daftcss@2/dist/daft.min.css"&gt;</code></pre>
   <footer>
     <small class="muted">Paste this into the document head.</small>
   </footer>

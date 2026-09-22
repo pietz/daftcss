@@ -31,15 +31,17 @@ The host must be focusable and have its own accessible name. Do not rely on gene
 | `left` | To the left |
 | `right` | To the right |
 
-There are no class variants. The tooltip does not auto-flip or avoid viewport edges.
+`data-placement` also has one dropdown value: `details.dropdown[data-placement="end"]` end-aligns the menu. See [dropdown.md](dropdown.md).
+
+Every placement draws a small arrow toward the host in the bubble color. There are no class variants. The tooltip does not auto-flip or avoid viewport edges.
 
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
 - `--tooltip-radius`
-- `--spacing-sm`, `--spacing-md`
-- `--text-xs`, `--font-medium`, `--line-height-sm`
+- `--spacing`, `--spacing-sm`, `--spacing-md`
+- `--text-xs`, `--font-normal`, `--font-size-base` (16px leading, giving a 28px bubble)
 - `--foreground`, `--background`
 - `--transition-fast`, `--ease-default`
 
@@ -47,7 +49,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 - The bubble appears on pointer hover and `:focus-visible`; it fades by changing opacity.
 - The default cursor is `help`; buttons and links use a pointer cursor.
-- The bubble ignores pointer events.
+- The bubble and arrow ignore pointer events. The arrow uses the host's `::after`, so it is skipped on `summary`, `input`, and sortable `th` hosts, where Daft already uses `::after`; those hosts show the bubble only.
 - CSS-generated content has no corresponding DOM tooltip element or ARIA relationship. It may not be announced as a description by assistive technology.
 - Use visible text, `aria-label`, or an explicit, associated description when the information is necessary to understand or operate the control.
 

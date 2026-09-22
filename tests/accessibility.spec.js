@@ -60,19 +60,19 @@ for (const theme of ["light", "dark"]) {
       document.documentElement.dataset.theme = value;
       document.body.innerHTML = `
         <main>
-          <nav aria-label="breadcrumb">
-            <ul>
+          <nav aria-label="Breadcrumb">
+            <ol>
               <li><a href="#home">Home</a></li>
               <li><a href="#services">Services</a></li>
               <li>Current</li>
-            </ul>
+            </ol>
           </nav>
         </main>`;
     }, theme);
 
-    await expect(page.getByRole("navigation", { name: "breadcrumb" })).toHaveCount(1);
-    await expect(page.getByRole("navigation", { name: "breadcrumb" }).getByText("Current", { exact: true })).toBeVisible();
-    await expect(page.locator('[aria-label="breadcrumb"] [aria-current]')).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toHaveCount(1);
+    await expect(page.getByRole("navigation", { name: "Breadcrumb" }).getByText("Current", { exact: true })).toBeVisible();
+    await expect(page.locator('nav > ol [aria-current]')).toHaveCount(0);
 
     const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
     expect(results.violations, formatViolations(results.violations)).toEqual([]);

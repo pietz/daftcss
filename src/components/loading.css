@@ -4,7 +4,7 @@
  */
 
 /* Loading spinner keyframes */
-@keyframes spin {
+@keyframes daft-spin {
   to {
     transform: rotate(360deg);
   }
@@ -16,9 +16,8 @@
   pointer-events: none;
 }
 
-/* Spinner for empty elements (article, button without text, etc.) */
-[aria-busy="true"]:empty::before,
-button[aria-busy="true"]:not(:has(*))::before {
+/* Block spinner for empty non-button elements (article, section, etc.) */
+[aria-busy="true"]:empty:not(button)::before {
   content: "";
   display: block;
   width: calc(var(--spinner-size) * 1.5);
@@ -27,21 +26,22 @@ button[aria-busy="true"]:not(:has(*))::before {
   border: var(--spinner-stroke) solid var(--muted);
   border-top-color: var(--primary);
   border-radius: var(--radius-full);
-  animation: spin 0.75s linear infinite;
+  animation: daft-spin 0.75s linear infinite;
 }
 
-/* Inline spinner (before text) */
-[aria-busy="true"]:not(:empty)::before {
+/* Inline spinner (before text, and in every busy button) */
+[aria-busy="true"]:not(:empty)::before,
+button[aria-busy="true"]::before {
   content: "";
   display: inline-block;
   width: var(--spinner-size);
   height: var(--spinner-size);
-  margin-right: var(--spacing-sm);
+  margin: 0;
   vertical-align: middle;
   border: var(--spinner-stroke) solid currentColor;
   border-top-color: transparent;
   border-radius: var(--radius-full);
-  animation: spin 0.75s linear infinite;
+  animation: daft-spin 0.75s linear infinite;
   opacity: 0.7;
 }
 
@@ -51,14 +51,12 @@ button[aria-busy="true"] {
   opacity: 0.8;
 }
 
-button[aria-busy="true"]::before {
-  width: var(--spinner-size);
-  height: var(--spinner-size);
-  border-width: var(--spinner-stroke);
+/* Buttons space the spinner with their own flex gap, like an icon; other
+   inline busy elements need an explicit gap before their text. */
+[aria-busy="true"]:not(:empty, button)::before {
   margin-right: var(--spacing-sm);
 }
 
-/* Icon-only button loading */
-button[aria-busy="true"][aria-label]::before {
-  margin-right: 0;
+button[aria-busy="true"]:is([aria-label], .icon) > svg {
+  display: none;
 }

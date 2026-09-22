@@ -63,12 +63,14 @@ All default colors use `light-dark()` and follow the active `color-scheme`.
 | `--secondary`, `--secondary-foreground` | Secondary controls |
 | `--muted`, `--muted-foreground` | Quiet surfaces and supporting text |
 | `--accent`, `--accent-foreground` | Solid accent components plus hover and selected surfaces |
-| `--destructive`, `--success`, `--warning` | Status meaning |
+| `--destructive`, `--success`, `--warning` | Status tones for badges, alerts/status messages, and progress (`--destructive` also drives destructive buttons and invalid fields) |
 | `--border`, `--input`, `--ring` | Boundaries, form borders, focus |
 
-Foreground pairs for primary, accent, and status colors derive automatically from their background color with relative OKLCH, choosing a neutral near-white or near-black around the L 0.623 threshold. A valid opaque custom root `--accent` therefore supplies readable text for solid accent components and accent hover surfaces in supported browsers. An explicit `--accent-foreground` declaration still overrides the derived default; use it for a brand-specific pair after checking contrast.
+Foreground pairs for primary and accent derive automatically from their background color with relative OKLCH, choosing a neutral near-white or near-black around the L 0.623 threshold. A valid opaque custom root `--accent` therefore supplies readable text for solid accent components and accent hover surfaces in supported browsers. An explicit `--accent-foreground` declaration still overrides the derived default; use it for a brand-specific pair after checking contrast.
 
-This minor release changes the default `--accent-foreground` from `var(--foreground)` to that auto-contrast derivation. Existing pages with a custom accent may therefore see text on accent-powered hover/selected surfaces switch to neutral black or white; redeclare `--accent-foreground: var(--foreground)` to preserve the previous behavior. Like Daft's other derived foreground tokens, a narrowly scoped background override should redeclare its foreground pair because an inherited derived value does not recompute against a descendant override. Translucent accent colors are also outside the auto-contrast guarantee: compositing depends on the surface underneath, and relative-color output can preserve source alpha. For a translucent `--accent`, provide an explicit opaque `--accent-foreground` and test the pair over every actual background.
+Status colors have no foreground tokens. Every status tone uses one recipe: text is the tone mixed 70% with `--foreground`, over a translucent tint of the tone (badges and destructive buttons: 10% light / 20% dark; alerts: 12% light / 20% dark mixed into `--background`). With the defaults this clears WCAG AA in both themes (lowest: light warning, about 5:1). Recheck contrast after retuning a status color, especially a light amber.
+
+Derived foregrounds are computed at `:root`, so a scoped background override must declare its foreground pair too. Translucent accents are outside the auto-contrast guarantee; give them an explicit opaque `--accent-foreground` and test every actual background.
 
 ## Accent support matrix
 
@@ -81,7 +83,7 @@ This minor release changes the default `--accent-foreground` from `var(--foregro
 | Badges | Yes | A concise category, featured label, or brand marker can carry non-status accent emphasis. |
 | Progress | Yes | A task can be brand-emphasized without claiming success, warning, or failure. |
 | Inputs, choices, switches, range, validation | No | Their colors communicate native value, focus, validation, or selected state; an accent class would blur that state model. |
-| Alerts/status, loading indicators | No | Their role/state determines urgency or activity. Use the existing semantic role or state rather than brand emphasis. |
+| Alerts/status, loading indicators | No | Their role/state determines urgency or activity. Use the semantic role, plus a `.success` or `.warning` status tone on alerts, rather than brand emphasis. |
 | Cards, dialogs, tooltips, tables, avatars | No | These are content, container, data, or identity surfaces without a color-variant contract. Accent here would become generic decoration. |
 | Ordinary links/nav items, accordions, trees | No | Native/current/open interaction states own their presentation. Only an explicitly button-styled trigger receives the button API. |
 | Layout primitives, content elements, utilities | No | They are not semantic component surfaces; `.accent` would be a generic color utility. |
@@ -107,14 +109,14 @@ Use these when one component should diverge without disconnecting the rest of th
 | Family | Tokens |
 |---|---|
 | Buttons | `--button-radius`, `--button-shadow`, `--button-height`, `--button-height-sm`, `--button-height-lg` |
-| Inputs | `--input-radius`, `--input-height`, `--input-height-sm`, `--input-height-lg` |
+| Inputs | `--input-radius`, `--input-height`, `--input-height-sm`, `--input-height-lg`, `--input-font-size` |
 | Cards | `--card-radius`, `--card-shadow`, `--card-padding`, `--card-gap` |
-| Dialogs | `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay` |
+| Dialogs | `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay`, `--modal-blur` (overlay and blur are shared with the sidebar drawer backdrop) |
 | Floating surfaces | `--dropdown-radius`, `--dropdown-shadow`, `--tooltip-radius` |
 | Small controls | `--badge-radius`, `--progress-radius`, `--control-size` |
 | Switches | `--switch-width`, `--switch-height`, `--switch-thumb` |
 | Responsive top navigation | `--top-nav-height` |
-| Sidebar | `--aside-width` |
+| Sidebar | `--aside-width`, `--sidebar-background` |
 
 Consult the relevant entry in the [component catalog](../SKILL.md#component-catalog) before overriding a component token.
 
@@ -135,7 +137,7 @@ Daft follows system preference by default:
 <article data-theme="light">Always light</article>
 ```
 
-`data-theme="light|dark"` changes `color-scheme` for that subtree, so tokens using `light-dark()` resolve locally. For recipes and palette guidance, load [theming.md](theming.md).
+`data-theme="light|dark"` changes `color-scheme` for that subtree, so tokens using `light-dark()` resolve locally. An island flips colors only; Tier 0 knobs such as `--radius` or `--spacing` take effect only on `:root`. For recipes and palette guidance, load [theming.md](theming.md).
 
 ## Browser support
 

@@ -193,19 +193,21 @@ body.deck {
   & aside.notes { display: none; }
 }
 
-/* Print / PDF — Cmd+P picks up @page; no tooling required */
+/* Print / PDF — Cmd+P picks up @page; no tooling required.
+   A named page keeps the slide size and zero margins off non-deck pages. */
 @media print {
-  @page {
+  @page slide {
     size: calc(var(--slide-width) * 1in) calc(var(--slide-height) * 1in);
     margin: 0;
   }
 
-  html, body, body.deck > section {
+  body.deck, body.deck > section {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
 
   body.deck {
+    page: slide;
     background: var(--background);
     padding: 0;
     gap: 0;

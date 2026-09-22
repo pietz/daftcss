@@ -34,13 +34,13 @@ Use `<ul class="tree">` for a compact, file-like hierarchy. Folders are native d
 - Start with `<ul class="tree">` and use an `<li>` for every folder or file.
 - A folder is `li > details > summary + ul`. The summary is the native folder disclosure; its nested list contains child items.
 - A file is `li > a`. Use a real destination in `href`.
-- Set `open` on a folder that should initially be expanded. Mark the current file with `aria-current="page"`; `.active` is a visual alternative.
+- Set `open` on a folder that should initially be expanded. Mark the current file with `aria-current="page"`; it is the only current-state hook.
 
 ## Variants and options
 
 - Set `--tree-indent` on `.tree` to change the indentation per nesting level. It defaults to `var(--spacing-md)`.
 - Closed folders show a right-pointing chevron; open folders show a down-pointing chevron.
-- `aria-current` and `.active` give a file row the selected background. `aria-current` also communicates the current resource; prefer it for actual current files.
+- `aria-current` (any value except `false` or empty) gives a file row the selected background and communicates the current resource.
 - There are no folder or file icon classes in this component. The folder chevron alone differentiates folders from files.
 
 ## Relevant tokens
@@ -54,7 +54,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 - Folders inherit native details behavior: their summaries are keyboard-operable controls and toggle the `open` attribute.
 - Folder and file rows have a minimum 24 CSS pixel hit area for WCAG 2.2 target sizing.
 - The tree does not implement `role="tree"`, roving tabindex, or arrow-key traversal. Do not add those roles unless you also implement the full ARIA tree interaction model.
-- File links remain ordinary links. `aria-current="page"` is the semantic selected-state marker; `.active` alone is visual.
+- File links remain ordinary links. `aria-current="page"` is the selected-state marker; there is no `.active` class.
 - Tree styles intentionally remove the ordinary accordion border, open color, chevron, and content spacing for folders.
 
 ## Composition

@@ -3,7 +3,7 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 const repositoryRoot = resolve(".");
 const skillRoot = resolve("skills/daftcss");
-const rootMarkdownFiles = ["README.md", "DOCS.md", "SLIDES.md", "AGENTS.md", "CLAUDE.md"];
+const rootMarkdownFiles = ["README.md", "DOCS.md", "SLIDES.md", "AGENTS.md"];
 const markdownFiles = [];
 const headingCache = new Map();
 

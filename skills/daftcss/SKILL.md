@@ -22,12 +22,14 @@ Daft gives raw semantic HTML polished application styling. Native elements are t
 
 - Use native elements and states before optional classes.
 - Use documented Daft components and layout primitives before inventing framework APIs.
-- Use CSS variables for system-wide design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors.
+- Use CSS variables for system-wide design changes. Start with `--spacing`, `--radius`, `--component-height`, `--font-size-base`, and semantic colors. Set these root knobs only on `:root`; for a subtree, set component tokens and explicit color pairs, or `data-theme` for a light/dark island.
+- Express status with tones, not custom colors: `.success`, `.warning`, `.destructive` on badges; `.success`/`.warning` on `role="status"` or `role="alert"`. Buttons have no success or warning variant. Keep the meaning in the text too.
 - Use `.accent` only for non-status brand emphasis on documented surfaces: button-family controls and links (including button-styled summaries), badges, and progress. It is not a generic color utility; read the support matrix in `foundations.md`, and do not combine it with another surface/color variant.
 - Keep project-specific composition in CSS loaded after Daft.
 - Treat icons as inline content, not a Daft icon API. Use exact official Lucide paths from lucide.dev or an official package, never approximations, emoji, or Unicode substitutes. Daft has no Lucide dependency, though framework users may render official Lucide components.
 - Put `.icon` only on icon-only square controls. Put the SVG directly inside the control, give an icon-only control an `aria-label`, and mark its decorative SVG `aria-hidden="true"`. For icon plus text, use an ordinary control without `.icon`.
-- For breadcrumbs, use `<nav aria-label="breadcrumb"><ul>…</ul></nav>` with a plain-text final item. The older bare `<ul aria-label="Breadcrumb">` remains supported but is not the canonical syntax.
+- Mark the current nav, pagination, sidebar, or tree link with `aria-current="page"`; it supplies the highlight without an extra class. Use `aria-pressed="true"` for toggle and segmented-control selection.
+- For breadcrumbs, use `<nav aria-label="Breadcrumb"><ol>…</ol></nav>` with a plain-text final item. An `<ol>` directly inside a `<nav>` is the breadcrumb hook, so any label language works; keep ordinary nav groups as `<ul>`.
 
 ## Component catalog
 
@@ -36,7 +38,7 @@ Load the component file when using, modifying, or troubleshooting that component
 | Component | Load | Native/API shape |
 |---|---|---|
 | Buttons | [buttons.md](references/components/buttons.md) | `<button>`, button roles, variants and states |
-| Forms | [forms.md](references/components/forms.md) | Inputs, selects, validation, checkbox, radio, switch, range |
+| Forms | [forms.md](references/components/forms.md) | Inputs, selects, validation, checkbox, radio, switch, range; responsive `--input-font-size` |
 | Cards | [cards.md](references/components/cards.md) | Semantic `<article>` surfaces and the `article.plain` document opt-out |
 | Dialogs | [dialogs.md](references/components/dialogs.md) | Modal dialogs and non-modal dialog popovers |
 | Navigation | [navigation.md](references/components/navigation.md) | Navigation groups and breadcrumbs |
@@ -46,10 +48,10 @@ Load the component file when using, modifying, or troubleshooting that component
 | Tree | [tree.md](references/components/tree.md) | Nested file or hierarchy navigation |
 | Tooltip | [tooltips.md](references/components/tooltips.md) | Focusable `data-tooltip` visual enhancement |
 | Tables | [tables.md](references/components/tables.md) | Semantic data tables and overflow |
-| Badges | [badges.md](references/components/badges.md) | Compact status and metadata labels |
+| Badges | [badges.md](references/components/badges.md) | Compact labels; `.success`, `.warning`, `.destructive` status tones |
 | Groups | [groups.md](references/components/groups.md) | Connected buttons, inputs, and addons |
 | Avatar | [avatars.md](references/components/avatars.md) | Initials, image, or SVG identity |
-| Alert and status | [alerts.md](references/components/alerts.md) | Assertive errors and polite notices |
+| Alert and status | [alerts.md](references/components/alerts.md) | `role="alert"`/`role="status"`, plus `.success`/`.warning` tones |
 | Progress and loading | [progress.md](references/components/progress.md) | Determinate progress and busy states |
 | Embedded content | [embedded-content.md](references/components/embedded-content.md) | Images, figures, media, iframes, and SVG |
 

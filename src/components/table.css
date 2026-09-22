@@ -10,7 +10,8 @@ table {
   font-variant-numeric: tabular-nums;
 }
 
-/* Table headers */
+/* Table headers. Column and row headers share the foreground color, so a
+   <th scope="row"> in the body reads as a medium-weight data cell. */
 thead {
   border-bottom: var(--border-width) solid var(--border);
 }
@@ -20,7 +21,7 @@ th {
   padding: var(--spacing-sm);
   font-weight: var(--font-medium);
   text-align: left;
-  color: var(--muted-foreground);
+  color: var(--foreground);
   background-color: transparent;
 }
 

@@ -59,7 +59,7 @@ Pair it with `.truncate` for a single-line row, or use it alone to let one cell 
 
 ## Width and height
 
-- Width: `.w-full`
+- Width: `.w-full` (also the full-width hook for buttons and `role="group"`, which becomes a block-level flex row)
 - Maximum width: `.max-w-xs`, `.max-w-sm`, `.max-w-md`, `.max-w-lg`, `.max-w-xl`, `.max-w-2xl`, `.max-w-3xl`
 - Maximum height: `.max-h-xs`, `.max-h-sm`, `.max-h-md`, `.max-h-lg`, `.max-h-xl`, `.max-h-2xl`, `.max-h-3xl`
 
@@ -111,6 +111,8 @@ These helpers change presentation or pointer behavior, not semantics. For exampl
 
 - `.transition`, `.transition-none`
 - `.animate-spin`, `.animate-pulse`
+
+Daft namespaces its keyframes as `daft-spin`, `daft-pulse`, `daft-modal-in`, `daft-dropdown-in`, and `daft-progress-indeterminate`. Reference those names only when reusing Daft motion; your own `@keyframes spin` will not collide with them.
 
 Under `prefers-reduced-motion: reduce`, Daft forces animation and transition durations to `0.01ms`, limits animations to one iteration, and disables smooth scrolling.
 

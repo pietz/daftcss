@@ -213,6 +213,7 @@ Use for persistent system messages, warnings, and workflow state.
 Rules:
 - Use `role="status"` for neutral/polite information.
 - Use `role="alert"` for destructive or urgent information.
+- Add `.success` or `.warning` to either role for a status tone; the role still sets urgency.
 - Put title in `<strong>` and body in `<p>`.
 
 Skeleton:
@@ -222,6 +223,10 @@ Skeleton:
     <strong>Deployment queued</strong>
     <p>The production build will start after the current preview finishes.</p>
   </div>
+  <div role="status" class="warning">
+    <strong>Build minutes almost used</strong>
+    <p>Your team has 12 minutes left this month.</p>
+  </div>
   <div role="alert">
     <strong>Payment failed</strong>
     <p>Update your billing method before the next renewal.</p>
@@ -230,5 +235,5 @@ Skeleton:
 ```
 
 Mistakes:
-- Do not create `.alert-success` or `.toast-card`.
+- Do not create `.alert-success` or `.toast-card`; use `role="status" class="success"`.
 - Do not use color alone for state.

@@ -12,7 +12,19 @@ Daft tokens form three tiers:
 
 **The rule of theming:** always start at the highest tier that works. Most rethemes are 3–6 lines at Tier 0. Drop to Tier 2 only when one component genuinely needs to differ from the rest.
 
-All overrides go in `:root` (or scoped to `[data-theme="dark"]` for dark-mode tweaks, or an element for theme islands).
+**Where overrides go.** Tier 0 knobs and the Tier 1 scales, Tier 2 defaults, and auto-contrast foregrounds derived from them are computed once at `:root`, and descendants inherit the results. Override Tier 0 only on `:root` (including `:root[data-theme="dark"]`). To restyle a subtree, set component tokens and explicit color pairs there; use `data-theme` on an element for a light/dark island.
+
+```css
+/* Works: component tokens plus an explicit pair */
+.promo {
+  --button-radius: var(--radius-full);
+  --card-padding: 2.5rem;
+  --primary: oklch(0.9 0.12 90);
+  --primary-foreground: oklch(0.2 0 0);
+}
+/* Does not recompute: button radius stays, text stays root-derived */
+.promo { --radius: 1rem; --primary: oklch(0.9 0.12 90); }
+```
 
 ---
 
@@ -44,9 +56,7 @@ Override `--accent` to brand the documented `.accent` button-family, badge, and 
 }
 ```
 
-Keep the pair readable because dropdown items and ghost/outline hover states also consume it. Do not use `.accent` as a generic color utility or combine it with another button/badge surface variant or progress color variant. A narrowly scoped `--accent` override should redeclare `--accent-foreground` in the same scope; inherited derived foreground values do not recompute from a descendant background override. Auto-contrast assumes an opaque accent: translucent colors depend on the background beneath them and can pass their alpha into the relative-color result, so pair them with an explicit opaque foreground and test each composited surface.
-
-In this minor release the derived default replaces the former `--accent-foreground: var(--foreground)`. A custom accent can therefore change existing hover/selected text to neutral black or white. Set `--accent-foreground: var(--foreground)` explicitly if you need the old behavior.
+Keep the pair readable because dropdown items and ghost/outline hover states also consume it. Do not use `.accent` as a generic color utility or combine it with another button/badge surface variant or progress color variant. A scoped `--accent` override must declare `--accent-foreground` in the same scope. Auto-contrast assumes an opaque accent: translucent colors depend on the background beneath them and can pass their alpha into the relative-color result, so pair them with an explicit opaque foreground and test each composited surface.
 
 ### Custom font
 
@@ -80,6 +90,12 @@ Don't touch the type scale (`--text-*`) — it derives from `--font-size-base`. 
 ```
 
 The whole spacing scale (`--spacing-xs/sm/md/lg/xl`) and component sizes (`--button-height`, `--input-height`) move together.
+
+Field text follows `--input-font-size`: 14px from 768px up (matching buttons) and 16px below, which stops iOS Safari from zooming into focused fields. Override it on `:root` without a media query to pin one size; the usual opt-out is:
+
+```css
+:root { --input-font-size: var(--text-base); }  /* 16px fields at every width */
+```
 
 ### Corner roundness
 
@@ -120,10 +136,10 @@ Per-component if you want pill buttons but normal cards:
 
 ### Custom dark mode
 
-Either override per-variable inside the dark-mode block, or use `light-dark()` on each token. Block form is clearer for branded dark:
+Use `light-dark()` on each token, or a root dark-mode block. The block form is clearer for branded dark but applies only when `<html data-theme="dark">` is set explicitly, not under system preference:
 
 ```css
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   --background: oklch(0.12 0.02 270);   /* tinted dark blue */
   --foreground: oklch(0.95 0 0);
   --primary: oklch(0.75 0.18 280);
@@ -141,13 +157,19 @@ Either override per-variable inside the dark-mode block, or use `light-dark()` o
 }
 ```
 
-Foregrounds for these, primary, and accent choose a light or dark neutral automatically. Override them only when contrast testing shows the computed pair is unsuitable.
+Status colors have no foreground tokens: badges, alerts, and destructive buttons mix the tone 70% with `--foreground` for text over a translucent tint of the same tone. Keep light-mode tones at roughly L 0.55 to 0.7 so that text stays at WCAG AA on the tint; very light ambers or greens need a darker light-mode value.
 
 ### Sidebar width
 
 ```css
 :root { --aside-width: 16rem; }                    /* fixed */
 :root { --aside-width: clamp(12rem, 18vw, 18rem); } /* responsive */
+```
+
+The sidebar surface is `--sidebar-background` (a faint off-white in light mode, `--card` in dark mode). Link hover and current rows use `--accent`, so keep the two visibly distinct:
+
+```css
+:root { --sidebar-background: light-dark(oklch(0.98 0.005 250), oklch(0.19 0.01 250)); }
 ```
 
 ### Focus ring
@@ -163,7 +185,7 @@ Foregrounds for these, primary, and accent choose a light or dark neutral automa
 
 ## Anti-patterns
 
-- ❌ **Selector overrides.** `.button { background: red; }` fights the cascade. Override `--primary` in the narrowest appropriate scope, or use a built-in button variant.
+- ❌ **Selector overrides.** `.button { background: red; }` fights the cascade. Override `--primary` at `:root` (or `--primary` plus `--primary-foreground` in a scope), or use a built-in button variant.
 - ❌ **`!important`.** Means you're working against the framework. Find the right variable instead.
 - ❌ **Inline `style=""` for theming.** Use a `<style>` block (or external sheet) with variable overrides.
 - ❌ **Editing `dist/daft.css`.** Always override in your own stylesheet that loads *after* Daft.

@@ -59,7 +59,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 ## Behavior and accessibility
 
 - Body rows have a muted hover surface; the final body row has no bottom border.
-- Header and footer sections receive separating borders. Footer cells use muted, medium-weight text.
+- Header and footer sections receive separating borders. Header cells, including `<th scope="row">` in the body, use foreground medium-weight text. Footer cells use muted, medium-weight text.
 - `aria-sort` belongs on the relevant column or row header and communicates state, but CSS does not add sorting behavior.
 - For a sortable header, provide a real control and keyboard behavior as appropriate. Do not use a cursor change as the only affordance.
 

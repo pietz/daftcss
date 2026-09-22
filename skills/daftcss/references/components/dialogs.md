@@ -67,10 +67,10 @@ Give every dialog an accessible name with `aria-labelledby` pointing to its visi
 - Give the dialog an `id` when a popover trigger or script refers to it.
 - Keep the dialog name in the dialog itself. Use `aria-labelledby` for a visible heading, otherwise `aria-label`.
 - The dialog is the surface. Use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Forms have no dialog-specific container styling.
-- When a dialog header needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a title alone is enough. The heading keeps its semantic level; dialogs render titles at 18px and subtitles at 14px.
-- Migration: `<dialog><article>…</article></dialog>` is deprecated but remains supported in v1; remove the `<article>` tags.
-- A dialog close button is only visually recognized by `aria-label="Close"` (or `rel="prev"`). Supply the actual close behavior: `popovertargetaction="hide"` for a popover, or `close()` / `method="dialog"` for a modal.
-- Put the official Lucide X SVG directly inside the close button and mark it `aria-hidden="true"`; the button's `aria-label` supplies the accessible name. Daft retains a generated X only as a backward-compatible fallback for an empty close button.
+- When a dialog header needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a title alone is enough. The heading keeps its semantic level; dialogs render titles at 16px medium and subtitles and body paragraphs at 14px.
+- Do not wrap the contents in an `<article>`: an article inside a dialog is an ordinary card.
+- A dialog close button is visually recognized when its `aria-label` starts with "close" (case-insensitive, e.g. `aria-label="Close dialog"`). Inside the dialog `<header>`, a button with `popovertargetaction="hide"`, `command="close"`, or `command="request-close"` is also recognized, whatever its label language. Footer buttons are never repositioned. Supply the actual close behavior: `popovertargetaction="hide"` for a popover, or `close()` / `method="dialog"` for a modal.
+- Put the official Lucide X SVG directly inside the close button and mark it `aria-hidden="true"`; the button's `aria-label` supplies the accessible name. Daft draws no icon of its own, so an empty close button renders blank.
 
 ## Variants and options
 
@@ -86,7 +86,7 @@ dialog.report {
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-- `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay`, `--blur`
+- `--modal-max-width`, `--modal-radius`, `--modal-shadow`, `--modal-overlay` (a light 10% black in both themes), `--modal-blur` (4px backdrop blur; `--blur` stays reserved for `.glass`)
 - `--card`, `--foreground`, `--border`, `--muted-foreground`, `--accent`
 - `--spacing`, `--spacing-sm`, `--spacing-lg`, `--spacing-xl`
 - `--transition-slow`, `--ease-default`
@@ -101,12 +101,12 @@ Use `showModal()` for blocking confirmation, authentication, or required decisio
 
 ## Composition
 
-Use a direct `<footer>` for right-aligned action buttons, or put it inside a direct `<form>`. For a modal form, `<form method="dialog">` can close the modal declaratively for cancel/submit flows; keep business-side effects in your application logic.
+Use a direct `<footer>` for right-aligned action buttons, or put it inside a direct `<form>`. A closing footer (the dialog's last child, or the last child of a form that ends the dialog) becomes a full-bleed muted band with a top border, like a card footer. For a modal form, `<form method="dialog">` can close the modal declaratively for cancel/submit flows; keep business-side effects in your application logic.
 
 ## Common mistakes
 
 - Do not add `popover` when the interaction must be modal. It is non-modal even though it uses `<dialog>`.
 - Do not call `showModal()` on a dialog that also has `popover`.
-- Do not omit the dialog's accessible name or rely on the empty-button close fallback as its name.
+- Do not omit the dialog's accessible name or leave the close button without its SVG icon.
 - Do not assume the styled close button closes anything by itself.
 - Do not use a JavaScript dialog library when native `<dialog>` and the Popover API meet the interaction requirement.

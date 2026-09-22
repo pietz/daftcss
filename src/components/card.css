@@ -27,7 +27,8 @@ article:not(:where(.plain)) > header {
   }
 }
 
-/* Card header with title styling */
+/* Card header with title styling. Titles are UI labels, not document
+   headings: base size, medium weight, untracked, snug 1.375 leading. */
 article:not(:where(.plain)) > header > strong,
 article:not(:where(.plain)) > header > h1,
 article:not(:where(.plain)) > header > h2,
@@ -36,9 +37,10 @@ article:not(:where(.plain)) > header > h4,
 article:not(:where(.plain)) > header > h5,
 article:not(:where(.plain)) > header > h6 {
   margin-bottom: var(--spacing-xs);
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  line-height: var(--line-height-sm);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  line-height: 1.375;
+  letter-spacing: normal;
 }
 
 article:not(:where(.plain)) > header > small,
@@ -67,9 +69,10 @@ article:not(:where(.plain)) > header > hgroup {
 
 article:not(:where(.plain)) > header > hgroup > :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  line-height: var(--line-height-sm);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  line-height: 1.375;
+  letter-spacing: normal;
 }
 
 article:not(:where(.plain)) > header > hgroup > p {
@@ -77,6 +80,13 @@ article:not(:where(.plain)) > header > hgroup > p {
   font-size: var(--text-sm);
   line-height: var(--line-height);
   color: var(--muted-foreground);
+}
+
+/* Card body text reads as app UI (14px, base leading); prose keeps its
+   roomier document leading outside cards. */
+article:not(:where(.plain)) > p {
+  font-size: var(--text-sm);
+  line-height: var(--line-height);
 }
 
 /* Card footer */
@@ -92,6 +102,22 @@ article:not(:where(.plain)) > footer {
   }
 }
 
+/* A closing footer becomes a full-bleed muted band. Its bottom corners follow
+   the card's inner radius instead of clipping the card with overflow, so
+   dropdowns and tooltips inside the card still escape it. Nested cards and a
+   footer that is the card's only child keep the plain action row. */
+article:not(:where(.plain, article article)):has(> footer:last-child:not(:first-child)) {
+  padding-bottom: 0;
+}
+
+article:not(:where(.plain, article article)) > footer:last-child:not(:first-child) {
+  margin-inline: calc(var(--card-padding) * -1);
+  padding: var(--card-padding);
+  border-top: var(--border-width) solid var(--border);
+  border-radius: 0 0 calc(var(--card-radius) - var(--border-width)) calc(var(--card-radius) - var(--border-width));
+  background-color: color-mix(in oklch, var(--muted) 50%, transparent);
+}
+
 /* Nested articles have different styling */
 article article:not(:where(.plain)) {
   background-color: var(--muted);
@@ -102,6 +128,29 @@ article article:not(:where(.plain)) {
 /* Card inside grid */
 .grid > article:not(:where(.plain)) {
   margin-bottom: 0;
+}
+
+/* Grid rows stretch cards to equal height. A closing footer band pins to the
+   bottom instead of floating above empty card surface: the card becomes a
+   column whose footer takes the slack. The body element before the footer
+   carries the minimum card gap, and replaced media keeps its block width.
+   Cards with direct inline children (badges, buttons, links) stay in normal
+   flow, because a column would stretch and stack them. */
+.grid > article:not(:where(.plain, article article)):has(> footer:last-child:not(:first-child)):not(:has(> :is(a, abbr, b, button, code, em, i, input, kbd, mark, select, small, span, strong, textarea, time))) {
+  display: flex;
+  flex-direction: column;
+
+  & > :has(+ footer:last-child) {
+    margin-bottom: var(--card-gap);
+  }
+
+  & > footer:last-child {
+    margin-top: auto;
+  }
+
+  & > :is(img, picture, video, canvas, iframe, svg) {
+    align-self: flex-start;
+  }
 }
 
 /* Clickable card (when wrapped in anchor) */

@@ -114,8 +114,7 @@
   padding-left: calc(var(--spacing-xs) + var(--tree-indent));
 }
 
-.tree li > a[aria-current],
-.tree li > a.active {
+.tree li > a[aria-current]:not([aria-current="false"], [aria-current=""]) {
   background-color: color-mix(in oklch, var(--foreground) 12%, transparent);
   font-weight: var(--font-medium);
 }

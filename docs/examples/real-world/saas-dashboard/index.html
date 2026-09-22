@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>Northstar Operations</title>
-    <link rel="stylesheet" href="../../../dist/daft.css?v=1.22.1">
+    <link rel="stylesheet" href="../../../dist/daft.css?v=2.0.0">
     <style>
       :root {
         --primary: light-dark(oklch(0.52 0.19 258), oklch(0.72 0.15 252));
@@ -66,7 +66,7 @@
             </button>
           </li>
           <li><strong>Operations</strong></li>
-          <li><span class="badge outline">All systems operational</span></li>
+          <li><span class="badge success">All systems operational</span></li>
         </ul>
         <ul>
           <li class="grow">
@@ -88,11 +88,11 @@
     </header>
 
     <main id="overview" class="container-fluid">
-      <nav aria-label="breadcrumb">
-        <ul>
+      <nav aria-label="Breadcrumb">
+        <ol>
           <li><a href="#">Northstar</a></li>
           <li>Operations</li>
-        </ul>
+        </ol>
       </nav>
 
       <section>
@@ -114,9 +114,9 @@
               </svg>
               New deployment
             </button>
-            <details class="dropdown">
+            <details class="dropdown" data-placement="end">
               <summary class="ghost">More</summary>
-              <ul dir="rtl">
+              <ul>
                 <li class="label">Workspace</li>
                 <li><a href="#">Export report</a></li>
                 <li><a href="#">Schedule maintenance</a></li>
@@ -152,12 +152,12 @@
           <article>
             <small class="muted">API success rate</small>
             <p class="text-3xl m-0"><strong>99.982%</strong></p>
-            <span class="badge outline">Within SLO</span>
+            <span class="badge success">Within SLO</span>
           </article>
           <article>
             <small class="muted">Open incidents</small>
             <p class="text-3xl m-0"><strong>1</strong></p>
-            <span class="badge secondary">Investigating</span>
+            <span class="badge warning">Investigating</span>
           </article>
         </div>
       </section>
@@ -178,7 +178,7 @@
           <article>
             <header>
               <hgroup><h3>API gateway</h3><p>us-east-1 · 18 instances</p></hgroup>
-              <span class="badge outline">Healthy</span>
+              <span class="badge success">Healthy</span>
             </header>
             <label>
               Request capacity · 61%
@@ -189,7 +189,7 @@
           <article>
             <header>
               <hgroup><h3>Event pipeline</h3><p>eu-west-1 · 9 consumers</p></hgroup>
-              <span class="badge secondary">Elevated</span>
+              <span class="badge warning">Elevated</span>
             </header>
             <label>
               Queue saturation · 78%
@@ -200,7 +200,7 @@
           <article>
             <header>
               <hgroup><h3>Primary database</h3><p>us-east-1 · multi-AZ</p></hgroup>
-              <span class="badge outline">Healthy</span>
+              <span class="badge success">Healthy</span>
             </header>
             <label>
               Connection pool · 43%
@@ -236,7 +236,7 @@
                 <tr>
                   <th scope="row">Billing API</th>
                   <td><code>v4.18.2</code></td>
-                  <td><span class="badge outline">Succeeded</span></td>
+                  <td><span class="badge success">Succeeded</span></td>
                   <td><span class="cluster"><span class="avatar small" aria-hidden="true">IP</span> Iris Park</span></td>
                   <td>09:42</td>
                   <td>4m 12s</td>
@@ -244,7 +244,7 @@
                 <tr>
                   <th scope="row">Web application</th>
                   <td><code>v8.31.0</code></td>
-                  <td><span class="badge outline">Succeeded</span></td>
+                  <td><span class="badge success">Succeeded</span></td>
                   <td><span class="cluster"><span class="avatar small" aria-hidden="true">NW</span> Noah Williams</span></td>
                   <td>08:16</td>
                   <td>6m 48s</td>
@@ -282,7 +282,7 @@
             <article>
               <header>
                 <hgroup><h3>Delayed webhook delivery</h3><p>INC-248 · Started 34 minutes ago</p></hgroup>
-                <span class="badge secondary">SEV-2</span>
+                <span class="badge warning">SEV-2</span>
               </header>
               <p>Elevated retry volume for EU tenants. Customer impact is limited to delayed events.</p>
               <footer>
@@ -318,7 +318,7 @@
               <div class="cluster">
                 <span class="avatar" aria-hidden="true">IP</span>
                 <span class="grow"><strong>Iris Park</strong> promoted <code>billing-api v4.18.2</code> to production<br><small class="muted">8 minutes ago · DEP-8821</small></span>
-                <span class="badge outline">Succeeded</span>
+                <span class="badge success">Succeeded</span>
               </div>
               <div class="cluster">
                 <span class="avatar" aria-hidden="true">NW</span>

@@ -7,7 +7,7 @@ progress {
 
   display: block;
   width: 100%;
-  height: var(--spacing-sm);
+  height: var(--spacing-xs);
   margin-bottom: var(--spacing-sm);
   overflow: hidden;
   background-color: var(--muted);
@@ -48,7 +48,7 @@ progress:not([value]) {
     var(--muted) 100%
   );
   background-size: 200% 100%;
-  animation: progress-indeterminate 1.5s linear infinite;
+  animation: daft-progress-indeterminate 1.5s linear infinite;
 }
 
 progress:not([value])::-webkit-progress-bar {
@@ -59,7 +59,7 @@ progress:not([value])::-moz-progress-bar {
   background: transparent;
 }
 
-@keyframes progress-indeterminate {
+@keyframes daft-progress-indeterminate {
   0% {
     background-position: 200% 0;
   }

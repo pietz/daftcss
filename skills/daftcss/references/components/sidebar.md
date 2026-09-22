@@ -48,18 +48,20 @@ Add `.drawer` (`class="sidebar drawer"`) to make the sidebar a native hidden dra
 - **Top nav over content:** put a direct top `header` or `nav` first and the sidebar immediately after it. Daft uses `--top-nav-height` for an element with `.top-nav`; other headers use `calc(var(--component-height) + var(--spacing))`. For a taller or wrapped custom header, override `--sidebar-offset-top` on the sidebar to its actual height; `main` and `footer` still shift right.
 - Direct sidebar `header` and `footer` remain visible while the direct `nav` provides the scrolling region.
 - By default, `.sidebar-toggle` is hidden at widths of 768px and above, including when it is directly inside an `li`; with `.sidebar.drawer`, it remains shown at every width.
+- Links are 32px (`--component-height`) rows with no gap between them. Hover and `aria-current` share the `--accent` background and `--accent-foreground` text; the current link is also medium weight. Section labels are 32px `--text-xs` rows at 70% foreground, with `--spacing` above every label except the first. Consecutive nav groups, such as one `<ul>` per section, are also separated by `--spacing`.
+- The surface is `--sidebar-background`: a faint off-white in light mode and `--card` in dark mode. If you retune it or `--accent`, keep the two visibly distinct so hover and current rows stay visible.
 - The mobile drawer, and `.sidebar.drawer` at all widths, is at most `min(--aside-width, 85vw)` wide and uses the popover backdrop.
 
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-`--aside-width`, `--sidebar-offset-top`, `--top-nav-height`, `--spacing`, `--spacing-xs`, `--spacing-sm`, `--spacing-lg`, `--text-sm`, `--font-medium`, `--muted`, `--modal-overlay`, `--blur`, `--transition-slow`, and `--ease-default`.
+`--aside-width`, `--sidebar-background`, `--sidebar-offset-top`, `--top-nav-height`, `--component-height`, `--spacing`, `--spacing-sm`, `--text-xs`, `--text-sm`, `--font-normal`, `--font-medium`, `--accent`, `--accent-foreground`, `--modal-overlay`, `--modal-blur`, `--transition-slow`, and `--ease-default`.
 
 ## Behavior and accessibility
 
 - By default, at 768px and above the sidebar is a fixed left rail. Its direct `nav` is independently scrollable while an optional header and footer remain visible. Its placement in the body determines its top offset as described above.
-- By default, below 768px it is `display: none` until `aside.sidebar[popover]:popover-open`. With `.sidebar.drawer`, that hidden-until-open Popover behavior applies at every width, so the page layout does not shift. The open popover is fixed, scrollable, and slides in from the left; its backdrop is dimmed and blurred.
+- By default, below 768px it is `display: none` until `aside.sidebar[popover]:popover-open`. With `.sidebar.drawer`, that hidden-until-open Popover behavior applies at every width, so the page layout does not shift. The open popover is fixed, scrollable, and slides in from the left; its backdrop uses the dialog overlay (`--modal-overlay`, `--modal-blur`): a light dim with a small blur.
 - With the bare `popover` attribute, this is an auto popover: the browser supports the invoker, Escape dismissal, and light dismissal. It is not a modal dialog: background content is not made inert and focus is not trapped.
 - The aside is a complementary landmark. Label it when needed to distinguish it from other complementary regions; label its nav when multiple navigation landmarks exist. Give the icon-only toggle an `aria-label`.
 

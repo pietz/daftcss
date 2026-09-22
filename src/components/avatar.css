@@ -2,6 +2,7 @@
  * Avatar
  * Round container for initials or images.
  * Use any inline content; an <img> child fills the circle.
+ * Sizes scale with --component-height: 0.75x / 1x / 1.25x (24 / 32 / 40px).
  */
 
 .avatar {
@@ -12,13 +13,17 @@
   height: var(--component-height);
   border-radius: var(--radius-full);
   background-color: var(--muted);
-  color: var(--foreground);
-  font-weight: var(--font-semibold);
+  color: var(--muted-foreground);
+  font-weight: var(--font-normal);
   font-size: var(--text-sm);
   line-height: 1;
   flex-shrink: 0;
   overflow: hidden;
   user-select: none;
+  /* Hairline ring. An inset outline paints above an <img> child, so photos
+     keep the same edge as initials. */
+  outline: var(--border-width) solid var(--border);
+  outline-offset: calc(var(--border-width) * -1);
 }
 
 .avatar > img,
@@ -30,13 +35,13 @@
 
 /* Size variants */
 .avatar.small {
-  width: var(--component-height-sm);
-  height: var(--component-height-sm);
+  width: calc(var(--component-height) * 0.75);
+  height: calc(var(--component-height) * 0.75);
   font-size: var(--text-xs);
 }
 
 .avatar.large {
-  width: var(--component-height-lg);
-  height: var(--component-height-lg);
-  font-size: var(--text-base);
+  width: calc(var(--component-height) * 1.25);
+  height: calc(var(--component-height) * 1.25);
+  font-size: var(--text-sm);
 }

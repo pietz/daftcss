@@ -9,7 +9,7 @@ Daft CSS is for developers who want:
 - **Beautiful defaults** without writing CSS or utility classes
 - **Semantic HTML** that just works (`<button>` looks good, no classes needed)
 - **Zero required JavaScript** for native interactions like popovers, accordions, and dropdowns
-- **A tiny footprint** — one ~68 KB minified file
+- **A tiny footprint** — one ~74 KB minified file
 
 The idea is a tiny dependency that makes your app look polished out of the box, with a hierarchical variable system you can tweak from one root knob to per-component overrides.
 
@@ -32,7 +32,7 @@ Both style semantic HTML, but Daft targets app UIs over content sites and ships 
 
 |  | Daft CSS | [Pico CSS](https://picocss.com) |
 |--|----------|----------|
-| Size (minified) | **~68 KB** | 83 KB |
+| Size (minified) | **~74 KB** | 83 KB |
 | Aesthetics | shadcn/ui | Pico |
 | Focus | App UIs | Landing pages |
 | Source | CSS | SCSS |
@@ -48,7 +48,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 
 |  | Daft CSS | Franken Style |
 |--|----------|---------------|
-| Total size | **~68 KB** | 823 KB (618 KB CSS + 205 KB JS) |
+| Total size | **~74 KB** | 823 KB (618 KB CSS + 205 KB JS) |
 | JavaScript | None | Required |
 | Approach | Semantic HTML | Utility classes (Tailwind) |
 | HTML footprint | Small, native | Large, verbose |
@@ -88,7 +88,7 @@ Daft is **not** a drop-in replacement for Pico — variable names and class vari
 Add one line to your HTML:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
+<link rel="stylesheet" href="https://unpkg.com/daftcss@2/dist/daft.min.css">
 ```
 
 Or install via npm:
@@ -110,7 +110,7 @@ Then write semantic HTML:
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="https://unpkg.com/daftcss@1/dist/daft.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/daftcss@2/dist/daft.min.css">
     <title>My App</title>
   </head>
   <body>
@@ -177,7 +177,7 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 
 ### Forms
 
-Standalone sibling controls and input groups receive compact row spacing; direct form children use the roomier form rhythm. Native file-selector buttons use the same inset geometry as input-group actions.
+Standalone sibling controls and input groups receive compact row spacing; direct form children use the roomier form rhythm. Native file-selector buttons use the same inset geometry as input-group actions. Field text is 14px from 768px up, matching buttons, and 16px on narrower screens so iOS Safari does not zoom on focus; set `:root { --input-font-size: var(--text-base); }` to keep 16px everywhere.
 
 ```html
 <form>
@@ -208,7 +208,7 @@ Standalone sibling controls and input groups receive compact row spacing; direct
 </article>
 ```
 
-When a card needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render the pair at 18px and 14px. A sibling element (badge, action) floats right automatically.
+When a card needs a compact title and subtitle, use `<hgroup>` with direct real heading and supporting paragraph children. It is optional when a heading alone is enough. The heading keeps its semantic level; cards render titles at 16px medium and subtitles at 14px. A sibling element (badge, action) floats right automatically. Card body paragraphs use 14px UI text. A closing direct `<footer>` becomes a full-bleed muted band with a top border, and the card drops its bottom padding; a footer that is the card's only child, a nested card's footer, and `article.plain` keep a plain row.
 
 Use `<article class="plain">` for a semantic article that should follow normal document flow without Daft's card background, border, radius, shadow, padding, or compact card header/footer layout. Ordinary `<article>` elements remain automatic cards.
 
@@ -247,9 +247,11 @@ See the [foundations support matrix](skills/daftcss/references/foundations.md#ac
 <span class="badge outline">Active</span>
 <span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
+<span class="badge success">Healthy</span>
+<span class="badge warning">Degraded</span>
 ```
 
-Badges use the same static surface recipes as buttons, including the solid accent treatment, but are presentational and noninteractive. They have one canonical 20px pill size: choose at most one variant, keep the text meaningful without color, and use a real button or link for actions. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
+Badges use the same static surface recipes as buttons, including the solid accent treatment, but are presentational and noninteractive. They have one canonical 20px pill size: choose at most one variant, keep the text meaningful without color, and use a real button or link for actions. `.destructive`, `.success`, and `.warning` are tinted status tones derived from `--destructive`, `--success`, and `--warning`; success and warning are badge and alert tones only, not button variants.
 
 ### Accordion
 
@@ -271,11 +273,13 @@ Badges use the same static surface recipes as buttons, including the solid accen
   </ul>
 </details>
 
-<details class="dropdown">
-  <summary class="ghost">Ghost menu</summary>
+<details class="dropdown" data-placement="end">
+  <summary class="ghost">End-aligned menu</summary>
   <ul>...</ul>
 </details>
 ```
+
+`data-placement="end"` aligns the menu's inline-end edge with the trigger's; dropdowns inside a `<nav>` do this automatically.
 
 ### Tree
 
@@ -320,9 +324,7 @@ For a no-JavaScript, light-dismiss overlay, combine `<dialog>` with the Popover 
 </dialog>
 ```
 
-For a true modal interaction, use a regular `<dialog>` and open it with `showModal()`. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Forms have no dialog-specific container styling.
-
-Migration: `<dialog><article>…</article></dialog>` remains supported in v1; remove the `<article>` tags.
+For a true modal interaction, use a regular `<dialog>` and open it with `showModal()`. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Forms have no dialog-specific container styling. Titles match card titles, body paragraphs are 14px, and a closing footer (direct, or at the end of a closing form) becomes the same full-bleed muted band as a card footer.
 
 ### Alerts
 
@@ -336,11 +338,23 @@ Migration: `<dialog><article>…</article></dialog>` remains supported in v1; re
   <strong>Sync in progress</strong>
   <p>We are updating your workspace.</p>
 </div>
+
+<div role="status" class="success">
+  <strong>Deployment complete</strong>
+  <p>Version 42 is live in production.</p>
+</div>
+
+<div role="alert" class="warning">
+  <strong>Session expiring</strong>
+  <p>Save your work. You will be signed out in 2 minutes.</p>
+</div>
 ```
+
+The role sets urgency: `role="alert"` is assertive and destructive-tinted, `role="status"` is polite and neutral. Add `.success` or `.warning` to either role for a matching tinted tone.
 
 ### Navigation
 
-Ordinary navigation wraps safely on narrow screens:
+Ordinary navigation wraps safely on narrow screens. Mark the current link with `aria-current="page"` to give it the accent highlight; this also works for pagination:
 
 ```html
 <nav>
@@ -378,15 +392,15 @@ For a sticky top bar, opt into one responsive Popover-backed link list. The list
 
 This is specifically a single-row sticky top-navigation pattern, not arbitrary trigger anchoring. If you customize the bar height, set `--top-nav-height` to its actual height. If a mobile popover is open during a resize to desktop, it is restyled into the desktop position but remains natively open in the top layer until dismissed.
 
-For a location trail, use a named navigation landmark with a plain-text final item:
+For a location trail, put an `<ol>` directly inside a named `<nav>` (any label language works) and end with a plain-text item:
 
 ```html
-<nav aria-label="breadcrumb">
-  <ul>
+<nav aria-label="Breadcrumb">
+  <ol>
     <li><a href="#">Home</a></li>
     <li><a href="#">Services</a></li>
     <li>Current</li>
-  </ul>
+  </ol>
 </nav>
 ```
 
@@ -421,11 +435,11 @@ Place `aside.sidebar` as a direct child of `body`. Its canonical structure is an
 </body>
 ```
 
-By default, the sidebar is a persistent desktop rail and a native Popover drawer on mobile; its `.sidebar-toggle` is shown only on mobile. Add `.drawer` (`class="sidebar drawer"`) to make it a native hidden drawer at every width: the same `.sidebar-toggle` is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript. Override `--aside-width` to change the width.
+By default, the sidebar is a persistent desktop rail and a native Popover drawer on mobile; its `.sidebar-toggle` is shown only on mobile. Add `.drawer` (`class="sidebar drawer"`) to make it a native hidden drawer at every width: the same `.sidebar-toggle` is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript. Links are compact 32px rows whose hover and current states use `--accent`. Override `--aside-width` to change the width and `--sidebar-background` to retint the surface.
 
 ### Avatar
 
-A round container for initials, an image, or an SVG icon.
+A round container for initials, an image, or an SVG icon. Sizes are 24px (`.small`), 32px (default, `--component-height`), and 40px (`.large`).
 
 ```html
 <span class="avatar">KS</span>
@@ -594,7 +608,17 @@ Daft CSS uses a hierarchical variable system designed to give you both simplicit
 }
 ```
 
-The system automatically handles derived concerns—for example, solid primary and accent component text adjusts based on whether its background is light or dark. `--accent-foreground` can still be declared explicitly for a brand-specific pair. This minor release replaces its former `var(--foreground)` default, so custom accents can visibly change existing accent-powered hover/selected text; explicitly restore that value if needed. Scoped accent overrides must redeclare the foreground pair. Translucent accents cannot be auto-contrasted reliably against unknown backgrounds and need an explicit opaque foreground. Because accent also drives hover/selected surfaces, verify the pair in those contexts too.
+The system automatically handles derived concerns: solid primary, accent, and status text adjusts based on whether its background is light or dark. An explicit foreground such as `--accent-foreground` overrides the derived one. Translucent accents need an explicit opaque foreground, and because accent also drives hover/selected surfaces, verify the pair there too.
+
+Root variables take effect only on `:root` (including `:root[data-theme="dark"]`). Everything derived from them is computed there, so setting `--radius` or `--primary` on a descendant does not recompute button radius or text color. To restyle a subtree, set component tokens and explicit color pairs; use `data-theme` on an element for a light/dark island:
+
+```css
+.promo {
+  --button-radius: var(--radius-full);
+  --primary: oklch(0.9 0.12 90);
+  --primary-foreground: oklch(0.2 0 0);
+}
+```
 
 **2. Scale variables** — Root values cascade into scales. Decrease `--spacing` and all spacing shrinks proportionally:
 

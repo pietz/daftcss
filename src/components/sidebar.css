@@ -21,7 +21,7 @@ body {
 body > aside.sidebar {
   padding: 0;
   color: inherit;
-  background-color: var(--card);
+  background-color: var(--sidebar-background);
   border: none;
   border-inline-end: var(--border-width) solid var(--border);
 }
@@ -42,9 +42,15 @@ body > aside.sidebar > nav {
   flex-wrap: nowrap;
   align-items: stretch;
   justify-content: flex-start;
-  gap: var(--spacing-sm);
+  gap: 0;
   overflow-y: auto;
-  padding-inline: var(--spacing);
+  padding-inline: var(--spacing-sm);
+}
+
+/* Consecutive groups (for example one <ul> per section) are spaced apart;
+   a label sits flush against the group it introduces. */
+body > aside.sidebar > nav > :not(.label) + :not(.label) {
+  margin-top: var(--spacing);
 }
 
 body > aside.sidebar > footer {
@@ -57,7 +63,7 @@ body > aside.sidebar > nav > ul {
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: var(--spacing-xs);
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -72,11 +78,16 @@ body > aside.sidebar > nav > ul > li {
 body > aside.sidebar > nav > .label,
 body > aside.sidebar > nav > ul > li.label,
 body > aside.sidebar > nav > ul > li > strong {
-  display: block;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-  font-size: var(--text-xs);
+  display: flex;
+  align-items: center;
+  height: var(--component-height);
+  padding: 0 var(--spacing-sm);
+  margin-top: var(--spacing);
   margin-bottom: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  line-height: var(--line-height-sm);
+  color: color-mix(in oklch, var(--foreground) 70%, transparent);
 }
 
 body > aside.sidebar > nav > .label:first-child,
@@ -90,10 +101,11 @@ body > aside.sidebar > nav > ul > li > a {
   align-items: center;
   gap: var(--spacing-sm);
   width: 100%;
+  height: var(--component-height);
   margin: 0;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
   font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-normal);
   color: inherit;
   background-color: transparent;
   border-radius: var(--radius-sm);
@@ -105,19 +117,15 @@ body > aside.sidebar > nav > ul > li > a {
               color var(--transition-default);
 }
 
-body > aside.sidebar > nav > ul > li > a:hover {
-  /* A foreground overlay darkens light sidebars and lightens dark sidebars,
-     so hover remains visible on the current sidebar surface. */
-  background-color: color-mix(in oklch, var(--foreground) 6%, transparent);
-  color: inherit;
+body > aside.sidebar > nav > ul > li > a:hover,
+body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"], [aria-current=""]) {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
   text-decoration: none;
 }
 
-body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"]) {
-  /* Stronger than hover, while adapting to any underlying sidebar surface. */
-  background-color: color-mix(in oklch, var(--foreground) 10%, transparent);
-  color: inherit;
-  font-weight: var(--font-semibold);
+body > aside.sidebar > nav > ul > li > a[aria-current]:not([aria-current="false"], [aria-current=""]) {
+  font-weight: var(--font-medium);
 }
 
 @media (max-width: 767.98px) {
@@ -143,7 +151,7 @@ body > aside.sidebar:where([popover]:popover-open) {
 
 body > aside.sidebar[popover]::backdrop {
   background-color: var(--modal-overlay);
-  backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--modal-blur));
 }
 
 @starting-style {

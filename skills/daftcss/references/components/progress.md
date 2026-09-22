@@ -37,7 +37,7 @@ Use native `<progress>` to communicate completion of a task. A progress element 
 | `.warning` | `--warning` | Attention or caution |
 | `.destructive` | `--destructive` | Failure or blocked state |
 
-The bar is `100%` wide, `--spacing-sm` tall, and has an animated width transition for determinate WebKit progress values. It has a bottom margin unless it is the last child.
+The bar is `100%` wide, `--spacing-xs` (4px) tall, and has an animated width transition for determinate WebKit progress values. It has a bottom margin unless it is the last child.
 
 ## Relevant tokens
 
@@ -46,7 +46,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 - `--progress-radius` controls the track and value radius.
 - `--primary`, `--accent`, `--muted-foreground`, `--success`, `--warning`, and `--destructive` supply variant colors.
 - `--muted` supplies the track color.
-- `--spacing-sm` sets height and label-to-bar spacing.
+- `--spacing-xs` sets the track height; `--spacing-sm` sets label-to-bar spacing.
 - `--transition-slow` and `--ease-default` control the determinate transition.
 
 ## Behavior and accessibility
@@ -58,6 +58,8 @@ For loading regions, `aria-busy="true"` can identify the region being updated an
 ```html
 <button disabled aria-busy="true">Saving</button>
 ```
+
+A busy button shows a small inline spinner before its label. An icon-only busy button (`.icon` or `aria-label`) replaces its SVG with the centered spinner. An empty non-button element such as `<article aria-busy="true"></article>` shows a larger centered block spinner.
 
 Remove `aria-busy` and `disabled` when the operation finishes. Do not use an indeterminate progress bar as the only indication that a form control is unavailable.
 

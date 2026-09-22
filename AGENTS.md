@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents working in this repository.
 
 ## Project Overview
 
@@ -9,10 +9,10 @@ Daft CSS is a semantic-first CSS framework with shadcn/ui-quality aesthetics. It
 ## Commands
 
 ```bash
-npm run build        # Build dist/ and mirror to docs/dist/
+npm run build        # Build daft.css/daft.min.css to dist/ and mirror to docs/dist/
 npm run watch        # Watch src/ and update expanded CSS in dist/ and docs/dist/
-npm run dev          # Serve docs/ locally
-npm run check        # Validate generated CSS, docs, and skill links
+npm run dev          # Serve docs/ at http://127.0.0.1:3000 (landing + examples)
+npm run check        # Validate generated CSS, docs, and skill links (check:build, check:docs, check:skill)
 npm test             # Run cross-browser regressions and automated accessibility checks
 npm run test:browser # Run regressions in Chromium, Firefox, and WebKit
 npm run test:a11y    # Check all docs pages in light and dark themes
@@ -27,7 +27,7 @@ Uses `lightningcss-cli` directly (no custom build script). Entry point is `src/d
 **Important:** Do NOT specify browser targets in the build command. Without targets, LightningCSS:
 - Bundles and minifies only (no transforms)
 - Preserves modern CSS like `light-dark()` as-is
-- Keeps output small (~66 KB vs larger transformed builds with polyfills)
+- Keeps output small compared with transformed builds that include polyfills
 
 If you add targets for older browsers, LightningCSS will inject `--lightningcss-light/dark` polyfill variables and expand every `light-dark()` call into verbose fallback patterns.
 
@@ -44,9 +44,11 @@ tokens → reset → base → layout → content → forms → components → sl
 - `src/content/` - Typography, code blocks, embedded content (images, video)
 - `src/layout/` - Container, grid, landmarks (header/main/footer), overflow
 - `src/forms/` - Input, checkbox/radio/switch, range slider, validation states
-- `src/components/` - Button, card, table, accordion, dropdown, modal, nav, progress, tooltip, group, badge, avatar, alert, sidebar, tree
+- `src/components/` - Badge, button, table, card, accordion, dropdown, modal, nav, progress, loading, tooltip, group, avatar, alert, sidebar, tree
 - `src/slides/` - HTML-native presentation deck styles
 - `src/utilities/` - Helper classes
+
+**Utilities must not target bare HTML tags.** A selector like `a.something` or `button.something` in the utilities layer will override component variants of the same class (utilities sits after components in the cascade). If a tag-prefixed rule is needed, place it in `content/` or `base/` so the components layer can override it cleanly.
 
 ### Design Token System
 
@@ -74,6 +76,15 @@ Theme switching uses `light-dark()` function with `color-scheme` property. Overr
 - Role-based switches: `<input type="checkbox" role="switch">`
 - Data attributes for features: `data-tooltip`, `data-placement`, `data-theme`
 
+### Size Naming Convention
+
+Daft uses two naming styles for sizes, mapped to two different shapes of API:
+
+- **Component variants → full words.** When a component has a binary "is this bigger or smaller than default" toggle, use `.small` and `.large` (bare class = default). Examples: `.button.small` and `.avatar.large`. Reads naturally in HTML.
+- **Utility & token scales → abbreviations.** When sizing expresses a multi-step t-shirt scale, use `-xs`, `-sm`, bare (= default), `-lg`, `-xl`, `-2xl`, …. Examples: `.text-sm`, `.rounded-lg`, `.shadow`, `--spacing-xs`. Words don't scale (`.text-extra-small` is unreadable).
+
+When adding a new component or utility, pick the side based on shape, not aesthetic preference.
+
 ## Adding New Components or Features
 
 When adding a new component or feature to the library:
@@ -84,24 +95,142 @@ When adding a new component or feature to the library:
 4. **Update docs/reference surfaces** as needed: `README.md`, `DOCS.md`, `skills/daftcss/SKILL.md`, relevant files under `skills/daftcss/references/`, and relevant `docs/examples/*`
 5. **Run `npm run build`** to verify it compiles and mirror `dist/` to `docs/dist/`
 
-## Deployment & Release Notes
+## Deployment
 
 - Website-only changes deploy through GitHub Pages when pushed to the repository. Do not publish npm or create a GitHub release for docs-only changes.
-- Library releases publish to npm through GitHub Actions trusted publishing. Do not run `npm publish` locally.
-- Keep these version references aligned during a release: `package.json`, `package-lock.json`, `src/daft.css` header, visible docs version labels, and `/dist/daft.css?v=x.y.z` cache-busters in docs links.
-- `package.json` must include `repository.url: "https://github.com/pietz/daftcss"` because npm provenance verifies it against the GitHub Actions source.
-- Release flow: bump versions, run `npm run build`, commit, create/push tag `vx.y.z`, create the GitHub Release, then verify the `Release` workflow published npm. The workflow can also be run manually with `ref=vx.y.z`.
+- Library releases publish to npm through GitHub Actions trusted publishing (`.github/workflows/release.yml`). Do not run `npm publish` locally.
+- `.github/workflows/ci.yml` runs `npm run check`, a package-contents check, and the browser and accessibility tests.
 - Do not commit, tag, push, publish, or create releases unless explicitly asked.
 
-## Visual Testing with Agent Browser
+## Release & Publishing Process
 
-Use the `agent-browser` skill to visually verify CSS changes. This is especially useful for checking color variants, theme switching, and responsive layouts.
+When the user asks to publish a new version, follow these steps in order. Never skip steps or batch them without acknowledgement — each is a separate trust boundary.
+
+### 1. Version bump
+
+Update the version in these places (they must match):
+- `package.json` → `"version": "x.y.z"`
+- `package-lock.json` → root package version metadata
+- `src/daft.css` → header comment `* Daft CSS vx.y.z`
+- `docs/index.html` → footer version span (`vx.y.z`)
+- `docs/**/*.html` → every `<link rel="stylesheet" href="/dist/daft.css?v=x.y.z">` cache-buster query
+
+Keep `package.json` repository metadata present and exact:
+
+```json
+"repository": {
+  "type": "git",
+  "url": "https://github.com/pietz/daftcss"
+}
+```
+
+npm provenance checks this URL against the GitHub Actions source repository.
+
+The cache-buster bump is what guarantees the deployed landing pages pick up the new CSS immediately — without it, browsers (and the GH Pages edge cache) can serve a stale build for hours. Quick one-liner from the repo root (BSD/macOS `sed`; on GNU `sed` drop the `''` after `-i`):
+
+```bash
+grep -rl 'dist/daft.css?v=' docs | xargs sed -i '' "s|dist/daft.css?v=[0-9.]*|dist/daft.css?v=NEW_VERSION|g"
+```
+
+SemVer guidance for this project:
+- **Patch (1.x.y)** — bug fixes, additive helpers, no behavior change for existing markup
+- **Minor (1.x.0)** — new component, new utility class, behavior changes that aren't user-visible breaks
+- **Major (x.0.0)** — removed classes, renamed selectors, changed default behavior that could break existing pages
+
+### 2. Build
+
+```bash
+npm run build
+```
+
+Verify `dist/daft.css` and `dist/daft.min.css` regenerated. Check the minified size hasn't ballooned unexpectedly.
+
+### 3. Visual smoke test
+
+Run a quick browser check on `docs/index.html` or `docs/components/index.html` (see Visual Testing below) to catch regressions, especially for layout/grid/component changes.
+
+### 4. Update documentation
+
+Whenever the framework gains or loses a class, the following files must reflect it:
+- `README.md` — Components section + Utility table
+- `DOCS.md` — Components or Utilities sections
+- `skills/daftcss/SKILL.md` — Compact skill router, core guardrails, and component catalog
+- `skills/daftcss/references/components/` — Component-specific examples, options, tokens, and accessibility guidance
+- `skills/daftcss/references/` — Foundations, layout, utilities, theming, blocks, content, and slides
+
+### 5. Git commit + tag + push
+
+```bash
+git add -A
+git commit -m "vx.y.z - <one-line summary>
+
+- <bullet>
+- <bullet>"
+git tag -a vx.y.z -m "vx.y.z"
+git push origin main
+git push origin vx.y.z
+```
+
+Never commit/push without explicit user request. Never amend a published commit — make a new one.
+
+### 6. Publish to npm through GitHub Actions
+
+Publishing is handled by `.github/workflows/release.yml` using npm Trusted Publishing and provenance. Do not publish from the local CLI.
+
+When a `v*` tag is pushed, the `Release` workflow runs automatically. It checks out the tag, runs `npm ci`, builds, runs `npm run check` and `npm test`, verifies the tag matches the `package.json` version, skips cleanly if that version already exists on npm, and otherwise runs:
+
+```bash
+npm publish --provenance
+```
+
+For an already-pushed tag, trigger the workflow manually:
+
+```bash
+gh workflow run release.yml -f ref=vx.y.z
+gh run watch --exit-status
+```
+
+Verify npm after the workflow:
+
+```bash
+npm view daftcss version
+```
+
+### 7. Create the GitHub Release
+
+```bash
+gh release create vx.y.z --title "vx.y.z — <short title>" --notes "$(cat <<'EOF'
+## Highlights
+
+- <bullet>
+- <bullet>
+
+## Changes
+
+- <bullet>
+EOF
+)"
+```
+
+This is **easy to forget** — the npm publish does not create a GitHub release. Verify with `gh release list` afterward.
+
+### Common mistakes
+
+- Forgetting to bump `src/daft.css` header or `docs/index.html` version after `package.json`
+- Forgetting `package.json.repository.url` — npm provenance will reject trusted publishing
+- Expecting local `npm publish` to work — releases publish from GitHub Actions now
+- Skipping the GitHub release step — npm-only releases leave users without a readable changelog
+- Using `git commit --amend` after the commit was pushed — create a new commit instead
+
+## Visual Testing
+
+Use a browser automation tool (for example the `agent-browser` CLI) to visually verify CSS changes. This is especially useful for checking color variants, theme switching, and responsive layouts. Either open files directly via `file://` or run `npm run dev` and use `http://127.0.0.1:3000`.
 
 ### Basic Workflow
 
 ```bash
-# Open an HTML file directly (no server needed)
-agent-browser open "file:///Users/pietz/Private/daftcss/docs/components/index.html"
+# Open an HTML file directly from the repo root (no server needed)
+agent-browser open "file://$PWD/docs/components/index.html"
 
 # Take screenshots to verify visual output
 agent-browser screenshot --full /tmp/screenshot.png
@@ -122,7 +251,6 @@ agent-browser close
 
 ### Tips
 
-- Use `file://` URLs to test HTML files without a server
 - Take `--full` screenshots for full page captures
 - Use `eval` to check computed CSS values for debugging
-- Create temporary test HTML files in `examples/` for specific features, then delete them after verification
+- Put temporary test HTML files in an untracked scratch folder, then delete them after verification

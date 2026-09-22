@@ -66,26 +66,45 @@
   background-color: var(--primary);
   border-color: transparent;
 
-  &.accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, .success, .warning, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+  &.accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, .badge.success, .badge.warning, [type="reset"], [aria-current]:not([aria-current="false"], [aria-current=""]), [aria-pressed="true"])) {
     color: var(--accent-foreground);
     background-color: var(--accent);
   }
 
-  &:is(.secondary, [type="reset"]),
-  &.badge.warning:not(.outline) {
+  &:is(.secondary, [type="reset"]) {
     color: var(--secondary-foreground);
     background-color: var(--secondary);
   }
 
-  &.destructive {
-    color: color-mix(in oklch, var(--destructive) 80%, var(--foreground));
-    background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
+  /* Status tones: colored text over a translucent tint of the same token.
+     Dark themes double the tint so it stays visible on dark surfaces. The
+     text keeps 30% foreground so amber and green clear WCAG AA on the tint;
+     oklab mixing keeps the hue instead of rotating it toward the neutral's 0.
+     Success and warning are badge-only; :where() keeps .destructive at its
+     single-class specificity so later variants still win when combined. */
+  &.destructive { --tone: var(--destructive); }
+  &.badge.success { --tone: var(--success); }
+  &.badge.warning { --tone: var(--warning); }
+
+  &:is(.destructive, .badge:where(.success, .warning)) {
+    color: color-mix(in oklab, var(--tone) 70%, var(--foreground));
+    background-color: light-dark(
+      color-mix(in oklch, var(--tone) 10%, transparent),
+      color-mix(in oklch, var(--tone) 20%, transparent)
+    );
   }
 
-  &.outline,
-  &.badge.success {
+  /* Dark outline surfaces take a translucent input-tinted fill rather than
+     punching a page-colored hole into cards. */
+  &.outline {
     color: var(--foreground);
-    background-color: var(--background);
+    background-color: light-dark(var(--background), color-mix(in oklch, var(--input) 30%, transparent));
+    border-color: light-dark(var(--border), var(--input));
+  }
+
+  /* Badges are labels, not surfaces: outline badges keep only their border. */
+  &.badge.outline {
+    background-color: transparent;
     border-color: var(--border);
   }
 
@@ -102,7 +121,7 @@ a[role="button"], a.button {
 
 /* Solid accent variant. Established surface variants and reset inputs win if
    incompatible variant classes are combined by mistake. */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, [type="reset"], [aria-current="true"], [aria-pressed="true"])) {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).accent:not(:is(.secondary, .destructive, .outline, .ghost, .link, [type="reset"], [aria-current]:not([aria-current="false"], [aria-current=""]), [aria-pressed="true"])) {
   &:hover {
     background-color: color-mix(in oklch, var(--accent) var(--hover-opacity), var(--accent-foreground) 5%);
   }
@@ -127,14 +146,20 @@ a[role="button"], a.button {
   }
 }
 
-/* Destructive variant — tinted background, colored text */
+/* Destructive variant — interaction steps the tint up from its resting level. */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).destructive {
   &:hover {
-    background-color: color-mix(in oklch, var(--destructive) 20%, transparent);
+    background-color: light-dark(
+      color-mix(in oklch, var(--destructive) 20%, transparent),
+      color-mix(in oklch, var(--destructive) 30%, transparent)
+    );
   }
 
   &:active {
-    background-color: color-mix(in oklch, var(--destructive) 30%, transparent);
+    background-color: light-dark(
+      color-mix(in oklch, var(--destructive) 30%, transparent),
+      color-mix(in oklch, var(--destructive) 40%, transparent)
+    );
   }
 
   &:focus-visible {
@@ -145,7 +170,7 @@ a[role="button"], a.button {
 /* Outline variant */
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).outline {
   &:hover {
-    background-color: var(--accent);
+    background-color: light-dark(var(--accent), color-mix(in oklch, var(--input) 50%, transparent));
   }
 }
 
@@ -172,7 +197,7 @@ a[role="button"], a.button {
 }
 
 /* Selected/current variant (e.g., a toggle or current item in a group) */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary):is([aria-current="true"], [aria-pressed="true"]) {
+:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary):is([aria-current]:not([aria-current="false"], [aria-current=""]), [aria-pressed="true"]) {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
@@ -217,9 +242,4 @@ a[role="button"], a.button {
 :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).icon.large,
 [role="group"].large > :is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).icon {
   width: var(--button-height-lg);
-}
-
-/* Full width button */
-:is(button, [type="submit"], [type="reset"], [type="button"], [role="button"], a.button, details.dropdown > summary).full-width {
-  width: 100%;
 }

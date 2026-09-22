@@ -19,6 +19,7 @@ Use native `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>`, `<fieldset>
 ## Markup requirements
 
 - Prefer a wrapping label. Daft gives its direct input, select, or textarea the correct label spacing.
+- Put help or error text in a `<small>` directly after the control or its wrapping label, or inside the `<label>`/`<fieldset>`. That position makes it a muted block line; a `<small>` anywhere else stays inline.
 - Alternatively, connect separate elements with `for` and `id`; a required indicator is added when the label immediately precedes its required control.
 - Group related checkboxes or radios in `<fieldset>` with a `<legend>`. Give radios in one choice set the same `name`.
 - Give an unlabeled search field or other icon-only control an `aria-label`.
@@ -28,7 +29,8 @@ Use native `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>`, `<fieldset>
 
 - Text-like inputs, `<textarea>`, and `<select>` receive the standard input surface. Textarea is vertically resizable.
 - `.small` and `.large` work on text-like `<input>` and `<select>`, or on a containing `[role="group"]`.
-- `input[type="search"]` is pill-shaped. A simple eligible containing group can become a unified field shell; see [groups.md](groups.md) for its exact shape.
+- `input[type="search"]` uses the ordinary field radius and hides the native clear button. A simple eligible containing group can become a unified field shell; see [groups.md](groups.md) for its exact shape.
+- Labels are 14px medium with a tight 1.25 line-height and sit 8px above a separate control.
 - `input[type="file"]`, `color`, `date`, `datetime-local`, `month`, `time`, and `week` have type-specific styling. The native file-selector button keeps a secondary surface with the same inset geometry as a field-shell action.
 - `select[multiple]` grows to content and drops its chevron.
 - `input[type="checkbox"]`, radio, and `checkbox[role="switch"]` are styled natively. Set `role="switch"` on a checkbox, not a class.
@@ -41,13 +43,14 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 - `--input`, `--input-background`, `--input-radius`
 - `--input-height`, `--input-height-sm`, `--input-height-lg`
+- `--input-font-size`: text size of inputs, selects, textareas, and group addons. Defaults to `--text-base` (16px) below 768px to avoid iOS Safari focus zoom and `--text-sm` (14px) from 768px up, matching buttons. Sizes `.small`/`.large` keep it. Override on `:root`; `:root { --input-font-size: var(--text-base); }` keeps 16px at every width.
 - `--control-size`, `--switch-width`, `--switch-height`, `--switch-thumb`
 - `--border`, `--primary`, `--destructive`, `--muted`, `--muted-foreground`
 - `--focus-ring`, `--focus-ring-destructive`, `--disabled-opacity`
 
 ## Behavior and accessibility
 
-Set validation from application or server logic with `aria-invalid="true"` or `aria-invalid="false"`. Invalid text controls receive a destructive border and ring; valid ones receive a primary border. Following sibling `<small>` help text adopts the matching color.
+Set validation from application or server logic with `aria-invalid="true"` or `aria-invalid="false"`. Invalid text controls receive a destructive border and ring. `aria-invalid="false"` adds no styling of its own, so a valid field looks like any other field. The `<small>` directly after an invalid control or its wrapping label turns destructive, and after a valid one stays muted; later sibling `<small>` text follows the state unless a nearer field's helper takes precedence.
 
 Daft intentionally does not style native `:invalid` or `:user-invalid`; do not expect browser constraint validation alone to change the presentation. Set `aria-invalid` and provide clear error text. A required control causes its associated label to gain a decorative `*`; the `required` attribute still supplies the semantic requirement. Every wrapping-label marker appears first so it stays clear of full-width controls, multiline checkbox/radio text, and nested help text. A separate label immediately before its control keeps a suffix marker.
 
@@ -61,7 +64,7 @@ Disabled controls and disabled fieldsets use reduced opacity. A label around a d
 
 ## Composition
 
-Use `[role="group"]` to join adjacent controls, with `.vertical` or `.full-width` when needed. Groups are segmented by default; only the narrow direct-child shape in [groups.md](groups.md) becomes a unified field shell. Keep labels and help text outside that shell.
+Use `[role="group"]` to join adjacent controls, with `.vertical` or `.w-full` when needed. Groups are segmented by default; only the narrow direct-child shape in [groups.md](groups.md) becomes a unified field shell. Keep labels and help text outside that shell.
 
 Standalone sibling controls and input groups receive compact row spacing. Direct children of a form use the roomier form rhythm, while controls nested inside labels or groups defer spacing to their container.
 

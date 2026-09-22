@@ -373,6 +373,148 @@ test("dropdown trigger and item SVGs share the icon token and centered flex comp
   expect(result.items.textLink).toEqual(result.items.iconLink);
 });
 
+test("dropdown menus use compact 28px items and a small muted group label", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <details class="dropdown" open>
+        <summary>Actions</summary>
+        <ul id="menu">
+          <li class="label" id="label">My account</li>
+          <li><a id="link" href="#profile">Profile</a></li>
+          <li><label id="choice"><input type="checkbox"> Enable alerts</label></li>
+        </ul>
+      </details>
+      <span id="muted-probe" style="color: var(--muted-foreground)">Muted</span>`;
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return { fontSize: style.fontSize, height: element.getBoundingClientRect().height, padding: style.padding };
+    };
+    const menu = getComputedStyle(document.getElementById("menu"));
+    return {
+      choice: read("choice"),
+      label: { ...read("label"), color: getComputedStyle(document.getElementById("label")).color },
+      link: { ...read("link"), borderRadius: getComputedStyle(document.getElementById("link")).borderRadius },
+      menu: { borderRadius: menu.borderRadius, minWidth: menu.minWidth },
+      muted: getComputedStyle(document.getElementById("muted-probe")).color,
+    };
+  });
+
+  expect(result.menu).toEqual({ borderRadius: "10px", minWidth: "128px" });
+  expect(result.link).toEqual({ borderRadius: "8px", fontSize: "14px", height: 28, padding: "4px 6px" });
+  expect(result.choice.height).toBe(28);
+  expect(result.label).toEqual({ color: result.muted, fontSize: "12px", height: 24, padding: "4px 6px" });
+});
+
+test("dropdown data-placement=\"end\" aligns the menu's inline-end edge with the trigger", async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
+  await page.goto("/components/");
+
+  const edges = await page.evaluate(() => {
+    const menu = '<ul><li><a href="#a">A considerably longer menu item</a></li></ul>';
+    document.body.innerHTML = `
+      <main style="padding-inline: 400px">
+        <div><details id="start" class="dropdown" open><summary>Start</summary>${menu}</details></div>
+        <div><details id="end" class="dropdown" data-placement="end" open><summary>End</summary>${menu}</details></div>
+        <div><details id="old-rtl" class="dropdown" open><summary>Old</summary><ul dir="rtl"><li><a href="#a">A considerably longer menu item</a></li></ul></details></div>
+        <div dir="rtl"><details id="rtl-end" class="dropdown" data-placement="end" open><summary>End</summary>${menu}</details></div>
+        <nav aria-label="Bar"><ul><li><details id="nav" class="dropdown" open><summary>Nav</summary>${menu}</details></li></ul></nav>
+      </main>`;
+    const read = (id) => {
+      const details = document.getElementById(id);
+      const trigger = details.getBoundingClientRect();
+      const list = details.querySelector("ul");
+      const rect = list.getBoundingClientRect();
+      return {
+        direction: getComputedStyle(list).direction,
+        left: Math.round(rect.left - trigger.left),
+        right: Math.round(trigger.right - rect.right),
+        wider: rect.width > trigger.width + 20,
+      };
+    };
+    return Object.fromEntries(["start", "end", "old-rtl", "rtl-end", "nav"].map((id) => [id, read(id)]));
+  });
+
+  for (const edge of Object.values(edges)) expect(edge.wider).toBe(true);
+  expect(edges.start.left).toBe(0);
+  expect(edges.end.right).toBe(0);
+  expect(edges.end.left).toBeLessThan(0);
+  // Inline-end is the left edge in a right-to-left context.
+  expect(edges["rtl-end"].left).toBe(0);
+  expect(edges["rtl-end"].right).toBeLessThan(0);
+  // Menus inside a nav end-align automatically.
+  expect(edges.nav.right).toBe(0);
+  // dir="rtl" on the menu is no longer an alignment hook or a direction reset.
+  expect(edges["old-rtl"].left).toBe(0);
+  expect(edges["old-rtl"].direction).toBe("rtl");
+});
+
+test("tooltips render a 28px bubble with a non-interactive arrow on every placement", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="padding: 6rem">
+        <button id="top" data-tooltip="Top tip">Top</button>
+        <button id="bottom" data-tooltip="Bottom tip" data-placement="bottom">Bottom</button>
+        <button id="left" data-tooltip="Left tip" data-placement="left">Left</button>
+        <button id="right" data-tooltip="Right tip" data-placement="right">Right</button>
+        <details class="dropdown"><summary id="menu" data-tooltip="Menu tip">Menu</summary><ul><li><a href="#a">A</a></li></ul></details>
+      </main>`;
+    const sides = (style) => ({ bottom: style.bottom, left: style.left, right: style.right, top: style.top });
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const bubble = getComputedStyle(element, "::before");
+      const arrow = getComputedStyle(element, "::after");
+      return {
+        arrow: {
+          background: arrow.backgroundColor,
+          content: arrow.content,
+          height: arrow.height,
+          opacity: arrow.opacity,
+          pointerEvents: arrow.pointerEvents,
+          position: arrow.position,
+          sides: sides(arrow),
+          width: arrow.width,
+        },
+        bubble: {
+          background: bubble.backgroundColor,
+          fontWeight: bubble.fontWeight,
+          height: bubble.height,
+          sides: sides(bubble),
+        },
+      };
+    };
+    return {
+      placements: Object.fromEntries(["top", "bottom", "left", "right"].map((id) => [id, read(id)])),
+      summaryArrowPosition: getComputedStyle(document.getElementById("menu"), "::after").position,
+    };
+  });
+
+  const anchoredSide = { bottom: "top", left: "right", right: "left", top: "bottom" };
+  for (const [placement, { arrow, bubble }] of Object.entries(result.placements)) {
+    expect(bubble).toMatchObject({ fontWeight: "400", height: "28px" });
+    expect(arrow).toMatchObject({
+      background: bubble.background,
+      content: '""',
+      height: "10px",
+      opacity: "0",
+      pointerEvents: "none",
+      position: "absolute",
+      width: "10px",
+    });
+    const side = anchoredSide[placement];
+    expect(arrow.sides[side]).toBe(bubble.sides[side]);
+  }
+  // Summary chevrons keep their own ::after instead of becoming an arrow.
+  expect(result.summaryArrowPosition).not.toBe("absolute");
+
+  await page.locator("#top").hover();
+  await expect.poll(() => page.locator("#top").evaluate((element) => getComputedStyle(element, "::after").opacity)).toBe("1");
+});
+
 test("button-only, vertical, and install groups retain segmented treatment", async ({ page }) => {
   await page.goto("/components/");
 
@@ -450,6 +592,46 @@ test("button-only, vertical, and install groups retain segmented treatment", asy
   expect(result.install.codeBackground).not.toBe("rgba(0, 0, 0, 0)");
 });
 
+test(".w-full fills buttons and groups; the removed .full-width class does nothing", async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <div id="box" style="width: 300px">
+          <p><button id="w-button" class="w-full" type="button">Go</button></p>
+          <p><button id="old-button" class="full-width" type="button">Go</button></p>
+          <p><a id="w-link" class="button w-full" href="#go">Go</a></p>
+          <div id="w-group" role="group" class="w-full"><select aria-label="Currency"><option>USD</option></select><input id="w-amount" type="number" aria-label="Amount"></div>
+          <div id="old-group" role="group" class="full-width"><select aria-label="Currency"><option>USD</option></select><input type="number" aria-label="Amount"></div>
+        </div>
+      </main>`;
+    const read = (id) => {
+      const element = document.getElementById(id);
+      return { display: getComputedStyle(element).display, width: element.getBoundingClientRect().width };
+    };
+    const group = document.getElementById("w-group").getBoundingClientRect();
+    const amount = document.getElementById("w-amount").getBoundingClientRect();
+    return {
+      amountRightGap: Math.round(group.right - amount.right),
+      oldButton: read("old-button"),
+      oldGroup: read("old-group"),
+      wButton: read("w-button"),
+      wGroup: read("w-group"),
+      wLink: read("w-link"),
+    };
+  });
+
+  expect(result.wButton.width).toBe(300);
+  expect(result.wLink.width).toBe(300);
+  expect(result.wGroup).toEqual({ display: "flex", width: 300 });
+  expect(result.amountRightGap).toBe(0);
+  expect(result.oldButton.width).toBeLessThan(300);
+  expect(result.oldGroup.display).toBe("inline-flex");
+  expect(result.oldGroup.width).toBeLessThan(300);
+});
+
 test("text-like role groups and search landmarks become unified field shells", async ({ page }) => {
   await page.goto("/components/");
 
@@ -460,11 +642,11 @@ test("text-like role groups and search landmarks become unified field shells", a
         <div id="icon-shell" role="group"><svg id="leading-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="icon-input" aria-label="Icon field"></div>
         <div id="prefix-shell" role="group"><span id="prefix">https://</span><input id="prefix-input" type="text" aria-label="Domain"></div>
         <div id="action-shell" role="group"><input id="action-input" type="email" aria-label="Action field"><button id="action-button" type="button">Apply</button></div>
-        <div id="full-shell" role="group" class="full-width"><svg id="full-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg><input id="full-input" aria-label="Full field"><button id="full-button" class="ghost icon" type="button" aria-label="Clear"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12"/></svg></button></div>
+        <div id="full-shell" role="group" class="w-full"><svg id="full-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg><input id="full-input" aria-label="Full field"><button id="full-button" class="ghost icon" type="button" aria-label="Clear"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12"/></svg></button></div>
         <form id="search-shell" role="search" style="width: 300px"><input id="search-input" type="search" aria-label="Search"><button type="submit">Search</button></form>
         <div id="small-shell" role="group" class="small"><span>USD</span><input aria-label="Small amount"></div>
         <div id="large-shell" role="group" class="large"><span>USD</span><input aria-label="Large amount"></div>
-        <section id="narrow" style="width: 160px"><div id="narrow-shell" role="group" class="full-width"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="narrow-input" aria-label="Narrow field"><button type="button">Go</button></div></section>
+        <section id="narrow" style="width: 160px"><div id="narrow-shell" role="group" class="w-full"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg><input id="narrow-input" aria-label="Narrow field"><button type="button">Go</button></div></section>
       </main>`;
 
     const read = (id) => {
@@ -486,11 +668,31 @@ test("text-like role groups and search landmarks become unified field shells", a
     };
     const shellBox = document.getElementById("full-shell").getBoundingClientRect();
     const buttonBox = document.getElementById("full-button").getBoundingClientRect();
+    const iconStyle = getComputedStyle(document.getElementById("leading-icon"));
+    const ghostButton = document.getElementById("full-button");
+    const actionStyle = getComputedStyle(document.getElementById("action-button"));
+    const standaloneSearch = document.createElement("input");
+    standaloneSearch.type = "search";
+    standaloneSearch.setAttribute("aria-label", "Standalone search");
+    document.querySelector("main").append(standaloneSearch);
+    const standaloneSearchStyle = getComputedStyle(standaloneSearch);
     const narrowBox = document.getElementById("narrow").getBoundingClientRect();
     const narrowShellBox = document.getElementById("narrow-shell").getBoundingClientRect();
 
     return {
       actionButton: read("action-button"),
+      actionInset: {
+        marginBottom: actionStyle.marginBottom,
+        marginInlineEnd: actionStyle.marginInlineEnd,
+        marginTop: actionStyle.marginTop,
+      },
+      ghostIcon: {
+        color: getComputedStyle(ghostButton).color,
+        svgHeight: ghostButton.querySelector("svg").getBoundingClientRect().height,
+        svgWidth: ghostButton.querySelector("svg").getBoundingClientRect().width,
+      },
+      iconInset: { marginInlineEnd: iconStyle.marginInlineEnd, marginInlineStart: iconStyle.marginInlineStart },
+      standaloneSearchRadius: standaloneSearchStyle.borderRadius,
       full: {
         buttonBottom: buttonBox.bottom,
         buttonHeight: buttonBox.height,
@@ -550,7 +752,10 @@ test("text-like role groups and search landmarks become unified field shells", a
   });
   expect(result.actionButton.borderWidth).toBe("0px");
   expect(result.actionButton.flexGrow).toBe("0");
-  expect(result.actionButton.height).toBe(22);
+  expect(result.actionButton.height).toBe(24);
+  expect(result.actionInset).toEqual({ marginBottom: "3px", marginInlineEnd: "3px", marginTop: "3px" });
+  expect(result.iconInset).toEqual({ marginInlineEnd: "6px", marginInlineStart: "8px" });
+  expect(result.ghostIcon).toEqual({ color: "rgb(90, 91, 92)", svgHeight: 14, svgWidth: 14 });
   expect(result.full.shellWidth).toBe(1280);
   expect(result.full.buttonHeight).toBeLessThan(result.full.shellHeight);
   expect(result.actionButton.width).not.toBe(result.actionButton.height);
@@ -558,7 +763,9 @@ test("text-like role groups and search landmarks become unified field shells", a
   expect(result.full.buttonWidth).toBe(result.full.buttonHeight);
   expect(result.full.buttonTop).toBeGreaterThan(result.full.shellTop);
   expect(result.full.buttonBottom).toBeLessThan(result.full.shellBottom);
-  expect(result.search.borderRadius).toBe("9999px");
+  // Search uses the ordinary field radius, not a pill.
+  expect(result.search.borderRadius).toBe("10px");
+  expect(result.standaloneSearchRadius).toBe("10px");
   expect(result.search.width).toBe(300);
   expect(result.sizes).toEqual({ large: 36, small: 28 });
   expect(result.narrow.shellWidth).toBe(160);
@@ -631,12 +838,12 @@ test("field shells keep multiple actions inset on either side of one input", asy
     expect(action.borderWidth).toBe("0px");
     expect(action.left).toBeGreaterThan(result.shell.left);
     expect(action.right).toBeLessThan(result.shell.right);
-    expect(action.marginInlineStart).toBe("4px");
     expect(action.tabIndex).toBe(0);
   }
+  expect(result.actions.map((action) => action.marginInlineStart)).toEqual(["3px", "4px", "4px"]);
   expect(result.actions[0].marginInlineEnd).toBe("0px");
   expect(result.actions[1].marginInlineEnd).toBe("0px");
-  expect(result.actions[2].marginInlineEnd).toBe("4px");
+  expect(result.actions[2].marginInlineEnd).toBe("3px");
 });
 
 test("field shells expose wrapper focus, action, validation, and inactive states", async ({ page }) => {
@@ -691,7 +898,7 @@ test("field shells expose wrapper focus, action, validation, and inactive states
   expect(invalid.shellShadow).not.toBe("none");
 
   await page.locator("#invalid-input").evaluate((element) => element.setAttribute("aria-invalid", "false"));
-  await expect(page.locator("#invalid-shell")).toHaveCSS("border-top-color", "rgb(21, 121, 71)");
+  await expect(page.locator("#invalid-shell")).toHaveCSS("border-top-color", "rgb(10, 20, 30)");
   await expect(page.locator("#invalid-shell")).toHaveCSS("box-shadow", "none");
 
   const inactive = await page.evaluate(() => {
@@ -967,8 +1174,8 @@ test("button-looking anchors retain link semantics and button composition", asyn
         <a id="small-link" class="button small" href="#small">Small</a>
         <button id="small-button" class="small" type="button">Small</button>
         <a id="icon-link" class="button icon" href="#icon" aria-label="Open details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></a>
-        <div style="width: 240px"><a id="full-link" class="button full-width" href="#full">Full width</a></div>
-        <a id="ordinary" class="secondary outline large full-width icon" href="#ordinary">Ordinary link</a>
+        <div style="width: 240px"><a id="full-link" class="button w-full" href="#full">Full width</a></div>
+        <a id="ordinary" class="secondary outline large icon" href="#ordinary">Ordinary link</a>
         <a id="unavailable" class="button" href="#still-a-link" aria-disabled="true">Still a link</a>
         <a id="custom-shadow" class="button" href="#custom-shadow" style="--button-shadow: 4px 4px 0 rgb(255 0 255)">Custom shadow</a>
       </main>`;
@@ -1077,7 +1284,7 @@ test("solid accent composes across every documented component and button state",
         <details><summary id="button-summary" class="accent" role="button">Accent disclosure</summary><p>Details</p></details>
         <button id="small" class="accent small" type="button">Small</button>
         <button id="icon" class="accent icon large" type="button" aria-label="Add"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button>
-        <button id="full" class="accent full-width" type="button">Full width</button>
+        <button id="full" class="accent w-full" type="button">Full width</button>
         <button id="disabled" class="accent" type="button" disabled>Disabled</button>
         <button id="busy" class="accent" type="button" disabled aria-busy="true">Busy</button>
         <a id="link" class="button accent" href="#next">Accent link</a>
@@ -1375,7 +1582,7 @@ test("card headers keep compact card typography while inheriting the hgroup gap"
       <span id="muted-reference" class="muted">Muted reference</span>`;
     const read = (selector) => {
       const style = getComputedStyle(document.querySelector(selector));
-      return { fontSize: style.fontSize, fontWeight: style.fontWeight, lineHeight: style.lineHeight };
+      return { fontSize: style.fontSize, fontWeight: style.fontWeight, letterSpacing: style.letterSpacing, lineHeight: style.lineHeight };
     };
     const groupStyle = getComputedStyle(document.querySelector("#group-card hgroup"));
     const subtitleStyle = getComputedStyle(document.querySelector("#group-card hgroup > p"));
@@ -1400,7 +1607,7 @@ test("card headers keep compact card typography while inheriting the hgroup gap"
     };
   });
 
-  expect(typography.heading).toEqual({ fontSize: "18px", fontWeight: "600", lineHeight: "22.5px" });
+  expect(typography.heading).toEqual({ fontSize: "16px", fontWeight: "500", letterSpacing: "normal", lineHeight: "22px" });
   expect(typography.strong).toEqual(typography.heading);
   expect(typography.groupedHeading).toEqual(typography.heading);
   expect(typography.group).toEqual({
@@ -1450,10 +1657,10 @@ test("dialogs use one compact card-derived surface and preserve form control typ
           <footer><button type="button" class="secondary">Cancel</button><button type="submit">Save</button></footer>
         </form>
       </dialog>
-      <dialog id="legacy" open aria-label="Legacy dialog">
+      <dialog id="wrapped" open aria-label="Wrapped dialog">
         <article>
-          <header><hgroup><h2>Legacy title</h2><p>Legacy subtitle</p></hgroup></header>
-          <p>Legacy body</p>
+          <header><strong>Card title</strong></header>
+          <p>Card body</p>
           <footer><button type="button">Done</button></footer>
         </article>
       </dialog>`;
@@ -1499,7 +1706,7 @@ test("dialogs use one compact card-derived surface and preserve form control typ
     const directHgroup = document.getElementById("direct-hgroup");
     const wideDialog = document.getElementById("wide-dialog");
     const withForm = document.getElementById("with-form");
-    const legacy = document.getElementById("legacy");
+    const wrapped = document.getElementById("wrapped");
     const form = withForm.querySelector("form");
     const formStyle = getComputedStyle(form);
     return {
@@ -1530,29 +1737,35 @@ test("dialogs use one compact card-derived surface and preserve form control typ
         boxShadow: formStyle.boxShadow,
         padding: formStyle.padding,
       },
-      footers: [directHeader.querySelector("footer"), form.querySelector("footer"), legacy.querySelector("footer")].map(readFooter),
-      legacyArticleDisplay: getComputedStyle(legacy.firstElementChild).display,
+      footers: [directHeader.querySelector("footer"), form.querySelector("footer")].map(readFooter),
+      wrapped: {
+        articleDisplay: getComputedStyle(wrapped.firstElementChild).display,
+        articleBorderWidth: getComputedStyle(wrapped.firstElementChild).borderTopWidth,
+        dialogPaddingBottom: getComputedStyle(wrapped).paddingBottom,
+        headerPaddingInlineEnd: getComputedStyle(wrapped.querySelector("header")).paddingInlineEnd,
+      },
       mutedColor: getComputedStyle(document.getElementById("muted-reference")).color,
       subtitles: [
         directHeader.querySelector("header > p"),
         directHgroup.querySelector("hgroup > p"),
-        legacy.querySelector("hgroup > p"),
       ].map(readType),
-      surfaces: [directHeading, directHeader, directHgroup, withForm, legacy].map(readSurface),
+      surfaces: [directHeading, directHeader, directHgroup, withForm].map(readSurface),
       wideSurface: readSurface(wideDialog),
       titles: [
         directHeading.querySelector(":scope > h2"),
         directHeader.querySelector("header > h2"),
         directHgroup.querySelector("hgroup > h2"),
         withForm.querySelector("header > strong"),
-        legacy.querySelector("hgroup > h2"),
       ].map(readType),
     };
   });
 
   expect(result.cardPadding).toBe("16px");
   expect(result.surfaces[0]).toMatchObject({ maxWidth: "384px", padding: "16px", width: "384px" });
-  for (const surface of result.surfaces.slice(1)) expect(surface).toEqual(result.surfaces[0]);
+  // Dialogs that close with a footer band drop their bottom padding.
+  const withoutPadding = ({ padding, ...surface }) => surface;
+  for (const surface of result.surfaces.slice(1)) expect(withoutPadding(surface)).toEqual(withoutPadding(result.surfaces[0]));
+  expect(result.surfaces.map((surface) => surface.padding)).toEqual(["16px", "16px 16px 0px", "16px", "16px 16px 0px"]);
   expect(result.wideSurface).toMatchObject({ maxWidth: "640px", padding: "16px", width: "640px" });
   expect(result.close).toMatchObject({
     buttonHeight: "32px",
@@ -1562,7 +1775,7 @@ test("dialogs use one compact card-derived surface and preserve form control typ
   });
   expect(result.close.centerDelta).toBeLessThan(1);
   for (const title of result.titles) {
-    expect(title).toMatchObject({ fontSize: "18px", fontWeight: "600", lineHeight: "22.5px" });
+    expect(title).toMatchObject({ fontSize: "16px", fontWeight: "500", lineHeight: "24px" });
   }
   for (const subtitle of result.subtitles) {
     expect(subtitle).toMatchObject({
@@ -1572,19 +1785,67 @@ test("dialogs use one compact card-derived surface and preserve form control typ
       lineHeight: "21px",
     });
   }
-  expect(result.controls.input.fontSize).toBe("16px");
+  // Dialogs keep the ordinary --input-font-size (14px at this desktop width).
+  expect(result.controls.input.fontSize).toBe("14px");
   expect(result.controls.label.fontSize).toBe("14px");
   expect(result.controls.button.fontSize).toBe("14px");
   expect(result.footers[0]).toMatchObject({ display: "flex", justifyContent: "flex-end" });
   expect(result.footers[1]).toEqual(result.footers[0]);
-  expect(result.footers[2]).toEqual(result.footers[0]);
   expect(result.form).toEqual({
     background: "rgba(0, 0, 0, 0)",
     borderWidth: "0px",
     boxShadow: "none",
     padding: "0px",
   });
-  expect(result.legacyArticleDisplay).toBe("contents");
+  // An article inside a dialog is an ordinary nested card, not flattened into
+  // the dialog surface, and its footer does not turn into the dialog band.
+  expect(result.wrapped).toEqual({
+    articleDisplay: "block",
+    articleBorderWidth: "1px",
+    dialogPaddingBottom: "16px",
+    headerPaddingInlineEnd: "0px",
+  });
+});
+
+test("dialog header close buttons are recognized by label prefix or close behavior", async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <dialog id="labelled" open aria-label="Labelled close dialog">
+        <header><h2>Title</h2><button type="button" class="icon ghost" aria-label="Close dialog"><svg aria-hidden="true" width="16" height="16"></svg></button></header>
+        <p>Body</p>
+      </dialog>
+      <dialog id="behavior" popover aria-label="Behavior close dialog">
+        <header><h2>Titel</h2><button type="button" class="icon" aria-label="Schließen" popovertarget="behavior" popovertargetaction="hide"><svg aria-hidden="true" width="16" height="16"></svg></button></header>
+        <p>Inhalt</p>
+        <footer><button type="button" popovertarget="behavior" popovertargetaction="hide">Abbrechen</button></footer>
+      </dialog>`;
+    document.getElementById("behavior").showPopover();
+
+    const readClose = (button) => {
+      const dialogRect = button.closest("dialog").getBoundingClientRect();
+      const rect = button.getBoundingClientRect();
+      const style = getComputedStyle(button);
+      return {
+        height: style.height,
+        position: style.position,
+        rightInset: Math.round(dialogRect.right - rect.right),
+        topInset: Math.round(rect.top - dialogRect.top),
+      };
+    };
+    return {
+      labelled: readClose(document.querySelector("#labelled header > button")),
+      behavior: readClose(document.querySelector("#behavior header > button")),
+      footerPosition: getComputedStyle(document.querySelector("#behavior footer > button")).position,
+    };
+  });
+
+  const expected = { height: "32px", position: "absolute", rightInset: 12, topInset: 12 };
+  expect(result.labelled).toEqual(expected);
+  expect(result.behavior).toEqual(expected);
+  expect(result.footerPosition).toBe("static");
 });
 
 test("direct modal and popover dialogs preserve their distinct native open behavior", async ({ page }) => {
@@ -1609,6 +1870,7 @@ test("direct modal and popover dialogs preserve their distinct native open behav
     return {
       activeOutside: document.activeElement === outside,
       backdrop: getComputedStyle(dialog, "::backdrop").backgroundColor,
+      backdropFilter: getComputedStyle(dialog, "::backdrop").backdropFilter,
       modal: dialog.matches(":modal"),
       open: dialog.open,
       popoverOpen: dialog.matches(":popover-open"),
@@ -1627,7 +1889,10 @@ test("direct modal and popover dialogs preserve their distinct native open behav
   });
   expect(modalState).toMatchObject({ activeOutside: false, modal: true, open: true, popoverOpen: false });
   expect(modalState.backdrop).not.toBe("rgba(0, 0, 0, 0)");
-  expect(modalState.surface.animationName).toBe("modal-in");
+  // Light 10% black overlay with a 4px blur.
+  expect(modalState.backdrop).toMatch(/^(?:oklch\(0%? 0 0 \/ 0\.1\)|rgba\(0, 0, 0, 0\.1\))$/);
+  expect(modalState.backdropFilter).toBe("blur(4px)");
+  expect(modalState.surface.animationName).toBe("daft-modal-in");
   expect(Number.parseFloat(modalState.surface.animationDuration)).toBeGreaterThan(0);
 
   await page.evaluate(() => {
@@ -1670,7 +1935,7 @@ test("direct modal and popover dialogs preserve their distinct native open behav
   expect(await popover.evaluate((element) => element.matches(":popover-open"))).toBe(false);
 });
 
-test("dialog close controls keep canonical positioning and the legacy icon fallback", async ({ page }) => {
+test("dialog close controls keep canonical positioning and draw no icon of their own", async ({ page }) => {
   await page.goto("/components/");
 
   const result = await page.evaluate(() => {
@@ -1681,10 +1946,8 @@ test("dialog close controls keep canonical positioning and the legacy icon fallb
         </button>
         <header><button id="header-close" aria-label="Close"></button><strong>Direct title</strong></header>
         <p>Body</p>
-      </dialog>
-      <dialog open aria-label="Legacy close control"><article>
-        <button id="legacy-close" rel="prev"></button><p>Body</p>
-      </article></dialog>`;
+        <button id="prev-button" rel="prev" type="button">Back</button>
+      </dialog>`;
     document.querySelectorAll("dialog").forEach((dialog) => dialog.getAnimations().forEach((animation) => animation.finish()));
     const readPosition = (id) => {
       const style = getComputedStyle(document.getElementById(id));
@@ -1700,8 +1963,8 @@ test("dialog close controls keep canonical positioning and the legacy icon fallb
     const headerClose = document.getElementById("header-close");
     return {
       emptyContent: getComputedStyle(headerClose, "::before").content,
-      emptyMask: getComputedStyle(headerClose, "::before").maskImage,
-      positions: ["svg-close", "header-close", "legacy-close"].map(readPosition),
+      positions: ["svg-close", "header-close"].map(readPosition),
+      prevPosition: getComputedStyle(document.getElementById("prev-button")).position,
       svgContent: getComputedStyle(svgClose, "::before").content,
       svgCount: svgClose.querySelectorAll("svg").length,
     };
@@ -1709,23 +1972,22 @@ test("dialog close controls keep canonical positioning and the legacy icon fallb
 
   expect(result.positions[0]).toEqual({ height: "32px", position: "absolute", right: "12px", top: "12px", width: "32px" });
   expect(result.positions[1]).toEqual(result.positions[0]);
-  expect(result.positions[2]).toEqual(result.positions[0]);
   expect(result.svgCount).toBe(1);
   expect(result.svgContent).toBe("none");
-  expect(result.emptyContent).toBe('\"\"');
-  expect(result.emptyMask).toContain("data:image/svg+xml");
+  // No generated fallback icon, and rel="prev" is no longer a close hook.
+  expect(result.emptyContent).toBe("none");
+  expect(result.prevPosition).toBe("static");
 });
 
-test("direct and legacy dialog content scroll within the viewport max-height", async ({ page }) => {
+test("dialog content scrolls within the viewport max-height", async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 400 });
   await page.goto("/components/");
 
   const metrics = await page.evaluate(() => {
     document.body.innerHTML = `
-      <dialog id="direct-scroll" open aria-label="Direct scrolling dialog"><header><strong>Title</strong></header><div style="height: 50rem">Tall body</div></dialog>
-      <dialog id="legacy-scroll" open aria-label="Legacy scrolling dialog"><article><header><strong>Title</strong></header><div style="height: 50rem">Tall body</div></article></dialog>`;
+      <dialog id="direct-scroll" open aria-label="Direct scrolling dialog"><header><strong>Title</strong></header><div style="height: 50rem">Tall body</div></dialog>`;
     document.querySelectorAll("dialog").forEach((dialog) => dialog.getAnimations().forEach((animation) => animation.finish()));
-    return [document.getElementById("direct-scroll"), document.getElementById("legacy-scroll")].map((dialog) => {
+    return [document.getElementById("direct-scroll")].map((dialog) => {
       const style = getComputedStyle(dialog);
       return {
         clientHeight: dialog.clientHeight,
@@ -1768,8 +2030,8 @@ test("card spacing follows root scale and card-level token overrides", async ({ 
   });
 
   expect(spacing).toEqual({
-    fromCardTokens: { footerGap: "12px", headerGap: "12px", padding: "20px" },
-    fromRootScale: { footerGap: "20px", headerGap: "20px", padding: "20px" },
+    fromCardTokens: { footerGap: "12px", headerGap: "12px", padding: "20px 20px 0px" },
+    fromRootScale: { footerGap: "20px", headerGap: "20px", padding: "20px 20px 0px" },
   });
 });
 
@@ -1862,7 +2124,7 @@ test("article.plain opts out of card surfaces and compact content flow without c
     borderRadius: "10px",
     borderWidth: "2px",
     color: "rgb(20, 30, 40)",
-    padding: "24px",
+    padding: "24px 24px 0px",
   });
   expect(result.card.surface.boxShadow).not.toBe("none");
   expect(result.card.flow).toMatchObject({
@@ -1944,6 +2206,53 @@ test("article.plain does not acquire nested, grid, linked-card, hover, or loadin
   expect(cardHoverBorder).not.toBe(beforeHover.linkedCardBorder);
   expect(plainHover.linkedPlain).toEqual(beforeHover.linkedPlain);
   expect(beforeHover.busy).toEqual({ card: "128px", plain: "0px" });
+});
+
+test("busy spinners stay inline in text buttons and centered in icon-only buttons", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    const icon = '<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>';
+    document.body.innerHTML = `
+      <main style="width: 480px">
+        <button id="text" aria-busy="true">Saving</button>
+        <button id="text-icon" aria-busy="true">${icon}Save</button>
+        <button id="icon-only" class="icon" aria-busy="true" aria-label="Refresh">${icon}</button>
+        <button id="empty" aria-busy="true" aria-label="Refresh"></button>
+        <form><button id="full" class="w-full" type="submit" aria-busy="true">Sign in</button></form>
+        <article id="card" aria-busy="true"></article>
+      </main>`;
+  });
+
+  const result = await page.evaluate(() => Object.fromEntries(["text", "text-icon", "icon-only", "empty", "full", "card"].map((id) => {
+    const element = document.getElementById(id);
+    const spinner = getComputedStyle(element, "::before");
+    const box = element.getBoundingClientRect();
+    const svg = element.querySelector("svg");
+    return [id, {
+      margin: [spinner.marginTop, spinner.marginRight, spinner.marginBottom, spinner.marginLeft],
+      width: spinner.width,
+      animationName: spinner.animationName,
+      paddingInline: getComputedStyle(element).paddingLeft === getComputedStyle(element).paddingRight,
+      svgDisplay: svg ? getComputedStyle(svg).display : null,
+      buttonWidth: box.width,
+    }];
+  })));
+
+  for (const id of ["text", "text-icon", "full"]) {
+    expect(result[id].margin).toEqual(["0px", "0px", "0px", "0px"]);
+  }
+  expect(result["text-icon"].svgDisplay).not.toBe("none");
+  for (const id of ["icon-only", "empty"]) {
+    expect(result[id].margin).toEqual(["0px", "0px", "0px", "0px"]);
+    expect(result[id].width).toBe(result.text.width);
+    expect(result[id].paddingInline).toBe(true);
+  }
+  expect(result["icon-only"].svgDisplay).toBe("none");
+  expect(result.full.buttonWidth).toBe(480);
+  expect(result.card.margin[1]).toBe(result.card.margin[3]);
+  expect(Number.parseFloat(result.card.margin[1])).toBeGreaterThan(0);
+  expect(Number.parseFloat(result.card.width)).toBeGreaterThan(Number.parseFloat(result.text.width));
+  for (const id of Object.keys(result)) expect(result[id].animationName).toBe("daft-spin");
 });
 
 test("popover surfaces follow cards by default and retain an independent override", async ({ page }) => {
@@ -2215,6 +2524,7 @@ for (const mode of [
       return {
         after,
         backdrop: getComputedStyle(element, "::backdrop").backgroundColor,
+        backdropFilter: getComputedStyle(element, "::backdrop").backdropFilter,
         before,
         display: sidebarStyle.display,
         flexDirection: sidebarStyle.flexDirection,
@@ -2243,6 +2553,9 @@ for (const mode of [
       sidebarScrollable: false,
     });
     expect(shell.backdrop).not.toBe("rgba(0, 0, 0, 0)");
+    // The drawer shares the dialog overlay and blur.
+    expect(shell.backdrop).toMatch(/^(?:oklch\(0%? 0 0 \/ 0\.1\)|rgba\(0, 0, 0, 0\.1\))$/);
+    expect(shell.backdropFilter).toBe("blur(4px)");
     expect(shell.navScrollTop).toBeGreaterThan(0);
     expect(shell.after).toEqual(shell.before);
     expect(openContent).toEqual(initialContent);
@@ -2264,7 +2577,7 @@ for (const mode of [
   });
 }
 
-test("sidebar links provide adaptive hover and current-page states", async ({ page }) => {
+test("sidebar links use compact rows and share the accent hover and current-page state", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/components/");
 
@@ -2273,10 +2586,13 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
       document.documentElement.dataset.theme = value;
       document.body.innerHTML = `
         <aside class="sidebar"><nav><ul>
+          <li class="label" id="first-label">Workspace</li>
           <li><a href="#current" aria-current="page">Current page</a></li>
           <li><a href="#inactive">Inactive page</a></li>
           <li><a href="#false" aria-current="false">False current page</a></li>
-        </ul></nav></aside>`;
+          <li class="label" id="second-label">Account</li>
+        </ul></nav></aside>
+        <span id="accent-probe" style="color: var(--accent-foreground); background-color: var(--accent)">Accent</span>`;
     }, theme);
 
     const states = await page.evaluate(() => {
@@ -2284,39 +2600,57 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
       const current = document.querySelector('a[href="#current"]');
       const inactive = document.querySelector('a[href="#inactive"]');
       const falseCurrent = document.querySelector('a[href="#false"]');
+      const accent = getComputedStyle(document.getElementById("accent-probe"));
       const sidebarRect = sidebar.getBoundingClientRect();
       const inactiveRect = inactive.getBoundingClientRect();
       const sidebarStyle = getComputedStyle(sidebar);
       const sidebarContentRight = sidebarRect.right - Number.parseFloat(sidebarStyle.borderRightWidth);
+      const label = (id) => {
+        const element = document.getElementById(id);
+        const style = getComputedStyle(element);
+        return { fontSize: style.fontSize, height: element.getBoundingClientRect().height, marginTop: style.marginTop };
+      };
       return {
+        accent: { background: accent.backgroundColor, color: accent.color },
         sidebarBackground: getComputedStyle(sidebar).backgroundColor,
-        inactiveColor: getComputedStyle(inactive).color,
         current: {
           background: getComputedStyle(current).backgroundColor,
           color: getComputedStyle(current).color,
           fontWeight: getComputedStyle(current).fontWeight,
         },
+        inactiveWeight: getComputedStyle(inactive).fontWeight,
         falseCurrentBackground: getComputedStyle(falseCurrent).backgroundColor,
+        labels: { first: label("first-label"), second: label("second-label") },
         geometry: {
           borderRadius: getComputedStyle(inactive).borderRadius,
+          height: inactiveRect.height,
           paddingLeft: getComputedStyle(inactive).paddingLeft,
           paddingRight: getComputedStyle(inactive).paddingRight,
           leftInset: inactiveRect.left - sidebarRect.left,
           rightInset: sidebarContentRight - inactiveRect.right,
+          rowGap: inactiveRect.top - current.getBoundingClientRect().bottom,
         },
       };
     });
 
-    expect(states.current.background).not.toBe(states.sidebarBackground);
-    expect(states.current.color).toBe(states.inactiveColor);
-    expect(states.current.fontWeight).toBe("600");
+    expect(states.sidebarBackground).not.toBe(states.accent.background);
+    expect(states.current.background).toBe(states.accent.background);
+    expect(states.current.color).toBe(states.accent.color);
+    expect(states.current.fontWeight).toBe("500");
+    expect(states.inactiveWeight).toBe("400");
     expect(states.falseCurrentBackground).toBe("rgba(0, 0, 0, 0)");
+    expect(states.labels).toEqual({
+      first: { fontSize: "12px", height: 32, marginTop: "0px" },
+      second: { fontSize: "12px", height: 32, marginTop: "16px" },
+    });
     expect(states.geometry).toEqual({
       borderRadius: "6px",
+      height: 32,
       paddingLeft: "8px",
       paddingRight: "8px",
-      leftInset: 16,
-      rightInset: 16,
+      leftInset: 8,
+      rightInset: 8,
+      rowGap: 0,
     });
 
     await page.locator('a[href="#inactive"]').hover();
@@ -2325,9 +2659,8 @@ test("sidebar links provide adaptive hover and current-page states", async ({ pa
       const style = getComputedStyle(element);
       return { background: style.backgroundColor, color: style.color, textDecoration: style.textDecorationLine };
     });
-    expect(hover.background).not.toBe(states.sidebarBackground);
-    expect(hover.background).not.toBe(states.current.background);
-    expect(hover.color).toBe(states.inactiveColor);
+    expect(hover.background).toBe(states.accent.background);
+    expect(hover.color).toBe(states.accent.color);
     expect(hover.textDecoration).toBe("none");
   }
 });
@@ -2414,24 +2747,26 @@ test("responsive top navigation returns to the desktop bar across a resize", asy
   expect(closedDesktop).toEqual({ open: false, position: "static" });
 });
 
-test("canonical and legacy breadcrumbs retain their trail styling and keyboard focus", async ({ page }) => {
+test("an ordered list inside a nav is a breadcrumb trail with keyboard focus, whatever its label", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/components/");
   await page.evaluate(() => {
     document.body.innerHTML = `
       <main>
-        <nav id="canonical" aria-label="BREADCRUMB">
-          <ul id="canonical-list">
+        <nav id="canonical" aria-label="Brotkrumenpfad">
+          <ol id="canonical-list">
             <li><a id="canonical-home" href="#home">Home</a></li>
             <li><a id="canonical-services" href="#services">Services</a></li>
             <li id="canonical-current">Current</li>
-          </ul>
+          </ol>
         </nav>
-        <ul id="legacy" aria-label="Breadcrumb">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li id="legacy-current">Current</li>
-        </ul>
+        <nav id="english" aria-label="Breadcrumb">
+          <ol id="english-list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li>Current</li>
+          </ol>
+        </nav>
       </main>`;
   });
 
@@ -2452,16 +2787,16 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
       };
     };
     const canonical = document.getElementById("canonical");
-    const canonicalList = canonical.querySelector("ul");
+    const canonicalList = canonical.querySelector("ol");
     const canonicalBreadcrumb = read("canonical-list");
-    const legacyBreadcrumb = read("legacy");
+    const englishBreadcrumb = read("english-list");
     const probe = document.createElement("span");
     probe.style.color = "var(--foreground)";
     document.body.append(probe);
     const dividerBeforeOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
     canonical.style.setProperty("--breadcrumb-divider", '"/"');
     const dividerAfterOverride = getComputedStyle(canonicalList.firstElementChild, "::after").content;
-    legacy.style.setProperty("--breadcrumb-divider", '"/"');
+    document.getElementById("english").style.setProperty("--breadcrumb-divider", '"/"');
     const readDividerSpacing = (list) => {
       const firstItem = list.firstElementChild;
       const divider = getComputedStyle(firstItem, "::after");
@@ -2482,10 +2817,10 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
       dividerAfterOverride,
       dividerBeforeOverride,
       foreground: getComputedStyle(probe).color,
-      legacy: legacyBreadcrumb,
+      english: englishBreadcrumb,
       spacing: {
         canonical: readDividerSpacing(canonicalList),
-        legacy: readDividerSpacing(document.getElementById("legacy")),
+        english: readDividerSpacing(document.getElementById("english-list")),
       },
     };
   });
@@ -2497,7 +2832,7 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
     listStyle: "none",
     padding: "0px",
   });
-  expect(breadcrumbs.legacy).toEqual(breadcrumbs.canonical);
+  expect(breadcrumbs.english).toEqual(breadcrumbs.canonical);
   expect(breadcrumbs.dividerBeforeOverride).toContain("›");
   expect(breadcrumbs.dividerAfterOverride).toContain("/");
   expect(breadcrumbs.canonical.current).toEqual({
@@ -2513,7 +2848,7 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
       paddingInlineStart: "8px",
     });
   }
-  expect(breadcrumbs.spacing.legacy).toEqual(breadcrumbs.spacing.canonical);
+  expect(breadcrumbs.spacing.english).toEqual(breadcrumbs.spacing.canonical);
 
   const focusability = await page.locator("#canonical-home").evaluate((link) => link.tabIndex);
   expect(focusability).toBe(0);
@@ -2521,6 +2856,146 @@ test("canonical and legacy breadcrumbs retain their trail styling and keyboard f
   await expect(page.locator("#canonical-home")).toBeFocused();
   await expect(page.locator("#canonical-home")).toHaveCSS("outline-style", "solid");
   await expect(page.locator("#canonical-home")).toHaveCSS("outline-width", "2px");
+});
+
+test("breadcrumb label matching and bare breadcrumb lists are no longer hooks", async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
+  await page.goto("/components/");
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <ul id="bare" aria-label="Breadcrumb">
+          <li><a href="#home">Home</a></li>
+          <li>Current</li>
+        </ul>
+        <nav id="labelled" aria-label="breadcrumb">
+          <ul id="labelled-list">
+            <li><a href="#home">Home</a></li>
+            <li>Current</li>
+          </ul>
+        </nav>
+        <nav id="ordinary" aria-label="Primary"><ul><li><a href="#a">A</a></li></ul></nav>
+      </main>`;
+    const readList = (id) => {
+      const list = document.getElementById(id);
+      return {
+        display: getComputedStyle(list).display,
+        divider: getComputedStyle(list.firstElementChild, "::after").content,
+        listStyle: getComputedStyle(list).listStyleType,
+      };
+    };
+    const readNav = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { display: style.display, paddingBlock: style.paddingBlock };
+    };
+    return {
+      bare: readList("bare"),
+      labelled: readList("labelled-list"),
+      labelledNav: readNav("labelled"),
+      ordinaryNav: readNav("ordinary"),
+    };
+  });
+
+  // A bare list keeps prose list styling; a labelled nav > ul is an ordinary nav bar.
+  expect(result.bare).toMatchObject({ display: "block", divider: "none", listStyle: "disc" });
+  expect(result.labelled).toMatchObject({ display: "flex", divider: "none", listStyle: "none" });
+  expect(result.labelledNav).toEqual(result.ordinaryNav);
+  expect(result.labelledNav.display).toBe("flex");
+});
+
+test("current navigation and sidebar links use the accent state without leaking into breadcrumbs or trees", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+
+  const states = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      <aside class="sidebar" aria-label="Workspace navigation">
+        <nav aria-label="Workspace"><ul>
+          <li><a id="sidebar-current" href="#a" aria-current="page">Overview</a></li>
+          <li><a href="#b">Settings</a></li>
+        </ul></nav>
+      </aside>
+      <main>
+        <nav aria-label="Primary"><div class="container"><ul>
+          <li><a id="nav-current" href="#docs" aria-current="page">Docs</a></li>
+          <li><a id="nav-sibling" href="#blog">Blog</a></li>
+          <li><a id="nav-false" href="#about" aria-current="false">About</a></li>
+          <li><a id="nav-empty" href="#team" aria-current="">Team</a></li>
+          <li><a id="nav-button-current" class="button ghost" href="#app" aria-current="page">App</a></li>
+        </ul></div></nav>
+        <nav class="justify-center" aria-label="Pagination"><ul>
+          <li><a href="?page=1">1</a></li>
+          <li><a id="page-current" href="?page=2" aria-current="page">2</a></li>
+        </ul></nav>
+        <nav aria-label="Breadcrumb"><ol>
+          <li><a href="#home">Home</a></li>
+          <li><a id="crumb-current" href="#here" aria-current="page">Here</a></li>
+        </ol></nav>
+        <nav aria-label="Files"><ul class="tree">
+          <li><a id="tree-current" href="#file" aria-current="page">file.css</a></li>
+          <li><a id="tree-active" class="active" href="#other">other.css</a></li>
+          <li><a id="tree-false" href="#third" aria-current="false">third.css</a></li>
+          <li><a id="tree-empty" href="#fifth" aria-current="">fifth.css</a></li>
+          <li><a id="tree-plain" href="#fourth">fourth.css</a></li>
+        </ul></nav>
+        <a id="button-current" class="button outline" href="#x" aria-current="page">Current</a>
+        <a id="button-false" class="button outline" href="#y" aria-current="false">Not current</a>
+        <a id="button-empty" class="button outline" href="#w" aria-current="">Empty current</a>
+        <a id="button-plain" class="button outline" href="#z">Plain</a>
+        <span id="accent-probe" style="color: var(--accent-foreground); background-color: var(--accent)">Accent</span>
+        <span id="primary-probe" style="color: var(--primary-foreground); background-color: var(--primary)">Primary</span>
+      </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { background: style.backgroundColor, color: style.color };
+    };
+    return {
+      accent: read("accent-probe"),
+      buttonCurrent: read("button-current"),
+      buttonEmpty: read("button-empty"),
+      buttonFalse: read("button-false"),
+      buttonPlain: read("button-plain"),
+      crumbCurrent: read("crumb-current"),
+      navButtonCurrent: read("nav-button-current"),
+      navCurrent: read("nav-current"),
+      navEmpty: read("nav-empty"),
+      navFalse: read("nav-false"),
+      navSibling: read("nav-sibling"),
+      pageCurrent: read("page-current"),
+      primary: read("primary-probe"),
+      sidebarCurrent: {
+        ...read("sidebar-current"),
+        fontWeight: getComputedStyle(document.getElementById("sidebar-current")).fontWeight,
+      },
+      treeActive: read("tree-active"),
+      treeCurrent: read("tree-current"),
+      treeEmpty: read("tree-empty"),
+      treeFalse: read("tree-false"),
+      treePlain: read("tree-plain"),
+    };
+  });
+
+  const transparent = "rgba(0, 0, 0, 0)";
+  expect(states.navCurrent).toEqual(states.accent);
+  expect(states.pageCurrent).toEqual(states.accent);
+  expect(states.navSibling.background).toBe(transparent);
+  expect(states.navFalse).toEqual(states.navSibling);
+  // ARIA treats an empty aria-current like "false".
+  expect(states.navEmpty).toEqual(states.navSibling);
+  expect(states.crumbCurrent.background).toBe(transparent);
+  expect(states.treeCurrent.background).not.toBe(states.accent.background);
+  expect(states.treeCurrent.background).not.toBe(states.treePlain.background);
+  // aria-current is the only tree current-state hook; .active is plain.
+  expect(states.treeActive).toEqual(states.treePlain);
+  expect(states.treeFalse).toEqual(states.treePlain);
+  expect(states.treeEmpty).toEqual(states.treePlain);
+  expect(states.sidebarCurrent).toEqual({ ...states.accent, fontWeight: "500" });
+  expect(states.buttonCurrent).toEqual(states.primary);
+  expect(states.navButtonCurrent).toEqual(states.primary);
+  expect(states.buttonFalse).toEqual(states.buttonPlain);
+  expect(states.buttonEmpty).toEqual(states.buttonPlain);
+  expect(states.buttonFalse.background).not.toBe(states.primary.background);
 });
 
 test("SVG defaults preserve inline alignment and canonical navigation icon composition", async ({ page }) => {
@@ -2800,6 +3275,32 @@ test("custom slide ratios retain proportional screen and print sizing", async ({
   expect(print.padding).toBeCloseTo(print.contentWidth * 0.05, 1);
 });
 
+test("slide page size applies only to decks when printing", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "page.pdf is Chromium-only");
+
+  async function firstPageSize(route, setup) {
+    await page.goto(route);
+    if (setup) await page.evaluate(setup);
+    const pdf = (await page.pdf({ preferCSSPageSize: true })).toString("latin1");
+    const [, x0, y0, x1, y1] = pdf.match(/\/MediaBox\s*\[\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\]/);
+    return { width: Number(x1) - Number(x0), height: Number(y1) - Number(y0) };
+  }
+
+  const deck = await firstPageSize("/slides/");
+  expect(deck.width).toBeCloseTo(16 * 72, 0);
+  expect(deck.height).toBeCloseTo(9 * 72, 0);
+
+  const customDeck = await firstPageSize("/slides/", () => {
+    document.documentElement.style.setProperty("--slide-width", "4");
+    document.documentElement.style.setProperty("--slide-height", "3");
+  });
+  expect(customDeck.width).toBeCloseTo(4 * 72, 0);
+  expect(customDeck.height).toBeCloseTo(3 * 72, 0);
+
+  const docs = await firstPageSize("/components/");
+  expect(docs.height).toBeGreaterThan(docs.width);
+});
+
 /* Regressions found by building four realistic pages against the framework
    with zero custom CSS (see examples/agent-evals/FINDINGS.md). Each of these
    shipped as a silent defect that the rest of the suite could not see. */
@@ -2866,6 +3367,107 @@ test("table small text remains subordinate without utility classes", async ({ pa
   expect(typography.smallSize).toBe("12px");
   expect(typography.smallLineHeight).toBe("15px");
   expect(typography.smallColor).toBe(typography.mutedColor);
+});
+
+test("mark renders a visible highlight tint with AA text contrast in both themes", async ({ page }) => {
+  await page.goto("/components/");
+  await page.evaluate(() => {
+    document.body.innerHTML = `<p>Price <mark id="mark">Save 14%</mark></p>`;
+  });
+
+  for (const theme of ["light", "dark"]) {
+    const result = await page.evaluate((theme) => {
+      document.documentElement.dataset.theme = theme;
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      const paint = (...colors) => {
+        context.clearRect(0, 0, 1, 1);
+        for (const color of colors) {
+          context.fillStyle = color;
+          context.fillRect(0, 0, 1, 1);
+        }
+        return [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+      };
+      const mark = getComputedStyle(document.getElementById("mark"));
+      const page = getComputedStyle(document.body).backgroundColor;
+      return { page: paint(page), mark: paint(page, mark.backgroundColor), text: paint(page, mark.color) };
+    }, theme);
+
+    const luminance = (rgb) => {
+      const [r, g, b] = rgb.map((channel) => {
+        const value = channel / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contrast = (a, b) => {
+      const [high, low] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (high + 0.05) / (low + 0.05);
+    };
+    const [red, , blue] = result.mark;
+    expect(red - blue, `${theme} mark is tinted`).toBeGreaterThan(25);
+    expect(contrast(result.mark, result.page), `${theme} mark separates from page`).toBeGreaterThan(1.15);
+    expect(contrast(result.mark, result.text), `${theme} mark text contrast`).toBeGreaterThanOrEqual(4.5);
+  }
+});
+
+test("small stays inline in prose and becomes block helper text only after form controls", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <span id="muted" class="muted">Muted reference</span>
+      <p><strong>$49</strong> <small id="inline">/month</small></p>
+      <input id="bare-input" type="text"><small id="after-input">Helper</small>
+      <label>Email <input type="email"></label><small id="after-label">Helper</small>
+      <label>Name <small id="in-label">Nested hint</small></label>
+      <label for="ok">Username</label>
+      <input id="ok" type="text" aria-invalid="false"><small id="valid">Available</small>
+      <label for="bad">Code</label>
+      <input id="bad" type="text" aria-invalid="true"><small id="invalid">Fix this</small>
+      <label>Email <input type="email" aria-invalid="true"></label><small id="wrapped-invalid">Invalid</small>
+      <article><header><h3>Card</h3><small id="card">Subtitle</small></header></article>`;
+    const style = (id) => getComputedStyle(document.getElementById(id));
+    const pick = (id) => ({ display: style(id).display, marginTop: style(id).marginTop, color: style(id).color });
+    const probe = document.createElement("span");
+    document.body.append(probe);
+    probe.style.color = "var(--destructive)";
+    const destructive = getComputedStyle(probe).color;
+    probe.style.color = "var(--primary)";
+    const primary = getComputedStyle(probe).color;
+    const inline = document.getElementById("inline").getBoundingClientRect();
+    const strong = document.querySelector("p strong").getBoundingClientRect();
+    return {
+      muted: style("muted").color,
+      destructive,
+      primary,
+      sameLine: Math.abs(inline.bottom - strong.bottom) < strong.height,
+      inline: pick("inline"),
+      afterInput: pick("after-input"),
+      afterLabel: pick("after-label"),
+      inLabel: pick("in-label"),
+      valid: pick("valid"),
+      invalid: pick("invalid"),
+      wrappedInvalid: pick("wrapped-invalid"),
+      card: pick("card"),
+    };
+  });
+
+  expect(result.inline.display).toBe("inline");
+  expect(result.inline.color).toBe(result.muted);
+  expect(result.sameLine).toBe(true);
+
+  for (const helper of [result.afterInput, result.afterLabel, result.inLabel]) {
+    expect(helper.display).toBe("block");
+    expect(parseFloat(helper.marginTop)).toBeGreaterThan(0);
+    expect(helper.color).toBe(result.muted);
+  }
+
+  expect(result.valid.color).toBe(result.muted);
+  expect(result.invalid.color).toBe(result.destructive);
+  expect(result.wrappedInvalid.color).toBe(result.destructive);
+  expect(result.card.color).toBe(result.muted);
 });
 
 test("stack owns direct-child spacing without flattening nested content", async ({ page }) => {
@@ -3001,6 +3603,7 @@ test("badge variants share each button static color recipe in light and dark the
           return `<span class="badge${variant === "primary" ? "" : ` ${variant}`}" id="badge-${theme}-${variant}">${variant}</span>
             <button type="button"${className} id="button-${theme}-${variant}">${variant}</button>`;
         }).join("")}
+        <span id="border-${theme}" style="color: var(--border)"></span>
       </section>`).join("");
 
     const read = (id) => {
@@ -3014,30 +3617,33 @@ test("badge variants share each button static color recipe in light and dark the
       };
     };
 
-    return Object.fromEntries(themes.map((theme) => [theme, Object.fromEntries(variants.map((variant) => [
-      variant,
-      { badge: read(`badge-${theme}-${variant}`), button: read(`button-${theme}-${variant}`) },
-    ]))]));
+    return Object.fromEntries(themes.map((theme) => [theme, {
+      border: getComputedStyle(document.getElementById(`border-${theme}`)).color,
+      variants: Object.fromEntries(variants.map((variant) => [
+        variant,
+        { badge: read(`badge-${theme}-${variant}`), button: read(`button-${theme}-${variant}`) },
+      ])),
+    }]));
   });
 
-  for (const [theme, variants] of Object.entries(stylesByTheme)) {
+  for (const [theme, { border, variants }] of Object.entries(stylesByTheme)) {
     for (const [variant, styles] of Object.entries(variants)) {
-      expect(styles.badge, `${theme} ${variant} badge recipe`).toEqual(styles.button);
+      // Outline badges keep the text and border recipe without the button's surface fill.
+      const expected = variant === "outline"
+        ? { ...styles.button, background: "rgba(0, 0, 0, 0)", borderColor: border }
+        : styles.button;
+      expect(styles.badge, `${theme} ${variant} badge recipe`).toEqual(expected);
     }
   }
 });
 
-test("deprecated badge classes map safely onto the canonical API", async ({ page }) => {
+test("badges have one size: size and link classes do not change a badge", async ({ page }) => {
   await loadCoreBadgeSource(page);
 
   const styles = await page.evaluate(() => {
     document.body.innerHTML = `
-      <main style="--success: rgb(1 101 1); --warning: rgb(202 102 2)">
+      <main>
         <span class="badge" id="default">Default</span>
-        <span class="badge outline" id="outline">Outline</span>
-        <span class="badge secondary" id="secondary">Secondary</span>
-        <span class="badge success" id="success">Success</span>
-        <span class="badge warning" id="warning">Warning</span>
         <span class="badge small" id="small">Small</span>
         <span class="badge large" id="large">Large</span>
         <span class="badge link" id="link">Link</span>
@@ -3056,13 +3662,119 @@ test("deprecated badge classes map safely onto the canonical API", async ({ page
         textDecoration: style.textDecorationLine,
       };
     };
-    return Object.fromEntries(["default", "outline", "secondary", "success", "warning", "small", "large", "link"].map((id) => [id, read(id)]));
+    return Object.fromEntries(["default", "small", "large", "link"].map((id) => [id, read(id)]));
   });
 
-  expect(styles.success).toEqual(styles.outline);
-  expect(styles.warning).toEqual(styles.secondary);
   for (const variant of ["small", "large", "link"]) {
     expect(styles[variant], `.badge.${variant}`).toEqual(styles.default);
+  }
+});
+
+test("success, warning, and destructive badges share one tinted tone recipe from their tokens", async ({ page }) => {
+  await page.goto("/components/");
+  const byTheme = await page.evaluate(() => {
+    const tones = ["destructive", "success", "warning"];
+    const themes = ["light", "dark"];
+    document.body.innerHTML = themes.map((theme) => `
+      <main data-theme="${theme}" style="--success: rgb(1 101 1); --warning: rgb(202 102 2)">
+        ${tones.map((tone) => `
+          <span class="badge ${tone}" id="${theme}-${tone}">${tone}</span>
+          <span id="${theme}-${tone}-probe" style="color: color-mix(in oklab, var(--${tone}) 70%, var(--foreground)); background-color: color-mix(in oklch, var(--${tone}) ${theme === "light" ? 10 : 20}%, transparent)"></span>`).join("")}
+        <span class="badge secondary" id="${theme}-secondary">Secondary</span>
+        <span class="badge outline" id="${theme}-outline">Outline</span>
+        <span id="${theme}-foreground" style="color: var(--foreground)"></span>
+      </main>`).join("");
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { background: style.backgroundColor, color: style.color };
+    };
+    return Object.fromEntries(themes.map((theme) => [theme, {
+      foreground: read(`${theme}-foreground`).color,
+      outline: read(`${theme}-outline`),
+      secondary: read(`${theme}-secondary`),
+      tones: Object.fromEntries(tones.map((tone) => [tone, { badge: read(`${theme}-${tone}`), probe: read(`${theme}-${tone}-probe`) }])),
+    }]));
+  });
+
+  for (const [theme, { foreground, outline, secondary, tones }] of Object.entries(byTheme)) {
+    for (const [tone, { badge, probe }] of Object.entries(tones)) {
+      expect(badge, `${theme} .badge.${tone}`).toEqual(probe);
+      expect(badge.color, `${theme} .badge.${tone} text`).not.toBe(foreground);
+      expect(badge.background).not.toBe(secondary.background);
+      expect(badge.background).not.toBe(outline.background);
+      expect(badge.background).not.toBe("rgba(0, 0, 0, 0)");
+    }
+  }
+  expect(byTheme.light.tones.success.badge.background).not.toBe(byTheme.dark.tones.success.badge.background);
+});
+
+test("success and warning are badge and alert tones only, never half-applied to buttons", async ({ page }) => {
+  await page.goto("/components/");
+  const styles = await page.evaluate(() => {
+    document.head.insertAdjacentHTML("beforeend", "<style>*{transition:none!important}</style>");
+    document.body.innerHTML = `<main>
+      <button type="button" id="plain">Plain</button>
+      <button type="button" class="success" id="success">Success</button>
+      <button type="button" class="warning" id="warning">Warning</button>
+      <button type="button" class="outline success" id="outline-success">Outline</button>
+      <button type="button" class="outline" id="outline">Outline</button>
+    </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { background: style.backgroundColor, border: style.borderTopColor, color: style.color };
+    };
+    return Object.fromEntries(["plain", "success", "warning", "outline-success", "outline"].map((id) => [id, read(id)]));
+  });
+
+  expect(styles.success).toEqual(styles.plain);
+  expect(styles.warning).toEqual(styles.plain);
+  expect(styles["outline-success"]).toEqual(styles.outline);
+});
+
+test("status tones tint polite and assertive messages while plain status stays neutral", async ({ page }) => {
+  await page.goto("/components/");
+  const byTheme = await page.evaluate(() => {
+    const themes = ["light", "dark"];
+    const cases = [
+      ["status-neutral", "status", ""],
+      ["status-success", "status", "success"],
+      ["status-warning", "status", "warning"],
+      ["alert-destructive", "alert", ""],
+      ["alert-warning", "alert", "warning"],
+    ];
+    const toneOf = (role, tone) => tone || (role === "alert" ? "destructive" : "");
+    document.body.innerHTML = themes.map((theme) => `
+      <main data-theme="${theme}">
+        ${cases.map(([id, role, tone]) => `
+          <div role="${role}" class="${tone}" id="${theme}-${id}"><strong>Title</strong><p>Body</p></div>
+          ${toneOf(role, tone) ? `<span id="${theme}-${id}-probe" style="color: color-mix(in oklab, var(--${toneOf(role, tone)}) 70%, var(--foreground)); background-color: color-mix(in oklab, var(--${toneOf(role, tone)}) ${theme === "light" ? 12 : 20}%, var(--background))"></span>` : ""}`).join("")}
+        <span id="${theme}-muted-foreground" style="color: var(--muted-foreground)"></span>
+      </main>`).join("");
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const probe = document.getElementById(`${id}-probe`);
+      return {
+        background: getComputedStyle(element).backgroundColor,
+        body: getComputedStyle(element.querySelector("p")).color,
+        probe: probe && { background: getComputedStyle(probe).backgroundColor, color: getComputedStyle(probe).color },
+        title: getComputedStyle(element.querySelector("strong")).color,
+      };
+    };
+    return Object.fromEntries(themes.map((theme) => [theme, {
+      cases: Object.fromEntries(cases.map(([id]) => [id, read(`${theme}-${id}`)])),
+      mutedForeground: getComputedStyle(document.getElementById(`${theme}-muted-foreground`)).color,
+    }]));
+  });
+
+  for (const [theme, { cases, mutedForeground }] of Object.entries(byTheme)) {
+    expect(cases["status-neutral"].body, `${theme} neutral status body`).toBe(mutedForeground);
+    for (const id of ["status-success", "status-warning", "alert-destructive", "alert-warning"]) {
+      const state = cases[id];
+      expect(state.background, `${theme} ${id} surface`).toBe(state.probe.background);
+      expect(state.title, `${theme} ${id} title`).toBe(state.probe.color);
+      expect(state.body, `${theme} ${id} body`).toBe(state.probe.color);
+      expect(state.background).not.toBe(cases["status-neutral"].background);
+    }
   }
 });
 
@@ -3151,7 +3863,77 @@ test(".grow lets a truncating cell shrink instead of forcing a cluster to wrap",
   expect(rows.grownHeight).toBeLessThan(rows.plainHeight);
 });
 
-test("line-height positioned controls keep a line box that can hold their glyphs", async ({ page }) => {
+test("avatars use a quiet ringed fallback at 24, 32, and 40px with images filling the circle", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <span class="avatar small" id="small">SM</span>
+      <span class="avatar" id="default">MD</span>
+      <span class="avatar large" id="large">LG</span>
+      <span class="avatar large" id="photo"><img alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></span>
+      <span id="probe" style="color: var(--muted-foreground); outline-color: var(--border)">Probe</span>`;
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return { fontSize: style.fontSize, height: rect.height, width: rect.width };
+    };
+    const avatar = getComputedStyle(document.getElementById("default"));
+    const probe = getComputedStyle(document.getElementById("probe"));
+    const photo = document.getElementById("photo").getBoundingClientRect();
+    const image = document.querySelector("#photo > img").getBoundingClientRect();
+    return {
+      fallback: {
+        color: avatar.color,
+        fontWeight: avatar.fontWeight,
+        outlineColor: avatar.outlineColor,
+        outlineOffset: avatar.outlineOffset,
+        outlineStyle: avatar.outlineStyle,
+        outlineWidth: avatar.outlineWidth,
+      },
+      image: { height: image.height, width: image.width },
+      photo: { height: photo.height, width: photo.width },
+      probe: { color: probe.color, outlineColor: probe.outlineColor },
+      sizes: Object.fromEntries(["small", "default", "large"].map((id) => [id, read(id)])),
+    };
+  });
+
+  expect(result.sizes).toEqual({
+    small: { fontSize: "12px", height: 24, width: 24 },
+    default: { fontSize: "14px", height: 32, width: 32 },
+    large: { fontSize: "14px", height: 40, width: 40 },
+  });
+  expect(result.fallback).toEqual({
+    color: result.probe.color,
+    fontWeight: "400",
+    outlineColor: result.probe.outlineColor,
+    outlineOffset: "-1px",
+    outlineStyle: "solid",
+    outlineWidth: "1px",
+  });
+  expect(result.image).toEqual(result.photo);
+});
+
+test("progress tracks are 4px for determinate, indeterminate, and color variants", async ({ page }) => {
+  await page.goto("/components/");
+
+  const heights = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <progress value="40" max="100"></progress>
+      <progress></progress>
+      ${["accent", "secondary", "success", "warning", "destructive"].map((variant) => `<progress class="${variant}" value="40" max="100"></progress>`).join("")}
+      <label>Upload <progress id="labelled" value="40" max="100"></progress></label>`;
+    return [...document.querySelectorAll("progress")].map((element) => element.getBoundingClientRect().height);
+  });
+
+  expect(heights).toHaveLength(8);
+  for (const height of heights) expect(height).toBe(4);
+});
+
+for (const width of [1280, 375]) {
+test(`line-height positioned controls keep a line box that can hold their glyphs at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 800 });
   await page.goto("/components/");
 
   const controls = await page.evaluate(() => {
@@ -3186,4 +3968,258 @@ test("line-height positioned controls keep a line box that can hold their glyphs
     // The fix must not change control heights.
     expect(control.height, `${control.label} height`).toBe(control.expectedHeight);
   }
+});
+}
+
+test("text fields match button density on desktop and avoid iOS focus zoom on mobile", async ({ page }) => {
+  const readFields = () => page.evaluate(() => {
+    document.body.innerHTML = `
+      <main class="container">
+        <input id="text" value="Release gjpqy">
+        <select id="select"><option>Weekly digest</option></select>
+        <select id="small-select" class="small"><option>Weekly digest</option></select>
+        <textarea id="textarea"></textarea>
+        <div role="group"><span id="addon">https://</span><input aria-label="Site"></div>
+        <div role="group"><input aria-label="Price"><button id="group-button" type="button">Apply</button></div>
+      </main>`;
+    const read = (id) => {
+      const element = document.getElementById(id);
+      const style = getComputedStyle(element);
+      return {
+        fontSize: style.fontSize,
+        height: Math.round(element.getBoundingClientRect().height),
+        padding: style.padding,
+      };
+    };
+    return Object.fromEntries(["text", "select", "small-select", "textarea", "addon", "group-button"].map((id) => [id, read(id)]));
+  });
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+  const desktop = await readFields();
+  expect(desktop.text).toEqual({ fontSize: "14px", height: 32, padding: "4px 10px" });
+  expect(desktop.select).toMatchObject({ fontSize: "14px", height: 32, padding: "4px 32px 4px 10px" });
+  // Size modifiers keep the chevron clearance on selects.
+  expect(desktop["small-select"]).toMatchObject({ height: 28, padding: "4px 32px 4px 8px" });
+  expect(desktop.textarea).toMatchObject({ fontSize: "14px", padding: "8px 10px" });
+  expect(desktop.addon.fontSize).toBe("14px");
+  expect(desktop.text.fontSize).toBe(desktop["group-button"].fontSize);
+
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/components/");
+  const mobile = await readFields();
+  for (const id of ["text", "select", "textarea", "addon"]) {
+    expect(mobile[id].fontSize, `${id} at 375px`).toBe("16px");
+  }
+  expect(mobile.text).toMatchObject({ height: 32, padding: "4px 10px" });
+
+  // Daft's token lives in a layer, so an ordinary unlayered override wins at every width.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+  await page.addStyleTag({ content: ":root { --input-font-size: 18px; }" });
+  const overridden = await readFields();
+  for (const id of ["text", "select", "textarea", "addon"]) {
+    expect(overridden[id].fontSize, `${id} with override`).toBe("18px");
+  }
+});
+
+test("labels use tight leading that still clears wrapped lines", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main>
+        <div><label id="field-label" for="field">Release ID</label><input id="field"></div>
+        <label id="wrapping-label">Email <input id="wrapped-input" type="email"></label>
+        <label id="check-label"><input type="checkbox"> Receive newsletter</label>
+        <label id="helper-label">Name <small>Nested hint</small></label>
+      </main>`;
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { fontSize: style.fontSize, lineHeight: style.lineHeight, marginBottom: style.marginBottom };
+    };
+    const label = document.getElementById("field-label").getBoundingClientRect();
+    const input = document.getElementById("field").getBoundingClientRect();
+    return {
+      check: read("check-label"),
+      field: read("field-label"),
+      gap: input.top - label.bottom,
+      helper: read("helper-label"),
+      wrappedInput: getComputedStyle(document.getElementById("wrapped-input")).lineHeight,
+      wrapping: read("wrapping-label"),
+    };
+  });
+
+  // 1.25 is the tightest token step that keeps wrapped descenders clear of accents.
+  expect(result.field).toEqual({ fontSize: "14px", lineHeight: "17.5px", marginBottom: "8px" });
+  expect(result.gap).toBe(8);
+  for (const label of [result.wrapping, result.check, result.helper]) expect(label.lineHeight).toBe("17.5px");
+  // Controls inside a label keep their own line box.
+  expect(result.wrappedInput).toBe("21px");
+});
+
+test("card and dialog text reads as UI and closing footers become full-bleed bands", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <main style="width: 480px">
+        <p id="prose">Prose paragraph</p>
+        <article id="card">
+          <header><h3>Release readiness</h3><p>One change awaits review.</p></header>
+          <p id="card-body">Review the affected service before publishing.</p>
+          <footer><button type="button" class="outline">Details</button><button type="button">Approve</button></footer>
+        </article>
+        <article id="footer-only"><footer>Only a footer</footer></article>
+        <article id="parent"><p>Parent</p><article id="nested"><p>Nested</p><footer>Nested footer</footer></article></article>
+        <article id="plain" class="plain"><p>Plain</p><footer>Plain footer</footer></article>
+        <div class="grid">
+          <article id="short"><header><strong>Short</strong></header><p>One line.</p><footer><button type="button">Go</button></footer></article>
+          <article id="tall"><header><strong>Tall</strong></header><p>Line</p><p>Line</p><p>Line</p><p>Line</p><footer><button type="button">Go</button></footer></article>
+          <article id="inline"><span id="inline-badge" class="badge">New</span> <button id="inline-button" type="button">Preview</button><footer>Footer</footer></article>
+        </div>
+      </main>
+      <dialog id="dialog" open aria-label="Band dialog">
+        <header><h2>Invite teammate</h2></header>
+        <p id="dialog-body">They will get an email.</p>
+        <footer><button type="button" class="outline">Cancel</button><button type="button">Send</button></footer>
+      </dialog>`;
+
+    const band = (surfaceId) => {
+      const surface = document.getElementById(surfaceId);
+      const footer = surface.querySelector(":scope > footer");
+      const surfaceStyle = getComputedStyle(surface);
+      const footerStyle = getComputedStyle(footer);
+      const surfaceBox = surface.getBoundingClientRect();
+      const footerBox = footer.getBoundingClientRect();
+      const border = parseFloat(surfaceStyle.borderTopWidth);
+      return {
+        background: footerStyle.backgroundColor,
+        borderTopWidth: footerStyle.borderTopWidth,
+        // Rounded: subpixel border snapping differs slightly between engines.
+        bottomDelta: Math.round(surfaceBox.bottom - border - footerBox.bottom) + 0,
+        bottomRadius: [footerStyle.borderBottomLeftRadius, footerStyle.borderBottomRightRadius],
+        leftDelta: Math.round(footerBox.left - (surfaceBox.left + border)) + 0,
+        padding: footerStyle.padding,
+        surfacePaddingBottom: surfaceStyle.paddingBottom,
+        surfaceRadius: parseFloat(surfaceStyle.borderBottomLeftRadius),
+        widthDelta: Math.round(surfaceBox.width - 2 * border - footerBox.width) + 0,
+      };
+    };
+    const type = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { fontSize: style.fontSize, lineHeight: style.lineHeight };
+    };
+    const plainRow = (id) => {
+      const style = getComputedStyle(document.querySelector(`#${id} > footer`));
+      return { background: style.backgroundColor, borderTopWidth: style.borderTopWidth, marginLeft: style.marginLeft };
+    };
+
+    return {
+      card: band("card"),
+      cardBody: type("card-body"),
+      dialog: band("dialog"),
+      gridShort: band("short"),
+      gridTall: band("tall"),
+      inline: (() => {
+        const card = document.getElementById("inline").getBoundingClientRect();
+        const badge = document.getElementById("inline-badge").getBoundingClientRect();
+        const button = document.getElementById("inline-button").getBoundingClientRect();
+        return { badgeNarrow: badge.width < card.width / 2, buttonNarrow: button.width < card.width / 2, display: getComputedStyle(document.getElementById("inline")).display };
+      })(),
+      dialogBody: type("dialog-body"),
+      footerOnly: { ...plainRow("footer-only"), padding: getComputedStyle(document.getElementById("footer-only")).padding },
+      nested: plainRow("nested"),
+      plain: plainRow("plain"),
+      prose: type("prose"),
+    };
+  });
+
+  expect(result.cardBody).toEqual({ fontSize: "14px", lineHeight: "21px" });
+  expect(result.dialogBody).toEqual(result.cardBody);
+  // Prose outside UI surfaces keeps its roomier document leading.
+  expect(result.prose).toEqual({ fontSize: "16px", lineHeight: "28px" });
+
+  // A grid-stretched card pins its band to the bottom instead of floating it.
+  for (const surface of [result.card, result.dialog, result.gridShort, result.gridTall]) {
+    expect(surface).toMatchObject({
+      borderTopWidth: "1px",
+      bottomDelta: 0,
+      leftDelta: 0,
+      padding: "16px",
+      surfacePaddingBottom: "0px",
+      widthDelta: 0,
+    });
+    expect(surface.background).not.toBe("rgba(0, 0, 0, 0)");
+    // The band's corners follow the surface's inner radius rather than overflow clipping.
+    expect(surface.bottomRadius).toEqual(Array(2).fill(`${surface.surfaceRadius - 1}px`));
+  }
+
+  for (const row of [result.footerOnly, result.nested, result.plain]) {
+    expect(row).toMatchObject({ background: "rgba(0, 0, 0, 0)", borderTopWidth: "0px", marginLeft: "0px" });
+  }
+  expect(result.footerOnly.padding).toBe("16px");
+  // Direct inline children keep normal flow instead of a stretched, stacked column.
+  expect(result.inline).toEqual({ badgeNarrow: true, buttonNarrow: true, display: "block" });
+});
+
+test("outline surfaces tint in dark mode, table headers use foreground, and valid fields stay neutral", async ({ page }) => {
+  await page.goto("/components/");
+
+  const result = await page.evaluate(() => {
+    document.body.innerHTML = `
+      <style>* { transition: none !important; }</style>
+      ${["light", "dark"].map((theme) => `
+        <section data-theme="${theme}">
+          <button id="outline-${theme}" type="button" class="outline">Outline</button>
+          <span id="badge-${theme}" class="badge outline">Badge</span>
+          <span id="probe-${theme}" style="color: var(--background); background-color: var(--input); border-color: var(--border)"></span>
+        </section>`).join("")}
+      <table>
+        <thead><tr><th id="column">Service</th><th>Status</th></tr></thead>
+        <tbody><tr><th id="row" scope="row">Checkout API</th><td>Healthy</td></tr></tbody>
+      </table>
+      <input id="valid" aria-invalid="false" value="maya@example.com">
+      <input id="plain" value="maya@example.com">
+      <span id="foreground" style="color: var(--foreground)"></span>`;
+
+    const probe = (theme) => {
+      const style = getComputedStyle(document.getElementById(`probe-${theme}`));
+      return { background: style.color, border: style.borderTopColor, input: style.backgroundColor };
+    };
+    const read = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { background: style.backgroundColor, border: style.borderTopColor };
+    };
+    const cell = (id) => {
+      const style = getComputedStyle(document.getElementById(id));
+      return { color: style.color, fontWeight: style.fontWeight };
+    };
+    return {
+      badges: { dark: read("badge-dark"), light: read("badge-light") },
+      foreground: getComputedStyle(document.getElementById("foreground")).color,
+      headers: { column: cell("column"), row: cell("row") },
+      outline: { dark: read("outline-dark"), light: read("outline-light") },
+      plainField: read("plain"),
+      probes: { dark: probe("dark"), light: probe("light") },
+      validField: { ...read("valid"), boxShadow: getComputedStyle(document.getElementById("valid")).boxShadow },
+    };
+  });
+
+  // Light mode keeps the page-colored outline surface; dark mode swaps it for an input tint.
+  expect(result.outline.light).toEqual({ background: result.probes.light.background, border: result.probes.light.border });
+  expect(result.outline.dark.background).not.toBe(result.probes.dark.background);
+  expect(result.outline.dark.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(result.outline.dark.border).toBe(result.probes.dark.input);
+  for (const theme of ["light", "dark"]) {
+    expect(result.badges[theme]).toEqual({ background: "rgba(0, 0, 0, 0)", border: result.probes[theme].border });
+  }
+
+  expect(result.headers.column).toEqual({ color: result.foreground, fontWeight: "500" });
+  expect(result.headers.row).toEqual(result.headers.column);
+
+  expect(result.validField.border).toBe(result.plainField.border);
+  expect(result.validField.boxShadow).toBe("none");
 });

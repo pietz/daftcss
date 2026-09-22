@@ -10,7 +10,7 @@ Daft CSS styles semantic HTML elements directly—no classes required for basic 
 - Semantic HTML styling (buttons, inputs, tables work out of the box)
 - Light/dark mode with automatic system preference detection
 - Modern CSS (OKLCH colors, `light-dark()`, CSS nesting)
-- Minimal footprint (~68 KB minified)
+- Minimal footprint (~74 KB minified)
 
 **Browser Support:** Chrome 123+, Firefox 129+, Safari 18+
 
@@ -103,7 +103,7 @@ Daft CSS automatically detects system preference for light or dark mode. Overrid
 </article>
 ```
 
-Use it for inverted heroes, alternating landing sections, or a single callout that needs to stand out from the surrounding page.
+Use it for inverted heroes, alternating landing sections, or a single callout that needs to stand out from the surrounding page. An island flips colors only; root knobs such as `--radius` or `--spacing` do not change inside it (see below).
 
 ### CSS Variables
 
@@ -116,7 +116,19 @@ Customize the design system by overriding root variables:
   --font-size-base: 1rem; /* Base font size */
   --transition: 150ms;    /* Animation duration */
   --component-height: 2rem; /* Button/input height */
+  --input-font-size: var(--text-base); /* Input text; 14px from 768px up */
   --section-gap: var(--spacing-xl); /* Vertical margin between <section> landmarks */
+}
+```
+
+**Where overrides go:** root knobs (`--spacing`, `--radius`, `--component-height`, `--font-size-base`, `--primary`, `--accent`, and the other base colors) take effect only on `:root`, including `:root[data-theme="dark"]`. Scales, component defaults, and auto-contrast foregrounds are computed once there and inherited, so setting a knob on a descendant does not recompute them. To restyle a subtree, set component tokens and explicit color pairs:
+
+```css
+.promo {
+  --button-radius: var(--radius-full);
+  --card-padding: 2.5rem;
+  --primary: oklch(0.9 0.12 90);
+  --primary-foreground: oklch(0.2 0 0);
 }
 ```
 
@@ -135,17 +147,14 @@ Customize the design system by overriding root variables:
 | `--muted` | Subtle/inert background (disabled inputs, inline `<code>`, `<kbd>`) |
 | `--code-background` | `<pre>` block surface (slightly darker than `--muted` in dark mode) |
 | `--muted-foreground` | Muted text |
-| `--destructive` | Error/danger color |
-| `--destructive-foreground` | Text on destructive backgrounds |
-| `--success` | Success color |
-| `--success-foreground` | Text on success backgrounds |
-| `--warning` | Warning color |
-| `--warning-foreground` | Text on warning backgrounds |
+| `--destructive` | Error/danger tone (destructive buttons and badges, `role="alert"`, invalid fields) |
+| `--success` | Success tone (`.badge.success`, `.success` status messages, `progress.success`) |
+| `--warning` | Warning tone (`.badge.warning`, `.warning` status messages, `progress.warning`, `<mark>`) |
 | `--border` | Border color |
 | `--card` | Card background |
 | `--popover` | Dropdown / popover background (defaults to `--card`; override independently) |
 
-`--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune solid accent components and hover/selected surfaces, secondary buttons, and disabled surfaces independently. `--accent-foreground` derives a neutral near-white or near-black from an opaque `--accent` using relative OKLCH; an explicit declaration overrides it. This minor release replaces the previous `var(--foreground)` default, so custom accents can visibly change existing accent-powered hover/selected text. Set `--accent-foreground: var(--foreground)` to retain the former behavior. Scoped accent overrides must redeclare the foreground pair, and translucent accents need an explicit opaque foreground plus contrast testing over their actual backgrounds.
+`--accent`, `--secondary`, and `--muted` share the same default value but are exposed as separate knobs so you can retune solid accent components and hover/selected surfaces, secondary buttons, and disabled surfaces independently. `--accent-foreground` derives a neutral near-white or near-black from an opaque `--accent` using relative OKLCH; an explicit declaration overrides it. Translucent accents need an explicit opaque foreground plus contrast testing over their actual backgrounds.
 
 **Component Shadows:**
 
@@ -262,6 +271,8 @@ Add `.sidebar` to a direct child `<aside>` of `<body>` to create an app sidebar.
 
 By default, the sidebar is a persistent desktop rail and a native Popover drawer on mobile; its `.sidebar-toggle` is shown only on mobile. Add `.drawer` (`class="sidebar drawer"`) to make it a native hidden drawer at every width: the same `.sidebar-toggle` is shown at every width, the page layout does not shift, and no JavaScript is needed. A visible-by-default, stateful desktop collapse is not provided because it requires application state and JavaScript. The native Popover API handles open/close, Escape, click-outside behavior, focus management, and the backdrop.
 
+Links are compact 32px rows. Hover and the `aria-current` link share the `--accent` background (the current link is also medium weight), and section labels are small 32px rows spaced from the group above. The surface is `--sidebar-background`, a faint off-white in light mode and `--card` in dark mode; keep it visibly distinct from `--accent` if you retune either.
+
 **Custom width**
 
 Override the sidebar width with `--aside-width`:
@@ -304,7 +315,7 @@ All typography is styled automatically. No classes needed.
 
 ### Heading Groups
 
-Use `<hgroup>` only for a compact heading and subtitle, not when a heading alone is enough. Its direct children are a real `<h1>`–`<h6>` and supporting `<p>`; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal document spacing around the group. Cards and dialogs contextually render the pair at 18px and 14px; slides retain their responsive slide typography.
+Use `<hgroup>` only for a compact heading and subtitle, not when a heading alone is enough. Its direct children are a real `<h1>`–`<h6>` and supporting `<p>`; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal document spacing around the group. Cards and dialogs contextually render the pair at 16px medium and 14px; slides retain their responsive slide typography.
 
 ```html
 <hgroup>
@@ -320,6 +331,7 @@ Use `<hgroup>` only for a compact heading and subtitle, not when a heading alone
 <p><strong>Bold text</strong> and <em>italic text</em>.</p>
 <p><a href="#">Links are styled</a> automatically.</p>
 <p><mark>Highlighted text</mark> for emphasis.</p>
+<!-- <mark> uses a translucent --warning tint in both themes -->
 <p><small>Small print</small> for fine print.</p>
 <p><del>Deleted</del> and <ins>inserted</ins> text.</p>
 <p><abbr title="Abbreviation">ABBR</abbr> with tooltip.</p>
@@ -357,7 +369,7 @@ Use `<hgroup>` only for a compact heading and subtitle, not when a heading alone
 
 ## Buttons
 
-Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation. Add `.button` only when a prominent navigation link needs button appearance; this preserves native link semantics without `role="button"`. For toggle buttons and segmented controls, use `aria-pressed="true"` to identify the selected state. Reserve `aria-current` for a genuinely current navigation or item state.
+Buttons are styled automatically. Use `<button>` or a button-type `<input>` for actions; use `<a href>` for navigation. Add `.button` only when a prominent navigation link needs button appearance; this preserves native link semantics without `role="button"`. For toggle buttons and segmented controls, use `aria-pressed="true"` to identify the selected state. Reserve `aria-current` for a genuinely current navigation or item state; any value except `false` or empty (such as `"page"` or `"true"`) gives a button the same selected primary recipe.
 
 ### Basic Button
 
@@ -428,8 +440,10 @@ Use exact official Lucide path data retrieved from [lucide.dev](https://lucide.d
 ### Full Width
 
 ```html
-<button class="full-width">Full Width Button</button>
+<button class="w-full">Full Width Button</button>
 ```
+
+The `.w-full` utility is the one full-width hook for buttons and groups.
 
 ### Disabled State
 
@@ -479,6 +493,8 @@ Form elements are styled automatically with semantic HTML. Standalone sibling co
   <textarea placeholder="Your message..."></textarea>
 </label>
 ```
+
+Text inputs, selects, textareas, and group addons use `--input-font-size`: 16px below 768px, so iOS Safari does not zoom on focus, and 14px from 768px up, matching buttons. Override it on `:root`; for 16px at every width, use `:root { --input-font-size: var(--text-base); }`.
 
 ### Input Types
 
@@ -587,6 +603,8 @@ Use `role="switch"` on a checkbox:
 <small>Must be at least 8 characters.</small>
 ```
 
+A `<small>` directly after a control, its wrapping label, or a `role="group"` / `form role="search"`, or directly inside a `<label>` or `<fieldset>`, becomes a muted helper line with a little top spacing. Everywhere else `<small>` stays inline, so `<strong>$49</strong> <small>/month</small>` keeps the unit on the same line.
+
 ### Validation States
 
 Use `aria-invalid` for validation:
@@ -607,7 +625,7 @@ Use `aria-invalid` for validation:
 <small>Username is available!</small>
 ```
 
-An adjacent or following `<small>` automatically picks up the destructive or primary color so helper text matches the state.
+Invalid controls get a destructive border and ring; `aria-invalid="false"` adds no border of its own, so a valid field looks like any other field. The `<small>` directly after an invalid control or its wrapping label turns destructive; after a valid one it stays muted. A later sibling `<small>` also follows the state unless a nearer field's helper takes precedence.
 
 ### Indeterminate Checkbox
 
@@ -678,7 +696,9 @@ Use `<article>` for cards. When a semantic article should remain ordinary docume
 </article>
 ```
 
-**Optional title + subtitle pair:** use `<hgroup>` with direct real heading and supporting paragraph children when a card needs both. The heading keeps its semantic level; card titles render at 18px and subtitles at 14px. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
+**Optional title + subtitle pair:** use `<hgroup>` with direct real heading and supporting paragraph children when a card needs both. The heading keeps its semantic level; card titles render at 16px medium and subtitles at 14px. A sibling element inside `<header>` (badge, action button) floats to the right automatically.
+
+**Body and footer:** direct card paragraphs use 14px UI text at the base line-height; prose outside cards keeps its roomier leading. A closing direct `<footer>` becomes a full-bleed muted band with a top border, and the card drops its bottom padding; a footer that is the card's only child, a nested card's footer, and `article.plain` keep a plain row. In a `.grid`, equal-height cards pin the band to the bottom unless the card has direct inline children such as a bare badge or button.
 
 ```html
 <article>
@@ -737,9 +757,13 @@ Use `<span class="badge">` for a short inline status, category, count, or label 
 <span class="badge outline">Active</span>
 <span class="badge ghost">Metadata</span>
 <span class="badge destructive">Failed</span>
+<span class="badge success">Healthy</span>
+<span class="badge warning">Degraded</span>
 ```
 
-Badges share button static surface recipes, including `.accent`, but remain presentational and noninteractive: they are not buttons or links. Choose at most one optional variant, keep the text meaningful without color, and use a real control for actions. Every badge uses the canonical 20px pill size; there are no badge size or shape variants. For v1 compatibility, deprecated `.success` maps to `.outline`, `.warning` maps to `.secondary`, and old badge size classes render at the canonical size.
+Badges share button static surface recipes, including `.accent`, but remain presentational and noninteractive: they are not buttons or links. Choose at most one optional variant, keep the text meaningful without color, and use a real control for actions. Every badge uses the canonical 20px pill size; there are no badge size or shape variants.
+
+`.destructive`, `.success`, and `.warning` are status tones: text mixed from the tone token (70%) and `--foreground` over a translucent tint of the same token (10% in light, 20% in dark). `.success` and `.warning` are badge-only; buttons have no success or warning variant.
 
 ### Table
 
@@ -833,13 +857,13 @@ Dropdown summaries use the same styling and variants as buttons, including the s
 </details>
 ```
 
-**Right-aligned Menu:**
+**End-aligned Menu:** `data-placement="end"` aligns the menu's inline-end edge with the trigger's (the right edge in left-to-right pages). Dropdowns inside a `<nav>` are end-aligned automatically.
 
 ```html
-<details class="dropdown">
+<details class="dropdown" data-placement="end">
   <summary>Menu</summary>
-  <ul dir="rtl">
-    <li><a href="#">Aligns right</a></li>
+  <ul>
+    <li><a href="#">Aligns to the end</a></li>
   </ul>
 </details>
 ```
@@ -883,7 +907,7 @@ Compact, IDE-style file tree. Folders use `<details>`/`<summary>` for native ope
 </ul>
 ```
 
-**Active state:** Add `aria-current="page"` (preferred, accessible) or `.active` to the file link to highlight the current selection.
+**Current file:** Add `aria-current="page"` to the file link to highlight the current selection. There is no class alternative.
 
 **Customize indent:** Override `--tree-indent` on the `.tree` root to change the per-level indent step. Defaults to `var(--spacing-md)`.
 
@@ -933,15 +957,13 @@ Use a regular `<dialog>` opened with `showModal()` when the rest of the page mus
 <button onclick="document.getElementById('alert-dialog').showModal()">Open</button>
 ```
 
-The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. Forms have no dialog-specific container styling.
-
-Migration: `<dialog><article>…</article></dialog>` remains supported in v1; remove the `<article>` tags.
+The dialog is the surface: use an optional direct `<header>`, direct flow content or a direct `<form>`, and a direct `<footer>` or one inside that form. Dialogs default to a 24rem maximum width and use `--card-padding`. Override `--modal-max-width` on an application selector when a particular dialog needs more room; viewport constraints remain in effect. Forms have no dialog-specific container styling. Titles match card titles, body paragraphs are 14px, and a closing footer (direct, or at the end of a closing form) becomes the same full-bleed muted band as a card footer.
 
 ### Navigation
 
 **Horizontal Nav:**
 
-Ordinary navigation remains horizontal and wraps safely on narrow screens. A list link may contain a direct inline SVG followed by its text; Daft aligns the icon and text with the standard gap and sizes the SVG with `--icon-size`.
+Ordinary navigation remains horizontal and wraps safely on narrow screens. A list link may contain a direct inline SVG followed by its text; Daft aligns the icon and text with the standard gap and sizes the SVG with `--icon-size`. Mark the current link with `aria-current="page"` (any value except `false` or empty) to give it the accent background; pagination uses the same marker. The body sidebar uses the same accent background with a medium weight; breadcrumbs, trees, and `.button` links keep their own current treatment.
 
 ```html
 <nav>
@@ -1010,15 +1032,15 @@ This pattern is for a single-row sticky top bar, not an arbitrarily placed trigg
 </aside>
 ```
 
-**Breadcrumb:**
+**Breadcrumb:** an `<ol>` directly inside a `<nav>` is a breadcrumb trail (the WAI pattern), so the landmark label can be in any language. Keep ordinary nav groups as `<ul>`.
 
 ```html
-<nav aria-label="breadcrumb">
-  <ul>
+<nav aria-label="Breadcrumb">
+  <ol>
     <li><a href="/">Home</a></li>
     <li><a href="/products">Products</a></li>
     <li>Current Page</li>
-  </ul>
+  </ol>
 </nav>
 ```
 
@@ -1058,7 +1080,7 @@ Use `.accent` for branded task emphasis without status meaning. Use at most one 
 
 ### Alert
 
-Use `role="alert"` for assertive/error messages and `role="status"` for polite/informational ones. The role drives the styling — no class needed.
+Use `role="alert"` for assertive/error messages and `role="status"` for polite/informational ones. The role drives the default styling, and `.success` or `.warning` adds a status tone without changing the role.
 
 ```html
 <div role="alert">
@@ -1070,9 +1092,24 @@ Use `role="alert"` for assertive/error messages and `role="status"` for polite/i
   <strong>Sync in progress</strong>
   <p>We are updating your workspace.</p>
 </div>
+
+<div role="status" class="success">
+  <strong>Deployment complete</strong>
+  <p>Version 42 is live in production.</p>
+</div>
+
+<div role="status" class="warning">
+  <strong>Storage almost full</strong>
+  <p>You have used 90% of your plan.</p>
+</div>
+
+<div role="alert" class="warning">
+  <strong>Session expiring</strong>
+  <p>Save your work. You will be signed out in 2 minutes.</p>
+</div>
 ```
 
-`role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
+`role="alert"` renders with a destructive (red) tint; `role="status"` renders neutral. `.success` and `.warning` tint either role: pick the role by urgency (polite confirmation or notice vs. urgent interruption) and the tone by meaning. Toned title and body share one tone-derived text color that meets WCAG AA in both themes. The first `<strong>` is the title, the following `<p>` is the body — both are optional.
 
 ### Avatar
 
@@ -1092,7 +1129,7 @@ A round container sized to match form controls. Wrap initials, an `<img>`, or an
 <span class="avatar large">LG</span>
 ```
 
-The default size tracks `--component-height` so avatars align with buttons and inputs in toolbars.
+The default size tracks `--component-height` (32px) so avatars align with buttons and inputs in toolbars; `.small` and `.large` scale it to 24px and 40px. Initials use a quiet `--muted-foreground` on `--muted`, and a hairline `--border` ring edges both initials and photos.
 
 ### Tooltip
 
@@ -1108,7 +1145,7 @@ Tooltip text rendered by CSS is a visual enhancement, not a reliable accessible 
 <button aria-label="Help" data-tooltip="Help" data-placement="right">?</button>
 ```
 
-`data-placement` accepts `top` (default), `bottom`, `left`, or `right`.
+`data-placement` accepts `top` (default), `bottom`, `left`, or `right`. The compact 28px bubble points at its host with a small arrow on every placement. On a dropdown, `data-placement="end"` end-aligns the menu instead (see [Dropdown](#dropdown)).
 
 ### Group
 
@@ -1158,7 +1195,7 @@ Use `role="group"` for related button or field controls. Button-only and non-qua
 </form>
 ```
 
-A non-`fieldset`, non-vertical group with exactly one direct eligible text-like input, only direct `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and any number of direct button-like actions becomes a full-width unified field shell. Actions can appear before or after the input. A `form role="search"` supports that shape only for a direct text or search input. The shell owns border, background, focus, and validation; labels and helper text stay outside it. Other shapes, including selects, textareas, extra inputs, nested groups, fieldsets, vertical groups, and helper text, stay segmented. See the Groups reference for the complete contract and accessibility guidance.
+A non-`fieldset`, non-vertical group with exactly one direct eligible text-like input, only direct `svg`/`code`/`samp`/`kbd`/`span`/`output` addons, and any number of direct button-like actions becomes a full-width unified field shell. Actions can appear before or after the input. A `form role="search"` supports that shape only for a direct text or search input. The shell owns border, background, focus, and validation; labels and helper text stay outside it. Search shells use the same radius as every other field. Leading icons and ghost icon actions stay muted; ghost icon actions turn foreground on hover. Other shapes, including selects, textareas, extra inputs, nested groups, fieldsets, vertical groups, and helper text, stay segmented. See the Groups reference for the complete contract and accessibility guidance.
 
 **Sized Group:**
 
@@ -1208,12 +1245,19 @@ Use `aria-busy="true"` for loading indicators:
 <!-- aria-busy reports loading; disabled prevents another activation -->
 <button disabled aria-busy="true">Saving...</button>
 
+<!-- Icon-only: the spinner replaces the icon, centered -->
+<button class="icon" disabled aria-busy="true" aria-label="Refresh">
+  <svg aria-hidden="true">...</svg>
+</button>
+
 <!-- Card loading -->
 <article aria-busy="true"></article>
 
 <!-- Inline loading -->
 <span aria-busy="true">Loading data...</span>
 ```
+
+In a busy button the spinner sits inline before the label. In an icon-only button (`.icon` or `aria-label`) the spinner replaces the SVG. Empty non-button elements get a larger centered block spinner.
 
 ---
 
@@ -1420,6 +1464,8 @@ Variant classes alone do not change ordinary links.
 <div class="animate-spin">Spinning element</div>
 <div class="animate-pulse">Pulsing element</div>
 ```
+
+Daft's keyframes are namespaced (`daft-spin`, `daft-pulse`, `daft-modal-in`, `daft-dropdown-in`, `daft-progress-indeterminate`), so an unlayered `@keyframes spin` in your own CSS cannot replace Daft's animations.
 
 ### Print
 

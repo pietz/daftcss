@@ -53,16 +53,16 @@ Use native `<button>` for actions and `<a href>` for navigation. Add `.button` t
 - `.accent`: solid accent emphasis using `--accent` and `--accent-foreground`.
 - `.secondary`: muted secondary surface. `<input type="reset">` is secondary by default.
 - `.destructive`: tinted destructive action; its focus ring follows the destructive color.
-- `.outline`: bordered background surface.
+- `.outline`: bordered background surface; in dark mode it takes a translucent input-tinted fill and `--input` border instead of the page color.
 - `.ghost`: transparent until hover.
 - `.link`: link-like action, underlined on hover.
 - `.small` and `.large`: compact and roomy heights.
 - `.icon`: square, icon-only sizing. Combine with `.small` or `.large`.
-- `.full-width`: fills the available inline width.
+- `.w-full` (utility): fills the available inline width. There is no button-specific width class.
 - `aria-pressed="true"`: selected state for a toggle button or segmented control.
-- `aria-current="true"`: current navigation or item state, not a toggle state.
+- `aria-current` (any value except `false` or empty, e.g. `"page"` or `"true"`): current navigation or item state, not a toggle state.
 
-`.accent` is mutually exclusive with `.secondary`, `.destructive`, `.outline`, `.ghost`, and `.link`; those established surface variants take precedence if accidentally combined. State attributes still apply: disabled and busy treatments remain visible, while `aria-pressed="true"` or `aria-current="true"` uses the selected primary recipe. Size, `.icon`, `.full-width`, group, link-button, and dropdown-summary composition all remain supported.
+`.accent` is mutually exclusive with `.secondary`, `.destructive`, `.outline`, `.ghost`, and `.link`; those established surface variants take precedence if accidentally combined. State attributes still apply: disabled and busy treatments remain visible, while `aria-pressed="true"` or a non-`false` `aria-current` uses the selected primary recipe. Size, `.icon`, `.w-full`, group, link-button, and dropdown-summary composition all remain supported.
 
 Other variants can combine when their intent is compatible, for example `class="outline secondary"` or `class="ghost destructive"`. On anchors, include `.button` explicitly, such as `class="button accent"`; a variant class alone never turns a link into a button.
 
@@ -80,7 +80,7 @@ See [foundations.md](../foundations.md#token-api-boundary) for the canonical tok
 
 ## Behavior and accessibility
 
-Buttons and `.button` links have hover and active feedback and a visible focus ring on `:focus-visible`. The solid accent variant mixes toward its foreground for hover/active feedback and uses the accent color for its focus ring. Disabled native buttons do not accept pointer input and render at `--disabled-opacity`. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; render non-interactive text or omit the unavailable link instead. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while a native button submission is unavailable.
+Buttons and `.button` links have hover and active feedback and a visible focus ring on `:focus-visible`. The solid accent variant mixes toward its foreground for hover/active feedback and uses the accent color for its focus ring. Disabled native buttons do not accept pointer input and render at `--disabled-opacity`. Links have no native disabled state, so Daft does not provide a disabled `.button` anchor variant; render non-interactive text or omit the unavailable link instead. `aria-busy="true"` adds Daft's loading spinner and communicates the busy state, but it does not disable keyboard or programmatic activation. Pair it with `disabled` while a native button submission is unavailable. The spinner sits inline before a text label; on an icon-only button (`.icon` or `aria-label`) it replaces the SVG and stays centered.
 
 ## Composition
 

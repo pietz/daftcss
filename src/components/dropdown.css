@@ -48,7 +48,10 @@ details.dropdown > ul {
   display: block;
   position: absolute;
   z-index: 50;
-  min-width: 10rem;
+  /* Size to the longest item rather than the trigger, from 8rem up. */
+  width: max-content;
+  min-width: 8rem;
+  max-width: calc(100vw - 2 * var(--spacing));
   margin: 0;
   margin-top: var(--spacing-xs);
   padding: var(--spacing-xs);
@@ -59,10 +62,10 @@ details.dropdown > ul {
   box-shadow: var(--dropdown-shadow);
   opacity: 0;
   transform: translateY(-0.5rem);
-  animation: dropdown-in var(--transition-default) forwards;
+  animation: daft-dropdown-in var(--transition-default) forwards;
 }
 
-@keyframes dropdown-in {
+@keyframes daft-dropdown-in {
   to {
     opacity: 1;
     transform: translateY(0);
@@ -77,12 +80,14 @@ details.dropdown > ul > li > a,
 details.dropdown > ul > li > label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-xs) var(--spacing-sm);
+  gap: calc(var(--spacing) * 0.375);
+  padding: var(--spacing-xs) calc(var(--spacing) * 0.375);
   font-size: var(--text-sm);
+  /* 20px leading at 14px text: a 28px item with the vertical padding. */
+  line-height: calc(var(--font-size-base) * 1.25);
   color: var(--popover-foreground);
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: background-color var(--transition-default);
 
@@ -100,8 +105,11 @@ details.dropdown > ul > li > label {
 
 /* Eyebrow label inside dropdown — match item padding, no hover */
 details.dropdown > ul > li.label {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-xs) calc(var(--spacing) * 0.375);
   margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--font-size-base);
+  color: var(--muted-foreground);
 }
 
 /* Separator — full-bleed hairline between groups */
@@ -112,11 +120,10 @@ details.dropdown > ul > li[role="separator"] {
   padding: 0;
 }
 
-/* Right-aligned dropdown (RTL trick) */
-details.dropdown > ul[dir="rtl"] {
-  right: 0;
-  text-align: left;
-  direction: ltr;
+/* End-aligned menu: the menu's inline-end edge meets the trigger's. Menus in
+   a nav bar align to the end automatically, since bars end with their menus. */
+:is(details.dropdown[data-placement="end"], nav details.dropdown) > ul {
+  inset-inline-end: 0;
 }
 
 /* Dropdown with checkboxes/radios */

@@ -6,8 +6,9 @@ Daft styles ARIA live-message roles, not alert classes:
 
 - `role="alert"` is an assertive, destructive-tinted message for errors or urgent changes that need immediate attention.
 - `role="status"` is a polite, neutral-tinted message for non-urgent updates.
+- `.success` and `.warning` add a status tone to either role without changing its semantics.
 
-Use the role that matches the urgency of the message, not its preferred color.
+Choose the role by urgency and the tone by meaning, never the role for its color.
 
 ## Basic example
 
@@ -21,6 +22,21 @@ Use the role that matches the urgency of the message, not its preferred color.
   <strong>Sync in progress</strong>
   <p>We are updating your workspace.</p>
 </div>
+
+<div role="status" class="success">
+  <strong>Deployment complete</strong>
+  <p>Version 42 is live in production.</p>
+</div>
+
+<div role="status" class="warning">
+  <strong>Storage almost full</strong>
+  <p>You have used 90% of your plan.</p>
+</div>
+
+<div role="alert" class="warning">
+  <strong>Session expiring</strong>
+  <p>Save your work. You will be signed out in 2 minutes.</p>
+</div>
 ```
 
 ## Markup requirements
@@ -32,17 +48,24 @@ Use the role that matches the urgency of the message, not its preferred color.
 
 ## Variants and options
 
-There are no class variants.
+| Markup | Use |
+|---|---|
+| `role="status"` | Neutral, polite update or notice |
+| `role="status" class="success"` | Polite confirmation: saved, deployed, completed |
+| `role="status" class="warning"` | Polite caution: quota nearly reached, degraded service |
+| `role="alert"` | Urgent error (destructive tone by default) |
+| `role="alert" class="warning"` | Urgent warning that needs attention now: session expiring, unsaved changes at risk |
 
-- `[role="alert"]` uses destructive text, border, and a destructive-tinted surface.
-- `[role="status"]` uses foreground text, muted body text, a muted surface, and the standard border.
+- Toned messages (every `role="alert"`, and `role="status"` with `.success` or `.warning`) use one recipe: title and body share the tone mixed 70% with `--foreground`, over the tone mixed 12% (light) or 20% (dark) into `--background`, with a 35% tone border. Text clears WCAG AA in both themes with the default tokens.
+- Plain `[role="status"]` uses foreground text, muted body text, a muted surface, and the standard border.
+- `role="alert" class="success"` works but is rarely right: success is not urgent, so use `role="status"`.
 - Consecutive messages retain bottom spacing, except the last child.
 
 ## Relevant tokens
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-- `--destructive` drives alert emphasis.
+- `--destructive`, `--success`, and `--warning` drive the tones.
 - `--background`, `--foreground`, `--muted`, and `--muted-foreground` drive the surfaces and text.
 - `--border` and `--border-width` set the outline.
 - `--radius-md` sets the corner radius.
@@ -61,5 +84,6 @@ Place alerts near the affected form, task, or page region. Pair field-specific e
 
 - Using `role="alert"` solely to get a red panel.
 - Announcing numerous or constantly changing messages assertively.
-- Using a class such as `.alert`, `.success-alert`, or `.warning-alert`; Daft provides no such variants.
+- Using a class such as `.alert`, `.success-alert`, or `.warning-alert`; use the role plus `.success` or `.warning`.
+- Using `role="alert"` to make a warning more visible when it is not urgent; `role="status" class="warning"` is the polite form.
 - Nesting essential controls inside a message without clear button or link text.

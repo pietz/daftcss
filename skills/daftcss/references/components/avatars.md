@@ -26,9 +26,9 @@ Use `.avatar` for a compact, round representation of a person, account, or other
 
 | Form | Markup | Effect |
 |---|---|---|
-| Default | `.avatar` | `--component-height` square |
-| Small | `.avatar.small` | `--component-height-sm` square |
-| Large | `.avatar.large` | `--component-height-lg` square |
+| Default | `.avatar` | `--component-height` square (32px) |
+| Small | `.avatar.small` | 0.75 × `--component-height` square (24px), `--text-xs` initials |
+| Large | `.avatar.large` | 1.25 × `--component-height` square (40px), `--text-sm` initials |
 | Photo | `.avatar > img` | Fills and crops to the round container |
 | Inline icon | `.avatar > svg` | Fills the round container |
 
@@ -38,10 +38,11 @@ There are no color, status, stack, or fallback-image variants supplied by Daft.
 
 See [foundations.md](../foundations.md#token-api-boundary) for the canonical token taxonomy. The entries below are this component’s main override points and dependencies.
 
-- `--component-height`, `--component-height-sm`, `--component-height-lg` set avatar dimensions.
+- `--component-height` sets avatar dimensions; the small and large sizes scale it by 0.75 and 1.25.
 - `--radius-full` makes the container round.
-- `--muted` is the initials background; `--foreground` is its text color.
-- `--font-semibold`, `--text-xs`, `--text-sm`, and `--text-base` set initials typography by size.
+- `--muted` is the initials background; `--muted-foreground` is its text color.
+- `--border` and `--border-width` draw an inset hairline ring. It is an inset outline, so it also edges photos.
+- `--font-normal`, `--text-xs`, and `--text-sm` set initials typography by size.
 
 ## Behavior and accessibility
 

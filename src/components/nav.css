@@ -33,6 +33,8 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-sm);
+  /* WCAG 2.2 target size for short links such as single-digit page numbers. */
+  min-inline-size: 24px;
   margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-sm) * -1);
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
@@ -50,6 +52,15 @@ nav {
   text-decoration: none;
 }
 
+/* Current link. Trees and button-styled links keep their own current
+   treatment; the body sidebar's more specific rule also wins. Breadcrumbs are
+   ordered lists, so they never match. */
+:is(nav > ul, nav > :where(.container, .container-fluid) > ul):not(.tree) > li > :where(a, [role="link"])[aria-current]:not([aria-current="false"], [aria-current=""], .button, [role="button"]) {
+  color: var(--accent-foreground);
+  background-color: var(--accent);
+  text-decoration: none;
+}
+
 :is(nav > ul, nav > :where(.container, .container-fluid) > ul) > li > :where(button, [role="button"], [type="button"], [type="submit"], [type="reset"], input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
   margin-block: calc(var(--spacing-xs) * -1);
 }
@@ -59,10 +70,6 @@ nav strong {
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   color: var(--foreground);
-}
-
-nav details.dropdown > ul {
-  right: 0;
 }
 
 /**
@@ -181,14 +188,14 @@ nav details.dropdown > ul {
   }
 }
 
-/* Breadcrumb — canonical <nav aria-label="breadcrumb"><ul>; retain bare list support. */
-nav[aria-label="breadcrumb" i] {
+/* Breadcrumb: an ordered list directly inside a nav is a trail (WAI pattern). */
+nav:has(> ol) {
   /* Override the ordinary nav bar layout so a breadcrumb remains a simple trail. */
   display: block;
   padding-block: 0;
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) {
+nav > ol {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -199,7 +206,7 @@ nav[aria-label="breadcrumb" i] {
   font-size: var(--text-sm);
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li {
+nav > ol > li {
   display: flex;
   align-items: center;
   margin: 0;
@@ -207,13 +214,13 @@ nav[aria-label="breadcrumb" i] {
   line-height: var(--line-height);
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:not(:last-child)::after {
+nav > ol > li:not(:last-child)::after {
   content: var(--breadcrumb-divider);
   padding: 0 var(--spacing-sm);
   color: var(--muted-foreground);
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a {
+nav > ol a {
   display: inline-flex;
   align-items: center;
   min-block-size: 24px;
@@ -222,17 +229,17 @@ nav[aria-label="breadcrumb" i] {
   text-decoration: none;
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a:hover {
+nav > ol a:hover {
   text-decoration: underline;
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) a[aria-current]:not([aria-current="false"]) {
+nav > ol a[aria-current]:not([aria-current="false"], [aria-current=""]) {
   color: inherit;
   text-decoration: none;
   pointer-events: none;
 }
 
-:is(nav[aria-label="breadcrumb" i] > ul, ul[aria-label="breadcrumb" i]) > li:last-child {
+nav > ol > li:last-child {
   color: var(--foreground);
   font-weight: var(--font-medium);
 }

@@ -4,7 +4,7 @@ Load this reference for document typography, prose, lists, quotations, and code 
 
 ## Typography
 
-Daft styles headings, paragraphs, links, emphasis, small text, abbreviations, marks, horizontal rules, description lists, and nested lists without required classes.
+Daft styles headings, paragraphs, links, emphasis, small text, abbreviations, marks (a translucent `--warning` highlight tint), horizontal rules, description lists, and nested lists without required classes. `<small>` is inline, smaller, and muted, so it works for units and metadata inside a line (`<strong>$49</strong> <small>/month</small>`); only the form helper-text positions in [forms.md](components/forms.md) make it a block.
 
 ```html
 <section>
@@ -17,7 +17,7 @@ Daft styles headings, paragraphs, links, emphasis, small text, abbreviations, ma
 ```
 
 - Heading size and weight follow the shared type scale.
-- Use `<hgroup>` when a compact heading and subtitle belong together, not when a heading alone is enough. Its direct children are a real heading and supporting paragraph; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal outer document spacing. Card and dialog headers contextually use 18px titles and 14px subtitles; slides retain responsive slide typography.
+- Use `<hgroup>` when a compact heading and subtitle belong together, not when a heading alone is enough. Its direct children are a real heading and supporting paragraph; it keeps the heading level, uses a 4px internal gap and muted subtitle, and retains normal outer document spacing. Card and dialog headers contextually use 16px medium titles and 14px subtitles; slides retain responsive slide typography.
 - Use `<article class="plain">` for a semantic narrative article that should follow this normal document typography and flow instead of Daft's automatic card presentation.
 - `.muted` is available for supporting text that has no stronger semantic state.
 - Links use underlines and visible keyboard focus by default.

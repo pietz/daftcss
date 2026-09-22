@@ -107,7 +107,7 @@ Do not recreate a utility-first layout system in markup. If a pattern repeats ac
 </form>
 ```
 
-A `max-width` does not itself make an inline or shrink-to-fit element responsive. Pair it with `.w-full` or a component's documented full-width variant when necessary.
+A `max-width` does not itself make an inline or shrink-to-fit element responsive. Pair it with `.w-full` when necessary.
 
 ## Overflow
 
