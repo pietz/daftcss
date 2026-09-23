@@ -19,9 +19,9 @@
     pre :is(.hljs-comment, .hljs-string) { color: var(--muted-foreground); }
     pre :is(.hljs-name, .hljs-attr, .hljs-selector-tag, .hljs-title, .hljs-variable, .hljs-subst, .hljs-literal) { color: var(--foreground); }
 
-    .site-sequel-accent {
-      --accent: #a3f0c4;
-      --accent-foreground: #052e1b;
+    .accent-demo {
+      --accent: light-dark(oklch(0.9 0.07 268), oklch(0.34 0.09 268));
+      --accent-foreground: light-dark(oklch(0.36 0.15 268), oklch(0.93 0.04 268));
     }
 
     .sidebar-layouts {
@@ -524,7 +524,7 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
 
       <h3>Solid accent composition</h3>
       <p>The documented <code>.accent</code> surface uses <code>--accent</code> and <code>--accent-foreground</code>. It composes with button sizes, icons, full width, groups, navigation links, dropdown summaries, and disabled/busy states. Keep it mutually exclusive with other surface variants; bare buttons remain primary.</p>
-      <div class="grid site-sequel-accent">
+      <div class="grid accent-demo">
         <article>
           <p class="cluster">
             <button class="accent small" type="button">Small</button>
@@ -540,8 +540,10 @@ and &lt;abbr title="Abbreviation"&gt;abbr&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
         <article>
           <pre><code>&lt;style&gt;
 :root {
-  --accent: #a3f0c4;
-  --accent-foreground: #052e1b; /* optional override */
+  --accent: light-dark(
+    oklch(.9 .07 268), oklch(.34 .09 268));
+  --accent-foreground: light-dark( /* optional */
+    oklch(.36 .15 268), oklch(.93 .04 268));
 }
 &lt;/style&gt;
 

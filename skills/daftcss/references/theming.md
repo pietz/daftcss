@@ -51,8 +51,8 @@ Override `--accent` to brand the documented `.accent` button-family, badge, and 
 
 ```css
 :root {
-  --accent: #a3f0c4;
-  --accent-foreground: #052e1b; /* optional explicit brand override */
+  --accent: light-dark(oklch(0.9 0.07 268), oklch(0.34 0.09 268));
+  --accent-foreground: light-dark(oklch(0.36 0.15 268), oklch(0.93 0.04 268)); /* optional explicit brand override */
 }
 ```
 
