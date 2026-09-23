@@ -2747,6 +2747,23 @@ test("responsive top navigation returns to the desktop bar across a resize", asy
   expect(closedDesktop).toEqual({ open: false, position: "static" });
 });
 
+test("mobile top navigation rows are left-aligned with a shared text inset", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/blocks/");
+  await page.getByRole("button", { name: "Toggle primary navigation" }).click();
+  await expect(page.locator("#primary-menu")).toBeVisible();
+
+  const starts = await page.evaluate(() => [...document.querySelectorAll("#primary-menu > li > :is(a, details)")].map((row) => {
+    const range = document.createRange();
+    range.selectNodeContents(row.matches("details") ? row.querySelector("summary") : row);
+    return Math.round(range.getClientRects()[0].left);
+  }));
+
+  // .button links, plain links, and dropdown summaries all start their text at one inset.
+  expect(starts.length).toBeGreaterThan(3);
+  expect(new Set(starts).size).toBe(1);
+});
+
 test("an ordered list inside a nav is a breadcrumb trail with keyboard focus, whatever its label", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/components/");

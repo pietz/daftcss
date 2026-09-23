@@ -128,10 +128,13 @@ nav strong {
     width: 100%;
   }
 
+  /* Menu rows read as a left-aligned list: links (including .button links)
+     share the button inset so their text lines up with dropdown summaries. */
   .top-nav-menu[popover] > li > :where(a, [role="link"]) {
     display: flex;
+    justify-content: flex-start;
     margin: 0;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) calc(var(--spacing) * 0.625);
   }
 
   .top-nav-menu[popover] > li > :where(button, [role="button"]) {

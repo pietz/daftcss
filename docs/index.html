@@ -73,6 +73,13 @@
       --background: light-dark(oklch(0.93 0.18 100), oklch(0.32 0.22 330));
     }
 
+    /* Palette band: the snippet keeps one height across palettes so the row
+       never jumps, and the light/dark previews fill what the picker leaves. */
+    .palette-band .palette-previews { flex: 1; margin-top: var(--spacing-sm); }
+    @media (min-width: 768px) {
+      .palette-band pre[data-for] { height: 16rem; }
+    }
+
   </style>
   <script src="./scroll-focus.js" defer></script>
 </head>
@@ -144,7 +151,7 @@
       </header>
 
       <!-- CONTROL BAND — Theme (preview-rich) + Override snippet, balanced 1:1 -->
-      <div class="grid mb-6">
+      <div class="grid mb-6 palette-band">
         <article class="flex flex-col">
           <header><strong>Palette preview</strong></header>
           <label>Palette
@@ -157,8 +164,8 @@
               <option value="brutalist">Brutalist</option>
             </select>
           </label>
-          <div class="grid mt-auto">
-            <div data-theme="light" class="border rounded p-4 flex flex-col gap-2">
+          <div class="grid palette-previews">
+            <div data-theme="light" class="border rounded p-4 flex flex-col justify-center gap-2">
               <small class="muted">LIGHT</small>
               <div class="cluster">
                 <button class="small">Save</button>
@@ -169,7 +176,7 @@
                 <span class="badge outline">beta</span>
               </div>
             </div>
-            <div data-theme="dark" class="border rounded p-4 flex flex-col gap-2">
+            <div data-theme="dark" class="border rounded p-4 flex flex-col justify-center gap-2">
               <small class="muted">DARK</small>
               <div class="cluster">
                 <button class="small">Save</button>
@@ -186,19 +193,19 @@
         <article class="flex flex-col">
           <header><strong>Pasteable override</strong> <span class="badge outline">paste at <code>:root</code></span></header>
           <div>
-<pre data-for="default" class="max-h-sm overflow-auto"><code>/* Default — shadcn baseline.
+<pre data-for="default" class="overflow-auto"><code>/* Default — shadcn baseline.
    No override needed. */</code></pre>
-<pre data-for="forest" class="max-h-sm overflow-auto hidden"><code>:root {
+<pre data-for="forest" class="overflow-auto hidden"><code>:root {
   --primary:    light-dark(
     oklch(.50 .13 150), oklch(.70 .15 150));
   --background: light-dark(
     oklch(.96 .02 140), oklch(.22 .04 150));
 }</code></pre>
-<pre data-for="rounded" class="max-h-sm overflow-auto hidden"><code>:root {
+<pre data-for="rounded" class="overflow-auto hidden"><code>:root {
   /* One variable. Every corner. */
   --radius: 1rem;
 }</code></pre>
-<pre data-for="corporate" class="max-h-sm overflow-auto hidden"><code>:root {
+<pre data-for="corporate" class="overflow-auto hidden"><code>:root {
   --primary:    light-dark(
     oklch(.35 .06 250), oklch(.72 .08 250));
   --radius:     0.25rem;
@@ -207,7 +214,7 @@
   --background: light-dark(
     oklch(.98 .003 248), oklch(.21 .04 266));
 }</code></pre>
-<pre data-for="glass" class="max-h-sm overflow-auto hidden"><code>:root {
+<pre data-for="glass" class="overflow-auto hidden"><code>:root {
   --background: light-dark(
     oklch(.87 .020 247), oklch(.22 .038 264));
   --card:       light-dark(
@@ -217,7 +224,7 @@
   --border:     light-dark(
     oklch(1 0 0 / .6), oklch(1 0 0 / .18));
 }</code></pre>
-<pre data-for="brutalist" class="max-h-sm overflow-auto hidden"><code>:root {
+<pre data-for="brutalist" class="overflow-auto hidden"><code>:root {
   --primary:       light-dark(#000, #fff);
   --border:        light-dark(#000, #fff);
   --border-width:  2px;

@@ -2171,7 +2171,8 @@
     }
 
     .top-nav-menu[popover] > li > :where(a, [role="link"]) {
-      padding: var(--spacing-sm);
+      padding: var(--spacing-sm) calc(var(--spacing) * .625);
+      justify-content: flex-start;
       margin: 0;
       display: flex;
     }
