@@ -4127,7 +4127,10 @@ test("card and dialog text reads as UI and closing footers become full-bleed ban
         const card = document.getElementById("inline").getBoundingClientRect();
         const badge = document.getElementById("inline-badge").getBoundingClientRect();
         const button = document.getElementById("inline-button").getBoundingClientRect();
-        return { badgeNarrow: badge.width < card.width / 2, buttonNarrow: button.width < card.width / 2, display: getComputedStyle(document.getElementById("inline")).display };
+        const style = getComputedStyle(document.getElementById("inline"));
+        const content = card.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth);
+        // Stretched children would fill the content box exactly.
+        return { badgeNarrow: badge.width < content - 1, buttonNarrow: button.width < content - 1, display: getComputedStyle(document.getElementById("inline")).display };
       })(),
       dialogBody: type("dialog-body"),
       footerOnly: { ...plainRow("footer-only"), padding: getComputedStyle(document.getElementById("footer-only")).padding },
