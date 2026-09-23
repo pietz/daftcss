@@ -1,6 +1,6 @@
 {
   "name": "daftcss",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A semantic-first CSS framework with shadcn/ui-quality aesthetics",
   "main": "dist/daft.css",
   "homepage": "https://pietz.github.io/daftcss/",
