@@ -2,6 +2,8 @@
 
 A semantic-first CSS framework with [shadcn/ui](https://ui.shadcn.com)-quality aesthetics. Style raw HTML — no JavaScript, no required utility classes, no JSX components.
 
+**Docs and examples:** [pietz.github.io/daftcss](https://pietz.github.io/daftcss/)
+
 ## Who is this for?
 
 Daft CSS is for developers who want:
